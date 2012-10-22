@@ -1,0 +1,187 @@
+#!/bin/bash
+
+# Original von Kore Nordmann http://kore-nordmann.de
+# Erweitert und angepasst von Dominik Bonsch <dominik.bonsch@webfrap.de>
+# getestet unter Ubuntu und Debian
+
+# Set to 1 for debug
+BUILD_DEBUG=
+
+# Hosttype to build php version for
+BUILD_HOST=
+
+# Get parameters
+BUILD_VERSION=$1
+BUILD_TYPE=$2
+
+# Start building configure string
+if [ -n "$BUILD_HOST" ]
+then
+	CONFIGURE_STRING="./configure '--host=${BUILD_HOST}' "
+else
+	CONFIGURE_STRING="./configure "
+fi
+
+# Check wheather version exists in checkout
+if [ ! -d $BUILD_VERSION ]
+then
+	echo "${BUILD_VERSION} is not available for compile."
+	exit 0;
+else
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--prefix=/usr/local/php/${BUILD_VERSION}' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-pear=/usr/local/php/${BUILD_VERSION}' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-zip' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-zlib' "
+	#CONFIGURE_STRING="${CONFIGURE_STRING} '--with-ming' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-soap' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-sockets' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-pdo-pgsql' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-pdo-mysql' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-pdo-sqlite ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-pgsql' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-mysql' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-dba' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-bcmath ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--disable-short-tags ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-tidy ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-wddx ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-xmlrpc ' "
+
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-openssl ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-imap ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-imap-ssl ' "
+	CONFIGURE_STRING="${CONFIGURE_STRING} '--with-kerberos ' "
+
+  CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-mbstring ' "
+  CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-mbstr-enc-trans ' "
+  CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-mbregex ' "
+
+#	CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-intl ' "
+fi
+
+# Add type dependent configure strings
+case $BUILD_TYPE in
+	"cgi" )
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-cgi' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-force-cgi-redirect' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-fastcgi' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-discard-path' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--disable-cli' "
+	;;
+	"cli" )
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--enable-cli' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--disable-cgi' "
+	;;
+	"module" )
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--with-apxs2=/usr/bin/apxs2' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--disable-cgi' "
+		CONFIGURE_STRING="${CONFIGURE_STRING} '--disable-cli' "
+	;;
+	* )
+		echo "Unknown build type ${BUILD_TYPE} - try 'cli', 'module' or 'cgi'."
+		exit 0;
+	;;
+esac
+
+# Add version dependent configure strings
+VERSION_CONFIGURE=$(tr -d '\r\n\\' < ${BUILD_VERSION}.configure)
+CONFIGURE_STRING="${CONFIGURE_STRING} ${VERSION_CONFIGURE}"
+
+# Add config file path
+CONFIGURE_STRING="${CONFIGURE_STRING} '--with-config-file-path=/etc/php/${BUILD_VERSION}_${BUILD_TYPE}' "
+
+
+# Conf nur dann kopieren wenn der Ordner noch nicht existiert
+if [ ! -d /etc/php/${BUILD_VERSION}_${BUILD_TYPE} ]
+then
+  mkdir /etc/php/${BUILD_VERSION}_${BUILD_TYPE}
+  cp ./${BUILD_VERSION}/php.ini-dist /etc/php/${BUILD_VERSION}_${BUILD_TYPE}/php.ini
+fi
+
+# Start build process
+if [ -n "$BUILD_DEBUG" ]
+then
+	echo "Configure ... ${CONFIGURE_STRING}"
+else
+	echo "Configure ... ${CONFIGURE_STRING}"
+	cd $BUILD_VERSION
+	./cvsclean
+	cd php-src
+	make clean 2>/dev/null
+	make distclean 2>/dev/null
+	./buildconf --force
+	eval $CONFIGURE_STRING
+
+	if [ $? -ne 0 ]
+	then
+		echo
+		echo "Configure failed - please fix the error."
+		exit 1
+	fi
+
+	cp main/php_config.h main/php_config.h.old
+	cat main/php_config.h.old | sed -e 's/\/\* #undef HAVE_POSIX_READDIR_R \*\//#define HAVE_POSIX_READDIR_R 1/g' > main/php_config.h
+
+	make
+	if [ $? -ne 0 ]
+	then
+		echo
+		echo "Make failed - sorry."
+		exit 1
+	fi
+
+fi
+
+# Build installstring
+INSTALL_STRING=""
+case $BUILD_TYPE in
+	"cgi" )
+		DEST_FILE="/usr/local/php/${BUILD_VERSION}/bin/php-cgi"
+
+		if [ -f "sapi/cgi/php-cgi" ]
+		then
+			# Since php 5.2.5 the sapi has another name and is correctly installed as php-cgi
+			INSTALL_STRING="make install"
+		else
+			INSTALL_STRING="make install; mv /usr/local/php/${BUILD_VERSION}/bin/php ${DEST_FILE}"
+		fi
+	;;
+	"cli" )
+		DEST_FILE="/usr/local/php/${BUILD_VERSION}/bin/php-cli"
+		INSTALL_STRING="make install; mv /usr/local/php/${BUILD_VERSION}/bin/php ${DEST_FILE}"
+	;;
+	"module" )
+		DEST_FILE="/usr/lib/apache2/modules/lib${BUILD_VERSION}.so"
+		INSTALL_STRING=" cp /etc/apache2/apache2.conf /etc/apache2/httpd.conf; make install; rm /etc/apache2/httpd.conf; touch /etc/apache2/httpd.conf; mv /usr/lib/apache2/modules/libphp?.so ${DEST_FILE}"
+	;;
+	* )
+		echo "Unknown build type ${BUILD_TYPE} - try 'cli', 'module' or 'cgi'."
+		exit 0;
+	;;
+esac
+
+# Install
+ROOT_UID=0
+if [ -n "$BUILD_DEBUG" ]
+then
+	echo "Installing ... ${INSTALL_STRING}"
+else
+	if [ "$UID" -ne "$ROOT_UID" ]
+	then
+		echo "You need to be root to install."
+		eval "su -c '${INSTALL_STRING}'"
+	else
+		eval $INSTALL_STRING
+	fi
+fi
+
+if [ -f "/usr/local/php/${BUILD_VERSION}/bin/php-cli" ]
+then
+	if [ -f "/usr/local/php/${BUILD_VERSION}/bin/php" ]
+	then
+		rm -f "/usr/local/php/${BUILD_VERSION}/bin/php"
+	fi
+	ln -s "/usr/local/php/${BUILD_VERSION}/bin/php-cli" "/usr/local/php/${BUILD_VERSION}/bin/php"
+fi
+
+echo "Finished install - file is now available at '${DEST_FILE}'"

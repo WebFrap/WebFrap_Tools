@@ -1,0 +1,46 @@
+#!/bin/bash
+
+BUILD_VERSION=$1
+
+# Only Root Check
+ROOT_UID=0
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+  echo "You need to be root to install."
+  return 0;
+fi
+
+# Check if exists
+if [ ! -d /usr/local/php/${BUILD_VERSION} ]
+then
+  echo "Version '${BUILD_VERSION}' is not available"
+  exit 0;
+fi
+
+echo "Removing old Links"
+rm /usr/bin/pear
+rm /usr/bin/peardev
+rm /usr/bin/pecl
+rm /usr/bin/php
+rm /usr/bin/php-cli
+rm /usr/bin/php-config
+rm /usr/bin/phpize
+rm /usr/lib/apache2/modules/libphp5.so
+rm /usr/local/php/activ
+
+echo "Creating new links"
+ln -s /usr/local/php/${BUILD_VERSION}/bin/pear /usr/bin/pear
+ln -s /usr/local/php/${BUILD_VERSION}/bin/peardev /usr/bin/peardev
+ln -s /usr/local/php/${BUILD_VERSION}/bin/pecl /usr/bin/pecl
+ln -s /usr/local/php/${BUILD_VERSION}/bin/php-cli /usr/bin/php
+ln -s /usr/local/php/${BUILD_VERSION}/bin/php-cli /usr/bin/php-cli
+ln -s /usr/local/php/${BUILD_VERSION}/bin/php-config /usr/bin/php-config
+ln -s /usr/local/php/${BUILD_VERSION}/bin/phpize /usr/bin/phpize
+ln -s /usr/lib/apache2/modules/lib${BUILD_VERSION}.so /usr/lib/apache2/modules/libphp5.so
+ln -s /usr/local/php/${BUILD_VERSION} /usr/local/php/activ
+
+echo "Restart Apache"
+bash /etc/init.d/apache2 restart
+
+
+echo "Switched to Version '${BUILD_VERSION}'"

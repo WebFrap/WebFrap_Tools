@@ -1,0 +1,142 @@
+/**
+ * Core
+ */
+
+.wgt-element
+{
+	padding:3px;
+}
+
+.wgt-clear
+{
+  clear: both;
+}
+
+.wgt-slice
+{
+	clear: both;
+	padding:0px;
+	marging:0px;
+}
+
+
+/* @imutable */
+div.left,
+fieldset.left,
+ul.left,
+span.left
+{
+	display:block;
+  clear: both;
+  float: left;
+}
+
+/* @imutable */
+div.inline,
+fieldset.inline,
+ul.inline,
+span.inline
+{
+  display:block;	
+  clear:none;
+  float:left;
+}
+
+/* @imutable */
+div.right,
+fieldset.right,
+ul.right,
+span.right
+{
+  display:block;	
+  float:right;
+}
+
+/* @imutable */
+div.rightline,
+ul.rightline
+{
+  display:block;
+  float:right;
+}
+
+
+/*//////////////////////////////////////////////////////////////////////////////
+// Relativ sizes
+//////////////////////////////////////////////////////////////////////////////*/
+
+.full
+{
+  width:100%;
+}
+
+.nearly_full
+{
+  width:99%;
+  margin:0 auto;
+}
+
+.content .nearly_full
+{
+  width:98%;
+  margin:0 auto;
+}
+
+.behind
+{
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+}
+
+.half
+{
+  width:49.9%;
+}
+
+.half-b
+{
+  width:49%;
+}
+
+.third
+{
+  width:33.2%;
+}
+
+.two_third
+{
+  width:66.5%;
+}
+
+.fourth
+{
+  width:24.9%;
+}
+
+.tree_fourth
+{
+  width:74.9%;
+}
+
+.fith
+{
+  width:19.9%;
+}
+
+.two_fith
+{
+  width:39.8%;
+}
+
+.tree_fith
+{
+  width:59.7%;
+}
+
+.four_fith
+{
+  width:79.6%;
+}

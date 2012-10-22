@@ -1,0 +1,17 @@
+/**
+ * Menu
+ */
+
+.wgt-menu-block
+{
+	width:800px;
+}
+
+.wgt-menu-block .wgt-menu_entry
+{
+	float:left;
+  width:120px;
+	height:40px;
+	border:1px solid silver;
+	margin:5px;
+}

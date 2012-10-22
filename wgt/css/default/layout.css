@@ -1,0 +1,26 @@
+/**
+ * Site Layout
+ */
+
+#layout-header
+{
+	width:1020px;
+	margin: 0px auto;
+	height:50px;
+	border: 1px dotted silver;
+}
+
+#layout-body
+{
+  width:1020px;
+  margin: 0px auto;
+  border: 1px dotted silver;
+}
+
+#layout-footer
+{
+  width:1020px;
+  margin: 0px auto;
+  height:50px;
+  border: 1px dotted silver;
+}
