@@ -1,7 +1,0 @@
-<?php 
-
-self::$l = array
-(
-
-);
-
