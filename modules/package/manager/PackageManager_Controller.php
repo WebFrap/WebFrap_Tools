@@ -36,7 +36,7 @@ class PackageManager_Controller
     $workarea = $console->tpl->getWorkArea( );
     $workarea->setCaption( 'Package Manager' );
     
-    $workarea->addTemplate( 'package/manager/package_list' );
+    $workarea->addTemplate( 'package/manager/package_menu' );
     
   }//end public function do_default */
 

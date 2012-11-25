@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 // die Basis Logik einbinden
-include 'gaia/core.php';
+include 'wbf/core.php';
 include GAIA_PATH.'core/user/UserContainer.php';
 
 $action = Request::arg( 'action' );

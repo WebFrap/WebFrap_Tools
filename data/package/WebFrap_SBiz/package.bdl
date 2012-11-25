@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<package name="WebFrap_SBiz" type="application" >
+
+  <url>http://webfrap.net/p/WebFrap_SBiz</url>
+  <label>WebFrap SMU Application Plattform</label>
+  <full_name>WebFrap SBiz</full_name>
+  <type>application</type>
+
+  <author><![CDATA[Dominik Bonsch <dominik.bonsch@webfrap.net>]]></author>
+  <copyright><![CDATA[webfrap.net <contact@webfrap.net>]]></copyright>
+  <project_manager><![CDATA[Dominik Bonsch <dominik.bonsch@webfrap.net>]]></project_manager>
+
+  <version>1</version>
+  <revision>1</revision>
+
+  <description>
+    <text lang="de"><![CDATA[Project Description]]></text>
+  </description>
+
+  <licences>
+    <licence>Webfrap.net</licence>
+    <licence>GPLv3</licence>
+  </licences>
+
+  <languages default="en">
+    <lang>de</lang>
+    <lang>en</lang>
+  </languages>
+  
+  <gateways>
+
+    <gateway name="WebFrap_Gw_SBiz" src="WebFrap_Gw_SBiz">
+ 
+      <code_root>/srv/universe/sdb/</code_root>
+
+      <conf key="sdb.prod" ></conf>
+      
+      <!--  
+      <icon_themes name="WebFrap_Icon_Themes" default="default" >
+        <folder name="WebFrap_Icons" />
+      </icon_themes>
+
+      <ui_themes name="WebFrap_Ui_Themes" default="default" >
+        <folder name="WebFrap_Theme" />
+      </ui_themes>
+      -->
+      
+      <wgt name="WebFrap_Wgt" >
+        <folder name="WebFrap_Wgt" />
+      </wgt>
+
+      <modules>
+
+        <module name="WebFrap_App_SBiz" type="genf" >
+          <folder name="WebFrap_App_SBiz" />
+        </module>
+
+        <module name="WebFrap" type="module">
+          <folder name="WebFrap" />
+        </module>
+
+        <module name="WebFrap_Core" type="module">
+          <folder name="WebFrap_Core" />
+        </module>
+
+      </modules>
+      
+      <vendor_modules>
+
+        <module name="WebFrap_Vendor" type="module" >
+          <folder name="WebFrap_Vendor" />
+        </module>
+
+      </vendor_modules>
+      
+      <!-- mode: (interactive|default) Soll das System nachfragen oder default 
+        werte verwenden wenn keine Entscheidungsflags 
+        gesetzt wurden? -->
+      <update mode="default" >
+
+        <clean mode="full">
+          <tmp mode="full">
+            <session />
+            <data />
+          </tmp>
+          <cache mode="full">
+            <autoload />
+            <css />
+            <i18n />
+            <javascript />
+            <theme />
+            <!--  
+            Not yet implemented caches
+            <query />
+            <http />
+            <view />
+            <service />
+            -->
+          </cache>
+          
+          <!-- Sollen die Includes neu geschrieben werden? Manuell hinzugefügte Includes gehen dabei verloren. -->
+          <conf>
+            <includes />
+          </conf>
+          
+          <ui_theme />
+          
+          <icon_theme />
+          
+          <wgt />
+          
+        </clean>
+
+        <!-- Was soll alles überschrieben werden -->
+        <overwrite>
+          <config /><!-- Überschreiben der Config -->
+        </overwrite>
+
+        <!-- Welche Dinge sollen vor dem Update gebackupt werden -->
+        <backup>
+
+        </backup>
+
+      </update>
+      
+      <!-- Liste der Server auf welche deployt werden soll -->
+      <servers>
+
+        <server name="local" type="local">
+
+          
+          <databases install="false" >
+          
+            <database name="default" type="postgresql" >
+            
+              <!-- Der Adminuser für den Zugriff auf die Datenbank -->
+              <admin>
+                <user>deployment</user>
+                <passwd>deployment</passwd>
+              </admin>
+
+              <!-- Pro Schema eine Connection -->
+              <connection 
+                port="5432"
+                db_name="sdb_gw_sbiz"
+                db_schema="production" >
+                <user>sdb_sbiz</user>
+                <!--  
+                Wenn passwort vorhanden wird der user erstellt
+                wenn nicht schon vorhanden -->
+                <passwd><![CDATA[>Mk(k^QbqeO}8fnmd*D]]></passwd>
+              </connection>
+              
+              <structure>
+
+                
+                <!-- Einfache SQL Dumps zum abarbeiten -->
+                <files>
+                  <file src="WebFrap" name="acl.indices" />
+                  <file src="WebFrap" name="acl.views" />
+                  <file src="WebFrap" name="process.views" />
+                  <file src="WebFrap" name="sys.views" />
+                </files>
+                
+              </structure>
+              
+              <clean>
+                <views enabled="true" />
+              </clean>
+              
+            </database>
+          </databases>
+
+        </server>
+      </servers>
+      
+      <users>
+        <user name="admin" >
+          <firstname>Admin</firstname>
+          <lastname>Of the Day</lastname>
+          <passwd>test</passwd>
+          <level>system</level>
+          <profile>admin</profile>
+          <email>admin@wefrap.de</email>
+        </user>
+      </users>
+      
+      <backup type="user_data" storage_rate="7,2,2,1,1" archive_type="zip" >
+        <dir>/srv/backup/sdb/</dir>
+      </backup>
+
+    </gateway>
+  </gateways>
+
+  <components>
+  
+    <component name="SDB_Gw_SBiz" type="gateway" branch="stable" repo_type="mercurial"  target="WebFrap_Gw_SBiz" >
+      <folder name="conf/extensions" />
+      <folder name="conf/include" />
+      <folder name="conf/space" />
+      <folder name="js_conf" />
+      <folder name="i18n" />
+      <folder name="templates" />
+      <folder name="/" recursive="false" filter=".php,.ico" />
+    </component>
+    
+    <component name="WebFrap" type="framework" branch="stable" repo_type="mercurial" target="WebFrap" >
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="src" />
+      <folder name="templates" />
+      <folder name="LICENCE" />
+    </component>
+    
+    <component name="SDB_Gw_SBiz" type="db_dump" branch="stable" repo_type="mercurial"  target="WebFrap_Gw_SBiz" >
+      <folder name="backup/db" />
+    </component>
+    
+    <component name="WebFrap" type="db_dump" branch="stable" repo_type="mercurial" target="WebFrap" >
+      <folder name="data/ddl" />
+    </component>
+    
+    <component name="WebFrap_Daidalos" type="core_module" branch="stable" repo_type="mercurial" target="WebFrap_Core" >
+      <folder name="conf" />
+      <folder name="module" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="WebFrap_Pontos" type="core_module" branch="stable" repo_type="mercurial" target="WebFrap_Core" >
+      <folder name="conf" />
+      <folder name="module" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="SDB_App_SBiz" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="SDB_Sbiz_Mod_Business" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="SDB_Sbiz_Mod_Groupware" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="SDB_Sbiz_Mod_Trading" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+    
+    <component name="SDB_Sbiz_Mod_Base" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+
+    <component name="SDB_Sbiz_Mod_Project" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+
+    <component name="SDB_SBiz_Mod_Service" type="code" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="conf" />
+      <folder name="i18n" />
+      <folder name="module" />
+      <folder name="sandbox" />
+      <folder name="src" />
+      <folder name="templates" />
+    </component>
+
+    <component name="SDB_App_SBiz" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_Sbiz_Mod_Business" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_Sbiz_Mod_Groupware" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_Sbiz_Mod_Trading" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_Sbiz_Mod_Base" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_Sbiz_Mod_Project" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+    <component name="SDB_SBiz_Mod_Service" type="metadata" branch="stable" repo_type="mercurial" target="WebFrap_App_SBiz" >
+      <folder name="data" />
+    </component>
+
+    <component name="WebFrap_Lib_FPdf" type="vendor" branch="stable" repo_type="mercurial" target="WebFrap_Vendor" >
+      <folder name="src" />
+      <folder name="vendor" />
+    </component>
+    
+    <component name="WebFrap_Lib_PHPExcel" type="vendor" branch="stable" repo_type="mercurial" target="WebFrap_Vendor" >
+      <folder name="src" />
+      <folder name="vendor" />
+    </component>
+    
+    <component name="WebFrap_Wgt" type="wgt" branch="stable" repo_type="mercurial" target="WebFrap_Wgt" >
+      <folder name="js_src" />
+      <folder name="layout" />
+      <folder name="compressor" />
+      <folder name="src" />
+      <folder name="themes" />
+      <folder name="icons" />
+    </component>
+
+    
+  </components>
+
+
+</package>

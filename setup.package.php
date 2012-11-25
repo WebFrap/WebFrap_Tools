@@ -20,7 +20,7 @@ define( 'GAIA_CONTEXT', 'setup' );
 
 
 // die Basis Logik einbinden
-include 'gaia/bootstrap.cli.php';
+include 'wbf/bootstrap.cli.php';
 
 /* @var $console UiConsole  */
 

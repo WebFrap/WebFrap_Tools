@@ -302,9 +302,9 @@ div#wbf-content,
 div.wgt_window,
 table.wgt-table tbody,
 .wgt-content,
-.wgt-bg-controll
+.wgt-bg-control
 {
-  background: #fcfdfd url(<?php echo $imagePath ?>ui/ui-bg_inset-soft_100_fcfdfd_1x100.png) 50% 50% repeat;
+  background: #fcfdfd url(<?php echo $imagePath ?>ui/<?php echo $img_bgTextureContent ?>) 50% 50% repeat;
   color: #<?php echo $fcContent ?>;
 }
 

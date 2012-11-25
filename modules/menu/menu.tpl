@@ -6,7 +6,7 @@
   </div>
   
   <div class="wgt-menu_entry" >
-    <a href="index.php?serv=PackageManager" >Package Manager</a>
+    <a href="index.php?serv=PackageManager" >Package Builder</a>
   </div>
   
   <div class="wgt-menu_entry" >
@@ -19,6 +19,10 @@
   
   <div class="wgt-menu_entry" >
     <a href="index.php?serv=Refactorer" >Refactoring</a>
+  </div>
+  
+  <div class="wgt-menu_entry" >
+    <a href="index.php?serv=SetupProject" >SetupProject</a>
   </div>
   
   <div class="wgt-clear" >&nbsp;</div>

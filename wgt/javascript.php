@@ -13,7 +13,7 @@ foreach( $files as $file )
 }
 
 
-header( 'content-type: text/javascript' );
+header( 'content-type: application/javascript' );
 header( 'ETag: '.md5($content) );
 header( 'Content-Length: '.strlen( $content ) );
 header( 'Expires: Thu, 13 Nov 2179 00:00:00 GMT' );

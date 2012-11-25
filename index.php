@@ -19,7 +19,7 @@
 define( 'GAIA_CONTEXT', 'web' );
 
 // die Basis Logik einbinden
-include 'gaia/bootstrap.web.php';
+include 'wbf/bootstrap.web.php';
 
 $conClass = $request->service.'_Controller';
 

@@ -16,6 +16,6 @@
 *******************************************************************************/
 
 // die Basis Logik einbinden
-include 'gaia/core.php';
+include 'wbf/core.php';
 
 echo Process::run('echo $DISPLAY');

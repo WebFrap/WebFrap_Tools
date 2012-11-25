@@ -18,7 +18,7 @@
 // die Basis Logik einbinden
 // hier wird auch das entsprechende conf / settingsfile eingebunden
 // in welchem die hier verwendetetn Variablen vorhanden sind.
-include 'gaia/core.php';
+include 'wbf/core.php';
 
 
 Console::head( "Start sync", true );

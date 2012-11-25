@@ -1,0 +1,4 @@
+<?php 
+
+// Das Gateway aufbereiten
+

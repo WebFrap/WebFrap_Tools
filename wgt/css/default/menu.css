@@ -11,7 +11,13 @@
 {
 	float:left;
   width:120px;
-	height:40px;
+	min-height:40px;
 	border:1px solid silver;
 	margin:5px;
+  text-align:center;  
+}
+
+.wgt-menu-block .wgt-menu_entry img
+{
+  margin-top: 10px;
 }

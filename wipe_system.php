@@ -17,7 +17,7 @@
 
 
 // die Basis Logik einbinden
-include 'gaia/core.php';
+include 'wbf/core.php';
 
 Console::header( "Start Wiping", true);
 

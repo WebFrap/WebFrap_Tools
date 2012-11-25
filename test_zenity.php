@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 // die Basis Logik einbinden
-include 'gaia/core.php';
+include 'wbf/core.php';
 
 echo Zenity::dialog( 'fuu ', 'licence/licence.txt', 'bar' );
 

@@ -1,0 +1,11 @@
+<div id="layout-header" class="wgt-element" >
+  <a href="index.php?serv=Menu" >G A I A</a> <span>/ <?php echo $this->caption ?></span>
+</div>
+
+<div id="layout-body" class="wgt-element"  >
+  <?php echo $maincontent ?>
+</div>
+
+<div id="layout-footer" class="wgt-element" >
+  WebFrap Gaia
+</div>
