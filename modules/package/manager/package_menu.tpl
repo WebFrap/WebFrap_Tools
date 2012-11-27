@@ -20,6 +20,13 @@
     <img src="wgt/icons/default/large/logos/wbf.png" alt="Wbf Package" />
     </a>
   </div>
+  
+  <div class="wgt-menu_entry" >
+    <a href="index.php?serv=PackageManager-Patch" >
+    WebFrap (Patch)<br />
+    <img src="wgt/icons/default/large/logos/wbf.png" alt="Wbf Patch" />
+    </a>
+  </div>
 
   <div class="wgt-clear" >&nbsp;</div>
   
