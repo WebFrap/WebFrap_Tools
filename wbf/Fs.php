@@ -86,9 +86,14 @@ class Fs
   static function copy( $src, $target, $isFolder = true )
   {
     
-    if( $isFolder && !file_exists($target) )
+    if( $isFolder )
     {
-      Fs::mkdir( $target );
+      if( !file_exists($target) )
+        Fs::mkdir( $target );
+    }
+    else 
+    {
+      Fs::touchFileFolder($target);
     }
     
     Process::run("cp -rf $src $target");
@@ -218,6 +223,24 @@ class Fs
     return $pathInfo['extension'];
     
   }//end static function getFileType */
+  
+  /**
+   * Extrahieren des File Pfades
+   * 
+   * @param string $fileName
+   * @return string
+   */
+  static function getFileFolder( $fileName  )
+  {    
+    
+    $pathInfo = pathinfo( $fileName );
+    
+    if( !isset( $pathInfo['dirname'] ) )
+      return null;
+      
+    return $pathInfo['dirname'];
+    
+  }//end static function getFileFolder */
   
   /**
    * Eine Datei erstellen

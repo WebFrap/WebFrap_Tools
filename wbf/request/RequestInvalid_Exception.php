@@ -18,13 +18,12 @@
 
   
 /**
- * Gaia Basisklasse
  * @package WebFrap
- * @subpackage Gaia
+ * @subpackage Tools
  */
-class GaiaException
-  extends Exception
+class RequestInvalid_Exception
+  extends GaiaException
 {
   
 
-}//end class GaiaException */
+}//end class RequestInvalid_Exception */

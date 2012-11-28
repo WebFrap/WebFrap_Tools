@@ -43,7 +43,7 @@ class PackageManager_Patch_Controller
   /**
    * 
    */
-  public function do_buildPackage()
+  public function do_buildByJson()
   {
 
     $request = $this->getRequest();
@@ -52,14 +52,17 @@ class PackageManager_Patch_Controller
     $workarea = $console->tpl->getWorkArea( );
     $workarea->setCaption( 'Build Patch' );
     $workarea->addTemplate( 'package/manager/patch/package_form' );
-    
-    
-    $deployPath = $request->data( 'deploy_path' );
-    $repoRoot = $request->data( 'repo_root' );
-    $patchName = $request->data( 'patch_name' );
-    $patchPath = $request->data( 'patch_path' );
-    $fileList = $request->data( 'file_list' );
 
+    $jsonRaw = $request->data( 'json_raw' );
+    
+    $jsonData = json_decode( $jsonRaw );
+    
+    if( JSON_ERROR_NONE !== json_last_error() )
+      throw new RequestInvalid_Exception("JSON was invalid ".json_last_error() );
+    
+    $model = new PackageManager_Patch_Model( $this );
+    $model->readJson( $jsonData );
+    $model->buildPackage( );
     
   }//end public function do_buildPackage */
   
