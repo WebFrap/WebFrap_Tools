@@ -48,9 +48,14 @@ class PackageManager_Patch_Model
   public $packageName = null;
   
   /**
-   * @var Package
+   * @var Files to use
    */
   public $files = array();
+  
+  /**
+   * @var Repos to use
+   */
+  public $repos = array();
   
   protected $script = null;
   
@@ -78,8 +83,8 @@ class PackageManager_Patch_Model
     if( !isset( $dataNode->package_name ) )
       throw new RequestInvalid_Exception( 'Missing package_name' );
       
-    if( !isset( $dataNode->files_raw ) )
-      throw new RequestInvalid_Exception( 'Missing files_raw' );
+    if( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
+      throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
     $this->codeRoot   = $dataNode->code_root;
@@ -88,24 +93,32 @@ class PackageManager_Patch_Model
       
     //$files = explode( NL,  $dataNode->files_raw );
     
-    foreach( $dataNode->files_raw as $file )
+    if( isset( $dataNode->files_raw ) )
     {
-      $tmpFile = trim($file);
-      
-      if( '' === $tmpFile )
-        continue;
+      foreach( $dataNode->files_raw as $file )
+      {
+        $tmpFile = trim($file);
         
-       $sourceTarget = explode( '->',  $tmpFile );
-       
-       if( isset( $sourceTarget[1] ) )
-       {
-         $this->files[$sourceTarget[0]] = $sourceTarget[1];
-       }
-       else
-       {
-         $this->files[$sourceTarget[0]] = $sourceTarget[0];
-       }
-      
+        if( '' === $tmpFile )
+          continue;
+          
+         $sourceTarget = explode( '->',  $tmpFile );
+         
+         if( isset( $sourceTarget[1] ) )
+         {
+           $this->files[$sourceTarget[0]] = $sourceTarget[1];
+         }
+         else
+         {
+           $this->files[$sourceTarget[0]] = $sourceTarget[0];
+         }
+      }
+    }
+
+    
+    if( isset( $dataNode->repos ) )
+    {
+      $this->repos = $dataNode->repos;
     }
     
   }//end public function readJson
@@ -124,6 +137,12 @@ class PackageManager_Patch_Model
    */
   protected function setupPackage()
   {
+    
+    if( '' === trim( $this->packagePath ) || '' === trim( $this->packageName ) )
+      throw new GaiaException( 'Package path or package name was empty.' );
+    
+    if( Fs::exists( $this->packagePath.'/'.$this->packageName ) )
+      Fs::del( $this->packagePath.'/'.$this->packageName );
 
     Fs::mkdir( $this->packagePath.'/'.$this->packageName.'/files' );
     
@@ -134,20 +153,20 @@ class PackageManager_Patch_Model
 
 deplPath="{$this->deployPath}"
 
-echo "\\[\\033[1;32m\\]Starting deployment to \\[\\033[1;34m\\]\${deplPath}"
+echo "Starting deployment to \${deplPath}"
 
-if [ "$(whoami)" != "root" ];
-then
-   echo "\\[\\033[0;31m\\]Script need to be started as root\\[\\033[0m\\]"
-   exit
-fi
+#if [ "$(whoami)" != "root" ];
+#then
+#   echo "Script need to be started as root"
+#   exit
+#fi
 
 function deploy {
 
   deplPath="{$this->deployPath}"
   fPath='./files/'
   
-  echo "\\[\\033[1;33m\\]deploy \\[\\033[1;34m\\]\${2} \\[\\033[1;30m\\]to \\[\\033[1;34m\\]\${deplPath}\${2}" 
+  echo "deploy \${2} to \${deplPath}\${2}" 
 
   if [ ! -d "\${deplPath}\${1}/" ]; then
       mkdir -p \${deplPath}\${1}/
@@ -177,12 +196,22 @@ CODE;
       Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
       
       $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
+    }
+    
+    if( $this->repos )
+    {
+      $iterator = new PackageBuilder_Repo_Iterator( $this->repos, null, $this->codeRoot );
       
+      foreach( $iterator as $deployPath => $localPath )
+      {
+        Fs::copy( $localPath, $pPath.$deployPath, false );
+        $this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
+      }
     }
     
     $this->script .=<<<CODE
     
-echo "\\[\\033[1;32m\\]Done\\[\\033[0m\\]"
+echo "Done"
     
 CODE;
    
