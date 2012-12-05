@@ -201,6 +201,24 @@ function deploy {
 
   cp -f "\${fPath}\${2}" "\${deplPath}\${2}"
 }
+
+function remove {
+
+  deplPath="{$this->deployPath}"
+  
+  if [ -d "\${deplPath}\${1}/" ]; then
+  
+  		echo "delete folder \${deplPath}\${1}" 
+      rm -rf "\${deplPath}\${1}"
+  fi
+  
+  if [ -a "\${deplPath}\${1}" ]; then
+  
+  		echo "delete file \${deplPath}\${1}" 
+      rm -f "\${deplPath}\${1}"
+  fi
+
+}
     
 CODE;
     
@@ -234,6 +252,11 @@ CODE;
         Fs::copy( $localPath, $pPath.$deployPath, false );
         $this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
       }
+    }
+    
+    foreach( $this->toDelete as $target )
+    {
+      $this->script .= "remove \"{$target}\" ".NL;
     }
     
     $this->script .=<<<CODE
