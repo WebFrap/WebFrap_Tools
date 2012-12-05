@@ -53,6 +53,11 @@ class PackageManager_Patch_Model
   public $files = array();
   
   /**
+   * @var Files to use
+   */
+  public $toDelete = array();
+  
+  /**
    * @var Repos to use
    */
   public $repos = array();
@@ -96,6 +101,28 @@ class PackageManager_Patch_Model
     if( isset( $dataNode->files_raw ) )
     {
       foreach( $dataNode->files_raw as $file )
+      {
+        $tmpFile = trim($file);
+        
+        if( '' === $tmpFile )
+          continue;
+          
+         $sourceTarget = explode( '->',  $tmpFile );
+         
+         if( isset( $sourceTarget[1] ) )
+         {
+           $this->files[$sourceTarget[0]] = $sourceTarget[1];
+         }
+         else
+         {
+           $this->files[$sourceTarget[0]] = $sourceTarget[0];
+         }
+      }
+    }
+    
+    if( isset( $dataNode->delete ) )
+    {
+      foreach( $dataNode->delete as $file )
       {
         $tmpFile = trim($file);
         
