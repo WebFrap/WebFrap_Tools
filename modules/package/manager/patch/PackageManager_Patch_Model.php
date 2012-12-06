@@ -124,21 +124,7 @@ class PackageManager_Patch_Model
     {
       foreach( $dataNode->delete as $file )
       {
-        $tmpFile = trim($file);
-        
-        if( '' === $tmpFile )
-          continue;
-          
-         $sourceTarget = explode( '->',  $tmpFile );
-         
-         if( isset( $sourceTarget[1] ) )
-         {
-           $this->files[$sourceTarget[0]] = $sourceTarget[1];
-         }
-         else
-         {
-           $this->files[$sourceTarget[0]] = $sourceTarget[0];
-         }
+        $this->toDelete[] = $file;
       }
     }
 
@@ -236,13 +222,14 @@ CODE;
     
     $pPath = $this->packagePath.'/'.$this->packageName.'/files/';
     
-    foreach( $this->files as $local => $target )
+
+    // first delete
+    foreach( $this->toDelete as $target )
     {
-      Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
-      
-      $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
+      $this->script .= "remove \"{$target}\" ".NL;
     }
     
+    // then copy repos
     if( $this->repos )
     {
       $iterator = new PackageBuilder_Repo_Iterator( $this->repos, null, $this->codeRoot );
@@ -254,10 +241,21 @@ CODE;
       }
     }
     
-    foreach( $this->toDelete as $target )
+    // then do the finetuning with files
+    foreach( $this->files as $local => $target )
     {
-      $this->script .= "remove \"{$target}\" ".NL;
+      
+      if( !file_exists($this->codeRoot.$local) )
+      {
+        echo "Missing file ".$this->codeRoot.$local."<br />";
+        continue;
+      }
+      
+      Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
+      
+      $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
     }
+
     
     $this->script .=<<<CODE
     
