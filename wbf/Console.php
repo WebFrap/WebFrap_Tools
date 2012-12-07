@@ -277,4 +277,17 @@ class Console
     
   }//end static function endBlock */
   
+  public static function startCache()
+  {
+    ob_start();
+  }
+  
+  public static function getCache()
+  {
+    $data = ob_get_contents();
+    ob_end_clean();
+    
+    return $data;
+  }
+  
 }//end class Console */

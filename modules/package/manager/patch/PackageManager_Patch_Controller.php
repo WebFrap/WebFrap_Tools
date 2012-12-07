@@ -60,9 +60,13 @@ class PackageManager_Patch_Controller
     if( JSON_ERROR_NONE !== json_last_error() )
       throw new RequestInvalid_Exception("JSON was invalid ".json_last_error() );
     
+    Console::startCache();
+      
     $model = new PackageManager_Patch_Model( $this );
     $model->readJson( $jsonData );
     $model->buildPackage( );
+    
+    $workarea->vars->message = Console::getCache();
     
   }//end public function do_buildPackage */
   

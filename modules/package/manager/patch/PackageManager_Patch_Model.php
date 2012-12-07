@@ -26,6 +26,21 @@ class PackageManager_Patch_Model
 ////////////////////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * @var string
+   */
+  public $appName = null;
+  
+  /**
+   * @var string
+   */
+  public $appVersion = null;
+  
+  /**
+   * @var string
+   */
+  public $appRevision = null;
   
   /**
    * @var string
@@ -61,7 +76,17 @@ class PackageManager_Patch_Model
    * @var Repos to use
    */
   public $repos = array();
+ 
+  /**
+   * List of users to be notified when an update / deployment was done 
+   * successfully
+   * @var array
+   */
+  public $toNotify = array();
   
+  /**
+   * @var array
+   */
   protected $script = null;
   
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +95,7 @@ class PackageManager_Patch_Model
 
   
   /**
-   * @param unknown_type $dataNode
+   * @param json $dataNode
    * @throws RequestInvalid_Exception
    */
   public function readJson( $dataNode )
@@ -95,6 +120,21 @@ class PackageManager_Patch_Model
     $this->codeRoot   = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
     $this->packageName = $dataNode->package_name;
+    
+    if( isset( $dataNode->app_name ) )
+      $this->appName = $dataNode->app_name;
+    else 
+      $this->appName = "Your Application";
+      
+    if( isset( $dataNode->app_version ) )
+      $this->appVersion = $dataNode->app_version;
+    else 
+      $this->appVersion = "1";
+      
+    if( isset( $dataNode->app_revision ) )
+      $this->appRevision = $dataNode->app_revision;
+    else 
+      $this->appRevision = date('YmdHis');
       
     //$files = explode( NL,  $dataNode->files_raw );
     
@@ -127,8 +167,15 @@ class PackageManager_Patch_Model
         $this->toDelete[] = $file;
       }
     }
-
     
+    // list of users that have to be notified when the deployment was
+    // sucessfull
+    if( isset( $dataNode->notify ) )
+    {
+      $this->toNotify = $dataNode->notify;
+    }
+
+    // repositories to deploy    
     if( isset( $dataNode->repos ) )
     {
       $this->repos = $dataNode->repos;
@@ -160,13 +207,11 @@ class PackageManager_Patch_Model
     Fs::mkdir( $this->packagePath.'/'.$this->packageName.'/files' );
     
     $this->script = <<<CODE
-    
 #!/bin/bash
-# simple deployment script
+# webfrap deployment script
 
 deplPath="{$this->deployPath}"
-
-echo "Starting deployment to \${deplPath}"
+now=$(date +"%Y%m%d%H%M%S")
 
 #if [ "$(whoami)" != "root" ];
 #then
@@ -174,12 +219,20 @@ echo "Starting deployment to \${deplPath}"
 #   exit
 #fi
 
+# echo and log
+function writeLn {
+
+	echo $1
+	echo $1 >> ./deploy.log
+}
+
+# copy / deploy new files
 function deploy {
 
   deplPath="{$this->deployPath}"
   fPath='./files/'
   
-  echo "deploy \${2} to \${deplPath}\${2}" 
+  writeLn "deploy \${2} to \${deplPath}\${2}" 
 
   if [ ! -d "\${deplPath}\${1}/" ]; then
       mkdir -p \${deplPath}\${1}/
@@ -188,23 +241,52 @@ function deploy {
   cp -f "\${fPath}\${2}" "\${deplPath}\${2}"
 }
 
+# remove files or directories
 function remove {
 
   deplPath="{$this->deployPath}"
   
   if [ -d "\${deplPath}\${1}/" ]; then
   
-  		echo "delete folder \${deplPath}\${1}" 
+  		writeLn "delete folder \${deplPath}\${1}" 
       rm -rf "\${deplPath}\${1}"
   fi
   
   if [ -a "\${deplPath}\${1}" ]; then
   
-  		echo "delete file \${deplPath}\${1}" 
+  		writeLn "delete file \${deplPath}\${1}" 
       rm -f "\${deplPath}\${1}"
   fi
 
 }
+
+# remove files or directories
+function notifyStakeholder {
+
+  echo "Finished the deployment of package {$this->packageName} to path {$this->deployPath} " | mail –s"Finished deployment" \$1
+
+}
+
+##### logic starts here
+
+writeLn "Start deployment to \${deplPath} \${now}" 
+
+
+# unpack if not yet unpacked
+if [ ! -d "./files" ]; then
+	
+	# unpack the data container
+  tar xjvf files.tar.bz2 1>/dev/null
+  
+  # check if unpack was successfull before proceed
+  if [ ! -d "./files" ]; then
+  
+      writeLn "Failed to unpack the data container. Deployment failed!"
+      exit 1 
+  fi
+    
+fi
+
     
 CODE;
     
@@ -256,19 +338,48 @@ CODE;
       $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
     }
 
-    
     $this->script .=<<<CODE
     
 echo "Done"
     
 CODE;
-   
+    
+    // notify stakeholders
+    $this->script .= $this->renderNotifyMails();
+     
+    Fs::mkdir( $pPath );
+    $oldDir = Fs::actualPath();
+    Fs::chdir( $this->packagePath.'/'.$this->packageName.'/' );
+    Archive::create( $this->packagePath.'/'.$this->packageName.'/files.tar.bz2', 'files' );
+    Fs::chdir( $oldDir );
+    Fs::del( $pPath );
+    
     Fs::write($this->script, $this->packagePath.'/'.$this->packageName.'/deploy.sh');
     
-      
   }//end public function buildPackage */
   
+  public function renderNotifyMails()
+  {
+    
+    $code = <<<CODE
+    
+CODE;
 
+    foreach( $this->toNotify as $notify )
+    {
+      
+      $code .=<<<CODE
+
+notifyStakeholder {$notify}
+      
+CODE;
+      
+    }
+    
+    return $code;
+    
+    
+  }
   
   /**
    * löschen des Temporären pfades

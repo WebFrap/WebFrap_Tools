@@ -1,4 +1,11 @@
 
+<?php if( $this->vars->message ){ 
+  
+  echo "<h2>Response</h2>";
+  echo "<pre style=\"max-height:300px;overflow:auto;\" >{$this->vars->message}</pre>";
+  
+} ?>
+
 <form 
 	method="post"
 	action="index.php?serv=PackageManager-Patch:buildByJson" >
