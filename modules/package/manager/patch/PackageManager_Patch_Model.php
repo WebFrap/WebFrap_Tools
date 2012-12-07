@@ -58,11 +58,6 @@ class PackageManager_Patch_Model
   public $packagePath = null;
   
   /**
-   * @var Package
-   */
-  public $packageName = null;
-  
-  /**
    * @var Files to use
    */
   public $files = array();
@@ -110,21 +105,17 @@ class PackageManager_Patch_Model
     if( !isset( $dataNode->package_path ) )
       throw new RequestInvalid_Exception( 'Missing package_path' );
       
-    if( !isset( $dataNode->package_name ) )
-      throw new RequestInvalid_Exception( 'Missing package_name' );
-      
     if( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
       throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
     $this->codeRoot   = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
-    $this->packageName = $dataNode->package_name;
     
     if( isset( $dataNode->app_name ) )
       $this->appName = $dataNode->app_name;
     else 
-      $this->appName = "Your Application";
+      $this->appName = "YourApplication";
       
     if( isset( $dataNode->app_version ) )
       $this->appVersion = $dataNode->app_version;
@@ -198,13 +189,13 @@ class PackageManager_Patch_Model
   protected function setupPackage()
   {
     
-    if( '' === trim( $this->packagePath ) || '' === trim( $this->packageName ) )
+    if( '' === trim( $this->packagePath ) || '' === trim( $this->appRevision ) )
       throw new GaiaException( 'Package path or package name was empty.' );
     
-    if( Fs::exists( $this->packagePath.'/'.$this->packageName ) )
-      Fs::del( $this->packagePath.'/'.$this->packageName );
+    if( Fs::exists( $this->packagePath.'/'.$this->appRevision ) )
+      Fs::del( $this->packagePath.'/'.$this->appRevision );
 
-    Fs::mkdir( $this->packagePath.'/'.$this->packageName.'/files' );
+    Fs::mkdir( $this->packagePath.'/'.$this->appRevision.'/files' );
     
     $this->script = <<<CODE
 #!/bin/bash
@@ -263,7 +254,7 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
-  echo "Finished the deployment of package {$this->packageName} to path {$this->deployPath} " | mail -s"Finished deployment" $1
+  echo "Finished the deployment of package {$this->appRevision} to path {$this->deployPath} " | mail -s"Finished deployment" $1
 
 }
 
@@ -302,7 +293,7 @@ CODE;
     $this->check();
     $this->setupPackage();
     
-    $pPath = $this->packagePath.'/'.$this->packageName.'/files/';
+    $pPath = $this->packagePath.'/'.$this->appRevision.'/files/';
     
 
     // first delete
@@ -349,12 +340,12 @@ CODE;
      
     Fs::mkdir( $pPath );
     $oldDir = Fs::actualPath();
-    Fs::chdir( $this->packagePath.'/'.$this->packageName.'/' );
-    Archive::create( $this->packagePath.'/'.$this->packageName.'/files.tar.bz2', 'files' );
+    Fs::chdir( $this->packagePath.'/'.$this->appRevision.'/' );
+    Archive::create( $this->packagePath.'/'.$this->appRevision.'/files.tar.bz2', 'files' );
     Fs::chdir( $oldDir );
     Fs::del( $pPath );
     
-    Fs::write($this->script, $this->packagePath.'/'.$this->packageName.'/deploy.sh');
+    Fs::write($this->script, $this->packagePath.'/'.$this->appRevision.'/deploy.sh');
     
   }//end public function buildPackage */
   
