@@ -263,7 +263,7 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
-  echo "Finished the deployment of package {$this->packageName} to path {$this->deployPath} " | mail –s"Finished deployment" \$1
+  echo "Finished the deployment of package {$this->packageName} to path {$this->deployPath} " | mail -s"Finished deployment" $1
 
 }
 
@@ -370,7 +370,7 @@ CODE;
       
       $code .=<<<CODE
 
-notifyStakeholder {$notify}
+notifyStakeholder "{$notify}"
       
 CODE;
       
