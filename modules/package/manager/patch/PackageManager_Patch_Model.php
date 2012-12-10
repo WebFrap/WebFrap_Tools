@@ -58,11 +58,6 @@ class PackageManager_Patch_Model
   public $packagePath = null;
   
   /**
-   * @var Package
-   */
-  public $packageName = null;
-  
-  /**
    * @var Files to use
    */
   public $files = array();
@@ -110,21 +105,17 @@ class PackageManager_Patch_Model
     if( !isset( $dataNode->package_path ) )
       throw new RequestInvalid_Exception( 'Missing package_path' );
       
-    if( !isset( $dataNode->package_name ) )
-      throw new RequestInvalid_Exception( 'Missing package_name' );
-      
     if( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
       throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
     $this->codeRoot   = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
-    $this->packageName = $dataNode->package_name;
     
     if( isset( $dataNode->app_name ) )
       $this->appName = $dataNode->app_name;
     else 
-      $this->appName = "Your Application";
+      $this->appName = "YourApplication";
       
     if( isset( $dataNode->app_version ) )
       $this->appVersion = $dataNode->app_version;
@@ -198,7 +189,7 @@ class PackageManager_Patch_Model
   protected function setupPackage()
   {
     
-    if( '' === trim( $this->packagePath ) || '' === trim( $this->packageName ) )
+    if( '' === trim( $this->packagePath ) || '' === trim( $this->appRevision ) )
       throw new GaiaException( 'Package path or package name was empty.' );
       
     $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
@@ -307,6 +298,7 @@ CODE;
     $this->check();
     $this->setupPackage();
     
+
     $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
     
     $pPath = $this->packagePath.'/'.$packageName.'/files/';
