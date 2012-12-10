@@ -200,11 +200,14 @@ class PackageManager_Patch_Model
     
     if( '' === trim( $this->packagePath ) || '' === trim( $this->packageName ) )
       throw new GaiaException( 'Package path or package name was empty.' );
+      
+    $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
+      
     
-    if( Fs::exists( $this->packagePath.'/'.$this->packageName ) )
-      Fs::del( $this->packagePath.'/'.$this->packageName );
+    if( Fs::exists( $this->packagePath.'/'.$packageName ) )
+      Fs::del( $this->packagePath.'/'.$packageName );
 
-    Fs::mkdir( $this->packagePath.'/'.$this->packageName.'/files' );
+    Fs::mkdir( $this->packagePath.'/'.$packageName.'/files' );
     
     $this->script = <<<CODE
 #!/bin/bash
@@ -212,6 +215,9 @@ class PackageManager_Patch_Model
 
 deplPath="{$this->deployPath}"
 now=$(date +"%Y%m%d%H%M%S")
+appName="{$this->appName}"
+appVersion="{$this->appVersion}"
+appRevision="{$this->appRevision}"
 
 #if [ "$(whoami)" != "root" ];
 #then
@@ -263,7 +269,7 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
-  echo "Finished the deployment of package {$this->packageName} to path {$this->deployPath} " | mail -s"Finished deployment" $1
+  echo "Finished the deployment of package {$packageName} to path {$this->deployPath} " | mail -s"Finished deployment" $1
 
 }
 
@@ -287,7 +293,6 @@ if [ ! -d "./files" ]; then
     
 fi
 
-    
 CODE;
     
     
@@ -302,7 +307,9 @@ CODE;
     $this->check();
     $this->setupPackage();
     
-    $pPath = $this->packagePath.'/'.$this->packageName.'/files/';
+    $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
+    
+    $pPath = $this->packagePath.'/'.$packageName.'/files/';
     
 
     // first delete
@@ -349,12 +356,12 @@ CODE;
      
     Fs::mkdir( $pPath );
     $oldDir = Fs::actualPath();
-    Fs::chdir( $this->packagePath.'/'.$this->packageName.'/' );
-    Archive::create( $this->packagePath.'/'.$this->packageName.'/files.tar.bz2', 'files' );
+    Fs::chdir( $this->packagePath.'/'.$packageName.'/' );
+    Archive::create( $this->packagePath.'/'.$packageName.'/files.tar.bz2', 'files' );
     Fs::chdir( $oldDir );
     Fs::del( $pPath );
     
-    Fs::write($this->script, $this->packagePath.'/'.$this->packageName.'/deploy.sh');
+    Fs::write($this->script, $this->packagePath.'/'.$packageName.'/deploy.sh');
     
   }//end public function buildPackage */
   
