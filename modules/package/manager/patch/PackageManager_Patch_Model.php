@@ -205,7 +205,9 @@ class PackageManager_Patch_Model
 # webfrap deployment script
 
 deplPath="{$this->deployPath}"
-now=$(date +"%Y%m%d%H%M%S")
+fPath="./files/"
+started=$(date +"%Y%m%d%H%M%S")
+finished=""
 appName="{$this->appName}"
 appVersion="{$this->appVersion}"
 appRevision="{$this->appRevision}"
@@ -226,9 +228,6 @@ function writeLn {
 # copy / deploy new files
 function deploy {
 
-  deplPath="{$this->deployPath}"
-  fPath='./files/'
-  
   writeLn "deploy \${2} to \${deplPath}\${2}" 
 
   if [ ! -d "\${deplPath}\${1}/" ]; then
@@ -238,11 +237,16 @@ function deploy {
   cp -f "\${fPath}\${2}" "\${deplPath}\${2}"
 }
 
+# copy / deploy new files
+function deployPath {
+
+  writeLn "deploy folder \${1} to \${deplPath}\${1}" 
+  cp -f "\${fPath}\${1}" "\${deplPath}\${1}"
+}
+
 # remove files or directories
 function remove {
 
-  deplPath="{$this->deployPath}"
-  
   if [ -d "\${deplPath}\${1}/" ]; then
   
   		writeLn "delete folder \${deplPath}\${1}" 
@@ -260,13 +264,19 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
-  echo "Finished the deployment of package {$packageName} to path {$this->deployPath} " | mail -s"Finished deployment" $1
+	subject="{$this->appName} {$this->appVersion}.{$this->appRevision} deployment finished sucessfully."
+
+	msg="Dear \${1}\n"
+	msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\n\n"
+	msg="\${msg}Started: \${started} End: \${finished}\n"
+	
+  echo \$msg | mail -s \$subject $2
 
 }
 
 ##### logic starts here
 
-writeLn "Start deployment to \${deplPath} \${now}" 
+writeLn "Start deployment to \${deplPath} \${started}" 
 
 
 # unpack if not yet unpacked
@@ -283,6 +293,8 @@ if [ ! -d "./files" ]; then
   fi
     
 fi
+
+finished=$(date +"%Y%m%d%H%M%S")
 
 CODE;
     
@@ -318,8 +330,18 @@ CODE;
       foreach( $iterator as $deployPath => $localPath )
       {
         Fs::copy( $localPath, $pPath.$deployPath, false );
-        $this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
+        
+        //$this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
       }
+      
+      foreach( $this->repos as $repo )
+      {
+        foreach( $repo->folders as $folder )
+        {
+          $this->script .= "deployPath \"".$repo->name."/".$folder."\"".NL;
+        }
+      }
+      
     }
     
     // then do the finetuning with files
@@ -367,9 +389,9 @@ CODE;
     foreach( $this->toNotify as $notify )
     {
       
-      $code .=<<<CODE
+      $code .= <<<CODE
 
-notifyStakeholder "{$notify}"
+notifyStakeholder "{$notify->name}" "{$notify->mail}"
       
 CODE;
       
