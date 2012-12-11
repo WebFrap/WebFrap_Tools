@@ -10,7 +10,7 @@
     { "name":"Some Other Guy", "mail":"sog@webfrap.net" }
   ],
   "files_raw":[
-    "path/to/file1.php",
+    "WebFrap/i18n/de/shop/label.php",
     "path/to/file2.php"
   ],
   "repos":[
@@ -26,18 +26,18 @@
     "path/to/delete_folder"
   ],
   "scripts":{
-    "pre-install":[],
+    "pre-install":["jenkins_build.sh"],
     "post-install":[],
-    "install-success":[],
-    "install-fail":[],
+    "success-install":[],
+    "fail-install":[],
     "pre-update":[],
     "post-update":[],
-    "update-success":[],
-    "update-fail":[],
+    "success-update":[],
+    "fail-update":[],
     "pre-uninstall":[],
     "post-uninstall":[],
-    "uninstall-success":[],
-    "uninstall-fail":[]
+    "success-uninstall":[],
+    "fail-uninstall":[]
   }
 }
 
