@@ -52,6 +52,12 @@ class PackageManager_Patch_Model
    */
   public $codeRoot = null;
   
+
+  /**
+   * @var string
+   */
+  public $packageName = null;
+  
   /**
    * @var Package
    */
@@ -105,12 +111,16 @@ class PackageManager_Patch_Model
     if( !isset( $dataNode->package_path ) )
       throw new RequestInvalid_Exception( 'Missing package_path' );
       
+    if( !isset( $dataNode->package_name ) )
+      throw new RequestInvalid_Exception( 'Missing package_name' );
+      
     if( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
       throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
     $this->codeRoot   = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
+    $this->packageName = $dataNode->package_name;
     
     if( isset( $dataNode->app_name ) )
       $this->appName = $dataNode->app_name;
@@ -339,7 +349,10 @@ CODE;
 
     $this->script .=<<<CODE
     
-echo "Done"
+writeLn "Cleaning the temporary install files"
+rm -rf ./files
+    
+writeLn "Done"
     
 CODE;
     
@@ -363,6 +376,15 @@ CODE;
     $code = <<<CODE
     
 CODE;
+
+    if( $this->toNotify )
+    {
+      
+    $code = <<<CODE
+writeLn "Notify the deployment stakeholders"
+CODE;
+      
+    }
 
     foreach( $this->toNotify as $notify )
     {
