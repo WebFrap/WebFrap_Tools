@@ -1,0 +1,36 @@
+{
+  "app_name":"WebFrap",
+  "app_version":"1",
+  "app_revision":"1.0-rc1",
+  "deploy_path":"/var/www/app_path/",
+  "code_root":"/var/www/workspace/",
+  "package_path":"/var/www/deploy/",
+  "notify":[
+    { "name":"Dominik Bonsch", "mail":"db@webfrap.net" },
+    { "name":"Some Other Guy", "mail":"sog@webfrap.net" }
+  ],
+  "files_raw":[
+    "path/to/file1.php",
+    "path/to/file2.php"
+  ],
+  "repos":[
+    {
+      "name": "WebFrap",
+      "folders" : [
+      ]
+    }    
+  ],
+  "delete":[
+    "path/to/delete_file.php",
+    "path/to/delete_folder"
+  ],
+  "scripts":{
+    "pre-install":[],
+    "post-install":[],
+    "pre-update":[],
+    "post-update":[],
+    "pre-uninstall":[],
+    "post-uninstall":[]
+  }
+}
+
