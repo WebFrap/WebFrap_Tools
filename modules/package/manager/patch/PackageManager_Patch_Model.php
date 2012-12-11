@@ -88,6 +88,28 @@ class PackageManager_Patch_Model
   /**
    * @var array
    */
+  public $scripts = array
+  (
+    "pre-install" => array(),
+    "post-install" => array(),
+    "success-install" => array(),
+    "fail-install" => array(),
+  
+    "pre-update" => array(),
+    "post-update" => array(),
+    "success-update" => array(),
+    "fail-update" => array(),
+  
+    "pre-uninstall" => array(),
+    "post-uninstall" => array(),
+    "success-uninstall" => array(),
+    "fail-uninstall" => array()
+  );
+  
+  /**
+   * The renderet script
+   * @var string
+   */
   protected $script = null;
   
 ////////////////////////////////////////////////////////////////////////////////
@@ -181,6 +203,12 @@ class PackageManager_Patch_Model
     {
       $this->repos = $dataNode->repos;
     }
+
+    // repositories to deploy    
+    if( isset( $dataNode->scripts ) )
+    {
+      $this->scripts = $dataNode->scripts;
+    }
     
   }//end public function readJson
 
@@ -214,13 +242,25 @@ class PackageManager_Patch_Model
 #!/bin/bash
 # webfrap deployment script
 
+# relevant path
 deplPath="{$this->deployPath}"
+packagePath=`dirname $0`
 fPath="./files/"
+
+# start/ende time
 started=$(date +"%Y-%m-%d %H:%M:%S")
 finished=""
+
+# app related data
 appName="{$this->appName}"
 appVersion="{$this->appVersion}"
 appRevision="{$this->appRevision}"
+
+# the type of the deployment
+deplType=""
+
+# status flag for the script
+everyThinkOk=true;
 
 #if [ "$(whoami)" != "root" ];
 #then
@@ -243,6 +283,11 @@ function deploy {
   if [ ! -d "\${deplPath}\${1}/" ]; then
       mkdir -p \${deplPath}\${1}/
   fi
+  
+  if [ ! -d "\${deplPath}\${1}/" ]; then
+  	writeLn "Failed to create folder \${deplPath}\${1}/"
+  	exit 1;
+  fi
 
   cp -f "\${fPath}\${2}" "\${deplPath}\${2}"
 }
@@ -250,8 +295,15 @@ function deploy {
 # copy / deploy new files
 function deployPath {
 
+	# create the path if not yet exists
   if [ ! -d "\${deplPath}\${1}/" ]; then
       mkdir -p \${deplPath}\${1}/
+  fi
+  
+  # check if the creation was success full
+  if [ ! -d "\${deplPath}\${1}/" ]; then
+  	writeLn "Failed to create folder \${deplPath}\${1}/"
+  	exit 1;
   fi
 
   writeLn "deploy folder \${1} to \${deplPath}\${1}" 
@@ -282,16 +334,32 @@ function notifyStakeholder {
 
 	msg="Dear \${1}\\n"
 	msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\\n\\n"
-	msg="\${msg}Started: \${started} End: \${finished}\\n"
+	msg="\${msg}Started: \${started} End: \${3}\\n"
 	
   echo \$msg | mail -s \$subject $2
+
+}
+
+# execute scripts
+function executeScripts {
+
+  if [ ! -d "./\${1}/" ]; then
+    exit 0
+  fi
+  
+  # include scripts
+  for file in "./\${1}/*"
+  do
+  	. ./\${1}/\${file}
+  	# make sure to be still in the right path
+  	cd \$packagePath
+  done
 
 }
 
 ##### logic starts here
 
 writeLn "Start deployment to \${deplPath} \${started}" 
-
 
 # unpack if not yet unpacked
 if [ ! -d "./files" ]; then
@@ -308,7 +376,56 @@ if [ ! -d "./files" ]; then
     
 fi
 
-finished=$(date +"%Y-%m-%d %H:%M:%S")
+# check if the deployment path allready exists
+
+if [ "" -eq \$deplType ]; then
+
+	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
+
+  if [ ! -d "\${deplPath}" ]; then
+  	
+  	writeLn "Deployment target: \${deplPath} does not exist. I assume this is an installation"
+  	deplType="install"
+    
+  else
+    if [ "$(ls -A \$deplPath)" ]; then
+    	
+    	writeLn "Deployment target: \${deplPath} exist and is not empty. I assume this is an update"
+    	deplType="update"
+    	
+    else
+      
+    	writeLn "Got untyped package, system tries tu guess if this is an installation or an update"
+    	deplType="install"
+      
+    fi
+  
+  fi
+  
+fi
+
+writeLn "Execute the pre deployment scripts"
+
+if [ "install" -eq \$deplType ]; then
+	executeScripts "pre-install"
+elif [ "update" -eq \$deplType ]
+	executeScripts "pre-update"
+elif [ "uninstall" -eq \$deplType ]
+	executeScripts "pre-uninstall"
+else
+	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
+fi
+
+# check if still everything ist ok
+if [ ! everyThinkOk ]; then
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "fail-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "fail-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "fail-uninstall"
+  fi
+fi
 
 CODE;
     
@@ -323,6 +440,7 @@ CODE;
     
     $this->check();
     $this->setupPackage();
+    $this->setupPackageScripts();
     
 
     $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
@@ -375,9 +493,43 @@ CODE;
 
     $this->script .=<<<CODE
     
+writeLn "Execute the post deploment scripts"
+    
+# execute post deployment scripts
+if [ "install" -eq \$deplType ]; then
+	executeScripts "post-install"
+elif [ "update" -eq \$deplType ]
+	executeScripts "post-update"
+elif [ "uninstall" -eq \$deplType ]
+	executeScripts "post-uninstall"
+fi
+
+# check if still everything ist ok
+if [ ! everyThinkOk ]; then
+	# if not execute the fail scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "fail-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "fail-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "fail-uninstall"
+  fi
+else
+	# congrats everthing is fine i can execute the success scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "success-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "success-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "success-uninstall"
+  fi
+fi
+
 writeLn "Cleaning the temporary install files"
 rm -rf ./files
-    
+
+finished=$(date +"%Y-%m-%d %H:%M:%S")
+
 writeLn "Successfully finished deployment: \${finished}"
     
 CODE;
@@ -392,10 +544,13 @@ CODE;
     Fs::chdir( $oldDir );
     Fs::del( $pPath );
     
-    Fs::write($this->script, $this->packagePath.'/'.$packageName.'/deploy.sh');
+    Fs::write( $this->script, $this->packagePath.'/'.$packageName.'/deploy.sh' );
     
   }//end public function buildPackage */
   
+  /**
+   * 
+   */
   public function renderNotifyMails()
   {
     
@@ -417,7 +572,7 @@ CODE;
       
       $code .= <<<CODE
 
-notifyStakeholder "{$notify->name}" "{$notify->mail}"
+notifyStakeholder "{$notify->name}" "{$notify->mail}" finished
       
 CODE;
       
@@ -425,8 +580,41 @@ CODE;
     
     return $code;
     
+  }//end public function renderNotifyMails */
+  
+  /**
+   * 
+   */
+  public function setupPackageScripts()
+  {
     
-  }
+    $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
+
+    foreach( $this->scripts as $scriptType => $scripts )
+    {
+      
+      Fs::mkdir( $this->packagePath.'/'.$packageName.'/'.$scriptType );
+      
+      foreach( $scripts as $script )
+      {
+        
+        if( '/' === $script[0] )
+        {
+          if( file_exists( $script ) )
+            Fs::copy( $script, $this->packagePath.'/'.$packageName.'/'.$scriptType.'/'.basename($script) );
+        }
+        else 
+        {
+          if( file_exists( GAIA_PATH.'bash/'.$script ) )
+            Fs::copy( GAIA_PATH.'bash/'.$script, $this->packagePath.'/'.$packageName.'/'.$scriptType.'/'.basename($script) );
+        }
+      }
+      
+    }
+    
+    return $code;
+    
+  }//end public function setupPackageScripts */
   
   /**
    * löschen des Temporären pfades
