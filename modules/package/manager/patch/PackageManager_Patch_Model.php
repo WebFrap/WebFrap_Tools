@@ -391,7 +391,7 @@ CODE;
       
       $code .=<<<CODE
 
-notifyStakeholder "{$notify}"
+notifyStakeholder "{$notify->name}" "{$notify->mail}"
       
 CODE;
       
