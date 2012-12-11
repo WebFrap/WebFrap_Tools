@@ -348,7 +348,7 @@ CODE;
       {
         foreach( $repo->folders as $folder )
         {
-          $this->script .= "deployPath \"".$repo->name."/".$folder."\"".NL;
+          $this->script .= "deployPath \"".$repo->name."/".$folder->name."\"".NL;
         }
       }
       
