@@ -216,7 +216,7 @@ class PackageManager_Patch_Model
 
 deplPath="{$this->deployPath}"
 fPath="./files/"
-started=$(date +"%Y%m%d%H%M%S")
+started=$(date +"%Y-%m-%d %H:%M:%S")
 finished=""
 appName="{$this->appName}"
 appVersion="{$this->appVersion}"
@@ -250,8 +250,12 @@ function deploy {
 # copy / deploy new files
 function deployPath {
 
+  if [ ! -d "\${deplPath}\${1}/" ]; then
+      mkdir -p \${deplPath}\${1}/
+  fi
+
   writeLn "deploy folder \${1} to \${deplPath}\${1}" 
-  cp -f "\${fPath}\${1}" "\${deplPath}\${1}"
+  cp -f "\${fPath}\${1}" "\${deplPath}\${1}/../"
 }
 
 # remove files or directories
@@ -276,9 +280,9 @@ function notifyStakeholder {
 
 	subject="{$this->appName} {$this->appVersion}.{$this->appRevision} deployment finished sucessfully."
 
-	msg="Dear \${1}\n"
-	msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\n\n"
-	msg="\${msg}Started: \${started} End: \${finished}\n"
+	msg="Dear \${1}\\n"
+	msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\\n\\n"
+	msg="\${msg}Started: \${started} End: \${finished}\\n"
 	
   echo \$msg | mail -s \$subject $2
 
@@ -304,7 +308,7 @@ if [ ! -d "./files" ]; then
     
 fi
 
-finished=$(date +"%Y%m%d%H%M%S")
+finished=$(date +"%Y-%m-%d %H:%M:%S")
 
 CODE;
     
@@ -374,7 +378,7 @@ CODE;
 writeLn "Cleaning the temporary install files"
 rm -rf ./files
     
-writeLn "Done"
+writeLn "Successfully finished deployment: \${finished}"
     
 CODE;
     

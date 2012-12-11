@@ -17,6 +17,7 @@
     {
       "name": "WebFrap",
       "folders" : [
+        {"name":"src"}
       ]
     }    
   ],
@@ -27,10 +28,16 @@
   "scripts":{
     "pre-install":[],
     "post-install":[],
+    "install-success":[],
+    "install-fail":[],
     "pre-update":[],
     "post-update":[],
+    "update-success":[],
+    "update-fail":[],
     "pre-uninstall":[],
-    "post-uninstall":[]
+    "post-uninstall":[],
+    "uninstall-success":[],
+    "uninstall-fail":[]
   }
 }
 
