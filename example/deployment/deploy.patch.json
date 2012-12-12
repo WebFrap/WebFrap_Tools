@@ -1,0 +1,48 @@
+{
+  "app_name":"WebFrap",
+  "app_version":"1",
+  "app_revision":"1.0-rc1",
+  "package_name":"webfrap",
+  "gateway_name":"WebFrap_Gw_Whatever",
+  "deploy_path":"/var/www/app_path/",
+  "code_root":"/var/www/workspace/",
+  "package_path":"/var/www/deploy/",
+  "notify":[
+    { "name":"Dominik Bonsch", "mail":"db@webfrap.net" },
+    { "name":"Some Other Guy", "mail":"sog@webfrap.net" }
+  ],
+  "files_raw":[
+    "WebFrap/i18n/de/shop/label.php",
+    "WebFrap/i18n/de/shop/msg.php"
+  ],
+  "repos":[
+    {
+      "name": "WebFrap",
+      "folders" : [
+        {"name":"src"}
+      ]
+    }    
+  ],
+  "delete":[
+    "path/to/delete_file.php",
+    "path/to/delete_folder"
+  ],
+  "scripts":{
+    "pre-install":[],
+    "post-install":[],
+    "success-install":[],
+    "fail-install":[],
+    "pre-update":[],
+    "post-update":[],
+    "success-update":[
+      "deployment/cache/cache_rebuild_all.sh",
+      "deployment/cache/cache_clean_content.sh"
+    ],
+    "fail-update":[],
+    "pre-uninstall":[],
+    "post-uninstall":[],
+    "success-uninstall":[],
+    "fail-uninstall":[]
+  }
+}
+

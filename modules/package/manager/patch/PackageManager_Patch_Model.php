@@ -180,7 +180,7 @@ class PackageManager_Patch_Model
       throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
-    $this->codeRoot   = $dataNode->code_root;
+    $this->codeRoot    = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
     $this->packageName = $dataNode->package_name;
     $this->gatewayName = $dataNode->gateway_name;
@@ -390,6 +390,8 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
+	command -v mail >/dev/null 2>&1 || { echo >&2 "Missing the mail command"; exit 1; }
+
 	subject="{$this->appName} {$this->appVersion}.{$this->appRevision} deployment finished sucessfully."
 
 	msg="Dear \${1}\\n"
@@ -420,11 +422,11 @@ function executeScripts {
 function deploymentFailed {
 
 	# if not execute the fail scripts
-  if [ "install" -eq \$deplType ]; then
+  if [ "install" == "\$deplType" ]; then
   	executeScripts "fail-install"
-  elif [ "update" -eq \$deplType ]; then
+  elif [ "update" == "\$deplType" ]; then
   	executeScripts "fail-update"
-  elif [ "uninstall" -eq \$deplType ]; then
+  elif [ "uninstall" == "\$deplType" ]; then
   	executeScripts "fail-uninstall"
   fi
 
@@ -433,11 +435,11 @@ function deploymentFailed {
 function deploymentSuccess {
 
 	# if not execute the fail scripts
-  if [ "install" -eq \$deplType ]; then
+  if [ "install" == "\$deplType" ]; then
   	executeScripts "success-install"
-  elif [ "update" -eq \$deplType ]; then
+  elif [ "update" == "\$deplType" ]; then
   	executeScripts "success-update"
-  elif [ "uninstall" -eq \$deplType ]; then
+  elif [ "uninstall" == "\$deplType" ]; then
   	executeScripts "success-uninstall"
   fi
 
@@ -446,11 +448,11 @@ function deploymentSuccess {
 function deploymentPre {
 
 	# if not execute the fail scripts
-  if [ "install" -eq \$deplType ]; then
+  if [ "install" == "\$deplType" ]; then
   	executeScripts "pre-install"
-  elif [ "update" -eq \$deplType ]; then
+  elif [ "update" == "\$deplType" ]; then
   	executeScripts "pre-update"
-  elif [ "uninstall" -eq \$deplType ]; then
+  elif [ "uninstall" == "\$deplType" ]; then
   	executeScripts "pre-uninstall"
  	else
   	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
@@ -465,11 +467,11 @@ function deploymentPre {
 function deploymentPost {
 
 	# if not execute the fail scripts
-  if [ "install" -eq \$deplType ]; then
+  if [ "install" == "\$deplType" ]; then
   	executeScripts "post-install"
-  elif [ "update" -eq \$deplType ]; then
+  elif [ "update" == "\$deplType" ]; then
   	executeScripts "post-update"
-  elif [ "uninstall" -eq \$deplType ]; then
+  elif [ "uninstall" == "\$deplType" ]; then
   	executeScripts "post-uninstall"
   fi
   
@@ -492,7 +494,7 @@ if [ ! -z "$1" ]; then
 fi
 
 # try to guess the deployment type if not set or specified
-if [ ! -z \$deplType ]; then
+if [ ! -z "\$deplType" ]; then
 
 	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
 
@@ -521,9 +523,9 @@ fi
 # check if the deployment type fits to the package type
 # install and uninstall are only valid for installer packages
 
-if [ "patch" -eq \$packageType ]; then
+if [ "patch" == "\$packageType" ]; then
 
-  if [ ! "update" -eq \$deplType ]; then
+  if [ ! "update" == "\$deplType" ]; then
 
   	writeLn "The install action \${deplType} is not applicale for \${packageType} packages."
   	writeLn "Your system was not changed"
@@ -620,7 +622,7 @@ CODE;
       $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
     }
 
-    $this->script .=<<<CODE
+    $this->script .= <<<CODE
     
 writeLn "Execute the post deploment scripts"
     
