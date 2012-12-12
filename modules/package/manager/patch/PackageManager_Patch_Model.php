@@ -422,9 +422,9 @@ function deploymentFailed {
 	# if not execute the fail scripts
   if [ "install" -eq \$deplType ]; then
   	executeScripts "fail-install"
-  elif [ "update" -eq \$deplType ]
+  elif [ "update" -eq \$deplType ]; then
   	executeScripts "fail-update"
-  elif [ "uninstall" -eq \$deplType ]
+  elif [ "uninstall" -eq \$deplType ]; then
   	executeScripts "fail-uninstall"
   fi
 
@@ -435,9 +435,9 @@ function deploymentSuccess {
 	# if not execute the fail scripts
   if [ "install" -eq \$deplType ]; then
   	executeScripts "success-install"
-  elif [ "update" -eq \$deplType ]
+  elif [ "update" -eq \$deplType ]; then
   	executeScripts "success-update"
-  elif [ "uninstall" -eq \$deplType ]
+  elif [ "uninstall" -eq \$deplType ]; then
   	executeScripts "success-uninstall"
   fi
 
@@ -448,9 +448,9 @@ function deploymentPre {
 	# if not execute the fail scripts
   if [ "install" -eq \$deplType ]; then
   	executeScripts "pre-install"
-  elif [ "update" -eq \$deplType ]
+  elif [ "update" -eq \$deplType ]; then
   	executeScripts "pre-update"
-  elif [ "uninstall" -eq \$deplType ]
+  elif [ "uninstall" -eq \$deplType ]; then
   	executeScripts "pre-uninstall"
  	else
   	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
@@ -467,9 +467,9 @@ function deploymentPost {
 	# if not execute the fail scripts
   if [ "install" -eq \$deplType ]; then
   	executeScripts "post-install"
-  elif [ "update" -eq \$deplType ]
+  elif [ "update" -eq \$deplType ]; then
   	executeScripts "post-update"
-  elif [ "uninstall" -eq \$deplType ]
+  elif [ "uninstall" -eq \$deplType ]; then
   	executeScripts "post-uninstall"
   fi
   
@@ -492,7 +492,7 @@ if [ ! -z "$1" ]; then
 fi
 
 # try to guess the deployment type if not set or specified
-if [ "" -eq \$deplType ]; then
+if [ ! -z \$deplType ]; then
 
 	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
 
