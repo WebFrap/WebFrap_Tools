@@ -28,13 +28,16 @@
     "path/to/delete_folder"
   ],
   "scripts":{
-    "pre-install":["jenkins_build.sh"],
+    "pre-install":[],
     "post-install":[],
     "success-install":[],
     "fail-install":[],
     "pre-update":[],
     "post-update":[],
-    "success-update":[],
+    "success-update":[
+      "deployment/cache/cache_rebuild_all.sh",
+      "deployment/cache/cache_clean_content.sh"
+    ],
     "fail-update":[],
     "pre-uninstall":[],
     "post-uninstall":[],
