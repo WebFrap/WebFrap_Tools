@@ -96,7 +96,10 @@ class Fs
       Fs::touchFileFolder($target);
     }
     
-    Process::run("cp -rf $src $target");
+    if( $isFolder )
+      Process::run("cp -rf $src $target");
+    else 
+      Process::run("cp $src $target");
     
     return true;
     

@@ -2,6 +2,8 @@
   "app_name":"WebFrap",
   "app_version":"1",
   "app_revision":"1.0-rc1",
+  "package_name":"webfrap",
+  "gateway_name":"WebFrap_Gw_Whatever",
   "deploy_path":"/var/www/app_path/",
   "code_root":"/var/www/workspace/",
   "package_path":"/var/www/deploy/",
@@ -11,7 +13,7 @@
   ],
   "files_raw":[
     "WebFrap/i18n/de/shop/label.php",
-    "path/to/file2.php"
+    "WebFrap/i18n/de/shop/msg.php"
   ],
   "repos":[
     {

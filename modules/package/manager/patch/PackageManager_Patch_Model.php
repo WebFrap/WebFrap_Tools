@@ -64,12 +64,29 @@ class PackageManager_Patch_Model
   public $packagePath = null;
   
   /**
-   * @var Files to use
+   * @var Package Type, full "installer" or just a "patch"
+   * 
+   * if it's only a patch install and uninstall are not applicable
+   * 
+   */
+  public $packageType = 'installer';
+  
+  /**
+   * the name of the project gateway
+   * is required to sync the dabase, rebuild caches etc
+   * @var string
+   */
+  public $gatewayName = null;
+  
+  /**
+   * Single files to copy 
+   * @var array
    */
   public $files = array();
   
   /**
-   * @var Files to use
+   * Single Files to delete
+   * @var array
    */
   public $toDelete = array();
   
@@ -105,6 +122,29 @@ class PackageManager_Patch_Model
     "success-uninstall" => array(),
     "fail-uninstall" => array()
   );
+  
+  /**
+   * Flag wie beim sync mit vorhandenen Datenstrukturen, vor allem mit nicht automatisch
+   * zu lösenden konflikten umgegangen werden soll
+   * 
+   * - skip konflikt überspringen muss von hand gelöst werden
+   * - auto Änderungen umsetzen Daten wegkopieren nichts löschen
+   * - force konflikte brutal lösen und deprecated datenstrukturen löschen, sehr vorsichtig einsetzen!
+   * 
+   * @var string
+   */
+  public $syncType = "skip";
+  
+  /**
+   * Flag um was es sich genau handelt
+   * 
+   * - install
+   * - update
+   * - uninstall
+   * 
+   * @var string
+   */
+  public $deplType = "";
   
   /**
    * The renderet script
@@ -143,6 +183,7 @@ class PackageManager_Patch_Model
     $this->codeRoot   = $dataNode->code_root;
     $this->packagePath = $dataNode->package_path;
     $this->packageName = $dataNode->package_name;
+    $this->gatewayName = $dataNode->gateway_name;
     
     if( isset( $dataNode->app_name ) )
       $this->appName = $dataNode->app_name;
@@ -158,6 +199,12 @@ class PackageManager_Patch_Model
       $this->appRevision = $dataNode->app_revision;
     else 
       $this->appRevision = date('YmdHis');
+      
+    if( isset( $dataNode->sync_type ) )
+      $this->syncType = $dataNode->sync_type;
+      
+    if( isset( $dataNode->package_type ) )
+      $this->packageType = $dataNode->package_type;
       
     //$files = explode( NL,  $dataNode->files_raw );
     
@@ -240,12 +287,18 @@ class PackageManager_Patch_Model
     
     $this->script = <<<CODE
 #!/bin/bash
-# webfrap deployment script
+# This is a automatically generated deployment script for WebFrap applications
+# Version 0.9 WebFrap Tools
+
+################################################################################
+# Variables
+################################################################################
 
 # relevant path
 deplPath="{$this->deployPath}"
 packagePath=`dirname $0`
 fPath="./files/"
+gatewayName="{$this->gatewayName}"
 
 # start/ende time
 started=$(date +"%Y-%m-%d %H:%M:%S")
@@ -256,11 +309,18 @@ appName="{$this->appName}"
 appVersion="{$this->appVersion}"
 appRevision="{$this->appRevision}"
 
-# the type of the deployment
-deplType=""
+# settings flag
+deplType="{$this->deplType}"
+syncType="{$this->syncType}"
+packageType="{$this->packageType}"
+
 
 # status flag for the script
 everyThinkOk=true;
+
+################################################################################
+# Functions
+################################################################################
 
 #if [ "$(whoami)" != "root" ];
 #then
@@ -343,41 +403,95 @@ function notifyStakeholder {
 # execute scripts
 function executeScripts {
 
-  if [ ! -d "./\${1}/" ]; then
+  if [ ! -d "./scripts/\${1}/" ]; then
     exit 0
   fi
   
   # include scripts
-  for file in "./\${1}/*"
+  for file in "./scripts/\${1}/*"
   do
-  	. ./\${1}/\${file}
+  	. ./scripts/\${1}/\${file}
   	# make sure to be still in the right path
   	cd \$packagePath
   done
 
 }
 
-##### logic starts here
+function deploymentFailed {
+
+	# if not execute the fail scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "fail-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "fail-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "fail-uninstall"
+  fi
+
+}
+
+function deploymentSuccess {
+
+	# if not execute the fail scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "success-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "success-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "success-uninstall"
+  fi
+
+}
+
+function deploymentPre {
+
+	# if not execute the fail scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "pre-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "pre-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "pre-uninstall"
+ 	else
+  	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
+  fi
+  
+  if [ ! everyThinkOk ]; then
+    deploymentFailed
+  fi
+
+}
+
+function deploymentPost {
+
+	# if not execute the fail scripts
+  if [ "install" -eq \$deplType ]; then
+  	executeScripts "post-install"
+  elif [ "update" -eq \$deplType ]
+  	executeScripts "post-update"
+  elif [ "uninstall" -eq \$deplType ]
+  	executeScripts "post-uninstall"
+  fi
+  
+  if [ ! everyThinkOk ]; then
+    deploymentFailed
+  fi
+
+}
+
+################################################################################
+# Process logic
+################################################################################
+
 
 writeLn "Start deployment to \${deplPath} \${started}" 
 
-# unpack if not yet unpacked
-if [ ! -d "./files" ]; then
-	
-	# unpack the data container
-  tar xjvf files.tar.bz2 1>/dev/null
-  
-  # check if unpack was successfull before proceed
-  if [ ! -d "./files" ]; then
-  
-      writeLn "Failed to unpack the data container. Deployment failed!"
-      exit 1 
-  fi
-    
+# check parameters
+if [ ! -z "$1" ]; then
+  deplType=$1
 fi
 
-# check if the deployment path allready exists
-
+# try to guess the deployment type if not set or specified
 if [ "" -eq \$deplType ]; then
 
 	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
@@ -404,28 +518,43 @@ if [ "" -eq \$deplType ]; then
   
 fi
 
+# check if the deployment type fits to the package type
+# install and uninstall are only valid for installer packages
+
+if [ "patch" -eq \$packageType ]; then
+
+  if [ ! "update" -eq \$deplType ]; then
+
+  	writeLn "The install action \${deplType} is not applicale for \${packageType} packages."
+  	writeLn "Your system was not changed"
+  	writeLn "Shutting down the deployment process"
+  	exit 2
+  
+  fi
+  
+fi
+
+# unpack if not yet unpacked
+if [ ! -d "./files" ]; then
+	
+	# unpack the data container
+  tar xjvf files.tar.bz2 1>/dev/null
+  
+  # check if unpack was successfull before proceed
+  if [ ! -d "./files" ]; then
+  
+      writeLn "Failed to unpack the data container. Deployment failed!"
+  		deploymentFailed
+      exit 1 
+  fi
+    
+fi
+
+# execute the pre deployment scripts, if an error occures the fail scripts
+# will be also executed
 writeLn "Execute the pre deployment scripts"
 
-if [ "install" -eq \$deplType ]; then
-	executeScripts "pre-install"
-elif [ "update" -eq \$deplType ]
-	executeScripts "pre-update"
-elif [ "uninstall" -eq \$deplType ]
-	executeScripts "pre-uninstall"
-else
-	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
-fi
-
-# check if still everything ist ok
-if [ ! everyThinkOk ]; then
-  if [ "install" -eq \$deplType ]; then
-  	executeScripts "fail-install"
-  elif [ "update" -eq \$deplType ]
-  	executeScripts "fail-update"
-  elif [ "uninstall" -eq \$deplType ]
-  	executeScripts "fail-uninstall"
-  fi
-fi
+deploymentPre
 
 CODE;
     
@@ -495,34 +624,12 @@ CODE;
     
 writeLn "Execute the post deploment scripts"
     
-# execute post deployment scripts
-if [ "install" -eq \$deplType ]; then
-	executeScripts "post-install"
-elif [ "update" -eq \$deplType ]
-	executeScripts "post-update"
-elif [ "uninstall" -eq \$deplType ]
-	executeScripts "post-uninstall"
-fi
+# will also trigger fail if error
+deploymentPost
 
 # check if still everything ist ok
-if [ ! everyThinkOk ]; then
-	# if not execute the fail scripts
-  if [ "install" -eq \$deplType ]; then
-  	executeScripts "fail-install"
-  elif [ "update" -eq \$deplType ]
-  	executeScripts "fail-update"
-  elif [ "uninstall" -eq \$deplType ]
-  	executeScripts "fail-uninstall"
-  fi
-else
-	# congrats everthing is fine i can execute the success scripts
-  if [ "install" -eq \$deplType ]; then
-  	executeScripts "success-install"
-  elif [ "update" -eq \$deplType ]
-  	executeScripts "success-update"
-  elif [ "uninstall" -eq \$deplType ]
-  	executeScripts "success-uninstall"
-  fi
+if [ everyThinkOk ]; then
+	deploymentSuccess
 fi
 
 writeLn "Cleaning the temporary install files"
@@ -593,7 +700,7 @@ CODE;
     foreach( $this->scripts as $scriptType => $scripts )
     {
       
-      Fs::mkdir( $this->packagePath.'/'.$packageName.'/'.$scriptType );
+      Fs::mkdir( $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType );
       
       foreach( $scripts as $script )
       {
@@ -601,18 +708,17 @@ CODE;
         if( '/' === $script[0] )
         {
           if( file_exists( $script ) )
-            Fs::copy( $script, $this->packagePath.'/'.$packageName.'/'.$scriptType.'/'.basename($script) );
+            Fs::copy( $script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script), false );
         }
         else 
         {
           if( file_exists( GAIA_PATH.'bash/'.$script ) )
-            Fs::copy( GAIA_PATH.'bash/'.$script, $this->packagePath.'/'.$packageName.'/'.$scriptType.'/'.basename($script) );
+            Fs::copy( GAIA_PATH.'bash/'.$script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script),false );
         }
       }
       
     }
-    
-    return $code;
+
     
   }//end public function setupPackageScripts */
   
