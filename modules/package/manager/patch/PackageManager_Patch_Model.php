@@ -261,7 +261,12 @@ class PackageManager_Patch_Model
     // repositories to deploy    
     if( isset( $dataNode->scripts ) )
     {
-      $this->scripts = $dataNode->scripts;
+      
+      foreach( $dataNode->scripts as $key => $scripts )
+      {
+        $this->scripts[$key] = $scripts;
+      }
+      
     }
     
   }//end public function readJson
@@ -293,6 +298,9 @@ class PackageManager_Patch_Model
   
       Fs::mkdir( $this->packagePath.'/'.$packageName.'/files' );
     }
+    
+    
+    $codeTriggerEvents = $this->renderTriggerEvents();
     
     $this->script = <<<CODE
 #!/bin/bash
@@ -412,6 +420,8 @@ function notifyStakeholder {
 
 }
 
+{$codeTriggerEvents}
+
 # execute scripts
 function executeScripts {
 	
@@ -444,11 +454,11 @@ function deploymentFailed {
 
 	# if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	executeScripts "fail-install"
+  	trigger_Fail_Install
   elif [ "update" == "\$deplType" ]; then
-  	executeScripts "fail-update"
+  	trigger_Fail_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	executeScripts "fail-uninstall"
+  	trigger_Fail_Uninstall
   fi
 
 }
@@ -457,11 +467,11 @@ function deploymentSuccess {
 
 	# if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	executeScripts "success-install"
+  	trigger_Success_Install
   elif [ "update" == "\$deplType" ]; then
-  	executeScripts "success-update"
+  	trigger_Success_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	executeScripts "success-uninstall"
+  	trigger_Success_Uninstall
   fi
 
 }
@@ -470,11 +480,11 @@ function deploymentPre {
 
 	# if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	executeScripts "pre-install"
+  	trigger_Pre_Install
   elif [ "update" == "\$deplType" ]; then
-  	executeScripts "pre-update"
+  	trigger_Pre_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	executeScripts "pre-uninstall"
+  	trigger_Pre_Uninstall
  	else
   	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
   fi
@@ -489,11 +499,11 @@ function deploymentPost {
 
 	# if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	executeScripts "post-install"
+  	trigger_Post_Install
   elif [ "update" == "\$deplType" ]; then
-  	executeScripts "post-update"
+  	trigger_Post_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	executeScripts "post-uninstall"
+  	trigger_Post_Uninstall
   fi
   
   if [ ! everyThinkOk ]; then
@@ -736,13 +746,12 @@ CODE;
       
       foreach( $scripts as $script )
       {
-        
         if( '/' === $script[0] )
         {
           if( file_exists( $script ) )
             Fs::copy( $script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script), false );
         }
-        else 
+        else
         {
           if( file_exists( GAIA_PATH.'bash/'.$script ) )
             Fs::copy( GAIA_PATH.'bash/'.$script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script),false );
@@ -751,8 +760,56 @@ CODE;
       
     }
 
-    
   }//end public function setupPackageScripts */
+
+  /**
+   * 
+   */
+  protected function renderTriggerEvents()
+  {
+
+    $code = '';
+
+    foreach( $this->scripts as $scriptType => $scripts )
+    {
+
+      $scriptTypeKey = FormatString::subToCamelCase( $scriptType );
+
+      $code .= <<<CODE
+
+function trigger_{$scriptTypeKey} {
+
+	cd \$packagePath
+
+CODE;
+
+      foreach( $scripts as $script )
+      {
+
+        $baseName = basename( $script );
+
+        $code .= <<<CODE
+
+	. ./scripts/{$scriptType}/{$baseName}
+  # make shure we are in package path
+  cd \$packagePath
+
+CODE;
+
+      }
+
+        $code .= <<<CODE
+
+}
+
+CODE;
+
+    }
+    
+    return $code;
+
+  }//end protected function renderTriggerEvents *7
+  
   
   /**
    * löschen des Temporären pfades
