@@ -367,7 +367,7 @@ function deployPath {
   fi
 
   writeLn "deploy folder \${1} to \${deplPath}\${1}" 
-  cp -f "\${fPath}\${1}" "\${deplPath}\${1}/../"
+  cp -rf "\${fPath}\${1}" "\${deplPath}\${1}/../"
 }
 
 # remove files or directories
