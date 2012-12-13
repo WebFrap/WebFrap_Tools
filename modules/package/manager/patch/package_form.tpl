@@ -17,6 +17,13 @@
       <label style="display:table-cell;vertical-align:top;width:120px;" >Json Raw:</label>
       <textarea name="json_raw" style="display:table-cell;width:700px;height:250px;"  ></textarea>
     </div>
+    
+    <div style="display:table-row;" >
+      <label style="display:table-cell;vertical-align:top;width:120px;" >No Data:</label>
+      <div style="display:table-cell;width:700px;" >
+      	<input type="checkbox" name="no_data"  />
+      </div>
+    </div>
 
     <div>
       <input type="submit" value="Build Patch" />

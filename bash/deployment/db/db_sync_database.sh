@@ -1,7 +1,11 @@
 #!/bin/bash
 # to be included in a deployment package script
 
+
+writeLn "Start the model -> db sync"
+
 # jump in the gateway
+writeLn "Change directory into the gateway location: ${deplPath}/${gatewayName}"
 cd "${deplPath}/${gatewayName}"
 
 if [ "force" == "$syncType" ]; then
@@ -24,6 +28,7 @@ fi
 
 
 # jump back to the package path
+writeLn "Change directory back to the package location: $packagePath"
 cd $packagePath
 
 

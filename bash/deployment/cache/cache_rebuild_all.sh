@@ -1,10 +1,12 @@
 #!/bin/bash
 # rebuild the complete cache
 
+writeLn "Rebuild the CSS / JS and Theme cache"
+
 # jump in the gateway
 cd "${deplPath}/${gatewayName}"
 
-writeLn "Rebuild the CSS / JS and Theme cache"
+
 
 /usr/bin/php ./cli.php Webfrap.cache.rebuildAllCss
 /usr/bin/php ./cli.php Webfrap.cache.rebuildAllJs

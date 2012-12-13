@@ -54,6 +54,7 @@ class PackageManager_Patch_Controller
     $workarea->addTemplate( 'package/manager/patch/package_form' );
 
     $jsonRaw = $request->data( 'json_raw' );
+    $noData = $request->data( 'no_data', Validator::BOOLEAN );
     
     $jsonData = json_decode( $jsonRaw );
     
@@ -63,6 +64,10 @@ class PackageManager_Patch_Controller
     Console::startCache();
       
     $model = new PackageManager_Patch_Model( $this );
+    
+    if( $noData )
+      $model->noData = true;
+    
     $model->readJson( $jsonData );
     $model->buildPackage( );
     

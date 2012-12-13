@@ -147,6 +147,13 @@ class PackageManager_Patch_Model
   public $deplType = "";
   
   /**
+   * Flag if the data shoul be build of if only the scriptsfolder and the
+   * deploy.sh should be created
+   * @var boolean
+   */
+  public $noData = false;
+  
+  /**
    * The renderet script
    * @var string
    */
@@ -279,11 +286,13 @@ class PackageManager_Patch_Model
       
     $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
       
-    
-    if( Fs::exists( $this->packagePath.'/'.$packageName ) )
-      Fs::del( $this->packagePath.'/'.$packageName );
-
-    Fs::mkdir( $this->packagePath.'/'.$packageName.'/files' );
+    if( !$this->noData )
+    {
+      if( Fs::exists( $this->packagePath.'/'.$packageName ) )
+        Fs::del( $this->packagePath.'/'.$packageName );
+  
+      Fs::mkdir( $this->packagePath.'/'.$packageName.'/files' );
+    }
     
     $this->script = <<<CODE
 #!/bin/bash
@@ -296,8 +305,9 @@ class PackageManager_Patch_Model
 
 # relevant path
 deplPath="{$this->deployPath}"
-packagePath=`dirname $0`
-fPath="./files/"
+packagePath=`pwd`
+packagePath="\${packagePath}/"
+fPath="\${packagePath}/files/"
 gatewayName="{$this->gatewayName}"
 
 # start/ende time
@@ -332,7 +342,7 @@ everyThinkOk=true;
 function writeLn {
 
 	echo $1
-	echo $1 >> ./deploy.log
+	echo $1 >> \$packagePath/deploy.log
 }
 
 # copy / deploy new files
@@ -404,16 +414,27 @@ function notifyStakeholder {
 
 # execute scripts
 function executeScripts {
+	
+	# make shure to be in the package path
+	cd \$packagePath
 
-  if [ ! -d "./scripts/\${1}/" ]; then
-    exit 0
+  if [ ! -d "\$packagePath/scripts/\${1}/" ]; then
+  	# folder not even exists
+  	writeLn "nothing to do for \${1}"
+    return 0
   fi
-  
+	
+  if [ ! "$(ls -A \$packagePath/scripts/\${1}/)" ]; then
+  	# exists but empty
+  	writeLn "no actions for \${1}"
+    return 0
+  fi
+
   # include scripts
-  for file in "./scripts/\${1}/*"
+  for file in "\$packagePath/scripts/\${1}/*"
   do
-  	. ./scripts/\${1}/\${file}
-  	# make sure to be still in the right path
+  	. \${file}
+  	# make sure to be in the right path
   	cd \$packagePath
   done
 
@@ -489,12 +510,12 @@ function deploymentPost {
 writeLn "Start deployment to \${deplPath} \${started}" 
 
 # check parameters
-if [ ! -z "$1" ]; then
+if [ -n "$1" ]; then
   deplType=$1
 fi
 
 # try to guess the deployment type if not set or specified
-if [ ! -z "\$deplType" ]; then
+if [ ! -n "\$deplType" ]; then
 
 	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
 
@@ -590,11 +611,14 @@ CODE;
     {
       $iterator = new PackageBuilder_Repo_Iterator( $this->repos, null, $this->codeRoot );
       
-      foreach( $iterator as $deployPath => $localPath )
+      if( !$this->noData )
       {
-        Fs::copy( $localPath, $pPath.$deployPath, false );
-        
-        //$this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
+        foreach( $iterator as $deployPath => $localPath )
+        {
+          Fs::copy( $localPath, $pPath.$deployPath, false );
+          
+          //$this->script .= "deploy \"".Fs::getFileFolder($deployPath)."\" \"{$deployPath}\" ".NL;
+        }
       }
       
       foreach( $this->repos as $repo )
@@ -617,7 +641,10 @@ CODE;
         continue;
       }
       
-      Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
+      if( !$this->noData )
+      {
+        Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
+      }
       
       $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
     }
@@ -646,12 +673,15 @@ CODE;
     // notify stakeholders
     $this->script .= $this->renderNotifyMails();
      
-    Fs::mkdir( $pPath );
-    $oldDir = Fs::actualPath();
-    Fs::chdir( $this->packagePath.'/'.$packageName.'/' );
-    Archive::create( $this->packagePath.'/'.$packageName.'/files.tar.bz2', 'files' );
-    Fs::chdir( $oldDir );
-    Fs::del( $pPath );
+    if( !$this->noData )
+    {
+      Fs::mkdir( $pPath );
+      $oldDir = Fs::actualPath();
+      Fs::chdir( $this->packagePath.'/'.$packageName.'/' );
+      Archive::create( $this->packagePath.'/'.$packageName.'/files.tar.bz2', 'files' );
+      Fs::chdir( $oldDir );
+      Fs::del( $pPath );
+    }
     
     Fs::write( $this->script, $this->packagePath.'/'.$packageName.'/deploy.sh' );
     
