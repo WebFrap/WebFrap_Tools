@@ -79,10 +79,23 @@ class PackageManager_Patch_Model
   public $gatewayName = null;
   
   /**
+   * The user:group on the server
+   * @var string
+   */
+  public $codeOwner = null;
+  
+  /**
    * Single files to copy 
    * @var array
    */
   public $files = array();
+  
+  
+  /**
+   * Single files to copy 
+   * @var array
+   */
+  public $touchFiles = array();
   
   /**
    * Single Files to delete
@@ -237,6 +250,11 @@ class PackageManager_Patch_Model
       }
     }
     
+    if( isset( $dataNode->touch ) )
+    {
+      $this->touchFiles = $dataNode->touch;
+    }
+    
     if( isset( $dataNode->delete ) )
     {
       foreach( $dataNode->delete as $file )
@@ -268,6 +286,9 @@ class PackageManager_Patch_Model
       }
       
     }
+    
+    if( isset( $dataNode->code_owner ) )
+      $this->codeOwner = $dataNode->code_owner;
     
   }//end public function readJson
 
@@ -317,6 +338,7 @@ packagePath=`pwd`
 packagePath="\${packagePath}/"
 fPath="\${packagePath}/files/"
 gatewayName="{$this->gatewayName}"
+codeOwner="{$this->codeOwner}"
 
 # start/ende time
 started=$(date +"%Y-%m-%d %H:%M:%S")
@@ -351,6 +373,27 @@ function writeLn {
 
 	echo $1
 	echo $1 >> \$packagePath/deploy.log
+}
+
+# touch or create file
+function touchOrCreate {
+
+	theDir=$(dirname \${deplPath}\${1})/;
+
+	# create the path if not yet exists
+  if [ ! -d \$theDir ]; then
+      mkdir -p \$theDir
+  fi
+  
+  # check if the creation was success full
+  if [ ! -d \$theDir ]; then
+  	writeLn "Failed to create folder \${deplPath}\${1}/"
+  	exit 1;
+  fi
+
+  writeLn "touch file \${deplPath}\${1}" 
+  touch \${deplPath}\${1}
+  
 }
 
 # copy / deploy new files
@@ -657,6 +700,12 @@ CODE;
       }
       
       $this->script .= "deploy \"".Fs::getFileFolder($target)."\" \"{$target}\" ".NL;
+    }
+    
+    // then do the finetuning with files
+    foreach( $this->touchFiles as $local => $target )
+    {
+      $this->script .= "touchOrCreate \"{$target}\" ".NL;
     }
 
     $this->script .= <<<CODE
