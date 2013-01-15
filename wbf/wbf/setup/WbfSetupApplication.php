@@ -32,7 +32,7 @@ class WbfSetupApplication
     $this->protocol = Protocol::openProtocol
     (
       null,
-      'Application Deployment: '.$package->getName().' '.date('Y-m-d h:i:s'),
+      'Application Deployment: '.$package->getName().' '.date('Y-m-d H:i:s'),
       'setup'
     );
     
