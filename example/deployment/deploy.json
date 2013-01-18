@@ -21,7 +21,7 @@
       "folders" : [
         {"name":"src"}
       ]
-    }    
+    }
   ],
   "delete":[
     "path/to/delete_file.php",

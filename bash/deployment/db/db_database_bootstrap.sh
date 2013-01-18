@@ -4,7 +4,3 @@
 export PGUSER=$dbAdminUser
 export PGPASSWORD=$dbAdminPwd
 
-
-
-
-
