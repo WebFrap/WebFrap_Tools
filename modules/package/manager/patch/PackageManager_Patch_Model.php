@@ -90,6 +90,15 @@ class PackageManager_Patch_Model
    */
   public $files = array();
   
+  /**
+   * @var array
+   */
+  public $chowns = array();
+  
+  /**
+   * @var array
+   */
+  public $chmods = array();
   
   /**
    * Single files to copy 
@@ -253,6 +262,16 @@ class PackageManager_Patch_Model
     if( isset( $dataNode->touch ) )
     {
       $this->touchFiles = $dataNode->touch;
+    }
+    
+    if( isset( $dataNode->chowns ) )
+    {
+      $this->chowns = $dataNode->chowns;
+    }
+    
+    if( isset( $dataNode->chmods ) )
+    {
+      $this->chmods = $dataNode->chmods;
     }
     
     if( isset( $dataNode->delete ) )
@@ -723,6 +742,20 @@ fi
 writeLn "Cleaning the temporary install files"
 rm -rf ./files
 
+CODE;
+
+    foreach( $this->chowns as $chown )
+    {
+      $this->script .= "chown -R {$chown['owner']} \"\${deplPath}{$chown['path']}\"  ".NL;
+    }
+
+    foreach( $this->chmods as $chmod )
+    {
+      $this->script .= "chmod -R {$chmod['level']} \"\${deplPath}{$chmod['path']}\"  ".NL;
+    }
+
+    $this->script .= <<<CODE
+    
 finished=$(date +"%Y-%m-%d %H:%M:%S")
 
 writeLn "Successfully finished deployment: \${finished}"
