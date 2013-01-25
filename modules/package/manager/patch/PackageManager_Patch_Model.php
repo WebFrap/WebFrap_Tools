@@ -746,12 +746,12 @@ CODE;
 
     foreach( $this->chowns as $chown )
     {
-      $this->script .= "chown -R {$chown['owner']} \"\${deplPath}{$chown['path']}\"  ".NL;
+      $this->script .= "chown -R {$chown->owner} \"\${deplPath}{$chown->path}\"  ".NL;
     }
 
     foreach( $this->chmods as $chmod )
     {
-      $this->script .= "chmod -R {$chmod['level']} \"\${deplPath}{$chmod['path']}\"  ".NL;
+      $this->script .= "chmod -R {$chmod->level} \"\${deplPath}{$chmod->path}\"  ".NL;
     }
 
     $this->script .= <<<CODE
