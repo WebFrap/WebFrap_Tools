@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageServer
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-
+  
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageServer
   {
     return $this->getAttribute('name');
   }//end public function getName */
-
+  
   /**
    * @return string
    */
@@ -41,7 +41,7 @@ class PackageServer
   {
     return $this->getAttribute('type');
   }//end public function getType */
-
+  
   /**
    * @return string
    */
@@ -49,50 +49,59 @@ class PackageServer
   {
     return $this->getNodeValue('address');
   }//end public function getServerAddress */
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Getter für Database
 ////////////////////////////////////////////////////////////////////////////////
+  
 
   /**
    * @return [PackageServerDb]
    */
   public function getDatabases()
   {
+   
     return $this->getNodes( 'databases/database', 'PackageServerDb' );
-
+    
   }//end public function getDatabases */
+ 
 
   /**
    * @return int
    */
   public function countDatabases()
   {
+   
     return $this->getNodes( 'databases/database' ).length;
-
+    
   }//end public function getDatabases */
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Getter für Vhosts
 ////////////////////////////////////////////////////////////////////////////////
+
 
   /**
    * @return [PackageServerVhost]
    */
   public function getVhosts()
   {
+   
     return $this->getNodes( 'http/vhost', 'PackageServerVhost' );
-
+    
   }//end public function getVhosts */
+ 
 
   /**
    * @return int
    */
   public function countVhosts()
   {
+   
     return $this->getNodes( 'http/vhost' ).length;
-
+    
   }//end public function countVhosts */
-
+  
 } // end class PackageServer
+
 

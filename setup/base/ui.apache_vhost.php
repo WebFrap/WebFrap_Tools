@@ -1,9 +1,11 @@
-<?php
+<?php 
+
 
 // den deploypath festlegen
 $apacheVhost_Done = false;
-while (!$apacheVhost_Done) {
-
+while( !$apacheVhost_Done )
+{
+  
   if( !$conf->deployRoot = $console->question
   (
     'Soll ein Apache Vhost erstellt werden?'
@@ -12,19 +14,23 @@ while (!$apacheVhost_Done) {
     $apacheVhost_Done = true;
     break;
   }
-
-  if ( !isset($conf->apacheVhost)  ) {
+  
+  if( !isset($conf->apacheVhost)  )
+  {
     $conf->apacheVhost = new stdClass();
   }
-
+  
   /*
-  if ( !isset($conf->apacheVhost)  ) {
+  if( !isset($conf->apacheVhost)  )
+  {
     $conf->deployRoot = $console->readText
     (
       'Bitte geben sie den Pfand an in welchen die Applikation deployt werden soll',
       'Pfad setzen'
     );
-  } else {
+  }
+  else 
+  {
     $conf->deployRoot = $console->readText
     (
       'In welchen Pfad möchten sie installieren?',
@@ -32,21 +38,26 @@ while (!$apacheVhost_Done) {
       $conf->deployRoot
     );
   }
-
+  
   /*
-  if ( !Fs::isDir( $conf->deployRoot ) ) {
-    if ( $console->question( 'Der angegebene Pfad existiert nicht. Soll er erstellt werden?' ) ) {
+  if( !Fs::isDir( $conf->deployRoot ) )
+  {
+    if( $console->question( 'Der angegebene Pfad existiert nicht. Soll er erstellt werden?' ) )
+    {
       Fs::mkdir($conf->deployRoot);
-    } else {
+    }
+    else
+    {
       $console->error( 'Die Installation wurde manuell angebrochen.' );
       exit(0);
     }
   }
-
-  if ( Fs::isDir( $conf->deployRoot.'/WebFrap' ) ) {
-    $action = (int) $console->radioList
-    (
-      "Im Angegebenen Pfad scheint bereits eine Installation zu existieren.",
+  
+  if( Fs::isDir( $conf->deployRoot.'/WebFrap' ) )
+  {
+    $action = (int)$console->radioList
+    ( 
+      "Im Angegebenen Pfad scheint bereits eine Installation zu existieren.", 
       array
       (
         array
@@ -77,20 +88,25 @@ while (!$apacheVhost_Done) {
       array(),
       new UiDimension( 550 )
     );
-
+    
     $console->out( $action );
-
-    if (1 === $action || 2 === $action) {
+    
+    if( 1 === $action || 2 === $action )
+    {
       $deplRootClear = true;
-    } elseif (4 === $action) {
+    }
+    else if( 4 === $action )
+    {
       $console->error( 'Die Installation wurde manuell angebrochen.' );
       exit(0);
     }
-
-  } else {
+    
+  }
+  else 
+  {
     $deplRootClear = true;
   }
   */
-
+  
 }//end while
 

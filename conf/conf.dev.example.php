@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -20,13 +20,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Der Name der Domain
+ * Der Name der Domain 
  * @var string
  */
 $conf->appDomain = 'webfrap.net';
 
 /**
- * Der Name der Domain
+ * Der Name der Domain 
  * @var string
  */
 $conf->appName = 'WebFrap SBiz';
@@ -44,10 +44,12 @@ $conf->appRoot = '/var/www/WorkspaceWebFrap/';
 $conf->sysOwner  = 'www-data:root';
 
 /**
- * Zugriffsberechtigungen
+ * Zugriffsberechtigungen 
  * @var string
  */
 $conf->sysAccess = '770';
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Datenbank informationen
@@ -60,10 +62,10 @@ $conf->sysAccess = '770';
 $conf->setupDb = array
 (
   'root_user'  => '',
-  'root_pwd'   => '',
+  'root_pwd'   => '', 
   'scripts'    => array // liste mit scripten und dumps die immer geladen werden sollen
   (
-    ''
+    '' 
   ),
   'db'  => array
   (

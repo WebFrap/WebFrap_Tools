@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * Interface für die Validatoren
  * @package WebFrap
@@ -29,12 +30,12 @@ interface IsaValidator
    * @param int $flags
    */
   public function validate( $value, $db = null, $flags = null );
-
+  
   public function santisize( $value, $db = null, $flags = null );
-
+  
   public function validateToContainer( $value, $key, $container, $db = null, $flags = null );
-
+  
   public function santisizeToContainer( $value, $key, $container, $db = null, $flags = null );
-
+  
 }//end class IsaValidator */
 

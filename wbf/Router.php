@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * Router für das MVC
@@ -29,7 +30,11 @@ class Router
    */
   public function dispatch( $controller, $call )
   {
-
+    
+    
+    
+    
   }//end public static function route */
+
 
 }//end class Router */

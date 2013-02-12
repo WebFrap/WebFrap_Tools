@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * Validator für Text
  * @package WebFrap
@@ -23,12 +24,13 @@
 class Validator_Mail
   implements IsaValidator
 {
-
+  
   /**
    * @var string
    */
   const PLAIN = 'Validator_Mail::mail';
-
+  
+  
   /* (non-PHPdoc)
    * @see IsaValidator::santisize()
    */
@@ -36,7 +38,7 @@ class Validator_Mail
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function santisize */
 
   /* (non-PHPdoc)
@@ -46,7 +48,7 @@ class Validator_Mail
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function santisizeToContainer */
 
   /* (non-PHPdoc)
@@ -56,7 +58,7 @@ class Validator_Mail
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function validate */
 
   /* (non-PHPdoc)
@@ -66,8 +68,9 @@ class Validator_Mail
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function validateToContainer */
+
 
 }//end class Validator_Mail */
 

@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -20,7 +20,8 @@ include 'wbf/core.php';
 
 $action = Request::arg( 'action' );
 
-switch ($action) {
+switch ( $action )
+{
   case 'start_setup' :
   {
     Db::startSetup( $setupDb, $tmpFolder );
@@ -30,16 +31,16 @@ switch ($action) {
   {
     Db::finishSetup( $setupDb, $tmpFolder );
     break;
-  }
+  }  
   case 'help' :
   {
-
+    
     $help = <<<HELP
-
+    
 HELP;
 
     Console::out( $help );
-
+    
     break;
   }
   default:
@@ -48,4 +49,5 @@ HELP;
     Console::outln( "Invalid Parameter" );
   }
 }
+
 

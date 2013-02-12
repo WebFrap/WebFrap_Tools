@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,8 +17,8 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
@@ -32,17 +32,18 @@
  */
 class WebserverApache
 {
-
+  
+  
   /**
    * @param WebserverApacheVhost $vhostConf
    */
   public static function renderConf( $vhostConf )
   {
-
+    
     $host = '';
-
+    
     //  #ServerAlias *.sbiz.s-db.de
-
+    
     /*
 
   #<IfModule mod_deflate.c>
@@ -59,7 +60,7 @@ class WebserverApache
    # AddOutputFilterByType DEFLATE application/x-javascript
   #</IfModule>
      */
-
+    
     /*
 
 #    AuthType Basic
@@ -67,9 +68,9 @@ class WebserverApache
 #    AuthBasicProvider file
 #    AuthUserFile /etc/apache2/htpasswd
 #    AuthGroupFile /etc/apache2/htgroup
-#    Require group sdb dbonsch
+#    Require group sdb dbonsch 
      */
-
+    
     $host .= <<<CODE
 <VirtualHost {$vhostConf->serverIp}:{$vhostConf->serverSSLPort}>
 
@@ -83,9 +84,9 @@ class WebserverApache
 
   # needed for named virtual hosts
   UseCanonicalName Off
-
+  
   # configures the footer on server-generated documents
-  ServerSignature Off
+  ServerSignature Off   
 
   # configure etags
   FileETag MTime Size
@@ -126,22 +127,22 @@ class WebserverApache
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /cache>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /data>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /conf>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /modules>
     Order allow,deny
     Deny from all
@@ -151,12 +152,12 @@ class WebserverApache
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /templates>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /.hg>
     Order allow,deny
     Deny from all
@@ -189,9 +190,10 @@ class WebserverApache
 </VirtualHost>
 
 CODE;
-
-    if ($vhostConf->noSSl) {
-
+  
+    if( $vhostConf->noSSl )
+    {
+      
       $host .= <<<CODE
 <VirtualHost {$vhostConf->serverIp}:{$vhostConf->serverPort}>
 
@@ -205,9 +207,9 @@ CODE;
 
   # needed for named virtual hosts
   UseCanonicalName Off
-
+  
   # configures the footer on server-generated documents
-  ServerSignature Off
+  ServerSignature Off   
 
   # configure etags
   FileETag MTime Size
@@ -231,22 +233,22 @@ CODE;
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /cache>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /data>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /conf>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /modules>
     Order allow,deny
     Deny from all
@@ -256,12 +258,12 @@ CODE;
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /templates>
     Order allow,deny
     Deny from all
   </Location>
-
+  
   <Location /.hg>
     Order allow,deny
     Deny from all
@@ -294,90 +296,91 @@ CODE;
 </VirtualHost>
 
 CODE;
-
+      
     }
-
+    
     return $host;
 
   }//end public static function renderConf */
-
+  
   /**
    */
   public static function reload( )
   {
-
+    
     Process::execute( "/etc/init.d/apache2 reload" );
-
+    
   }//end public static function reload */
-
+  
   /**
    */
   public static function restart( )
   {
-
+    
     Process::execute( "/etc/init.d/apache2 restart" );
-
+    
   }//end public static function restart */
-
+  
   /**
    */
   public static function start( )
   {
-
+    
     Process::execute( "/etc/init.d/apache2 start" );
-
+    
   }//end public static function start */
-
+  
   /**
    */
   public static function stop( )
   {
-
+    
     Process::execute( "/etc/init.d/apache2 stop" );
-
-  }//end public static function stop */
+    
+  }//end public static function stop */ 
 
   /**
    * @param string $pageName
    */
   public static function activatePage( $pageName )
   {
-
+    
     Process::execute( "a2enpage {$pageName}" );
-
+    
   }//end public static function activatePage */
-
+  
   /**
    * @param string $pageName
    */
   public static function deactivatePage( $pageName )
   {
-
+    
     Process::execute( "a2dissite {$pageName}" );
-
+    
   }//end public static function deactivatePage */
-
+  
   /**
    * @param string $modName
    */
   public static function activateModule( $modName )
   {
-
+    
     Process::execute( "a2enmod {$modName}" );
-
+    
   }//end public static function activateModule */
-
+  
   /**
    * @param string $modName
    */
   public static function deactivateModule( $modName )
   {
-
+    
     Process::execute( "a2dismod {$modName}" );
-
+    
   }//end public static function deactivateModule */
 
 }//end class Archive */
+
 
 /**
  * Der Apache Vhost
@@ -385,19 +388,19 @@ CODE;
  */
 class WebserverApacheVhost
 {
-
+  
   /**
    * Flag ob auch ein no ssl vhost erstellt werden soll
    * @var boolean
    */
   public $noSSl = false;
-
+  
   /**
    * SSL Zertifikat
    * @var string
    */
   public $sslCertificateFile = null;
-
+  
   /**
    * SSL Key File
    * @var string
@@ -409,22 +412,22 @@ class WebserverApacheVhost
    * @var string
    */
   public $appDomain = null;
-
+  
   /**
    * @var string
    */
   public $serverIp = null;
-
+  
   /**
    * @var string
    */
   public $serverSSLPort = 443;
-
+  
   /**
    * @var string
    */
   public $serverPort = 80;
-
+  
   /**
    * @var string
    */
@@ -434,21 +437,23 @@ class WebserverApacheVhost
    * @var string
    */
   public $pathRoot = null;
-
+  
   /**
    * @var string
    */
   public $pathIcons = null;
-
+  
   /**
    * @var string
    */
   public $pathWgt = null;
-
+  
   /**
    * @var string
    */
   public $pathThemes = null;
 
+  
 }//end class WebserverApacheVhost */
+
 

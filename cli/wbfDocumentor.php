@@ -80,14 +80,18 @@ class Documentor
 
 
 
-    for ($nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam) {
+    for( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
+    {
 
-      if ( !$this->isFlag( $_SERVER["argv"][$nam] )  ) {
-        if ( !$this->isCommand( $_SERVER["argv"][$nam] ) ) {
+      if( !$this->isFlag( $_SERVER["argv"][$nam] )  )
+      {
+        if( !$this->isCommand( $_SERVER["argv"][$nam] ) )
+        {
           $Key = $nam;
           ++$nam;
 
-          if ( !isset( $_SERVER["argv"][$nam] ) ) {
+          if( !isset( $_SERVER["argv"][$nam] ) )
+          {
             echo "Falsche Parameter:\n\n";
             $this->printHelp( );
             exit(1);
@@ -98,7 +102,7 @@ class Documentor
       }
     }
 
-    if ( isset( $this->arguments["-v"] ) ) {
+    if( isset( $this->arguments["-v"] ) ){
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
     }
@@ -120,7 +124,8 @@ class Documentor
   {
 
 
-    switch ( $this->checkAktion() ) {
+    switch( $this->checkAktion() )
+    {
 
       case 'help':
       {
@@ -185,9 +190,9 @@ class Documentor
   public function extract( )
   {
 
-    if ( !isset( $this->arguments['path'] ) ) {
+    if( !isset( $this->arguments['path'] ) )
+    {
       $this->printHelp();
-
       return false;
     }
 
@@ -195,9 +200,12 @@ class Documentor
 
     $path = $this->arguments['path'];
 
-    if ( is_dir($path) ) {
+    if( is_dir($path) )
+    {
       $this->runInSubdirs( $path );
-    } else {
+    }
+    else
+    {
       echo "Fehlerhafte Pfadangabe: ".$path."\n";
     }
 
@@ -217,18 +225,24 @@ class Documentor
   protected function runInSubdirs( $path )
   {
     // auslesen und auswerten
-    if ($dh = opendir($path)) {
-        while ( ( $potFolder = readdir($dh) ) !== false ) {
-            if ($potFolder != "." and $potFolder != "..") {
+    if ($dh = opendir($path))
+    {
+        while ( ( $potFolder = readdir($dh) ) !== false )
+        {
+            if( $potFolder != "." and $potFolder != ".." )
+            {
 
               $fullPath = $path."/".$potFolder ;
 
-              if ( is_file( $fullPath ) ) {
-                if ( $this->validFile( $fullPath ) ) {
+              if( is_file( $fullPath ) )
+              {
+                if( $this->validFile( $fullPath ) )
+                {
                   $this->replaceFile( $fullPath );
                 }
               }// Ende if
-              else {
+              else
+              {
                 $this->runInSubdirs( $fullPath );
               }// Ende if
 
@@ -251,7 +265,8 @@ class Documentor
     $content = '';
     $handle = fopen ( $file , "r");
 
-    while (!feof($handle)) {
+    while (!feof($handle))
+    {
       $row = fgets($handle, 4096);
       $content .= $this->checkComment($row);
     }
@@ -268,17 +283,22 @@ class Documentor
   {
     $row = trim($row);
 
-    if ($this->commentOpen) {
-      if ( substr($row , -2 ) == '*/' ) {
+    if($this->commentOpen)
+    {
+      if( substr($row , -2 ) == '*/' )
+      {
         $this->commentOpen = false;
       }
 
       return $row."\n";
-    } elseif ( substr($row , 0 , 3) == '/**' ) {
+    }
+    elseif( substr($row , 0 , 3) == '/**' )
+    {
       $this->commentOpen = true;
-
       return $row."\n";
-    } else {
+    }
+    else
+    {
       return '';
     }
 
@@ -294,13 +314,15 @@ class Documentor
 
     $fileInfo = pathinfo( $file );
 
-    if ( !isset($fileInfo["extension"]) ) {
+    if( !isset($fileInfo["extension"]) )
+    {
       return false;
     }
 
     $ext = $fileInfo["extension"];
 
-    if (  in_array( $ext , $this->endings ) ) {
+    if(  in_array( $ext , $this->endings ) )
+    {
       return true;
     }
 
@@ -322,11 +344,13 @@ class Documentor
   protected function isFlag( $Data )
   {
 
-    if ($Data{0} == "-") {
+    if( $Data{0} == "-" )
+    {
       $this->arguments[$Data] = true;
-
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
 
@@ -343,11 +367,13 @@ class Documentor
   {
     $Data = strtolower($Data);
 
-    if ( isset( $this->actions[$Data] ) ) {
+    if( isset( $this->actions[$Data] ) )
+    {
       $this->command = $Data;
-
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
 
@@ -361,9 +387,12 @@ class Documentor
   protected function checkAktion( )
   {
 
-    if ($this->command) {
+    if( $this->command )
+    {
       return $this->command;
-    } else {
+    }
+    else
+    {
       //standardmäßig anfangen zu refactorieren
       return "refactor";
     }
@@ -397,5 +426,6 @@ $Ende = microtime( true );
 echo 'Duration: '.( ($Ende-$Start) )."\n";
 
 exit(0);
+
 
 ?>

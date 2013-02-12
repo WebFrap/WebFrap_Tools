@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -18,4 +18,5 @@
 Environment::$osName = 'ubuntu';
 Environment::$installer = new InstallerUbuntu( Console::getActive() );
 Environment::$setup = new SetupUbuntu( Console::getActive() );
+
 

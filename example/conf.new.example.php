@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -34,7 +34,7 @@ $conf->deployRoot = null;
 $conf->sysOwner  = 'www-data:root';
 
 /**
- * Zugriffsberechtigungen
+ * Zugriffsberechtigungen 
  * @var string
  */
 $conf->sysAccess = '770';
@@ -50,10 +50,10 @@ $conf->sysAccess = '770';
 $conf->setupDb = array
 (
   'root_user'  => '',
-  'root_pwd'   => '',
+  'root_pwd'   => '', 
   'scripts'    => array // liste mit scripten und dumps die immer geladen werden sollen
   (
-    ''
+    '' 
   ),
   'db'  => array
   (

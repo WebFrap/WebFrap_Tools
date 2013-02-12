@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 $console->out( I18n::get('Aufräumen der Installationsdateien') );
 
@@ -13,5 +13,5 @@ if( $console->question
 
   if( Fs::exists( './code' ) )
     Fs::del( './code' );
-
+  
 }

@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * Ein Array Objekt für Simple Daten
  * @package WebFrap
@@ -43,10 +44,14 @@ class TArray
   public function __construct( )
   {
 
-    if ( $anz = func_num_args() ) {
-      if ( $anz == 1 and is_array(func_get_arg(0)) ) {
+    if( $anz = func_num_args() )
+    {
+      if( $anz == 1 and is_array(func_get_arg(0)) )
+      {
         $this->pool = func_get_arg(0);
-      } else {
+      }
+      else
+      {
         // hier kommt auf jeden fall ein Array
         $this->pool = func_get_args();
       }
@@ -102,7 +107,7 @@ class TArray
   {
     unset($this->pool[$offset]);
   }//end public function offsetUnset */
-
+  
   /**
    * @see ArrayAccess:offsetExists
    */

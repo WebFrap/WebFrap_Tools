@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * @package WebFrap
@@ -31,7 +32,7 @@ class RequestHttp
    * @var string
    */
   public $service = null;
-
+  
   /**
    * @var string
    */
@@ -52,29 +53,36 @@ class RequestHttp
 ////////////////////////////////////////////////////////////////////////////////
 
   /**
-   *
+   * 
    */
   public function __construct()
   {
 
     $this->init();
-
-    if ( isset( $_GET['serv'] ) ) {
+    
+    if( isset( $_GET['serv'] ) )
+    {
       $tmp = explode( ':', $_GET['serv'] );
-
-      if ( 2 == count( $tmp ) ) {
+      
+      if( 2 == count( $tmp ) )
+      {
         $this->service = FormatString::subToCamelCase( $tmp[0] );
         $this->action  = $tmp[1];
-      } else {
+      }
+      else 
+      {
         $this->service = FormatString::subToCamelCase( $tmp[0] );
         $this->action  = 'default';
       }
-
-    } else {
+      
+    }
+    else 
+    {
       $this->service = 'Menu';
       $this->action  = 'default';
     }
-
+    
+    
   }//end public function __construct */
 
   /**
@@ -84,7 +92,8 @@ class RequestHttp
   {
 
     // bei PUT requests PUT in $_POST schieben
-    if ( $this->method( 'PUT' ) ) {
+    if( $this->method( 'PUT' ) )
+    {
       mb_parse_str(file_get_contents("php://input"),$_POST);
     }
 
@@ -97,9 +106,12 @@ class RequestHttp
   public function getSubRequest( $key )
   {
 
-    if ( !isset( $_POST[$key] ) ) {
+    if( !isset( $_POST[$key] ) )
+    {
       return null;
-    } else {
+    }
+    else
+    {
       return new RequestSubHttp
       (
         $this,
@@ -114,6 +126,7 @@ class RequestHttp
 // Getter & Setter Methodes
 ////////////////////////////////////////////////////////////////////////////////
 
+
   /**
    * Funktion zum testen ob eine bestimmte Urlvariable existiert
    *
@@ -123,13 +136,16 @@ class RequestHttp
   public function paramExists( $key )
   {
 
-    if ( isset( $_GET[$key] ) ) {
+    if( isset( $_GET[$key] ) )
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
   } // end public function paramExists */
-
+  
   /**
   * Daten einer bestimmten Urlvariable erfragen
   *
@@ -144,31 +160,40 @@ class RequestHttp
     $filter = Validator::getActive();
     $filter->clean(); // first clean the filter
 
+
     $paramList = new TArray();
-
-    if ( isset( $_GET[$key] ) ) {
+    
+    if( isset( $_GET[$key] ) )
+    {
       $data = $_GET[$key];
-
-      if ( !is_array( $data ) ) {
+      
+      if( !is_array( $data ) )
+      {
         return $paramList;
       }
-    } else {
+    }
+    else
+    {
       return $paramList;
     }
 
     $fMethod = 'add'.ucfirst( $validator );
 
     // clean only one
-    foreach ($data as $key => $value) {
+    foreach( $data as $key => $value )
+    {
       $error = $filter->$fMethod( $key, $value );
-      if (!$error) {
+      if( !$error )
+      {
         $paramList->$key = $filter->getData( $key );
-      } else {
+      }
+      else
+      {
         $response->addError( $error ) ;
         continue;
       }
     }
-
+    
     return $paramList;
 
   } // end public function paramList */
@@ -182,9 +207,12 @@ class RequestHttp
   public function param( $key, $validator = null )
   {
 
-    if ( isset( $_GET[$key] ) ) {
+    if( isset( $_GET[$key] ) )
+    {
       $data = $_GET[$key];
-    } else {
+    }
+    else
+    {
       return null;
     }
 
@@ -200,9 +228,12 @@ class RequestHttp
   public function addParam( $key, $data = null  )
   {
 
-    if ( is_array($key) ) {
+    if( is_array($key) )
+    {
       $_GET = array_merge($_GET,$key);
-    } else {
+    }
+    else
+    {
       $_GET[$key] = $data;
     }
 
@@ -214,30 +245,35 @@ class RequestHttp
    */
   public function removeParam( $key )
   {
-    if ( isset( $_GET[$key]) ) {
+    if( isset( $_GET[$key]) )
+    {
       unset($_GET[$key]);
     }
 
   }//end public function removeParam */
 
-////////////////////////////////////////////////////////////////////////////////
-//
-////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+// 
+////////////////////////////////////////////////////////////////////////////////
+  
   /**
    * Abfragen des Status einer POST Variable
    *
    * @param string $key Name der zu prüfenden Variable
    * @param string $subkey
-   *
+   * 
    * @return bool
    */
   public function dataExists( $key )
   {
-
-    if ( isset( $_POST[$key] ) ) {
+    
+    if( isset( $_POST[$key] ) )
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
 
@@ -253,14 +289,14 @@ class RequestHttp
   {
 
     if( !isset( $_POST[$key] ) || !is_array( $_POST[$key] ) )
-
       return array();
 
     $keys = array_keys( $_POST[$key] );
 
     $tmp = array();
 
-    foreach ($keys as $key) {
+    foreach( $keys as $key )
+    {
       if( 'id_' == substr( $key , 0, 3 ) )
         $tmp[] = $key;
     }
@@ -268,7 +304,7 @@ class RequestHttp
     return $tmp;
 
   } // end public function dataSearchIds */
-
+  
   /**
    * Abfragen des Status einer POST Variable
    *
@@ -279,13 +315,13 @@ class RequestHttp
   {
 
     if( !isset( $_GET[$key] ) || !is_array( $_GET[$key] ) )
-
       return array();
 
     $keys = array_keys( $_GET[$key] );
     $tmp  = array();
 
-    foreach ($keys as $key) {
+    foreach( $keys as $key )
+    {
       if( 'id_' == substr( $key , 0, 3 ) )
         $tmp[] = $key;
     }
@@ -299,11 +335,12 @@ class RequestHttp
   *
   * @param string $key
   * @param string $validator
-  *
+  * 
   * @return array
   */
   public function data( $key = null, $validator = null  )
   {
+    
     return isset( $_POST[$key] )
       ? $_POST[$key]
       : null;
@@ -316,10 +353,11 @@ class RequestHttp
   public function removeData( $key )
   {
 
-    if ( isset( $_POST[$key] ) ) {
+    if( isset( $_POST[$key] ) )
+    {
       unset( $_POST[$key] );
     }
-
+    
   }//end public function removeData */
 
   /**
@@ -331,16 +369,21 @@ class RequestHttp
   public function dataEmpty( $keys , $subkey = null )
   {
 
-    if ($subkey) {
-      if ( is_array($keys) ) {
+    if( $subkey )
+    {
+      if( is_array($keys) )
+      {
 
-        foreach ($keys as $key) {
+        foreach( $keys as $key )
+        {
 
-          if ( !isset( $_POST[$subkey][$key] ) ) {
+          if( !isset( $_POST[$subkey][$key] ) )
+          {
             return true;
           }
 
-          if ( trim($_POST[$subkey][$key]) == '' ) {
+          if( trim($_POST[$subkey][$key]) == '' )
+          {
             return true;
           }
 
@@ -348,51 +391,57 @@ class RequestHttp
 
         }
 
-      } else {
+      }
+      else
+      {
 
-        if ( !isset( $_POST[$subkey][$keys] ) ) {
+        if( !isset( $_POST[$subkey][$keys] ) )
+        {
           return true;
         }
 
-        if ( trim($_POST[$subkey][$keys]) == '' ) {
+        if( trim($_POST[$subkey][$keys]) == '' )
+        {
           return true;
         }
 
         return false;
 
       }
+      
+    }
+    else
+    {
+      if( is_array($keys) )
+      {
 
-    } else {
-      if ( is_array($keys) ) {
-
-        foreach ($keys as $key) {
+        foreach( $keys as $key )
+        {
 
           if( !isset( $_POST[$key] ) )
-
             return true;
 
           if( trim($_POST[$key]) == '' )
-
             return true;
 
           return false;
 
         }
 
-      } else {
+      }
+      else
+      {
 
         if( !isset( $_POST[$keys] ) )
-
           return true;
 
         if( trim($_POST[$keys]) == '' )
-
           return true;
 
         return false;
 
       }
-
+      
     }
 
   } // end public function dataEmpty */
@@ -421,10 +470,14 @@ class RequestHttp
 
     // Clean all the same way
     // Good architecture :-)
-    foreach ($data as $key => $value) {
-      if ( is_array($value) ) {
+    foreach( $data as $key => $value )
+    {
+      if( is_array($value) )
+      {
         $back[$key] = $this->validateArray( $fMethod , $value );
-      } else {
+      }
+      else
+      {
         // jedes mal ein clean
         $filter->clean();
         $filter->$fMethod($key,$value);
@@ -450,8 +503,9 @@ class RequestHttp
   */
   public function issetCookie( $key  )
   {
-    return isset( $_COOKIE[$key] );
 
+    return isset( $_COOKIE[$key] );
+    
   } // end public function issetCookie */
 
  /**
@@ -463,26 +517,36 @@ class RequestHttp
   public function cookie( $key = null , $validator = null, $message = null )
   {
 
-    if ( is_null($key) ) {
+    if( is_null($key) )
+    {
       return Db::addSlashes( $_COOKIE );
     }
 
-    if ($validator) {
+    if($validator)
+    {
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if (isset( $_COOKIE[$key] )) {
+      if(isset( $_COOKIE[$key] ))
+      {
         $fMethod = 'add'.ucfirst($validator);
         $filter->$fMethod($_COOKIE[$key],$key);
 
         return Db::addSlashes( $filter->getData($key) );
-      } else {
+      }
+      else
+      {
         return null;
       }
-    } else {
-      if (isset( $_COOKIE[$key] )) {
+    }
+    else
+    {
+      if(isset( $_COOKIE[$key] ))
+      {
          return Db::addSlashes($this->cookie[$key]);
-      } else {
+      }
+      else
+      {
         return null;
       }
     }
@@ -496,13 +560,16 @@ class RequestHttp
   */
   public function fileExists( $key )
   {
-
-    if ( isset( $_FILES[$key] ) ) {
+    
+    if( isset( $_FILES[$key] ) )
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
-
+    
   } // end public function fileExists */
 
  /**
@@ -512,24 +579,29 @@ class RequestHttp
   * @param string $type
   * @param string $subkey
   * @param string $message
-  *
+  * 
   * @return LibUploadFile
   */
   public function file( $key = null, $type = null, $subkey = null, $message = null )
   {
-
-    if ( is_null($key) ) {
+    
+    if( is_null($key) )
+    {
       return $_FILES;
     }
 
     $filter = Validator::getActive();
     $filter->clean(); // first clean the filter
 
-    if ($subkey) {
+    if( $subkey )
+    {
       // asume this was just an empty file
-      if ( !isset($_FILES[$subkey]) || '' == trim($_FILES[$subkey]['name'][$key]) ) {
+      if( !isset($_FILES[$subkey]) || '' == trim($_FILES[$subkey]['name'][$key]) )
+      {
         $data = null;
-      } else {
+      }
+      else
+      {
         $data = array();
         $data['name']     = $_FILES[$subkey]['name'][$key];
         $data['type']     = $_FILES[$subkey]['type'][$key];
@@ -537,20 +609,25 @@ class RequestHttp
         $data['error']    = $_FILES[$subkey]['error'][$key];
         $data['size']     = $_FILES[$subkey]['size'][$key];
       }
-    } else {
+    }
+    else
+    {
       // asume this was just an empty file
-      if ( !isset($_FILES[$key]) || '' == trim($_FILES[$key]['name']) ) {
+      if( !isset($_FILES[$key]) || '' == trim($_FILES[$key]['name']) )
+      {
         $data = null;
-      } else {
+      }
+      else
+      {
         $data = $_FILES[$key];
       }
     }
 
     if( !$data )
-
       return null;
 
-    if ($type) {
+    if( $type )
+    {
       $classname = 'LibUpload'.SParserString::subToCamelCase($type);
 
       if( !Webfrap::classLoadable( $classname ) )
@@ -558,7 +635,9 @@ class RequestHttp
 
       return new $classname( $data, $key );
 
-    } else {
+    }
+    else
+    {
       return new LibUploadFile( $data );
     }
 
@@ -573,9 +652,12 @@ class RequestHttp
   public function serverExists( $key  )
   {
 
-    if ( isset( $_SERVER[$key] ) ) {
+    if( isset( $_SERVER[$key] ) )
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
   } // end public function serverExists */
@@ -590,29 +672,37 @@ class RequestHttp
   {
 
     if( is_null( $key ) )
-
       return Db::addSlashes( $_SERVER );
 
-    if ($validator) {
+    if( $validator )
+    {
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if ( isset( $_SERVER[$key] ) ) {
+      if( isset( $_SERVER[$key] ) )
+      {
         $fMethod = 'add'.ucfirst( $validator );
         $filter->$fMethod( $_SERVER[$key], $key );
 
         return Db::addSlashes( $filter->getData( $key ) );
-      } else {
-        return null;
       }
-    } else {
-      if ( isset( $_SERVER[$key] ) ) {
-        return Db::addSlashes( $_SERVER[$key] );
-      } else {
+      else
+      {
         return null;
       }
     }
-
+    else
+    {
+      if( isset( $_SERVER[$key] ) )
+      {
+        return Db::addSlashes( $_SERVER[$key] );
+      }
+      else
+      {
+        return null;
+      }
+    }
+    
   } // end public function server */
 
   /**
@@ -635,17 +725,20 @@ class RequestHttp
   */
   public function env( $key = null , $validator = null, $message = null )
   {
-
-    if ( is_null($key) ) {
+    
+    if( is_null($key) )
+    {
       return Db::addSlashes($_ENV);
     }
 
-    if ($validator) {
-
+    if( $validator )
+    {
+      
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if ( isset( $_ENV[$key] ) ) {
+      if( isset( $_ENV[$key] ) )
+      {
         if(Log::$levelDebug)
           Log::debug('env['.$key.'] ist gesetzt' );
 
@@ -653,22 +746,32 @@ class RequestHttp
         $filter->$fMethod($_ENV[$key],$key);
 
         return Db::addSlashes( $filter->getData( $key ) );
-
-      } else {
+        
+      }
+      else
+      {
         return null;
       }
-
-    } else {
-
-      if ( isset( $_ENV[$key] ) ) {
-        return Db::addSlashes( $_SERVER[$key] );
-      } else {
-        return null;
-      }
-
+      
     }
-
+    else
+    {
+      
+      if( isset( $_ENV[$key] ) )
+      {
+        return Db::addSlashes( $_SERVER[$key] );
+      }
+      else
+      {
+        return null;
+      }
+      
+    }
+    
   } // end public function env */
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get Client Informations
@@ -682,22 +785,32 @@ class RequestHttp
   {
 
     if( isset( $this->browserInfo['name'] ) )
-
       return $this->browserInfo['name'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    if ( preg_match( '/opera/', $userAgent ) ) {
+    if( preg_match( '/opera/', $userAgent ) )
+    {
       $this->browserInfo['name'] = 'opera';
-    } elseif ( preg_match( '/webkit/', $userAgent ) ) {
+    }
+    elseif( preg_match( '/webkit/', $userAgent ) )
+    {
       $this->browserInfo['name'] = 'safari';
-    } elseif ( preg_match( '/msie/', $userAgent ) ) {
+    }
+    elseif( preg_match( '/msie/', $userAgent ) )
+    {
       $this->browserInfo['name'] = 'msie';
-    } elseif ( preg_match( '/chrome/', $userAgent) ) {
+    }
+    elseif( preg_match( '/chrome/', $userAgent) )
+    {
       $this->browserInfo['name'] = 'chrome';
-    } elseif ( preg_match( '/mozilla/', $userAgent ) && !preg_match( '/compatible/', $userAgent ) ) {
+    }
+    elseif( preg_match( '/mozilla/', $userAgent ) && !preg_match( '/compatible/', $userAgent ) )
+    {
       $this->browserInfo['name'] = 'mozilla';
-    } else {
+    }
+    else
+    {
       $this->browserInfo['name'] = 'unrecognized';
     }
 
@@ -712,15 +825,17 @@ class RequestHttp
   public function getBrowserVersion()
   {
     if( isset($this->browserInfo['version'])  )
-
       return $this->browserInfo['version'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
     // What version?
-    if (preg_match('/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/', $userAgent, $matches)) {
+    if (preg_match('/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/', $userAgent, $matches))
+    {
       $this->browserInfo['version'] = $matches[1];
-    } else {
+    }
+    else
+    {
       $this->browserInfo['version'] = 'unknown';
     }
 
@@ -735,19 +850,25 @@ class RequestHttp
   public function getPlatform()
   {
     if( isset($this->browserInfo['platform'])  )
-
       return $this->browserInfo['platform'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
     // Running on what platform?
-    if (preg_match('/linux/', $userAgent)) {
+    if (preg_match('/linux/', $userAgent))
+    {
       $this->browserInfo['platform'] = 'linux';
-    } elseif (preg_match('/macintosh|mac os x/', $userAgent)) {
+    }
+    else if (preg_match('/macintosh|mac os x/', $userAgent))
+    {
       $this->browserInfo['platform'] = 'mac';
-    } elseif (preg_match('/windows|win32/', $userAgent)) {
+    }
+    else if (preg_match('/windows|win32/', $userAgent))
+    {
       $this->browserInfo['platform'] = 'windows';
-    } else {
+    }
+    else
+    {
       $this->browserInfo['platform'] = 'unrecognized';
     }
 
@@ -809,6 +930,7 @@ class RequestHttp
     return explode( ';', $this->server('HTTP_ACCEPT_CHARSET') ) ;
   }//end public function getCharset */
 
+
   /**
    *
    * Enter description here...
@@ -818,6 +940,7 @@ class RequestHttp
   {
     return $this->server('HTTP_REFERER');
   }//end public function getClientHref */
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Static Methodes
@@ -831,31 +954,38 @@ class RequestHttp
   public function method( $requested = null )
   {
 
-    if ( !isset( $_SERVER['REQUEST_METHOD'] ) ) {
+    if( !isset( $_SERVER['REQUEST_METHOD'] ) )
+    {
       Error::report( 'Got no request method, asumig this was a get request' );
       $method = 'GET';
-    } else {
+    }
+    else
+    {
       $method = strtoupper($_SERVER['REQUEST_METHOD']);
     }
 
     //this should always be uppper, but no risk here
     if( !$requested )
-
       return $method;
-    else {
-      if ( is_array( $requested ) ) {
-        foreach ($requested as $reqKey) {
+    else
+    {
+      if( is_array( $requested ) )
+      {
+        foreach( $requested as $reqKey )
+        {
           if( $method == $reqKey )
-
             return true;
-
+          
         }
-
+        
         return false;
-      } else {
+      }
+      else 
+      {
         return $requested == $method ? true:false;
       }
     }
+      
 
   }//end public function method */
 
@@ -867,9 +997,12 @@ class RequestHttp
   public function inMethod( $methodes )
   {
 
-    if ( !isset( $_SERVER['REQUEST_METHOD'] ) ) {
+    if( !isset( $_SERVER['REQUEST_METHOD'] ) )
+    {
       $method = 'GET';
-    } else {
+    }
+    else
+    {
       $method = strtoupper( $_SERVER['REQUEST_METHOD'] );
     }
 
@@ -886,6 +1019,7 @@ class RequestHttp
     return isset($_GET['rqt']);
   }//end public function isAjax */
 
+
   /**
    * @return boolean
    */
@@ -894,52 +1028,61 @@ class RequestHttp
     return $_SERVER['QUERY_STRING'];
   }//end public function getResource */
 
+  
   /**
    * @return string
    */
   public function getServerName()
   {
+    
     return $_SERVER['SERVER_NAME'];
-
+    
   }//end public function getServerName */
-
+  
   /**
-   * @param boolean $forceHttps
+   * @param boolean $forceHttps 
    * @return string
    */
   public function getServerAddress( $forceHttps = false )
   {
-
-    if (!$this->serverAddress) {
-
+    
+    if( !$this->serverAddress )
+    {
+      
       $this->serverAddress = ( (isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS']) || $forceHttps )
-        ? 'https://'
+        ? 'https://' 
         : 'http://';
-
+        
       $this->serverAddress .= $_SERVER['SERVER_NAME'];
-
-      if ( isset( $_SERVER['HTTPS'] ) && 'on' == $_SERVER['HTTPS'] ) {
-        if ($_SERVER['SERVER_PORT'] != '443') {
-          $this->serverAddress .= ':'.$_SERVER['SERVER_PORT'];
-        }
-      } else {
-        if ($_SERVER['SERVER_PORT'] != '80') {
+      
+      if( isset( $_SERVER['HTTPS'] ) && 'on' == $_SERVER['HTTPS'] )
+      {
+        if( $_SERVER['SERVER_PORT'] != '443' )
+        {
           $this->serverAddress .= ':'.$_SERVER['SERVER_PORT'];
         }
       }
-
+      else 
+      {
+        if( $_SERVER['SERVER_PORT'] != '80' )
+        {
+          $this->serverAddress .= ':'.$_SERVER['SERVER_PORT'];
+        }
+      }
+      
       $this->serverAddress .='/'.mb_substr( $_SERVER['REQUEST_URI'] , 0 , strrpos($_SERVER['REQUEST_URI'],'/')+1);
-
+        
       $length = strlen($this->serverAddress);
-
+      
       if( '/' != $this->serverAddress[($length-1)] )
         $this->serverAddress .= '/';
-
+        
     }
-
+    
     return $this->serverAddress;
-
+    
   }//end public function getServerAddress */
-
+  
 }// end class LibRequestPhp
+
 

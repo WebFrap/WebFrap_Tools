@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * Validator für Text
  * @package WebFrap
@@ -23,22 +24,23 @@
 class Validator_Number
   implements IsAValidator
 {
-
+  
   /**
    * @var string
    */
   const INT_VAL = 'Validator_Text::intval';
-
+  
   /**
    * @var string
    */
   const FLOAT_VAL = 'Validator_Text::floatval';
-
+  
   /**
    * @var string
    */
   const ONLY_POSITIVE = 1;
 
+  
   /* (non-PHPdoc)
    * @see IsaValidator::santisize()
    */
@@ -46,7 +48,7 @@ class Validator_Number
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function santisize */
 
   /* (non-PHPdoc)
@@ -56,7 +58,7 @@ class Validator_Number
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function santisizeToContainer */
 
   /* (non-PHPdoc)
@@ -66,7 +68,7 @@ class Validator_Number
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function validate */
 
   /* (non-PHPdoc)
@@ -76,8 +78,11 @@ class Validator_Number
   {
 
     // TODO Auto-generated method stub
-
+    
   }//end public function validateToContainer */
 
+
+  
+  
 }//end class Validator_Number */
 

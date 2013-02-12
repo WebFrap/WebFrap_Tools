@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * @package WebFrap
  * @subpackage Gaia
@@ -22,44 +23,45 @@
 class TemplateWorkarea_Text
   extends TemplateWorkarea
 {
-
+  
   /**
    * @var string
    */
   public $contentType = 'text/plain';
-
+  
   /**
    * @var string
    */
   public $index = 'template/plain';
-
+  
   /**
    * @return string
    */
   public function render()
   {
-
+    
     $v = $this->vars;
-
+    
     ob_start();
-    foreach ($this->templates as $template) {
+    foreach( $this->templates as $template )
+    {
       if( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
         include GAIA_PATH.'modules/'.$template.'.tpl';
       elseif( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
         include GAIA_PATH.'wbf/'.$template.'.tpl';
-      else
+      else 
         echo 'Missing Template '.$template.NL;
     }
-
+    
     $maincontent = ob_get_contents();
     ob_end_clean();
-
+    
     ob_start();
     if( Fs::exists( GAIA_PATH.'modules/'.$this->index.'.idx' ) )
       include GAIA_PATH.'modules/'.$this->index.'.idx';
     elseif( Fs::exists( GAIA_PATH.'wbf/'.$this->index.'.idx' ) )
       include GAIA_PATH.'wbf/'.$this->index.'.idx';
-    else
+    else 
       echo 'Missing Index '.$this->index.NL;
     $redered = ob_get_contents();
     ob_end_clean();
@@ -69,5 +71,5 @@ class TemplateWorkarea_Text
     return $this->renderedContent;
 
   }//end public function render */
-
+  
 }//end class TemplateWorkarea_Css */

@@ -8,13 +8,14 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
+  
 /**
  * Betriebsystem spezifische elemente
  * @package WebFrap
@@ -30,115 +31,116 @@ class TemplateWorkarea
    * @var string
    */
   public $title = 'G A I A';
-
+  
   /**
    * @var string
    */
   public $caption = null;
-
+  
   /**
    * @var TArray
    */
   public $vars = null;
-
+  
   /**
    * @var array
    */
   public $templates = array();
-
+  
   /**
    * @var string
    */
   public $index = 'template/default';
-
+  
   /**
    * @var string
    */
   public $renderedContent = null;
-
+  
   /**
    * @var string
    */
   public $contentType = 'text/html';
-
+  
   /**
    * @var string
    */
   public $encoding = 'utf-8';
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Methodes
 ////////////////////////////////////////////////////////////////////////////////
-
+  
   /**
-   *
+   * 
    */
   public function __construct()
   {
-
+    
     $this->vars = new TArray();
-
+    
   }//end public function __construct */
-
+  
   /**
    * Sender der Header der Workarea
    */
   public function sendHeader()
   {
-
+    
     header( 'Content-Type:'.$this->contentType.'; charset='.$this->encoding );
     header( 'ETag: '.md5($this->renderedContent) );
     header( 'Content-Length: '.mb_strlen($this->renderedContent) );
-
+    
   }//end public function sendHeader */
-
+  
   /**
    * @param string $caption
    */
   public function setCaption( $caption )
   {
-
+    
     $this->caption = $caption;
-
+    
   }//end public function setCaption */
-
+  
   /**
    * @param string $template
    */
   public function addTemplate( $template )
   {
-
+    
     $this->templates[] = $template;
-
+    
   }//end public function addTemplate */
-
+  
   /**
    * @return string
    */
   public function render()
   {
-
+    
     $v = $this->vars;
-
+    
     ob_start();
-    foreach ($this->templates as $template) {
+    foreach( $this->templates as $template )
+    {
       if( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
         include GAIA_PATH.'modules/'.$template.'.tpl';
       elseif( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
         include GAIA_PATH.'wbf/'.$template.'.tpl';
-      else
+      else 
         echo '<p class="wgt-box-error" >Missing Template '.$template.'</p>'.NL;
     }
-
+    
     $maincontent = ob_get_contents();
     ob_end_clean();
-
+    
     ob_start();
     if( Fs::exists( GAIA_PATH.'modules/'.$this->index.'.idx' ) )
       include GAIA_PATH.'modules/'.$this->index.'.idx';
     elseif( Fs::exists( GAIA_PATH.'wbf/'.$this->index.'.idx' ) )
       include GAIA_PATH.'wbf/'.$this->index.'.idx';
-    else
+    else 
       echo '<p class="wgt-box-error" >Missing Index '.$this->index.'</p>'.NL;
     $redered = ob_get_contents();
     ob_end_clean();
@@ -164,5 +166,5 @@ HTML;
     return $this->renderedContent;
 
   }//end public function render */
-
+  
 }//end class TemplateWorkarea */

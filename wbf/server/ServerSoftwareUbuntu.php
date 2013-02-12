@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * @package WebFrap
@@ -24,7 +25,7 @@ class ServerSoftwareUbuntu
 ////////////////////////////////////////////////////////////////////////////////
 // Input Daten
 ////////////////////////////////////////////////////////////////////////////////
-
+  
   /**
    * @var array
    */
@@ -32,22 +33,22 @@ class ServerSoftwareUbuntu
   (
     // tools
     'vim',
-
+  
     // java
     'openjdk-6-jdk',
-
+  
     // dbms
     'postgresql',
     'postgresql-common',
     'postgresql-contrib',
-
+  
     // mailserver
     'postfix',
-
+  
     // apache
     'apache2-mpm-prefork',
     'libapache2-mod-php5',
-
+    
     // php 5
     'php5-common',
     'php5-curl',
@@ -66,15 +67,15 @@ class ServerSoftwareUbuntu
     'mercurial-common',
 
   );
-
+  
   /**
-   *
+   * 
    */
   public function install()
   {
-
+    
     Server::install( $this->requiredPackages );
-
+    
   }//end public function install */
-
+  
 }//end class ServerSoftwareUbuntu */

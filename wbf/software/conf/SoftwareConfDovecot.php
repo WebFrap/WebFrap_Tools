@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,14 +17,15 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
 /// Danke ;-)
 ///
 
+  
 /**
  * Datenbank Hilfsklasse
  * @package WebFrap
@@ -35,26 +36,26 @@ class SoftwareConfDovecot
 {
 
   /**
-   *
+   * 
    */
   public function setupConf()
   {
-
+    
   }//end public function setupConf */
-
+  
   /**
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
   public function setupConf_dovecot_conf( $server, $mailConf )
   {
-
+    
     $host     = $mailConf->getConfDbHost();
     $user     = $mailConf->getConfDbUser();
     $pwd      = $mailConf->getConfDbPwd();
     $dbName   = $mailConf->getConfDbName();
     $dbSchema = $mailConf->getConfDbSchema();
-
+    
     // /etc/dovecot/dovecot.conf
     $file = <<<FILE
 #disable_plaintext_auth = no
@@ -117,22 +118,22 @@ auth default {
 #}
 
 FILE;
-
+    
   }//end public function setupConf_pg_transport */
-
+  
   /**
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
   public function setupConf_dovecot2_conf( $server, $mailConf )
   {
-
+    
     $host     = $mailConf->getConfDbHost();
     $user     = $mailConf->getConfDbUser();
     $pwd      = $mailConf->getConfDbPwd();
     $dbName   = $mailConf->getConfDbName();
     $dbSchema = $mailConf->getConfDbSchema();
-
+    
     // /etc/dovecot/dovecot.conf
     $file = <<<FILE
 driver = pgsql
@@ -142,7 +143,7 @@ password_query = SELECT "user", password FROM dovecot_password WHERE "user" = '%
 user_query = SELECT home, uid, gid, 'maildir:'||mail AS mail FROM {$dbSchema}.dovecot_user WHERE userid = '%Lu'
 
 FILE;
-
+    
   }//end public function setupConf_pg_transport */
-
+  
 }//end class SoftwareConfDovecot

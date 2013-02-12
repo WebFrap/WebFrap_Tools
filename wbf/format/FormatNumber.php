@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -103,7 +103,8 @@ class FormatNumber
   public static function getActive()
   {
 
-    if ( is_null( self::$instance) ) {
+    if( is_null( self::$instance) )
+    {
       self::$instance = new FormatNumber();
     }
 
@@ -112,11 +113,11 @@ class FormatNumber
   }//end public static function getActive */
 
   /**
-   *
+   * 
    * @param string $separatorDec
    * @param string $separatorTh
    * @param int $size
-   *
+   * 
    * @return LibFormatterNumeric
    */
   public static function langFormatter( $separatorDec = ',', $separatorTh = '.', $size = 2 )
@@ -165,38 +166,45 @@ class FormatNumber
     $flags = PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE ;
     $rawMatches = preg_split( $regex, trim($numeric), -1, $flags);
 
-    if ( in_array( $this->separatorDec ,  $rawMatches )  ) {
+    if( in_array( $this->separatorDec ,  $rawMatches )  )
+    {
 
       $num = '';
       $end = array_pop( $rawMatches );
 
-      if ( !ctype_digit($end) ) {
+      if( !ctype_digit($end) )
+      {
         $end = '00';
       }
 
       $num = '';
 
-      foreach ($rawMatches as $match) {
+      foreach( $rawMatches as $match )
+      {
 
         if( ctype_digit($match) )
           $num .= $match;
 
-        $this->numericEnglish = (float) (($this->negativ?'-':'').$num.'.'.$end);
+        $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.'.$end);
 
       }
 
-    } else {
+    }
+    else
+    {
       $num = '';
 
-      foreach ($rawMatches as $match) {
+      foreach( $rawMatches as $match )
+      {
 
         if( ctype_digit($match) )
           $num .= $match;
 
-        $this->numericEnglish = (float) (($this->negativ?'-':'').$num.'.00');
+        $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.00');
 
       }
     }
+
 
   }//end public function setNumericLanguage */
 
@@ -207,6 +215,7 @@ class FormatNumber
   {
     $this->numericEnglish = $english;
   }//end public function setnumericEnglish */
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Logic

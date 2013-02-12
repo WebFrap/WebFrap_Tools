@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * @package WebFrap
@@ -22,9 +23,9 @@
 class Error_Controller
   extends MvcController
 {
-
+  
   /**
-   *
+   * 
    */
   public function missingService( $servName )
   {
@@ -33,11 +34,11 @@ class Error_Controller
     $console = $this->getConsole();
 
     $console->error( 'Missing Service '.$servName );
-
+    
   }//end public function missingService */
-
+  
   /**
-   *
+   * 
    */
   public function do_default()
   {
@@ -46,7 +47,7 @@ class Error_Controller
     $console = $this->getConsole();
 
     $console->info( 'Gaia Version: '. Gaia::VERSION );
-
+    
   }//end public function do_default */
 
 }//end class Version_Controller */

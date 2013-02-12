@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * @package WebFrap
@@ -22,7 +23,7 @@
 class Db_Controller
   extends MvcController
 {
-
+  
   /**
    * Views cleanen
    */
@@ -31,27 +32,29 @@ class Db_Controller
 
     $request = $this->getRequest();
     $console = $this->getConsole();
-
+    
     $confKey = $request->param('conf');
-
+    
     $console->out( $confKey );
-
+    
     $model = new Db_Model( $this );
     $model->init( $confKey );
-
+    
     $model->cleanSchemaViews();
 
+    
   }//end public function do_cleanAllViews */
-
+  
+  
   /**
-   *
+   * 
    */
   public function do_help()
   {
 
     $request = $this->getRequest();
     $console = $this->getConsole();
-
+    
     $helpText = <<<HTML
 gaia.php cleanSchemaViews conf=key
 
@@ -59,6 +62,7 @@ HTML;
 
     $console->out( $helpText );
 
+    
   }//end public function do_help */
 
 }//end class Update_Controller */

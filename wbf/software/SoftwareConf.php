@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * Datenbank Hilfsklasse
@@ -22,21 +23,22 @@
  */
 class SoftwareConf
 {
-
+  
   /**
    * @return string
    */
   public function setupConf()
   {
-
+    
   }//end public function setupConf */
-
+  
   /**
    * @param string $fileName
    */
   public function parse( $fileName )
   {
-
+    
   }//end public function parse */
-
+  
+  
 }//end class SoftwareConf

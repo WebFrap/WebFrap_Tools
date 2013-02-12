@@ -8,12 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
+
 
 /**
  * @package WebFrap
@@ -23,6 +24,7 @@ class MvcController
   extends EnvironmentCore
 {
 
+  
   /**
    * Liste der Services welche über diesen Controller angeboten werden.
    *
@@ -83,36 +85,43 @@ class MvcController
    * @var array
    */
   protected $options           = array();
-
+  
+  
   /**
    * die vom request angeforderte methode auf rufen
    * @param string $action
    */
   public function execute(  $action )
   {
-
+    
     $actionName = 'do_'.$action;
-
-    if ( method_exists( $this, $actionName ) ) {
+    
+    if( method_exists( $this, $actionName ) )
+    {
       $this->$actionName( );
-    } else {
-      if ( method_exists( $this, 'do_help' ) ) {
+    }
+    else 
+    {
+      if( method_exists( $this, 'do_help' ) )
+      {
         $this->do_help( $action );
-      } else {
+      }
+      else 
+      {
         $this->invalidRequest( $action );
       }
     }
 
   }//end public function execute */
-
+  
   /**
    * @param string $action
    */
   protected function invalidRequest( $action )
   {
-
+    
     $this->console->error( "Invalid Request ".$action );
-
+    
   }//end protected function invalidRequest */
 
   /**
@@ -121,5 +130,5 @@ class MvcController
   {
     $this->console->out( 'HELP '.$action );
   }//end public function do_help */
-
+  
 }//end class MvcController */

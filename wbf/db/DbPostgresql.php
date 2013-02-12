@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,14 +17,15 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
 /// Danke ;-)
 ///
 
+  
 /**
  * Datenbank Hilfsklasse
  * @package WebFrap
@@ -33,49 +34,49 @@
 class DbPostgresql
   extends Db_Connection
 {
-
+  
   /**
    * @var string
    */
   public $host = '127.0.0.1';
-
+  
   /**
    * @var int
    */
   public $port = '5432';
-
+  
   /**
    * @var string
    */
   public $user = '';
-
+  
   /**
    * @var string
    */
   public $passwd = '';
-
+  
   /**
    * @var string
    */
   public $dbName = null;
-
+  
   /**
    * @var string
    */
   public $schema = 'public';
-
+  
   /**
    * Die Connection Resource
    * @var resource
    */
   protected $connection = null;
-
+  
   /**
    * Das DB Admin Objekt
    * @var DbAdmin
    */
   protected $dbAdmin = null;
-
+  
   /**
    * @param UiConsole $console
    * @param string $dbName
@@ -96,23 +97,23 @@ class DbPostgresql
     $schema = 'public'
   )
   {
-
+    
     $this->dbName = $dbName;
     $this->user   = $user;
     $this->passwd = $passwd;
-
+    
     if( is_null( $host ) )
       $host = '127.0.0.1';
     $this->host   = $host;
-
+    
     if( is_null( $port ) )
       $port = '5432';
     $this->port   = $port;
-
+    
     $this->schema = $schema;
-
+    
   }//end public function __construct */
-
+  
   /**
    * öffnen der datenbankverbindung
    */
@@ -125,14 +126,16 @@ class DbPostgresql
       .' user='.$this->user
       .' password='.$this->passwd;
 
-    if ( !$this->connection = pg_connect( $pgsql_con_string )) {
+    if( !$this->connection = pg_connect( $pgsql_con_string ))
+    {
       throw new DbException( 'Connection failed' );
     }
 
-    if ($this->schema) {
+    if( $this->schema  )
+    {
       $this->setSearchPath( $this->schema );
     }
-
+    
   }//end public function open */
 
   /**
@@ -140,10 +143,10 @@ class DbPostgresql
    */
   public function close()
   {
-
+    
     if( is_resource(  $this->connection ) )
       pg_close( $this->connection );
-
+    
   }//end public function close */
 
   /**
@@ -151,11 +154,10 @@ class DbPostgresql
    */
   public function getDbAdmin()
   {
-
+    
     if( $this->dbAdmin )
-
       return $this->dbAdmin;
-
+    
     $this->dbAdmin = new DbAdminPostgresql
     (
       UiConsole::getActive(),
@@ -167,11 +169,11 @@ class DbPostgresql
       $this->schema
     );
     $this->dbAdmin->con = $this;
-
+    
     return $this->dbAdmin;
-
+    
   }//end public function getDbAdmin */
-
+  
   /**
    * Setzten des Aktiven Schemas
    *
@@ -183,7 +185,9 @@ class DbPostgresql
 
     $sqlstring = 'SET search_path = "'.$schema.'", pg_catalog;';
 
-    if ( !$result = pg_query( $this->connection , $sqlstring ) ) {
+
+    if( !$result = pg_query( $this->connection , $sqlstring ) )
+    {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
       (
@@ -195,7 +199,7 @@ class DbPostgresql
 
     return true;
   } // end public function setSearchPath */
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Query Logic
 ////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +212,7 @@ class DbPostgresql
    * @param string $sql ein SQL String
    * @param string $singleRow
    * @param boolean $expectResult
-   *
+   * 
    * @return array/scalar
    * @throws DbException
    *  - bei inkompatiblen parametern
@@ -216,11 +220,13 @@ class DbPostgresql
   public function select( $sql, $singleRow = null, $expectResult = false  )
   {
 
-    if ( !is_resource($this->connection) ) {
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
-    if ( !$result = pg_query( $this->connection , $sql ) ) {
+    if( !$result = pg_query( $this->connection , $sql ) )
+    {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
       (
@@ -229,40 +235,44 @@ class DbPostgresql
     }
 
     $data = array();
-
-    if ($singleRow) {
+    
+    if( $singleRow )
+    {
        $row = pg_fetch_assoc( $result );
-
-       if (!$row) {
+       
+       if( !$row )
+       {
          if( $expectResult )
            throw new DbException( "Result was empty, but result was expected" );
-
+         
          return array();
        }
-
-      if ( is_string($singleRow) ) {
+      
+      if( is_string($singleRow) )
+      {
         if( array_key_exists($singleRow, $row) )
-
           return $row[$singleRow];
-        else
+        else 
           throw new DbException( "Requested nonexisting Index ".$singleRow );
       }
-
+        
       return $row;
     }
 
     while ( $row = pg_fetch_assoc( $result ) )
       $data[] = $row;
 
-   if (!$data) {
+         
+   if( !$data )
+   {
      if( $expectResult )
        throw new DbException( "Result was empty, but result was expected" );
    }
-
+      
     return $data;
 
   } // end public function select */
-
+  
   /**
    * de:
    * ausführen einer insert query
@@ -276,11 +286,14 @@ class DbPostgresql
   public function insert( $sql, $tableName = null, $tablePk = null  )
   {
 
-    if ( !is_resource($this->connection) ) {
+
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
-    if ( !$result = pg_query( $this->connection , $sql ) ) {
+    if( !$result = pg_query( $this->connection , $sql ) )
+    {
       throw new DbException
       (
         'Query '.$sql.' failed: '.pg_last_error( $this->connection )
@@ -291,13 +304,14 @@ class DbPostgresql
     // dann kann es dazu kommen, dass kein datensatz angelegt wird, also
     // wollen wir in dem kontext dann auch keine id zurückgeben
     if( !pg_affected_rows($result) )
-
       return null;
 
     //$sqlstring = 'select currval( \''.strtolower($tableName).'_'.strtolower($tablePk).'_seq\')';
     $sqlstring = "select currval('entity_oid_seq');";
 
-    if ( !$result = pg_query( $this->connection , $sqlstring) ) {
+
+    if( !$result = pg_query( $this->connection , $sqlstring) )
+    {
       throw new DbException
       (
         'Failed to receive a new id: '.pg_last_error( $this->connection )
@@ -309,7 +323,7 @@ class DbPostgresql
     return $row[0];
 
   } // end public function insert */
-
+  
   /**
    * Ein Updatestatement an die Datenbank schicken
    *
@@ -320,11 +334,13 @@ class DbPostgresql
   public function update( $sql )
   {
 
-    if ( !is_resource($this->connection) ) {
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
-    if ( !$result = pg_query( $this->connection, $sql ) ) {
+    if( !$result = pg_query( $this->connection, $sql ) )
+    {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
       (
@@ -335,7 +351,7 @@ class DbPostgresql
     return pg_affected_rows( $result );
 
   }// end public function update */
-
+  
   /**
    * Ein Delete Statement
    *
@@ -346,11 +362,13 @@ class DbPostgresql
   public function delete( $sql )
   {
 
-    if ( !is_resource($this->connection) ) {
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
-    if ( !$result = pg_query( $this->connection, $sql ) ) {
+    if( !$result = pg_query( $this->connection, $sql ) )
+    {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
       (
@@ -361,7 +379,7 @@ class DbPostgresql
     return pg_affected_rows( $result );
 
   }// end public function delete */
-
+  
   /**
    * Ein Updatestatement an die Datenbank schicken
    *
@@ -372,11 +390,13 @@ class DbPostgresql
   public function ddl( $sql )
   {
 
-    if ( !is_resource($this->connection) ) {
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
-    if ( !$result = pg_query( $this->connection, $sql ) ) {
+    if( !$result = pg_query( $this->connection, $sql ) )
+    {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
       (
@@ -385,7 +405,7 @@ class DbPostgresql
     }
 
   }// end public function ddl */
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Sequence Code
 ////////////////////////////////////////////////////////////////////////////////
@@ -400,14 +420,17 @@ class DbPostgresql
    */
   public function nextVal( $seqName  )
   {
-
-    if ( !is_resource($this->connection) ) {
+    
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
     $sqlstring = "select nextval('".$seqName."');";
 
-    if ( !$result = pg_query( $this->connection, $sqlstring ) ) {
+
+    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    {
       throw new DbException
       (
         'No Db Result: '.pg_last_error( $this->connection ).' '.$sqlstring
@@ -415,7 +438,6 @@ class DbPostgresql
     }
 
     $row = pg_fetch_row( $result );
-
     return $row[0];
 
   } // end public function nextVal */
@@ -430,14 +452,16 @@ class DbPostgresql
    */
   public function currVal( $seqName  )
   {
-
-    if ( !is_resource($this->connection) ) {
+    
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
     $sqlstring = "select currval('".$seqName."');";
 
-    if ( !$result = pg_query( $this->connection, $sqlstring ) ) {
+    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    {
       throw new DbException
       (
         'No Db Result: '.pg_last_error( $this->connection ).' '.$sqlstring
@@ -445,7 +469,6 @@ class DbPostgresql
     }
 
     $row = pg_fetch_row( $result );
-
     return $row[0];
 
   } // end public function currVal */
@@ -460,14 +483,16 @@ class DbPostgresql
    */
   public function lastVal( $seqName  )
   {
-
-    if ( !is_resource($this->connection) ) {
+    
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
 
     $sqlstring = "select lastval('".$seqName."');";
 
-    if ( !$result = pg_query( $this->connection, $sqlstring ) ) {
+    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    {
       throw new DbException
       (
         'No Db Result: '.pg_last_error( $this->connection ).' '.$sqlstring
@@ -475,11 +500,10 @@ class DbPostgresql
     }
 
     $row = pg_fetch_row( $result );
-
     return $row[0];
 
   } // end public function lastVal */
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Transaction Code
 ////////////////////////////////////////////////////////////////////////////////
@@ -491,12 +515,14 @@ class DbPostgresql
    */
   public function begin(  )
   {
-
-    if ( !is_resource($this->connection) ) {
+    
+    if( !is_resource($this->connection) )
+    {
       $this->open();
     }
-
-    if (! $result = pg_query( $this->connection , 'BEGIN' ) ) {
+  
+    if(! $result = pg_query( $this->connection , 'BEGIN' ) )
+    {
       throw new DbException
       (
         'Fehler beim ausführen von Commit: '.pg_last_error( $this->connection )
@@ -513,7 +539,8 @@ class DbPostgresql
   public function rollback( )
   {
 
-    if (! $result = pg_query( $this->connection , 'ROLLBACK' ) ) {
+    if(! $result = pg_query( $this->connection , 'ROLLBACK' ) )
+    {
       throw new DbException
       (
         'Fehler beim ausführen von Commit: '.pg_last_error( $this->connection )
@@ -530,7 +557,8 @@ class DbPostgresql
   public function commit( )
   {
 
-    if (! $result = pg_query( $this->connection , 'COMMIT' ) ) {
+    if(! $result = pg_query( $this->connection , 'COMMIT' ) )
+    {
       throw new DbException
       (
         'Fehler beim ausführen von Commit: '.pg_last_error( $this->connection )
@@ -538,5 +566,5 @@ class DbPostgresql
     }
 
   } // end public function commit */
-
+  
 }//end class DbPostgresql

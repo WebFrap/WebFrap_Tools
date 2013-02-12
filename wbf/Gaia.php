@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,14 +17,15 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
 /// Danke ;-)
 ///
 
+  
 /**
  * Gaia Basisklasse
  * @package WebFrap
@@ -32,22 +33,22 @@
  */
 class Gaia
 {
-
+  
   /**
    * @var string
    */
   const C_QUIT = 'quit';
-
+  
   /**
    * @var string
    */
   const VERSION = '0.9';
-
+  
   /**
    * @var int
    */
   const MAX_PACKAGE_LEVEL = 5;
-
+  
   /**
    * @var int
    */
@@ -57,17 +58,17 @@ class Gaia
    * @var array
    */
   private static $classIndex = array();
-
+  
   /**
    * @var array
    */
   private static $loadAble     = array();
-
+  
   /**
    * @var Environment
    */
   public static $env     = null;
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Logic
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,54 +88,60 @@ class Gaia
 
     $length = strlen($classname);
 
+    
     $paths = array();
     $paths[] = GAIA_PATH.'wbf/';
     $paths[] = GAIA_PATH.'modules/';
 
-    foreach ($paths as $path) {
-
+    foreach( $paths as $path )
+    {
+      
       $requireMe = null;
-
+  
       $parts = array();
       $start = 0;
       $end = 1;
       $package = '';
-
-      if ( file_exists( $path.$classname.'.php' ) ) {
+      
+      if( file_exists( $path.$classname.'.php' ) )
+      {
         include $path.$classname.'.php' ;
-
         return;
-      } else {
+      }
+      else
+      {
         // 3 Stufen Packages
         $level = 0;
-        for ($pos = 1 ; $pos < $length  ; ++$pos) {
-
-          if (ctype_upper($classname[$pos]) ) {
+        for( $pos = 1 ; $pos < $length  ; ++$pos )
+        {
+  
+          if(ctype_upper($classname[$pos]) )
+          {
             $package  .= strtolower( str_replace( '_','', substr( $classname, $start, $end  ) ) ).'/' ;
             $start    += $end;
             $end      = 0;
             ++$level;
-
+  
             $file = realpath($path.$package.$classname.'.php');
-            if ( file_exists( $file ) ) {
+            if( file_exists( $file ) )
+            {
               self::$classIndex[$classname] = $file;
               include $file;
-
               return;
             }
-
+  
             if( $level == self::MAX_PACKAGE_LEVEL )
               break;
           }
           ++$end;
         }
-
+        
       }//end if( file_exists( $path.$classname.'.php' ) )
-
+      
     }
 
   }//function public static function pathAutoload */
-
+  
   /**
    * wrapper for class exists
    * cause class exists always throws an exception if the class not exists
@@ -144,18 +151,22 @@ class Gaia
   public static function classLoadable( $className )
   {
 
-    if ( !isset(self::$loadAble[$className]) ) {
-      try {
+    if( !isset(self::$loadAble[$className]) )
+    {
+      try
+      {
         $back = class_exists($className);
         self::$loadAble[$className] = $back;
-
         return $back;
-      } catch ( GaiaException $e ) {
+      }
+      catch( GaiaException $e )
+      {
         self::$loadAble[$className] = false;
-
         return false;
       }
-    } else {
+    }
+    else
+    {
       return self::$loadAble[$className];
     }
 
@@ -170,23 +181,27 @@ class Gaia
   public static function interfaceLoadable( $classname )
   {
 
-    if ( !isset(self::$loadAble[$classname]) ) {
-      try {
+    if( !isset(self::$loadAble[$classname]) )
+    {
+      try
+      {
         $back = interface_exists($classname);
         self::$loadAble[$classname] = $back;
-
         return $back;
-      } catch ( GaiaException $e ) {
+      }
+      catch( GaiaException $e )
+      {
         self::$loadAble[$classname] = false;
-
         return false;
       }
-    } else {
+    }
+    else
+    {
       return self::$loadAble[$classname];
     }
 
   }//end function interfaceLoadable */
-
+  
   /**
    * using a wrapper so you can write your own unique method
    *
@@ -197,6 +212,7 @@ class Gaia
     return uniqid(mt_rand(), true);
   }//end public static function uniqid */
 
+
   /**
    * using a wrapper so you can write your own unique method
    * @param string $area
@@ -204,15 +220,15 @@ class Gaia
    */
   public static function tmpFile(  $area = null )
   {
-
-    if ($area) {
+    
+    if( $area )
+    {
       $tmpF = TMP_PATH.$area.'/'.str_replace( '.','_', uniqid(mt_rand(), true) ).'.tmp';
-
       return $tmpF;
     }
 
     return str_replace( '.','_', uniqid(mt_rand(), true) ) ;
-
+    
   }//end public static function tmpFile */
 
   /**
@@ -227,17 +243,18 @@ class Gaia
       .'-'.substr($tmp,16,4).'-'.substr($tmp,20,12);
 
   }//end public static function uuid */
-
+  
   /**
    * Aktuelle Timestamp im Datenbankformat
    * @return string
    */
   public static function timestamp(  )
   {
+
     return date( 'Y-m-d H:i:s' );
 
   }//end public static function timestamp */
-
+  
   /**
    * SDBM Hash Algorithmus aus der Berkley Database
    * @param string $key
@@ -251,14 +268,15 @@ class Gaia
 
     $hash = "0";
     $keyLength = strlen($key);
-
-    for ($i = 0; $i < $keyLength; ++$i) {
+    
+    for ($i = 0; $i < $keyLength; ++$i)
+    {
       $hash = bcmod(bcmul($hash, $mul), $mod);
       $hash = bcmod(bcadd($hash, ord($key[$i])), $mod);
     }
-
+    
     return $hash;
-
+    
   }//end public static function keyHash */
 
   /**
@@ -268,14 +286,13 @@ class Gaia
    */
   public static function tmpid()
   {
-
+    
     // fängt halt bei 1 an
     ++ self::$sequence;
-
     return 'tmp_'.self::$sequence;
-
+    
   }//end public static function uniqid */
-
+  
   /**
    * using a wrapper so you can write your own unique method
    * @param boolean $fullPath
@@ -283,29 +300,28 @@ class Gaia
    */
   public static function tmpFolder( $fullPath = false )
   {
-
+    
     if( $fullPath )
-
       return TMP_PATH.str_replace( '.','_', uniqid(mt_rand(), true) ).'/' ;
-    else
+    else 
       return str_replace( '.','_', uniqid(mt_rand(), true) ) ;
-
+ 
   }//end public static function tmpFolder */
-
+  
   /**
    * Erstellen eines Tmp Folders und Rückageb des Namens
    * @return string
    */
   public static function mkTmpFolder( )
   {
-
+    
     $tmpF = TMP_PATH.str_replace( '.','_', uniqid(mt_rand(), true) ).'/';
     Fs::mkdir( $tmpF );
-
+    
     return $tmpF;
 
   }//end public static function mkTmpFolder */
-
+  
   /**
    * eine neue id aus der sequence erfragen
    *
@@ -313,15 +329,16 @@ class Gaia
    */
   public static function getRunId()
   {
-
-    if (!self::$runkey) {
+    
+    if( !self::$runkey )
+    {
       self::$runkey = time();
     }
-
+    
     return self::$runkey;
-
+    
   }//end public static function getRunId */
-
+  
   /**
    * Checken ob die Syntax in einem File ok ist
    * @param string $fileName
@@ -330,15 +347,14 @@ class Gaia
    */
   public static function checkSyntax( $fileName, &$errors )
   {
-
+    
     $errors = Process::execute( "php -l {$fileName}"  );
 
     if( 'No syntax errors' == substr($errors, 0, 16 ) )
-
       return true;
-    else
+    else 
       return false;
-
+    
   }//end public static function checkSyntax */
 
 }//end class Gaia */

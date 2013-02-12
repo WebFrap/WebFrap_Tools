@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-*
+* 
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -23,22 +23,22 @@ class SetupDb
 {
 ////////////////////////////////////////////////////////////////////////////////
 // Attributes
-////////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////////////// 
+  
   /**
    * @var DbAdmin
    */
   protected $dbAdmin = null;
-
+  
   /**
    * @var ProtocolWriter
    */
   protected $protocol = null;
-
+  
 ////////////////////////////////////////////////////////////////////////////////
 // Methodes
 ////////////////////////////////////////////////////////////////////////////////
-
+  
   /**
    * @param UiConsole $console
    * @param string $type
@@ -46,14 +46,14 @@ class SetupDb
    */
   public static function getSetup( $console, $type, $protocol = null )
   {
-
+    
     $className = 'SetupDb'.ucfirst( $type );
-
+    
     if( !Gaia::classLoadable($className) )
       throw new GaiaException( 'The requested setup not exists.' );
-
+    
     return new $className( $console, $protocol );
-
+    
   }//end public static function getSetup */
 
   /**
@@ -65,9 +65,9 @@ class SetupDb
    */
   public function setup( $package, $gateway, $server, $database, $dataPath  )
   {
-
+    
   }//end public function setup */
-
+  
   /**
    * @param Package $package
    * @param PackageGateway $gateway
@@ -77,8 +77,9 @@ class SetupDb
    */
   public function update( $package, $gateway, $server, $database, $dataPath  )
   {
-
+    
   }//end public function update */
-
+  
 } // end class SetupDb
+
 
