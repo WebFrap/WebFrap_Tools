@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -33,7 +33,7 @@ class PackageServerMail
   {
     return $this->getAttribute( 'type' );
   }//end public function getType */
-  
+
   /**
    * @return string
    */
@@ -42,7 +42,6 @@ class PackageServerMail
     return $this->getAttribute( 'name' );
   }//end public function getName */
 
-  
 ////////////////////////////////////////////////////////////////////////////////
 // Get Admin Data
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +61,7 @@ class PackageServerMail
   {
     return $this->getNodeValue('conf/sys_group');
   }//end public function getConfSysGroup */
-  
+
   /**
    * @return string
    */
@@ -70,7 +69,7 @@ class PackageServerMail
   {
     return $this->getNodeValue('conf/db_user');
   }//end public function getConfDbUser */
-  
+
   /**
    * @return string
    */
@@ -78,7 +77,7 @@ class PackageServerMail
   {
     return $this->getNodeValue('conf/db_passwd');
   }//end public function getConfDbPwd */
-  
+
   /**
    * @return string
    */
@@ -86,7 +85,7 @@ class PackageServerMail
   {
     return $this->getNodeAttr( 'conf', 'type' );
   }//end public function getConfType */
-  
+
   /**
    * @return string
    */
@@ -112,5 +111,4 @@ class PackageServerMail
   }//end public function getConfDbSchema */
 
 } // end class PackageServerMail
-
 

@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -23,13 +22,13 @@
 class SetupProject_CliView
   extends MvcView_Cli
 {
-  
+
   /**
-   * 
+   *
    */
   public function render()
   {
-    
+
   }//end public function render */
 
 }//end class Setup_CliView */

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $conf->appName = $console->readText
 (

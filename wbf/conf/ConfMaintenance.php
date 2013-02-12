@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -22,7 +22,7 @@
 class ConfMaintenance
   extends TArray
 {
-  
+
   /**
    * Datenbank Verbindungen
    * @var array
@@ -43,24 +43,24 @@ class ConfMaintenance
     )
     */
   );
-  
+
   /**
    * Pfad zum workspace
    * Wenn nicht anders definiert dann wird der Root path als Workspace verwendet
-   * 
+   *
    * @var string
    */
   public $workspace = PATH_ROOT;
-  
+
   /**
    * Name des Users welcher in Logs angezeigt werden soll
-   * 
+   *
    * Default ist Gaia, sollte jedoch angepasst werden
-   * 
+   *
    * @var array
    */
   public $displayUser = 'Gaia';
-  
+
   /**
    * Code Repositories
    * @var array
@@ -78,65 +78,58 @@ class ConfMaintenance
     )
     */
   );
-  
-  
+
   /**
    * @param string $path
    * @throws GaiaException Wenn der Conf Pfad nicht vorhanden ist
    */
   public function load( $path )
   {
-    
+
     $conf = $this;
-    
+
     // erst mal potentiell alte confs leeren
     $this->databases     = array();
-    
-    if( !Fs::pathIsAbsolute( $path ) )
-    {
+
+    if ( !Fs::pathIsAbsolute( $path ) ) {
       $path = GAIA_PATH.'conf/conf.'.$path.'.php';
     }
-    
-    if( Fs::exists( $path ) )
-    {
+
+    if ( Fs::exists( $path ) ) {
       $error = null;
-      
-      if( Gaia::checkSyntax( $path, $error ) )
-      {
+
+      if ( Gaia::checkSyntax( $path, $error ) ) {
         include $path;
-      }
-      else 
-      {
+      } else {
         throw new GaiaException( "Requested Conf {$path} was invalid ".$error );
       }
-    }
-    else 
-    {
+    } else {
       throw new GaiaException( "Requested Conf {$path} not exists." );
     }
 
   }//end public function load */
-  
+
 ////////////////////////////////////////////////////////////////////////////////
-// Getter & setter 
+// Getter & setter
 ////////////////////////////////////////////////////////////////////////////////
 
   /**
    * @param string $key
-   * @return 
+   * @return
    */
   public function getDbConf( $key = 'default' )
   {
-    
+
     if( !isset( $this->databases[$key] ) )
+
       return array();
-    
+
     $conf = $this->databases[$key];
-    
+
     return new TArray( $conf );
-    
+
   }//end public function getDbConf */
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Repositories
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,11 +139,9 @@ class ConfMaintenance
    */
   public function getRepositories(  )
   {
-    
     return $this->repositories;
-    
+
   }//end public function getRepositories */
 
 } // end class ConfMaintenance
-
 

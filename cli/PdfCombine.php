@@ -28,32 +28,30 @@ error_reporting(E_ALL );
 date_default_timezone_set( "Europe/Berlin" );
 
 define('FPDF_FONTPATH','../pdf/font');
-require('../pdf/fpdf.php');
-require('../pdf/fpdi.php');
+require '../pdf/fpdf.php';
+require '../pdf/fpdi.php';
 
 class PdfCombine
   extends fpdi
 {
 
-  var $files = array();
+  public $files = array();
 
-  function __construct($orientation='P',$unit='mm',$format='A4')
+  public function __construct($orientation='P',$unit='mm',$format='A4')
   {
     parent::fpdi($orientation,$unit,$format);
   }
 
-  function setFiles($files)
+  public function setFiles($files)
   {
     $this->files = $files;
   }
 
-  function concat()
+  public function concat()
   {
-    foreach($this->files AS $file)
-    {
+    foreach ($this->files AS $file) {
       $pagecount = $this->setSourceFile($file);
-      for ($i = 1; $i <= $pagecount; $i++)
-      {
+      for ($i = 1; $i <= $pagecount; $i++) {
          $tplidx = $this->ImportPage($i);
          $this->AddPage();
          $this->useTemplate($tplidx);
@@ -72,7 +70,6 @@ $pdf->setFiles(array
 /**/
 ));
 $pdf->concat();
-
 
 $pdf->Output("gesamt.pdf","F");
 ?>

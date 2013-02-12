@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * Datenbank Hilfsklasse
@@ -25,15 +24,12 @@ class SoftwareConfPostgresql
   extends SoftwareConf
 {
 
-  
   /**
-   * 
+   *
    */
   public function setupConf()
   {
-    
+
   }//end public function setupConf */
-  
- 
-  
+
 }//end class SoftwareSuse

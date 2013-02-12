@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -27,7 +26,7 @@ class RequestSubCli
 ////////////////////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @var string
    */
@@ -37,58 +36,55 @@ class RequestSubCli
    * @var string
    */
   public $action = null;
-  
+
   /**
    * @var array
    */
   public $params = array();
-  
+
   /**
    * @var array
    */
   public $data = array();
-  
+
   /**
    * @var IsARequest
    */
   public $request = null;
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methodes
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @param string $command
    * @param IsARequest $request
    */
   public function __construct( $command, $request )
   {
-    
+
     $this->request = $request;
-    
+
     $urlData = parse_url( $command );
     $params  = array();
-    
+
     if( isset( $urlData['query'] ) )
       parse_str( $urlData['query'], $params );
-    
+
     $this->params = $params;
-    
-    if( isset( $urlData['path'] ) )
-    {
+
+    if ( isset( $urlData['path'] ) ) {
       $tmp = explode( '.', $urlData['path'] );
-      
+
       $this->service = ucfirst($tmp[0]);
-      
+
       if( isset( $tmp[1] ) )
         $this->action = $tmp[1];
-      else 
+      else
         $this->action = 'default';
-    }
-    else 
-    {
+    } else {
       $this->service  = 'Help';
-      $this->action   = 'default'; 
+      $this->action   = 'default';
     }
 
   }//end public function __construct */
@@ -96,7 +92,6 @@ class RequestSubCli
 ////////////////////////////////////////////////////////////////////////////////
 // param methodes
 ////////////////////////////////////////////////////////////////////////////////
-
 
   /**
    * Funktion zum testen ob eine bestimmte Urlvariable existiert
@@ -106,9 +101,8 @@ class RequestSubCli
    */
   public function paramExists( $key )
   {
-    
     return isset( $this->params[$key] );
-    
+
   } // end public function paramExists */
 
   /**
@@ -120,11 +114,10 @@ class RequestSubCli
   */
   public function param( $key = null, $validator = null )
   {
-  
     return isset( $this->params[$key] )
       ? $this->params[$key]
       : null;
-  
+
   }//end public function param */
 
  /**
@@ -157,7 +150,6 @@ class RequestSubCli
 //
 //////////////////////////////////////////////////////////////////////////////*/
 
-
   /**
    * Abfragen des Status einer POST Variable
    *
@@ -167,12 +159,9 @@ class RequestSubCli
   public function dataExists( $key , $subkey = null )
   {
 
-    if( !is_null( $subkey ) )
-    {
+    if ( !is_null( $subkey ) ) {
       return isset( $this->data[$key][$subkey] );
-    }
-    else
-    {
+    } else {
       return isset( $this->data[$key] );
     }
 
@@ -188,14 +177,14 @@ class RequestSubCli
   {
 
     if( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
+
       return array();
 
     $keys = array_keys( $this->data[$key] );
 
     $tmp = array();
 
-    foreach( $keys as $key )
-    {
+    foreach ($keys as $key) {
 
       if( 'id_' == substr( $key , 0, 3 ) )
         $tmp[] = $key;
@@ -213,143 +202,104 @@ class RequestSubCli
   */
   public function data( $key = null , $validator = null , $subkey = null , $message = null  )
   {
-    
+
     $response = $this->getResponse();
 
-    if( $validator )
-    {
+    if ($validator) {
       $filter = $this->getValidator();
       $filter->clean(); // first clean the filter
 
-      if( is_string($key) )
-      {
+      if ( is_string($key) ) {
 
-        if( $subkey )
-        {
-          
-          if( isset( $this->data[$key][$subkey] ) )
-          {
+        if ($subkey) {
+
+          if ( isset( $this->data[$key][$subkey] ) ) {
             $data = $this->data[$key][$subkey];
-          }
-          else
-          {
+          } else {
             return null;
           }
-          
+
         }//end if $subkey
-        else
-        {
-          
-          if( isset( $this->data[$key] ) )
-          {
+        else {
+
+          if ( isset( $this->data[$key] ) ) {
             $data = $this->data[$key];
-          }
-          else
-          {
+          } else {
             return null;
           }
-          
+
         }
 
         $fMethod = 'add'.ucfirst($validator);
 
-        if( is_array( $data ) )
-        {
+        if ( is_array( $data ) ) {
           // Clean all the same way
           // Good architecture :-)
           return $this->validateArray( $fMethod , $data );
-        }
-        else
-        {
+        } else {
           // clean only one
-          if( !$error = $filter->$fMethod( $key, $data ) )
-          {
+          if ( !$error = $filter->$fMethod( $key, $data ) ) {
             return $filter->getData( $key );
-          }
-          else
-          {
+          } else {
             $response->addError( ($message?$message:$error) ) ;
+
             return;
           }
 
         }
 
       }// end is_string($key)
-      elseif( is_array( $key ) )
-      {
+      elseif ( is_array( $key ) ) {
         $data = array();
 
-        if( is_array( $validator ) )
-        {
-          foreach( $key as $id )
-          {
+        if ( is_array( $validator ) ) {
+          foreach ($key as $id) {
             $fMethod = 'add'.ucfirst($validator[$id] );
 
-            if( isset($this->data[$id]) )
-            {
+            if ( isset($this->data[$id]) ) {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->getData($id);
-            }
-            else
-            {
+            } else {
               $data[$id] = null;
             }
           }
-        }
-        else
-        {
-          foreach( $key as $id )
-          {
+        } else {
+          foreach ($key as $id) {
             $fMethod = 'add'.ucfirst($validator);
 
-            if( isset($this->data[$id]) )
-            {
+            if ( isset($this->data[$id]) ) {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->post($id);
-            }
-            else
-            {
+            } else {
               $data[$id] = null;
             }
           }
         }
 
         return $data;
-        
+
       }
     }//end if $validator
-    else // else $validator
-    {
-      if( is_string($key) )
-      {
-        if($subkey)
-        {
+    else { // else $validator
+      if ( is_string($key) ) {
+        if ($subkey) {
           return isset($this->data[$key][$subkey])
             ?$this->data[$key][$subkey]:null;
-        }
-        else
-        {
+        } else {
           return isset($this->data[$key])
             ?$this->data[$key]:null;
         }
-      }
-      elseif( is_array($key) )
-      {
+      } elseif ( is_array($key) ) {
         $data = array();
 
-        foreach( $key as $id )
-        {
+        foreach ($key as $id) {
           $data[$id] = isset( $this->data[$id] )? $this->data[$id] :null;
         }
 
         return $data;
-      }
-      elseif( is_null($key) )
-      {
+      } elseif ( is_null($key) ) {
         return $this->data;
-      }
-      else
-      {
+      } else {
         return null;
       }
     }
@@ -363,18 +313,12 @@ class RequestSubCli
   public function removeData( $key , $subkey = null )
   {
 
-
-    if( is_null( $subkey ) )
-    {
-      if( isset( $this->data[$key] ) )
-      {
+    if ( is_null( $subkey ) ) {
+      if ( isset( $this->data[$key] ) ) {
         unset( $this->data[$key] );
       }
-    }
-    else
-    {
-      if( isset( $this->data[$key][$subkey] ) )
-      {
+    } else {
+      if ( isset( $this->data[$key][$subkey] ) ) {
         unset( $this->data[$key][$subkey] );
       }
     }
@@ -390,21 +334,16 @@ class RequestSubCli
   public function dataEmpty( $keys , $subkey = null )
   {
 
-    if( $subkey )
-    {
-      if( is_array($keys) )
-      {
+    if ($subkey) {
+      if ( is_array($keys) ) {
 
-        foreach( $keys as $key )
-        {
+        foreach ($keys as $key) {
 
-          if( !isset( $this->data[$subkey][$key] ) )
-          {
+          if ( !isset( $this->data[$subkey][$key] ) ) {
             return true;
           }
 
-          if( trim($this->data[$subkey][$key]) == '' )
-          {
+          if ( trim($this->data[$subkey][$key]) == '' ) {
             return true;
           }
 
@@ -412,50 +351,44 @@ class RequestSubCli
 
         }
 
-      }
-      else
-      {
+      } else {
 
-        if( !isset( $this->data[$subkey][$keys] ) )
-        {
+        if ( !isset( $this->data[$subkey][$keys] ) ) {
           return true;
         }
 
-        if( trim($this->data[$subkey][$keys]) == '' )
-        {
+        if ( trim($this->data[$subkey][$keys]) == '' ) {
           return true;
         }
 
         return false;
 
       }
-    }
-    else
-    {
-      if( is_array($keys) )
-      {
+    } else {
+      if ( is_array($keys) ) {
 
-        foreach( $keys as $key )
-        {
+        foreach ($keys as $key) {
 
           if( !isset( $this->data[$key] ) )
+
             return true;
 
           if( trim($this->data[$key]) == '' )
+
             return true;
 
           return false;
 
         }
 
-      }
-      else
-      {
+      } else {
 
         if( !isset( $this->data[$keys] ) )
+
           return true;
 
         if( trim($this->data[$keys]) == '' )
+
           return true;
 
         return false;
@@ -464,8 +397,6 @@ class RequestSubCli
     }
 
   } // end public function dataEmpty */
-
-
 
 /*//////////////////////////////////////////////////////////////////////////////
 // Cookie
@@ -525,7 +456,6 @@ class RequestSubCli
   */
   public function serverExists( $key  )
   {
-
     return $this->request->serverExists( $key  );
 
   } // end public function serverExists */
@@ -538,7 +468,6 @@ class RequestSubCli
   */
   public function server( $key = null , $validator = null, $message = null )
   {
-
     return $this->request->server( $key, $validator, $message  );
 
   } // end public function server */
@@ -563,11 +492,9 @@ class RequestSubCli
   */
   public function env( $key = null , $validator = null, $message = null )
   {
-
     return $this->request->env( $key, $validator, $message );
 
   } // end public function env */
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Get Client Informations
@@ -601,9 +528,8 @@ class RequestSubCli
    */
   public function getPlatform()
   {
-    
     return $this->request->getPlatform();
-    
+
   }//end public function getPlatform */
 
   /**
@@ -613,11 +539,9 @@ class RequestSubCli
    */
   public function getUseragent()
   {
-    
     return $this->request->getUseragent();
-    
-  }//end public function getUseragent */
 
+  }//end public function getUseragent */
 
   /**
    *
@@ -626,9 +550,8 @@ class RequestSubCli
    */
   public function getClientIp()
   {
-    
     return $this->request->getClientIp();
-    
+
   }//end public function getClientIp */
 
   /**
@@ -648,9 +571,8 @@ class RequestSubCli
    */
   public function getClientLanguage()
   {
-    
     return $this->request->getClientLanguage();
-    
+
   }//end public function getClientLanguage */
 
   /**
@@ -660,11 +582,9 @@ class RequestSubCli
    */
   public function getCharset()
   {
-    
     return $this->request->getCharset();
-    
-  }//end public function getClientIp */
 
+  }//end public function getClientIp */
 
   /**
    *
@@ -673,11 +593,9 @@ class RequestSubCli
    */
   public function getClientRefer()
   {
-    
     return $this->request->getClientRefer();
-    
-  }//end public function getClientHref */
 
+  }//end public function getClientHref */
 
 ////////////////////////////////////////////////////////////////////////////////
 // Static Methodes
@@ -690,7 +608,6 @@ class RequestSubCli
    */
   public function method( $requested = null )
   {
-
     return $this->request->method( $requested );
 
   }//end public function method */
@@ -702,7 +619,6 @@ class RequestSubCli
    */
   public function inMethod( $methodes )
   {
-
     return $this->request->inMethod( $methodes );
 
   }//end public function inMethod */
@@ -712,11 +628,9 @@ class RequestSubCli
    */
   public function isAjax()
   {
-    
     return $this->request->isAjax(  );
-    
-  }//end public function isAjax */
 
+  }//end public function isAjax */
 
   /**
    * @return boolean
@@ -724,10 +638,8 @@ class RequestSubCli
   public function getResource()
   {
     return $this->request->getResource(  );
-    
+
   }//end public function getResource */
 
-
 }// end class RequestSubCli
-
 

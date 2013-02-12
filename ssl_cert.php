@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -26,11 +26,10 @@ include 'gaia/core.php';
 #      things easier between now and when Eric is convinced to fix it :-)
 #
 # CA -newca ... will setup the right stuff
-# CA -newreq[-nodes] ... will generate a certificate request 
-# CA -sign ... will sign the generated request and output 
+# CA -newreq[-nodes] ... will generate a certificate request
+# CA -sign ... will sign the generated request and output
 
-if( Request::arg('help') )
-{
+if ( Request::arg('help') ) {
   Console::outl( "usage: ssl_cert.php \"help\" # for help" );
   Console::outl( "usage: ssl_cert.php \"do=newcert|newreq|newreq-nodes|newca|sign|verify\"" );
   Console::outl( "usage: ssl_cert.php \"cert=/cert/file&key=/cert/key.file&do=newcert|newreq|newca|sign|verify\"" );
@@ -77,9 +76,9 @@ foreach (@ARGV) {
       print "Request is in newreq.pem, private key is in newkey.pem\n";
   } elsif (/^-newca$/) {
     # if explicitly asked for or it doesn't exist then setup the
-    # directory structure that Eric likes to manage things 
+    # directory structure that Eric likes to manage things
       $NEW="1";
-      if ( "$NEW" || ! -f "${CATOP}/serial" ) {
+      if ("$NEW" || ! -f "${CATOP}/serial") {
     # create the directory hierarchy
     mkdir $CATOP, $DIRMODE;
     mkdir "${CATOP}/certs", $DIRMODE;
@@ -92,7 +91,7 @@ foreach (@ARGV) {
     print OUT "01\n";
     close OUT;
       }
-      if ( ! -f "${CATOP}/private/cakey.pem" ) {
+      if (! -f "${CATOP}/private/cakey.pem") {
     print "CA certificate filename (or enter to create)\n";
     $FILE = <STDIN>;
 
@@ -103,22 +102,20 @@ foreach (@ARGV) {
         cp_pem($FILE,"${CATOP}/private/cakey.pem", "PRIVATE");
         cp_pem($FILE,"${CATOP}/cacert.pem", "CERTIFICATE");
         $RET=$?;
-    } 
-    else 
-    {
+    } else {
         print "Making CA certificate ...\n";
         system ("$REQ -new -keyout " .
       "${CATOP}/private/cakey.pem -out ${CATOP}/careq.pem");
-        
+
         system ("$CA -create_serial " .
-      "-out ${CATOP}/cacert.pem $CADAYS -batch " . 
+      "-out ${CATOP}/cacert.pem $CADAYS -batch " .
       "-keyfile ${CATOP}/private/cakey.pem -selfsign " .
       "-extensions v3_ca " .
       "-infiles ${CATOP}/careq.pem ");
         $RET=$?;
     }
    }
-  } 
+  }
   elsif (/^-pkcs12$/) {
       my $cname = $ARGV[1];
       $cname = "My Certificate" unless defined $cname;
@@ -181,14 +178,9 @@ sub cp_pem {
     if (/^-----END.*$bound/) {
       close IN;
       close OUT;
+
       return;
     }
   }
 }
-
-
-
-
-
-
 

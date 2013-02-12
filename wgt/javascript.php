@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $files = array
 (
@@ -7,11 +7,9 @@ $files = array
 
 $content = '';
 
-foreach( $files as $file )
-{
+foreach ($files as $file) {
   $content .= file_get_contents( './javascript/'.$file );
 }
-
 
 header( 'content-type: application/javascript' );
 header( 'ETag: '.md5($content) );

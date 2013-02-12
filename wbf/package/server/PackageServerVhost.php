@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageServerVhost
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageServerVhost
   {
     return $this->getAttribute('name');
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -41,7 +41,7 @@ class PackageServerVhost
   {
     return $this->getAttribute('type');
   }//end public function getType */
-  
+
   /**
    * @return string
    */
@@ -49,37 +49,32 @@ class PackageServerVhost
   {
     return $this->getNodeValue('address');
   }//end public function getServerAddress */
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Getter für Themes
 ////////////////////////////////////////////////////////////////////////////////
-  
 
   /**
    * @return [PackageServerDb]
    */
   public function getDatabases()
   {
-   
     return $this->getNodes( 'databases/database', 'PackageServerDb' );
-    
+
   }//end public function getDatabases */
- 
 
   /**
    * @return [PackageServerDb]
    */
   public function countDatabases()
   {
-   
     return $this->getNodes( 'databases/database' ).length;
-    
+
   }//end public function getDatabases */
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Getter für Themes
 ////////////////////////////////////////////////////////////////////////////////
 
 } // end class PackageServerVhost
-
 

@@ -10,8 +10,7 @@ $files = array
 
 ob_start();
 
-foreach( $files as $file )
-{
+foreach ($files as $file) {
   include './css/default/'.$file;
 }
 

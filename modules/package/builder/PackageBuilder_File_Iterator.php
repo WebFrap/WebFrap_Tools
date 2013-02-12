@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -28,12 +27,12 @@ class PackageBuilder_File_Iterator
 ////////////////////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @var string
    */
   public $fileName = null;
-  
+
   /**
    * Den Targetfolder um den Key sauber zurück zu geben
    * @var string
@@ -48,15 +47,15 @@ class PackageBuilder_File_Iterator
    * @param string $filter
    */
   public function __construct
-  ( 
-    $folder,  
+  (
+    $folder,
     $targetFolder,
-    $mode = IoFileIterator::RELATIVE, 
+    $mode = IoFileIterator::RELATIVE,
     $recursive = true,
     $filter = null
   )
   {
-    
+
     $this->folder       = str_replace( '//', '/', $folder );
     $this->fileMode     = IoFileIterator::RELATIVE;
     $this->recursive    = $recursive;
@@ -65,49 +64,41 @@ class PackageBuilder_File_Iterator
     if( $filter )
       $this->filter     = explode( ',', $filter );
 
-    if( is_dir( $folder ) )
-    {
+    if ( is_dir( $folder ) ) {
       $this->fRes = opendir( $folder );
       $this->next();
-    }
-    else 
-    {
+    } else {
       UiConsole::debugLine( 'Tried to open nonexisting Folder: '.$folder );
     }
 
-  }// public function __construct 
+  }// public function __construct
 
 ////////////////////////////////////////////////////////////////////////////////
 // Interface: Iterator
 ////////////////////////////////////////////////////////////////////////////////
 
-  
   /**
    * @see Iterator::next
    */
   public function next ()
   {
-    
+
     $repeat   = true;
     $current  = null;
-    
-    while( $repeat ) 
-    {
-      
-      if( $this->subFolder )
-      {
+
+    while ($repeat) {
+
+      if ($this->subFolder) {
         $nextSub = $this->subFolder->current();
         $key     = $this->subFolder->key();
-        
-        if( $nextSub )
-        {
+
+        if ($nextSub) {
           $this->subFolder->next();
           $this->current = $nextSub;
           $this->key     = $key;
+
           return $this->current;
-        }
-        else 
-        {
+        } else {
           $this->subFolder = null;
           $this->current   = null;
           $this->key       = null;
@@ -121,90 +112,81 @@ class PackageBuilder_File_Iterator
       // dirty.... so what?
       if( '.' == $current  )
         continue;
-        
+
       if( '..' == $current )
         continue;
 
-      if( $current )
-      {
-        if( is_dir( $this->folder.'/'.$current )  )
-        {
-          
+      if ($current) {
+        if ( is_dir( $this->folder.'/'.$current )  ) {
+
           if( !$this->recursive )
             continue;
-            
-          // wenn current ein ordner ist wird ers über ihn iteriert bevor 
+
+          // wenn current ein ordner ist wird ers über ihn iteriert bevor
           // das nächste element des aktuellen ordners ausgelesen wird
           $this->subFolder = new PackageBuilder_File_Iterator
-          ( 
+          (
             $this->folder.'/'.$current.'/',
             $this->targetFolder.$current,
             $this->fileMode,
             $this->recursive,
             $this->filter
           );
-          
+
           $current  = $this->subFolder->current();
-          
-          if( !$current )
-          {
+
+          if (!$current) {
             $this->subFolder = null;
             $this->current   = null;
             $this->key       = null;
             continue;
-          }
-          else 
-          {
+          } else {
             $this->key       = $this->subFolder->key();
             $this->current   = $current;
-            
+
             $this->subFolder->next();
+
             return $this->current;
           }
-          
-        }
-        else 
-        {
+
+        } else {
 
           // auf eine dateiendung prüfen
-          if( $this->filter )
-          {
-            
+          if ($this->filter) {
+
             $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
-            
+
             if( !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
-            
+
           }
 
           // den rückgabe modus auswerten
           if( $this->fileMode != IoFileIterator::FILE_ONLY )
             $current = str_replace( '//', '/', $this->folder.'/'.$current );
-            
+
         }
-        
-      }
-      else 
-      {
+
+      } else {
         $this->current = null;
+
         return null;
       }
 
       $repeat = false;
-    } 
-    
+    }
+
     // sicher stellen, dass die pfade korrekt sind
     if( $current )
       $this->current = $current;
-    else 
+    else
       $this->current = null;
-      
+
     $this->key = $this->targetFolder.$keyVal; // FormatString::shiftXTokens(str_replace( array('../','//'), array('/','/'), $keyVal ), '/', 2);
 
     return $this->current;
-    
+
   }//end public function next */
 
-  
 }//end class PackageBuilder_File_Iterator */
 

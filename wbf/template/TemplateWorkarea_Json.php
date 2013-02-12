@@ -8,14 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
-  
 /**
  * @package WebFrap
  * @subpackage Gaia
@@ -23,16 +22,15 @@
 class TemplateWorkarea_Json
   extends TemplateWorkarea_Text
 {
-  
+
   /**
    * @var string
    */
   public $contentType = 'text/json';
-  
+
   /**
    * @var string
    */
   public $index = 'template/plain';
 
-  
 }//end class TemplateWorkarea_Json */

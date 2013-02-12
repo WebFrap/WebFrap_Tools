@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageDbSequence
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageDbSequence
   {
     return $this->getAttribute( 'name' );
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -41,7 +41,7 @@ class PackageDbSequence
   {
     return $this->getAttribute( 'increment' );
   }//end public function getIncrement */
-  
+
   /**
    * @return string
    */
@@ -49,7 +49,7 @@ class PackageDbSequence
   {
     return $this->getAttribute( 'minvalue' );
   }//end public function getMinValue */
-  
+
   /**
    * @return string
    */
@@ -57,7 +57,7 @@ class PackageDbSequence
   {
     return $this->getAttribute( 'maxvalue' );
   }//end public function getMaxValue */
-  
+
   /**
    * @return string
    */
@@ -67,5 +67,4 @@ class PackageDbSequence
   }//end public function getStart */
 
 } // end class PackageDbSequence
-
 

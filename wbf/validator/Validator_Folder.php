@@ -8,14 +8,13 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
 
-  
 /**
  * Validator für Text
  * @package WebFrap
@@ -24,12 +23,12 @@
 class Validator_Folder
   implements IsAValidator
 {
-  
+
   /**
    * @var string
    */
   const PLAIN = 'Validator_Folder::plain';
-  
+
   /* (non-PHPdoc)
    * @see IsaValidator::santisize()
    */
@@ -37,7 +36,7 @@ class Validator_Folder
   {
 
     // TODO Auto-generated method stub
-    
+
   }//end public function santisize */
 
   /* (non-PHPdoc)
@@ -47,7 +46,7 @@ class Validator_Folder
   {
 
     // TODO Auto-generated method stub
-    
+
   }//end public function santisizeToContainer */
 
   /* (non-PHPdoc)
@@ -57,7 +56,7 @@ class Validator_Folder
   {
 
     // TODO Auto-generated method stub
-    
+
   }//end public function validate */
 
   /* (non-PHPdoc)
@@ -67,9 +66,8 @@ class Validator_Folder
   {
 
     // TODO Auto-generated method stub
-    
-  }//end public function validateToContainer */
 
+  }//end public function validateToContainer */
 
 }//end class Validator_Folder */
 

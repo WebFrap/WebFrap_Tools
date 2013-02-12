@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -20,13 +20,12 @@
 // in welchem die hier verwendetetn Variablen vorhanden sind.
 include 'wbf/core.php';
 
-
 Console::head( "Start sync", true );
 
 // eine Temporäre HG RC Datei erstellen, wird benötigt
 // um die Passwörter nicht in die URL packen zu müssen oder bei Proxies
 Hg::createTmpRc
-( 
+(
   $repoRoot,
   $syncRepos,
   $displayName,
@@ -37,15 +36,5 @@ Hg::createTmpRc
 Hg::sync( $syncRepos, $contactMail );
 Fs::chown( $repoRoot, $repoOwner );
 
-
 Console::footer( "Finished sync ", true );
-
-
-
-
-
-
-
-
-
 

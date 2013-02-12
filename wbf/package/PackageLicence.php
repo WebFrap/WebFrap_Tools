@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageLicence
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -43,5 +43,4 @@ class PackageLicence
   }//end public function __toString */
 
 } // end class PackageFolder
-
 

@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,15 +17,14 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
 /// Danke ;-)
 ///
 
-  
 /**
  * Klasse für das Management eines Mercurial Repository
  * @package WebFrap
@@ -33,7 +32,7 @@
  */
 class User
 {
- 
+
   /**
    * @param string $file Link zum File
    * @param array $types Position und Type des Items
@@ -42,32 +41,29 @@ class User
    */
   public static function importContactItems( $file, $types, $dbs, $key = null )
   {
-    
+
     $data = File::getCsvContent( $file, 1 );
-    
-    foreach( $data as $row )
-    {
-      foreach( $dbs['db'] as $dbKey => $dbData )
-      {
-        
+
+    foreach ($data as $row) {
+      foreach ($dbs['db'] as $dbKey => $dbData) {
+
         if( !is_null($key) && $dbKey !== $key  )
           continue;
-        
-        foreach ( $types as $pos => $itemType  )
-        {
-          
+
+        foreach ($types as $pos => $itemType) {
+
           // keine leeren items importieren
           if( '' == trim($row[$pos]) )
             continue;
-            
+
           $uuid         = Gaia::uuid();
-          $timeCreated  = Gaia::timestamp(); 
+          $timeCreated  = Gaia::timestamp();
 
           $sql = <<<SQL
-INSERT INTO {$dbData['schema']}.wbfsys_address_item 
+INSERT INTO {$dbData['schema']}.wbfsys_address_item
 (
-  id_user, 
-  address_value, 
+  id_user,
+  address_value,
   id_type,
   use_for_contact,
   m_uuid,
@@ -75,46 +71,46 @@ INSERT INTO {$dbData['schema']}.wbfsys_address_item
   m_role_create,
   m_version
 )
-VALUES 
+VALUES
 (
-  {$row[0]}, 
-  '{$row[$pos]}', 
-  ( 
-    select 
+  {$row[0]},
+  '{$row[$pos]}',
+  (
+    select
       rowid
-    from 
-      {$dbData['schema']}.wbfsys_address_item_type 
-    where 
+    from
+      {$dbData['schema']}.wbfsys_address_item_type
+    where
       upper(access_key) = upper( '{$itemType}' )
   ),
   TRUE,
   '{$uuid}',
   '{$timeCreated}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       upper(name) = upper( 'system' )
   ),
   0
 );
 SQL;
           echo Db::query
-          ( 
-            $sql, 
+          (
+            $sql,
             $dbData['name'],
             $dbs['root_user'],
-            $dbs['root_pwd'] 
+            $dbs['root_pwd']
           );
-          
+
         }
       }
     }
 
   }//end public static function importContactItems */
-  
+
   /**
    * @param UserContainer $userContainer
    * @param array $dbs
@@ -123,61 +119,60 @@ SQL;
   public static function addUser( $userContainer, $dbs, $key = null  )
   {
 
-    foreach( $dbs['db'] as $dbKey => $dbData )
-    {
-      
+    foreach ($dbs['db'] as $dbKey => $dbData) {
+
       if( !is_null($key) && $dbKey !== $key  )
         continue;
-      
-      $timeCreated  = Gaia::timestamp(); 
-        
+
+      $timeCreated  = Gaia::timestamp();
+
 // person
       $personUuid   = Gaia::uuid();
 
       $sql = <<<SQL
-INSERT INTO {$dbData['schema']}.core_person 
+INSERT INTO {$dbData['schema']}.core_person
 (
-  firstname, 
-  lastname, 
+  firstname,
+  lastname,
   m_uuid,
   m_time_created,
   m_role_create,
   m_version
 )
-VALUES 
+VALUES
 (
-  '{$userContainer->firstname}', 
-  '{$userContainer->lastname}', 
+  '{$userContainer->firstname}',
+  '{$userContainer->lastname}',
   '{$personUuid}',
   '{$timeCreated}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       upper(name) = upper( 'system' )
   ),
   0
 );
 SQL;
       echo Db::query
-      ( 
-        $sql, 
+      (
+        $sql,
         $dbData['name'],
         $dbs['root_user'],
-        $dbs['root_pwd'] 
+        $dbs['root_pwd']
       );
-      
+
 // user
 
     $roleUuid   = Gaia::uuid();
 
     $sql = <<<SQL
-INSERT INTO {$dbData['schema']}.wbfsys_role_user 
+INSERT INTO {$dbData['schema']}.wbfsys_role_user
 (
-  name, 
-  id_person, 
+  name,
+  id_person,
   level,
   profile,
   m_uuid,
@@ -185,50 +180,49 @@ INSERT INTO {$dbData['schema']}.wbfsys_role_user
   m_role_create,
   m_version
 )
-VALUES 
+VALUES
 (
   '{$userContainer->name}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.core_person
-    where 
+    where
       m_uuid = '{$personUuid}'
   ),
-  '{$userContainer->level}', 
-  '{$userContainer->profile}', 
+  '{$userContainer->level}',
+  '{$userContainer->profile}',
   '{$roleUuid}',
   '{$timeCreated}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       upper(name) = upper( 'system' )
   ),
   0
 );
 SQL;
       echo Db::query
-      ( 
-        $sql, 
+      (
+        $sql,
         $dbData['name'],
         $dbs['root_user'],
-        $dbs['root_pwd'] 
+        $dbs['root_pwd']
       );
-      
-      if( '' != trim($userContainer->email) )
-      {
-        
+
+      if ( '' != trim($userContainer->email) ) {
+
         $uuidMail         = Gaia::uuid();
-  
+
         $sql = <<<SQL
-INSERT INTO {$dbData['schema']}.wbfsys_address_item 
+INSERT INTO {$dbData['schema']}.wbfsys_address_item
 (
-  id_user, 
-  address_value, 
+  id_user,
+  address_value,
   id_type,
   use_for_contact,
   m_uuid,
@@ -236,55 +230,55 @@ INSERT INTO {$dbData['schema']}.wbfsys_address_item
   m_role_create,
   m_version
 )
-VALUES 
+VALUES
 (
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       m_uuid = '{$roleUuid}'
   ),
-  '{$userContainer->email}', 
-  ( 
-    select 
+  '{$userContainer->email}',
+  (
+    select
       rowid
-    from 
-      {$dbData['schema']}.wbfsys_address_item_type 
-    where 
+    from
+      {$dbData['schema']}.wbfsys_address_item_type
+    where
       upper(access_key) = upper( 'mail' )
   ),
   TRUE,
   '{$uuidMail}',
   '{$timeCreated}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       upper(name) = upper( 'system' )
   ),
   0
 );
 SQL;
         echo Db::query
-        ( 
-          $sql, 
+        (
+          $sql,
           $dbData['name'],
           $dbs['root_user'],
-          $dbs['root_pwd'] 
+          $dbs['root_pwd']
         );
       }
-      
+
       $uuidMessage  = Gaia::uuid();
 
       $sql = <<<SQL
-INSERT INTO {$dbData['schema']}.wbfsys_address_item 
+INSERT INTO {$dbData['schema']}.wbfsys_address_item
 (
-  id_user, 
-  address_value, 
+  id_user,
+  address_value,
   id_type,
   use_for_contact,
   m_uuid,
@@ -292,56 +286,56 @@ INSERT INTO {$dbData['schema']}.wbfsys_address_item
   m_role_create,
   m_version
 )
-VALUES 
+VALUES
 (
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       m_uuid = '{$roleUuid}'
   ),
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       m_uuid = '{$roleUuid}'
-  ), 
-  ( 
-    select 
+  ),
+  (
+    select
       rowid
-    from 
-      {$dbData['schema']}.wbfsys_address_item_type 
-    where 
+    from
+      {$dbData['schema']}.wbfsys_address_item_type
+    where
       upper(access_key) = upper( 'message' )
   ),
   TRUE,
   '{$uuidMail}',
   '{$timeCreated}',
-  ( 
-    select 
+  (
+    select
       rowid
-    from 
+    from
       {$dbData['schema']}.wbfsys_role_user
-    where 
+    where
       upper(name) = upper( 'system' )
   ),
   0
 );
 SQL;
       echo Db::query
-      ( 
-        $sql, 
+      (
+        $sql,
         $dbData['name'],
         $dbs['root_user'],
-        $dbs['root_pwd'] 
+        $dbs['root_pwd']
       );
-      
+
     }//end foreach
-    
+
   }//end public static function addUser */
-  
+
 }//end class User */

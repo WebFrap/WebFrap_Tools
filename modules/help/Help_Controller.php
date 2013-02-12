@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -23,15 +22,15 @@
 class Help_Controller
   extends MvcController
 {
-  
+
   /**
-   * 
+   *
    */
   public function do_default()
   {
-    
+
     $this->console->out( "Info" );
-    
+
   }//end public function do_default */
 
 }//end class Help_Controller */

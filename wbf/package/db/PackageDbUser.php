@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageDbUser
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageDbUser
   {
     return $this->getAttribute('name');
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -41,7 +41,7 @@ class PackageDbUser
   {
     return $this->getAttribute('type');
   }//end public function getType */
-  
+
   /**
    * @return string
    */
@@ -50,7 +50,5 @@ class PackageDbUser
     return $this->getAttribute('passwd');
   }//end public function getPasswd */
 
-
 } // end class PackageComponent
-
 

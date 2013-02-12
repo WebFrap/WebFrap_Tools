@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageDbGroup
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageDbGroup
   {
     return $this->getAttribute('name');
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -42,7 +42,5 @@ class PackageDbGroup
     return $this->getAttribute('type');
   }//end public function getType */
 
-
 } // end class PackageDbGroup
-
 

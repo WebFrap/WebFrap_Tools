@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -21,12 +21,12 @@
  */
 class EnvironmentCore
 {
-  
+
   /**
    * @var EnvironmentCore
    */
   public $env = null;
-  
+
   /**
    * @var IsARequest
    */
@@ -36,41 +36,40 @@ class EnvironmentCore
    * @var IsAConsole
    */
   public $console = null;
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Constructor
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @param EnvironmentCore $env
    */
   public function __construct( $env = null )
   {
-    
+
     $this->env = $env;
-    
+
   }//end public function __construct */
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Getter & Setter
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return IsARequest
    */
   public function getRequest()
   {
-    
-    if( !$this->request )
-    {
+
+    if (!$this->request) {
       if( $this->env )
         $this->request = $this->env->getRequest();
       else
         $this->request = Request::getActive();
     }
-      
+
     return $this->request;
-    
+
   }//end public function getRequest */
 
   /**
@@ -78,19 +77,18 @@ class EnvironmentCore
    */
   public function setRequest( IsARequest $request )
   {
-    
+
     $this->request = $request;
-    
+
   }//end public function setRequest */
-  
+
   /**
    * @return IsAConsole
    */
   public function getConsole()
   {
-    
-    if( !$this->console )
-    {
+
+    if (!$this->console) {
       if( $this->env )
         $this->console = $this->env->getConsole();
       else
@@ -98,7 +96,7 @@ class EnvironmentCore
     }
 
     return $this->console;
-    
+
   }//end public function getConsole */
 
   /**
@@ -106,11 +104,10 @@ class EnvironmentCore
    */
   public function setConsole( IsAConsole $console )
   {
-    
+
     $this->console = $console;
-    
+
   }//end public function setConsole */
 
 }// end class EnvironmentCore
-
 

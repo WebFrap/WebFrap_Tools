@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -25,7 +25,7 @@ class PackageFolder
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -33,7 +33,7 @@ class PackageFolder
   {
     return $this->getAttribute('name');
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -41,8 +41,7 @@ class PackageFolder
   {
     return $this->getAttribute('type')?:'false';
   }//end public function getRecursive */
-  
-  
+
   /**
    * @return string
    */
@@ -50,7 +49,7 @@ class PackageFolder
   {
     return $this->getAttribute('filter');
   }//end public function getFilter */
-  
+
   /**
    * @return string
    */
@@ -60,5 +59,4 @@ class PackageFolder
   }//end public function __toString */
 
 } // end class PackageFolder
-
 

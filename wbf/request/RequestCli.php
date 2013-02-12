@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -26,12 +26,12 @@ class RequestCli
 /*//////////////////////////////////////////////////////////////////////////////
 // Attributes
 //////////////////////////////////////////////////////////////////////////////*/
-  
+
   /**
    * @var string
    */
   public $service = null;
-  
+
   /**
    * @var string
    */
@@ -41,48 +41,43 @@ class RequestCli
    * @var array
    */
   protected $params = array();
-  
+
   /**
    * @var array
    */
   protected $flags = array();
-  
+
   /**
    * @param array $args
    */
   public function __construct( $args )
   {
-    
+
     if( 1 == count($args) )
+
       return;
 
-    foreach( $args as $pos => $argument )
-    {
+    foreach ($args as $pos => $argument) {
 
       if( !$pos )
         continue;
 
-      if( strpos( $argument, '=' ) )
-      {
+      if ( strpos( $argument, '=' ) ) {
         $tmp = explode( '=', $argument );
         $this->params[$tmp[0]] = $tmp[1];
-      }
-      else if( '-' == $argument[0] )
-      {
+      } elseif ('-' == $argument[0]) {
         $this->flags[str_replace( '-', '', $argument )] = true;
-      }
-      else 
-      {
+      } else {
         if( !$this->service )
           $this->service = FormatString::subToCamelCase($argument) ;
-        else 
+        else
           $this->action = $argument;
       }
-      
+
     }
 
   }//end public function __construct */
-  
+
   /**
    * @param string $key
    */
@@ -90,18 +85,17 @@ class RequestCli
   {
     return isset($this->flags[$key]);
   }//end public function flag */
-  
+
   /**
    * @param string $key
    * @return string
    */
   public function param( $key, $validator )
   {
-    
     return isset($this->params[$key])
       ?$this->params[$key]
       :null;
-      
+
   }//end public function param */
 
   /**
@@ -110,26 +104,24 @@ class RequestCli
   public function init()
   {
 
-    if( 2 < count( $_SERVER['argv']) )
-    {
+    if ( 2 < count( $_SERVER['argv']) ) {
       $parsed = null;
       parse_str( $_SERVER['argv'][2], $parsed );
-        
+
       $this->params = $parsed;
     }
 
-    if( isset( $_SERVER['argv'][1] ) )
-    {
-      
+    if ( isset( $_SERVER['argv'][1] ) ) {
+
       $tmp = explode( '.', $_SERVER['argv'][1] );
-      
+
       $this->action = $tmp[0];
-      
+
       if( isset( $tmp[1] ) )
         $this->action = $tmp[1];
-      else 
+      else
         $this->action = 'default';
-      
+
     }
 
   }//end public function init */

@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -28,7 +28,6 @@ if(!defined('WBF_NO_LOGIN'))
 if(!defined('WBF_NO_ACL'))
   define('WBF_NO_ACL',false);
 
-
 /**
  * Die Hautptklasse für WebFrap
  *
@@ -44,25 +43,25 @@ class Webfrap
    * singleton instance
    * @var LibFlowAbstract
    */
-  protected static    $instance     = null;
+  protected static $instance     = null;
 
   /**
    *
    * @var array
    */
-  public static       $loadAble     = array();
+  public static $loadAble     = array();
 
   /**
    * Include Path
    * @var array
    */
-  protected static    $includePath  = array();
+  protected static $includePath  = array();
 
   /**
    * Autoload methods
    * @var array
    */
-  protected static    $autoload     = array
+  protected static $autoload     = array
   (
     'Webfrap::autoload' => true
   );
@@ -71,63 +70,62 @@ class Webfrap
    * alle projektpfade durch die die standard Autoload Itterieren muss
    * @var array
    */
-  public static       $autoloadPath   = array();
+  public static $autoloadPath   = array();
 
   /**
    * Klassenindex für die Schnelle Autoload Methode
    * @var array
    */
-  public static       $classIndex     = array();
+  public static $classIndex     = array();
 
   /**
    * Template Index to save all requested templates per request
    * @var array
    */
-  public static       $tplIndex       = array();
+  public static $tplIndex       = array();
 
   /**
    * where there any changes in the classindex in the autoload?
    * if true the system writes the new index in the cache
    * @var boolean
    */
-  public static       $indexChanged   = false;
-
+  public static $indexChanged   = false;
 
   /**
    * the key for fetching the autoload class index
    * @var string
    */
-  public static       $indexKey       = null;
+  public static $indexKey       = null;
 
   /**
    * path to the index cache for the autoload method
    * @var string
    */
-  public static       $indexCache     = 'cache/autoload/';
+  public static $indexCache     = 'cache/autoload/';
 
   /**
    * nicht persistente sequence für die script laufzeit
    * @var int
    */
-  public static       $sequence       = 0;
+  public static $sequence       = 0;
 
   /**
    * Classes that should be initialized
    * @var array
    */
-  public static       $initClasses    = array();
+  public static $initClasses    = array();
 
   /**
    * Number of PHP Errors from the own error handler
    * @var int
    */
-  public static       $numPhpErrors      = 0;
+  public static $numPhpErrors      = 0;
 
   /**
    * the first php error as string
    * @var string
    */
-  public static       $firstError      = null;
+  public static $firstError      = null;
 
 ////////////////////////////////////////////////////////////////////////////////
 // constantes
@@ -142,7 +140,6 @@ class Webfrap
 ////////////////////////////////////////////////////////////////////////////////
 // protect construct and clone
 ////////////////////////////////////////////////////////////////////////////////
-
 
  /**
   * Der Standart Konstruktor
@@ -197,7 +194,6 @@ class Webfrap
 // Include Path
 ////////////////////////////////////////////////////////////////////////////////
 
-
   /**
    * set the php include path for the script
    *
@@ -205,8 +201,7 @@ class Webfrap
    */
   public static function setIncludePath( $includePath )
   {
-    if(!isset(self::$includePath[$includePath]))
-    {
+    if (!isset(self::$includePath[$includePath])) {
       set_include_path( get_include_path().P_S.$includePath );
       self::$includePath[$includePath] = true;
     }
@@ -219,8 +214,7 @@ class Webfrap
    */
   public static function addIncludePath( $includePath )
   {
-    if(!isset(self::$includePath[$includePath]))
-    {
+    if (!isset(self::$includePath[$includePath])) {
       set_include_path( get_include_path().P_S.$includePath );
       self::$includePath[$includePath] = true;
     }
@@ -249,22 +243,18 @@ class Webfrap
   public static function classLoadable( $classname )
   {
 
-    if(!isset(self::$loadAble[$classname]))
-    {
-      try
-      {
+    if (!isset(self::$loadAble[$classname])) {
+      try {
         $back = class_exists($classname);
         self::$loadAble[$classname] = $back;
+
         return $back;
-      }
-      catch( ClassNotFoundException $e )
-      {
+      } catch ( ClassNotFoundException $e ) {
         self::$loadAble[$classname] = false;
+
         return false;
       }
-    }
-    else
-    {
+    } else {
       return self::$loadAble[$classname];
     }
 
@@ -277,15 +267,12 @@ class Webfrap
    */
   public static function loadable( $classname )
   {
-    try
-    {
+    try {
       if ( class_exists($classname,true) || interface_exists($classname,true) )
         return true;
       else
         return false;
-    }
-    catch( ClassNotFoundException $e )
-    {
+    } catch ( ClassNotFoundException $e ) {
       return false;
     }
 
@@ -298,8 +285,7 @@ class Webfrap
    */
   public static function addAutoload( $autoload )
   {
-    if(!isset(self::$autoload[$autoload]))
-    {
+    if (!isset(self::$autoload[$autoload])) {
       spl_autoload_register($autoload);
       self::$autoload[$autoload] = true;
     }
@@ -333,6 +319,7 @@ class Webfrap
   {
 
     if( !self::$indexChanged )
+
       return;
 
     // append class index
@@ -355,7 +342,6 @@ class Webfrap
 
     $index .= NL.');'.NL.NL;
 
-
     $keyPath = str_replace( '.' , '/' , self::$indexKey  );
     $path = PATH_GW.self::$indexCache.$keyPath.'/';
 
@@ -363,6 +349,7 @@ class Webfrap
 
     if( !is_dir( $path )  )
       if( !SFilesystem::createFolder($path) )
+
         return;
 
     file_put_contents( $file , $index );
@@ -385,28 +372,23 @@ class Webfrap
       $length = strlen($classname);
       $requireMe = null;
 
-      foreach( Webfrap::$autoloadPath as $path )
-      {
+      foreach (Webfrap::$autoloadPath as $path) {
 
         $parts = array();
         $start = 0;
         $end = 1;
         $package = '';
 
-        if( file_exists( $path.'src/'.$classname.'.php' ) )
-        {
+        if ( file_exists( $path.'src/'.$classname.'.php' ) ) {
           include $path.'src/'.$classname.'.php' ;
+
           return;
-        }
-        else
-        {
+        } else {
           // 3 Stufen Packages
           $level = 0;
-          for( $pos = 1 ; $pos < $length  ; ++$pos )
-          {
+          for ($pos = 1 ; $pos < $length  ; ++$pos) {
 
-            if(ctype_upper($classname[$pos]) )
-            {
+            if (ctype_upper($classname[$pos]) ) {
               $package  .= strtolower( str_replace( '_','', substr( $classname, $start, $end  ) ) ).'/' ;
               $start    += $end;
               $end      = 0;
@@ -414,12 +396,12 @@ class Webfrap
 
               $file = realpath($path.'src/'.$package.$classname.'.php');
 
-              if( file_exists( $file ) )
-              {
+              if ( file_exists( $file ) ) {
                 Debug::logFile($file);
                 self::$classIndex[$classname] = $file;
                 self::$indexChanged           = true;
                 include $file;
+
                 return;
               }
 
@@ -530,7 +512,6 @@ class Webfrap
 
   }//end public static function errorHandler */
 
-
   /**
    * Webfrap Own Error Handler
    *
@@ -616,13 +597,11 @@ class Webfrap
       E_USER_DEPRECATED     => 'USER DEPRECATED',
     );
 
-
     $time = microtime(true);
 
     $logString = '<div>';
     $logString .= '<p>'.$errorType[$errno].': '.$errstr.'</p>';
     $logString .= '<p>File: '.$errfile.'  Line:'.$errline.'</p>';
-
 
     ob_start();
     var_dump($errDump);
@@ -635,10 +614,7 @@ class Webfrap
     $logString .= Debug::backtraceToTable($backTrace);
     $logString .= '</div>';
 
-
-
-    if( !file_exists(PATH_GW.'log') )
-    {
+    if ( !file_exists(PATH_GW.'log') ) {
       if(!class_exists('SFilesystem'))
         include PATH_FW.'src/s/SFilesystem.php';
 
@@ -654,8 +630,7 @@ class Webfrap
 
     // write the first error, easier for debugging cause of the huge amount of data
     // per error
-    if( !self::$numPhpErrors )
-    {
+    if (!self::$numPhpErrors) {
       SFiles::write( PATH_GW.'log/'.'first_'.$logFile, $logString , 'w' );
     }
 
@@ -665,7 +640,6 @@ class Webfrap
     return true;
 
   }//end public static function debugErrorHandler */
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Bootstrap
@@ -688,7 +662,6 @@ class Webfrap
 
   }//end public static function initLight */
 
-
   /**
    * Das Basissystem soweit initialisieren
    * @return LibFlowApachemod
@@ -706,8 +679,7 @@ class Webfrap
 
     // if no controller is defined the framework FLow Handler does not start
     // and you can implement your own Flow/MVC Whatever Logicacl ApplicationFlow
-    if( defined('WBF_CONTROLLER') )
-    {
+    if ( defined('WBF_CONTROLLER') ) {
       $flowController = 'LibFlow'.ucfirst(WBF_CONTROLLER);
       self::$instance = new $flowController();
 
@@ -716,20 +688,15 @@ class Webfrap
 
     }
 
-
     $session = Session::getInstance();
 
-    if( $session->getStatus() )
-    {
+    if ( $session->getStatus() ) {
       Debug::console('wakeup');
       self::$instance->wakeup();
-    }
-    else
-    {
+    } else {
       Debug::console('init');
       self::$instance->init();
     }
-
 
     ///TODO fetch timezone from os ( check if that works in win / mac )
     // set a timezone
@@ -751,21 +718,17 @@ class Webfrap
 
     ///TODO find a solution how to add a hirachie
 
-    if( is_dir( PATH_GW.'conf/include/module' )  )
-    {
+    if ( is_dir( PATH_GW.'conf/include/module' )  ) {
       $dModules = opendir( PATH_GW.'conf/include/module' );
 
-      if ($dModules)
-      {
-         while( $mod = readdir($dModules) )
-         {
+      if ($dModules) {
+         while ( $mod = readdir($dModules) ) {
             if($mod[0] == '.')
               continue;
 
             Webfrap::$autoloadPath[] = PATH_ROOT.$mod.'/';
 
-            if(!$srcOnly)
-            {
+            if (!$srcOnly) {
               View::$searchPathTemplate[] = PATH_ROOT.$mod.'/templates/';
               I18n::$i18nPath[] = PATH_ROOT.$mod.'/i18n/';
               Conf::$confPath[] = PATH_ROOT.$mod.'/conf/';
@@ -779,7 +742,6 @@ class Webfrap
     }
 
   }//end public static function loadModulePath
-
 
   /**
    *
@@ -796,18 +758,15 @@ class Webfrap
     else
       return;
 
-    if ($dModules)
-    {
-       while( $mod = readdir($dModules) )
-       {
+    if ($dModules) {
+       while ( $mod = readdir($dModules) ) {
           if($mod[0] == '.')
             continue;
 
           Webfrap::$autoloadPath[] = PATH_ROOT.$mod.'/';
           Webfrap::$autoloadPath[] = PATH_ROOT.$mod.'/sandbox/';
 
-          if(!$srcOnly)
-          {
+          if (!$srcOnly) {
             View::$searchPathTemplate[] = PATH_ROOT.$mod.'/templates/';
             View::$searchPathTemplate[] = PATH_ROOT.$mod.'/sandbox/templates/';
 
@@ -825,7 +784,6 @@ class Webfrap
     }
 
   }//end public static function loadGmodPath
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Informationen zu dem Systemstatus
@@ -850,7 +808,6 @@ class Webfrap
     return self::$instance->getActivMod();
   }//end public static function activMod */
 
-
   /**
    * Die Aktive Extension erfragen
    * @return Mex
@@ -859,7 +816,6 @@ class Webfrap
   {
     return self::$instance->getActivMod()->getActivController();
   }//end public static function activMex */
-
 
   /**
    * Enter description here...
@@ -913,6 +869,7 @@ class Webfrap
   {
     // fängt halt bei 1 an
     ++ self::$sequence;
+
     return 'tmp_'.self::$sequence;
   }//end public static function uniqid */
 
@@ -928,39 +885,35 @@ class Webfrap
 
     $key = $type.'/'.$file;
 
-    if( isset( self::$tplIndex[$key] ) )
-    {
-      
+    if ( isset( self::$tplIndex[$key] ) ) {
+
       if(DEBUG)
         Debug::console('TEMPLATE from index: '.self::$tplIndex[$key] );
-      
+
       return self::$tplIndex[$key];
     }
-      
+
     $tPath = View::$templatePath.'/'.$key.'.tpl';
 
     // Zuerst den Standard Pfad checken
-    if( file_exists($tPath) )
-    {
+    if ( file_exists($tPath) ) {
       // use realpath, its faster
       $tPath = realpath($tPath);
 
       self::$tplIndex[$key] = $tPath;
       self::$indexChanged   = true;
-      
+
       if(DEBUG)
         Debug::console('TEMPLATE: '.$tPath);
-        
+
       return $tPath;
     }
 
-    foreach( View::$searchPathTemplate as $path  )
-    {
+    foreach (View::$searchPathTemplate as $path) {
 
       $tmpPath = $path.'/'.$type.'/'.$file.'.tpl';
 
-      if( file_exists( $tmpPath ) )
-      {
+      if ( file_exists( $tmpPath ) ) {
         if(Log::$levelDebug)
           Log::debug("found Template: ". $tmpPath );
 
@@ -974,9 +927,7 @@ class Webfrap
         self::$indexChanged   = true;
 
         return $tmpPath;
-      }
-      else
-      {
+      } else {
         if(Log::$levelDebug)
           Debug::console( 'Not found: '. $tmpPath );
       }
@@ -988,5 +939,4 @@ class Webfrap
   }//end public static function templatePath */
 
 }//end class Webfrap
-
 

@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -23,7 +22,7 @@
 class Refactorer_Model
   extends MvcModel
 {
-  
+
   /**
    * @param string $search
    * @param string $replace
@@ -32,8 +31,7 @@ class Refactorer_Model
    */
   public function refactor( $search, $replace, $path, $ending = null )
   {
-    
-    
+
     $files = new IoFileIterator
     (
       $path,
@@ -41,34 +39,29 @@ class Refactorer_Model
       true,
       $ending
     );
-    
+
     $html = '';
-    
-    foreach( $files as $file )
-    {
-      
+
+    foreach ($files as $file) {
+
       $orig = str_replace( "\r\n", "\n", file_get_contents( $file ));
       $search  = str_replace( "\r\n", "\n" , $search );
       $replace = str_replace( "\r\n", "\n" , $replace );
-      
+
       $new  = str_replace( $search ,$replace, $orig );
-      
+
       //$new  = str_replace( "\r\n", "\n" , $orig );
-      
-      if( $orig != $new )
-      {
+
+      if ($orig != $new) {
         file_put_contents( $file, $new );
         $html .= "Changed: $file<br />".NL;
-      }
-      else 
-      {
+      } else {
         $html .= "Ignored: $file<br />".NL;
       }
     }
 
     return $html;
-    
-  }//end public function refactor */
 
+  }//end public function refactor */
 
 }//end class Refactorer_Model */

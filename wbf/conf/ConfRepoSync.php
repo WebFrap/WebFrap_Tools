@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -22,14 +22,14 @@
 class ConfRepoSync
   extends TArray
 {
-    
+
   /**
    * Der Benötigte Username für den Zugriff auf die Repositories soweit
    * ein einheitlicher Access vorhanden ist
    * @var string
    */
   public $repoUser     = null;
-  
+
   /**
    * Das benötigte Passwort für den Zugriff auf die Repositories soweit
    * ein einheitlicher Access vorhanden ist
@@ -60,7 +60,7 @@ class ConfRepoSync
    * @var string
    */
   public $contactMail    = null;
-  
+
   /**
    * Liste mit den Repositories die gesynct werden sollen
    * @var array
@@ -68,5 +68,4 @@ class ConfRepoSync
   public $repositories = array();
 
 } // end class ConfRepoSync
-
 

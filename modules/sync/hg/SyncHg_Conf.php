@@ -8,13 +8,12 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
 *
 *******************************************************************************/
-
 
 /**
  * @package WebFrap
@@ -25,17 +24,17 @@ class SyncHg_Conf
 ////////////////////////////////////////////////////////////////////////////////
 // Attributes
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @var string
    */
   public $userName = null;
-  
+
   /**
    * @var string
    */
   public $userPwd = null;
-  
+
   /**
    * @var string
    */
@@ -56,41 +55,35 @@ class SyncHg_Conf
         'WebFrap',
         'WebFrap_Gaia',
       )
-    ) 
+    )
   );
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methodes
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @param string $path
    */
   public function load( $path )
   {
-    
+
     // erst mal potentiell alte confs leeren
     $this->userName     = null;
     $this->userPwd      = null;
     $this->displayName  = null;
     $this->repos        = array();
-    
-    if( Fs::exists( $path ) )
-    {
-      
+
+    if ( Fs::exists( $path ) ) {
+
       $error = null;
-      
-      if( Gaia::checkSyntax( $path, $error ) )
-      {
+
+      if ( Gaia::checkSyntax( $path, $error ) ) {
         include $path;
-      }
-      else 
-      {
+      } else {
         throw new GaiaException( "Requested Conf {$path} was invalid ".$error );
       }
-    }
-    else 
-    {
+    } else {
       throw new GaiaException( "Requested Conf {$path} not exists." );
     }
 

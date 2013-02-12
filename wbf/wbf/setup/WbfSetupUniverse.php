@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -29,19 +29,18 @@ class WbfSetupUniverse
    */
   public function setup( $package, $console )
   {
-    
+
     $gateways = $package->getGateway();
-    
+
   }//end public function setup */
-  
+
   /**
    * @param PackageGateway $gateway
    */
   protected function setupGateway( $gateway )
   {
-    
-  }//end protected function setupGateway */
-  
-} // end class WbfSetup
 
+  }//end protected function setupGateway */
+
+} // end class WbfSetup
 

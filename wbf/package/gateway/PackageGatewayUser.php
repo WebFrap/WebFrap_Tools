@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -26,7 +26,7 @@ class PackageGatewayUser
 ////////////////////////////////////////////////////////////////////////////////
 // Metadata
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @var array
    */
@@ -55,7 +55,7 @@ class PackageGatewayUser
     10    => 90,
     11    => 100,
   );
-  
+
   /**
    * @var array
    */
@@ -68,11 +68,11 @@ class PackageGatewayUser
     2 => 'admin',
     3 => 'user',
   );
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methoden
 ////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * @return string
    */
@@ -80,7 +80,7 @@ class PackageGatewayUser
   {
     return $this->getAttribute( 'name' );
   }//end public function getName */
-  
+
   /**
    * @return string
    */
@@ -96,7 +96,7 @@ class PackageGatewayUser
   {
     return $this->getNodeValue( 'firstname' );
   }//end public function getFirstname */
-  
+
   /**
    * @return string
    */
@@ -104,27 +104,27 @@ class PackageGatewayUser
   {
     return $this->getNodeValue( 'lastname' );
   }//end public function getLastname */
-  
+
   /**
    * @return string
    */
   public function getLevel()
   {
-    
+
     $level = $this->getNodeValue( 'level' );
-    
+
     if( !$level )
+
       return 40;
-      
-    if( !isset( $this->levels[$level] ) )
-    {
+
+    if ( !isset( $this->levels[$level] ) ) {
       throw new GaiaException("Got nonexisting Userlevel {$level}");
     }
-    
+
     return $this->levels[$level];
-    
+
   }//end public function getLevel */
-  
+
   /**
    * @return string
    */
@@ -132,7 +132,7 @@ class PackageGatewayUser
   {
     return $this->getNodeValue( 'profile' );
   }//end public function getProfile */
-  
+
   /**
    * @return string
    */
@@ -141,6 +141,5 @@ class PackageGatewayUser
     return $this->getNodeValue( 'email' );
   }//end public function getEmail */
 
-} // end class PackageGatewayUser 
-
+} // end class PackageGatewayUser
 

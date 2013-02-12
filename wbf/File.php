@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -17,15 +17,14 @@
 
 ///
 /// NEIN, DIES DATEI ERHEBT NICHT DEN ANSPRUCH OOP ZU SEIN.
-/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT. 
-/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET. 
+/// ES IS EXPLIZIT AUCH NICHT ALS OOP GEWOLLT.
+/// DIE KLASSEN WERDEN LEDIGLICH ALS CONTAINER ZUM ORGANISIEREN DER FUNKTIONEN VERWENDET.
 /// JA DAS IST VIEL CODE FÜR EINE DATEI, NEIN ES IST KEIN PROBLEM
 /// NEIN ES IST WIRKLICH KEIN PROBLEM, SOLLTE ES DOCH ZU EINEM WERDEN WIRD ES
 /// GELÖST SOBALD ES EINS IST
 /// Danke ;-)
 ///
 
-  
 /**
  * Umgang mit Dateien
   * @package WebFrap
@@ -33,7 +32,7 @@
  */
 class File
 {
- 
+
   /**
    * @param string $file Link zum File
    * @param int $start Position ab welcher die Daten gelesen werden sollen
@@ -43,32 +42,28 @@ class File
    */
   public static function getCsvContent( $file, $start = 0, $delimiter = ';', $enclosure = '"', $escape    = '\\' )
   {
-    
+
     $data = array();
     $pos = 0;
-    
-    if( ( $handle = fopen( $file, "r")) !== FALSE) 
-    {
-      
-      while (($row = fgetcsv($handle, 4096, $delimiter, $enclosure, $escape )) !== FALSE) 
-      {
-        if( $start > $pos )
-        {
+
+    if ( ( $handle = fopen( $file, "r")) !== FALSE) {
+
+      while (($row = fgetcsv($handle, 4096, $delimiter, $enclosure, $escape )) !== FALSE) {
+        if ($start > $pos) {
           ++$pos;
           continue;
         }
-        
+
         $data[] = $row;
-        
+
         ++$pos;
       }
-      
+
       fclose($handle);
     }
-    
+
     return $data;
-    
+
   }//end public static function getCsvContent */
 
-  
 }//end class User */

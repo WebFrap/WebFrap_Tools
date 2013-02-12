@@ -1,12 +1,12 @@
 <?php
 /*******************************************************************************
 
- ____      ____  ________  ______   ________  _______          _       _______  
-|_  _|    |_  _||_   __  ||_   _ \ |_   __  ||_   __ \        / \     |_   __ \ 
+ ____      ____  ________  ______   ________  _______          _       _______
+|_  _|    |_  _||_   __  ||_   _ \ |_   __  ||_   __ \        / \     |_   __ \
   \ \  /\  / /    | |_ \_|  | |_) |  | |_ \_|  | |__) |      / _ \      | |__) |
-   \ \/  \/ /     |  _| _   |  __'.  |  _|     |  __ /      / ___ \     |  ___/ 
-    \  /\  /     _| |__/ | _| |__) |_| |_     _| |  \ \_  _/ /   \ \_  _| |_    
-     \/  \/     |________||_______/|_____|   |____| |___||____| |____||_____|   
+   \ \/  \/ /     |  _| _   |  __'.  |  _|     |  __ /      / ___ \     |  ___/
+    \  /\  /     _| |__/ | _| |__) |_| |_     _| |  \ \_  _/ /   \ \_  _| |_
+     \/  \/     |________||_______/|_____|   |____| |___||____| |____||_____|
 
 
 
@@ -49,7 +49,7 @@ abstract class CliControllerAbstract
   * Unterstütze Kommandos
   */
   protected $actions = array
-  ( 
+  (
   'help'   => 'help'
   );
 
@@ -63,12 +63,12 @@ abstract class CliControllerAbstract
   * Soll das Programm geschwätzig sein?
   */
   public $verbose = false;
-  
+
   /**
-   * 
+   *
    */
   public $debug = true;
- 
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -83,18 +83,14 @@ abstract class CliControllerAbstract
   {
 
 
-    for( $nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam )
-    {
+    for ($nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam) {
 
-      if( !$this->isFlag( $_SERVER['argv'][$nam] )  )
-      {
-        if( !$this->isCommand( $_SERVER['argv'][$nam] ) )
-        {
+      if ( !$this->isFlag( $_SERVER['argv'][$nam] )  ) {
+        if ( !$this->isCommand( $_SERVER['argv'][$nam] ) ) {
           $Key = $nam;
           ++$nam;
 
-          if( !isset( $_SERVER['argv'][$nam] ) )
-          {
+          if ( !isset( $_SERVER['argv'][$nam] ) ) {
             echo 'Falsche Parameter:\n\n';
             $this->printHelp( );
             exit(1);
@@ -105,8 +101,7 @@ abstract class CliControllerAbstract
       }
     }
 
-    if( isset( $this->arguments['-v'] ) )
-    {
+    if ( isset( $this->arguments['-v'] ) ) {
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
     }
@@ -132,8 +127,7 @@ abstract class CliControllerAbstract
   public function main()
   {
 
-    switch( $this->checkAktion() )
-    {
+    switch ( $this->checkAktion() ) {
 
       case 'help':
       {
@@ -183,8 +177,7 @@ abstract class CliControllerAbstract
     $File = trim($File);
     $Lenght = strlen($File);
 
-    switch( $Lenght )
-    {
+    switch ($Lenght) {
       case 0:
       {
         // zwar kein Comment aber wir brauchens trotzdem nicht
@@ -194,12 +187,9 @@ abstract class CliControllerAbstract
 
       case 1:
       {
-        if( $File != '#' && $File != '*' )
-        {
+        if ($File != '#' && $File != '*') {
           return false;
-        }
-        else
-        {
+        } else {
           return true;
         }
         break;
@@ -208,10 +198,10 @@ abstract class CliControllerAbstract
       default:
       {
         $Part = substr( $File , 0 , 2 );
-        if( $Part != '//' && $Part != '/*' )
-        {
+        if ($Part != '//' && $Part != '/*') {
           return false;
         }
+
         return true;
       }
 
@@ -235,13 +225,11 @@ abstract class CliControllerAbstract
   protected function isFlag( $Data )
   {
 
-    if( $Data{0} == '-' )
-    {
+    if ($Data{0} == '-') {
       $this->arguments[$Data] = true;
+
       return true;
-    }
-    else
-    {
+    } else {
       return false;
     }
 
@@ -258,13 +246,11 @@ abstract class CliControllerAbstract
   {
     $Data = strtolower($Data);
 
-    if( isset( $this->actions[$Data] ) )
-    {
+    if ( isset( $this->actions[$Data] ) ) {
       $this->command = $Data;
+
       return true;
-    }
-    else
-    {
+    } else {
       return false;
     }
 
@@ -278,18 +264,15 @@ abstract class CliControllerAbstract
   protected function checkAktion( )
   {
 
-    if( !is_null($this->command) )
-    {
+    if ( !is_null($this->command) ) {
       if($this->debug)
         echo "Gebe command zurück\n";
-      
+
       return $this->command;
-    }
-    else
-    {
+    } else {
       if($this->debug)
         echo "hab kein command\n";
-      
+
       // Keine Action gefunden, dann die Hilfe ausgeben
       return 'help';
     }
@@ -311,4 +294,3 @@ abstract class CliControllerAbstract
 
 }//end CliControllerAbstract
 
-?>

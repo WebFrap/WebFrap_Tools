@@ -8,7 +8,7 @@
 * @projectUrl  : http://webfrap.net
 *
 * @licence     : BSD License see: LICENCE/BSD Licence.txt
-* 
+*
 * @version: @package_version@  Revision: @package_revision@
 *
 * Changes:
@@ -31,27 +31,27 @@ class Vcs_Git
    * @var string
    */
   public $localPath = null;
-  
+
   /**
    * @var string
    */
   public $userName = null;
-  
+
   /**
    * @var string
    */
   public $userPasswd = null;
-  
+
   /**
    * @var string
    */
   public $displayName = null;
-  
+
   /**
    * @var string
    */
   public $syncUrl = null;
-  
+
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::getVersion()
  */
@@ -59,7 +59,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -69,7 +69,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -79,7 +79,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -89,7 +89,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -99,7 +99,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -109,7 +109,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -119,7 +119,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -129,7 +129,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -139,7 +139,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -149,7 +149,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -159,7 +159,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -169,7 +169,7 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
 /* (non-PHPdoc)
@@ -179,15 +179,12 @@ class Vcs_Git
   {
 
     // TODO Auto-generated method stub
-    
+
   }
 
-  
 ////////////////////////////////////////////////////////////////////////////////
 // Methodes
 ////////////////////////////////////////////////////////////////////////////////
-
-
 
 }// end class Vcs_Mercurial
 
