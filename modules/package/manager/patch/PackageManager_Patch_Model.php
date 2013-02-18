@@ -390,24 +390,24 @@ everyThinkOk=true;
 # echo and log
 function writeLn {
 
-	echo $1
-	echo $1 >> \$packagePath/deploy.log
+  echo $1
+  echo $1 >> \$packagePath/deploy.log
 }
 
 # touch or create file
 function touchOrCreate {
 
-	theDir=$(dirname \${deplPath}\${1})/;
+  theDir=$(dirname \${deplPath}\${1})/;
 
-	# create the path if not yet exists
+  # create the path if not yet exists
   if [ ! -d \$theDir ]; then
       mkdir -p \$theDir
   fi
   
   # check if the creation was success full
   if [ ! -d \$theDir ]; then
-  	writeLn "Failed to create folder \${deplPath}\${1}/"
-  	exit 1;
+    writeLn "Failed to create folder \${deplPath}\${1}/"
+    exit 1;
   fi
 
   writeLn "touch file \${deplPath}\${1}" 
@@ -425,8 +425,8 @@ function deploy {
   fi
   
   if [ ! -d "\${deplPath}\${1}/" ]; then
-  	writeLn "Failed to create folder \${deplPath}\${1}/"
-  	exit 1;
+    writeLn "Failed to create folder \${deplPath}\${1}/"
+    exit 1;
   fi
 
   cp -f "\${fPath}\${2}" "\${deplPath}\${2}"
@@ -435,15 +435,15 @@ function deploy {
 # copy / deploy new files
 function deployPath {
 
-	# create the path if not yet exists
+  # create the path if not yet exists
   if [ ! -d "\${deplPath}\${1}/" ]; then
       mkdir -p \${deplPath}\${1}/
   fi
   
   # check if the creation was success full
   if [ ! -d "\${deplPath}\${1}/" ]; then
-  	writeLn "Failed to create folder \${deplPath}\${1}/"
-  	exit 1;
+    writeLn "Failed to create folder \${deplPath}\${1}/"
+    exit 1;
   fi
 
   writeLn "deploy folder \${1} to \${deplPath}\${1}" 
@@ -455,13 +455,13 @@ function remove {
 
   if [ -d "\${deplPath}\${1}/" ]; then
   
-  		writeLn "delete folder \${deplPath}\${1}" 
+      writeLn "delete folder \${deplPath}\${1}" 
       rm -rf "\${deplPath}\${1}"
   fi
   
   if [ -a "\${deplPath}\${1}" ]; then
   
-  		writeLn "delete file \${deplPath}\${1}" 
+      writeLn "delete file \${deplPath}\${1}" 
       rm -f "\${deplPath}\${1}"
   fi
 
@@ -470,14 +470,14 @@ function remove {
 # remove files or directories
 function notifyStakeholder {
 
-	command -v mail >/dev/null 2>&1 || { echo >&2 "Missing the mail command"; exit 1; }
+  command -v mail >/dev/null 2>&1 || { echo >&2 "Missing the mail command"; exit 1; }
 
-	subject="{$this->appName} {$this->appVersion}.{$this->appRevision} deployment finished sucessfully."
+  subject="{$this->appName} {$this->appVersion}.{$this->appRevision} deployment finished sucessfully."
 
-	msg="Dear \${1}\\n"
-	msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\\n\\n"
-	msg="\${msg}Started: \${started} End: \${3}\\n"
-	
+  msg="Dear \${1}\\n"
+  msg="\${msg}The deployment of {$this->appName} {$this->appVersion}.{$this->appRevision} was finished successfully.\\n\\n"
+  msg="\${msg}Started: \${started} End: \${3}\\n"
+  
   echo \$msg | mail -s \$subject $2
 
 }
@@ -486,69 +486,69 @@ function notifyStakeholder {
 
 # execute scripts
 function executeScripts {
-	
-	# make shure to be in the package path
-	cd \$packagePath
+  
+  # make shure to be in the package path
+  cd \$packagePath
 
   if [ ! -d "\$packagePath/scripts/\${1}/" ]; then
-  	# folder not even exists
-  	writeLn "nothing to do for \${1}"
+    # folder not even exists
+    writeLn "nothing to do for \${1}"
     return 0
   fi
-	
+  
   if [ ! "$(ls -A \$packagePath/scripts/\${1}/)" ]; then
-  	# exists but empty
-  	writeLn "no actions for \${1}"
+    # exists but empty
+    writeLn "no actions for \${1}"
     return 0
   fi
 
   # include scripts
   for file in "\$packagePath/scripts/\${1}/*"
   do
-  	. \${file}
-  	# make sure to be in the right path
-  	cd \$packagePath
+    . \${file}
+    # make sure to be in the right path
+    cd \$packagePath
   done
 
 }
 
 function deploymentFailed {
 
-	# if not execute the fail scripts
+  # if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	trigger_Fail_Install
+    trigger_Fail_Install
   elif [ "update" == "\$deplType" ]; then
-  	trigger_Fail_Update
+    trigger_Fail_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	trigger_Fail_Uninstall
+    trigger_Fail_Uninstall
   fi
 
 }
 
 function deploymentSuccess {
 
-	# if not execute the fail scripts
+  # if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	trigger_Success_Install
+    trigger_Success_Install
   elif [ "update" == "\$deplType" ]; then
-  	trigger_Success_Update
+    trigger_Success_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	trigger_Success_Uninstall
+    trigger_Success_Uninstall
   fi
 
 }
 
 function deploymentPre {
 
-	# if not execute the fail scripts
+  # if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	trigger_Pre_Install
+    trigger_Pre_Install
   elif [ "update" == "\$deplType" ]; then
-  	trigger_Pre_Update
+    trigger_Pre_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	trigger_Pre_Uninstall
- 	else
-  	writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
+    trigger_Pre_Uninstall
+   else
+    writeLn "Ok i got a unknown deployment type: \${deplType}. I assume you know what you are doing but be aware that this deployment will execute no scripts."
   fi
   
   if [ ! everyThinkOk ]; then
@@ -559,13 +559,13 @@ function deploymentPre {
 
 function deploymentPost {
 
-	# if not execute the fail scripts
+  # if not execute the fail scripts
   if [ "install" == "\$deplType" ]; then
-  	trigger_Post_Install
+    trigger_Post_Install
   elif [ "update" == "\$deplType" ]; then
-  	trigger_Post_Update
+    trigger_Post_Update
   elif [ "uninstall" == "\$deplType" ]; then
-  	trigger_Post_Uninstall
+    trigger_Post_Uninstall
   fi
   
   if [ ! everyThinkOk ]; then
@@ -589,23 +589,23 @@ fi
 # try to guess the deployment type if not set or specified
 if [ ! -n "\$deplType" ]; then
 
-	writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
+  writeLn "Got an untyped package, i try to guess now if this is a new installation or an update"
 
   if [ ! -d "\${deplPath}" ]; then
-  	
-  	writeLn "Deployment target: \${deplPath} does not exist. I assume this is an installation"
-  	deplType="install"
+    
+    writeLn "Deployment target: \${deplPath} does not exist. I assume this is an installation"
+    deplType="install"
     
   else
     if [ "$(ls -A \$deplPath)" ]; then
-    	
-    	writeLn "Deployment target: \${deplPath} exist and is not empty. I assume this is an update"
-    	deplType="update"
-    	
+      
+      writeLn "Deployment target: \${deplPath} exist and is not empty. I assume this is an update"
+      deplType="update"
+      
     else
       
-    	writeLn "Got untyped package, system tries tu guess if this is an installation or an update"
-    	deplType="install"
+      writeLn "Got untyped package, system tries tu guess if this is an installation or an update"
+      deplType="install"
       
     fi
   
@@ -620,10 +620,10 @@ if [ "patch" == "\$packageType" ]; then
 
   if [ ! "update" == "\$deplType" ]; then
 
-  	writeLn "The install action \${deplType} is not applicale for \${packageType} packages."
-  	writeLn "Your system was not changed"
-  	writeLn "Shutting down the deployment process"
-  	exit 2
+    writeLn "The install action \${deplType} is not applicale for \${packageType} packages."
+    writeLn "Your system was not changed"
+    writeLn "Shutting down the deployment process"
+    exit 2
   
   fi
   
@@ -631,15 +631,15 @@ fi
 
 # unpack if not yet unpacked
 if [ ! -d "./files" ]; then
-	
-	# unpack the data container
+  
+  # unpack the data container
   tar xjvf files.tar.bz2 1>/dev/null
   
   # check if unpack was successfull before proceed
   if [ ! -d "./files" ]; then
   
       writeLn "Failed to unpack the data container. Deployment failed!"
-  		deploymentFailed
+      deploymentFailed
       exit 1 
   fi
     
@@ -736,7 +736,7 @@ deploymentPost
 
 # check if still everything ist ok
 if [ everyThinkOk ]; then
-	deploymentSuccess
+  deploymentSuccess
 fi
 
 writeLn "Cleaning the temporary install files"
@@ -861,7 +861,7 @@ CODE;
 
 function trigger_{$scriptTypeKey} {
 
-	cd \$packagePath
+  cd \$packagePath
 
 CODE;
 
@@ -872,7 +872,7 @@ CODE;
 
         $code .= <<<CODE
 
-	. ./scripts/{$scriptType}/{$baseName}
+  . ./scripts/{$scriptType}/{$baseName}
   # make shure we are in package path
   cd \$packagePath
 

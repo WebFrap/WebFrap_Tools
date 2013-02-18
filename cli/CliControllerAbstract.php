@@ -12,8 +12,8 @@
 
 Autor     : Dominik Bonsch cdo@webfrapdev.de
 Copyright : Dominik Bonsch cdo@webfrapdev.de
-Licence		: Webfrap Common Working Together Licence 1.0 or later
-Licence		: Webfrap Business Licence 1.0 or later
+Licence    : Webfrap Common Working Together Licence 1.0 or later
+Licence    : Webfrap Business Licence 1.0 or later
 
 *******************************************************************************/
 
