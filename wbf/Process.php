@@ -37,10 +37,10 @@ class Process
   /**
    * @param string $command
    */
-  static function run( $command )
+  static function run($command)
   {
     $result = '';
-    if ($proc = popen("($command)2>&1","r") )
+    if ($proc = popen("($command)2>&1","r"))
     {
       while (!feof($proc))
         echo fgets($proc, 1000);
@@ -54,20 +54,20 @@ class Process
   /**
    * @param string $command
    */
-  static function system( $command )
+  static function system($command)
   {
    
-    echo exec( $command );
+    echo exec($command);
     
   }//end static function system */
   
   /**
    * @param string $command
    */
-  static function execute( $command )
+  static function execute($command)
   {
     $result = '';
-    if ($proc = popen("($command)2>&1","r") )
+    if ($proc = popen("($command)2>&1","r"))
     {
       while (!feof($proc))
         $result .= fgets($proc, 1000);

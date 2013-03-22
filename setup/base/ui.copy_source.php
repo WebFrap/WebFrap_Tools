@@ -1,4 +1,4 @@
 <?php 
 
 
-Fs::copy( $src, $target );
+Fs::copy($src, $target);

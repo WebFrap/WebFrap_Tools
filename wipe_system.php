@@ -19,12 +19,12 @@
 // die Basis Logik einbinden
 include 'wbf/core.php';
 
-Console::header( "Start Wiping", true);
+Console::header("Start Wiping", true);
 
 
 
 
 
-Console::footer( 'Finished Wiping', true );
+Console::footer('Finished Wiping', true);
 
 

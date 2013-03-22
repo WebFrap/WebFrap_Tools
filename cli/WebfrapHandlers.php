@@ -26,97 +26,97 @@ error_reporting(E_ALL | E_STRICT);
 //error_reporting(0);
 
 // Setting of the right timezone
-date_default_timezone_set( 'Europe/Berlin' );
+date_default_timezone_set('Europe/Berlin');
 
 /**
  *
  */
-define( 'INDEX_LOAD' , true );
+define('INDEX_LOAD' , true);
 
 /**
  *
  */
-define( 'DEBUG' , true );
+define('DEBUG' , true);
 
 /**
  *
  */
-define( 'ROOT'    , '../../');
+define('ROOT'    , '../../');
 
 /**
  *
  */
-define( 'V_ROOT' , '../../' );
+define('V_ROOT' , '../../');
 
 /**
  *
  */
-define( 'WEB_ROOT' , '../../' );
+define('WEB_ROOT' , '../../');
 
 /**
  *
  */
-define( 'LIB_PATH' , ROOT.'src/');
+define('LIB_PATH' , ROOT.'src/');
 
 /**
  *
  */
-define( 'USER_LIB_PATH' , V_ROOT.'src/');
+define('USER_LIB_PATH' , V_ROOT.'src/');
 
 /**
  *
  */
-define( 'SANDBOX_LIB_PATH' , ROOT.'/sandbox/src/');
+define('SANDBOX_LIB_PATH' , ROOT.'/sandbox/src/');
 
 /**
  * Enter description here...
  *
  */
-define( 'MAX_PACKAGE_LEVEL' , 3 );
+define('MAX_PACKAGE_LEVEL' , 3);
 
 /**
  * @var string
  */
-define( 'TEMPLATE_PATH' , ROOT.'templates/' );
+define('TEMPLATE_PATH' , ROOT.'templates/');
 
 /**
  *
  */
-define( 'PDF_TEMPLATE_PATH' , TEMPLATE_PATH."pdf/");
+define('PDF_TEMPLATE_PATH' , TEMPLATE_PATH."pdf/");
 
 /**
  * Enter description here...
  *
  */
-define( 'THIRD_PARTY_PATH' , ROOT.'vendor/' );
+define('THIRD_PARTY_PATH' , ROOT.'vendor/');
 
 
 /**
  *
  */
-define( 'NL' , "\n" );
+define('NL' , "\n");
 
 /**
  *
  */
-define( 'TEMP_SEP' , "#&~" );
+define('TEMP_SEP' , "#&~");
 
 /**
  *
  */
-define( 'P_S' , ":" );
+define('P_S' , ":");
 
 /**
  *
  */
-define( 'D_S' , "/" );
+define('D_S' , "/");
 
 /**
  *
  */
-define( 'LOG_CONF' , V_ROOT.'conf/Webfraplog.xml' );
+define('LOG_CONF' , V_ROOT.'conf/Webfraplog.xml');
 
-define( 'ENABLE_FIREPHP' , false );
+define('ENABLE_FIREPHP' , false);
 
 
 
@@ -127,62 +127,62 @@ define( 'ENABLE_FIREPHP' , false );
 /**
  * Which Systemcontroller Should be used
  */
-define( 'WBF_CONTROLLER' , 'Cli' );
+define('WBF_CONTROLLER' , 'Cli');
 
 
 /**
  * The Session Class to Use in Webfrap
  *
  */
-define( 'WBF_SESSION_TYPE' , 'Php'  );
+define('WBF_SESSION_TYPE' , 'Php'  );
 
 /**
  * The Session Class to Use in Webfrap
  *
  */
-define( 'WBF_SESSION_PATH' , V_ROOT.'tmp/session/'  );
+define('WBF_SESSION_PATH' , V_ROOT.'tmp/session/'  );
 
 /**
  * Default Name of the Webfrap Session
  *
  */
-define( 'WBF_SESSION_NAME' , 'WEBFRAP_SID'  );
+define('WBF_SESSION_NAME' , 'WEBFRAP_SID'  );
 
 /**
  * Enter description here...
  *
  */
-define( 'WBF_REQUEST_ADAPTER' , 'Php'  );
+define('WBF_REQUEST_ADAPTER' , 'Php'  );
 
 /**
  * What Type of Transaction Storage Should the Transaction Management Use
  *
  */
-define( 'WBF_TRANSACTION_TYPE' , 'Session'  );
+define('WBF_TRANSACTION_TYPE' , 'Session'  );
 
 /**
  * What type of Configuration should the System use?
  *
  */
-define( 'WBF_CONF_TYPE' , 'Xml'  );
+define('WBF_CONF_TYPE' , 'Xml'  );
 
 
 /**
  * Which Lib should the System use to highlight Code
  *
  */
-define( 'WBF_LIB_HIGHLIGHT' , 'Geshi'  );
+define('WBF_LIB_HIGHLIGHT' , 'Geshi'  );
 
 /**
  * how much menupoints in one row
  *
  */
-define( 'WBF_MENU_SIZE' , 3 );
+define('WBF_MENU_SIZE' , 3);
 
 
-define( 'WBF_CACHE_LEVEL1' , '60' );
+define('WBF_CACHE_LEVEL1' , '60');
 
-define( 'WBF_CACHE_LEVEL2' , '1800' );
+define('WBF_CACHE_LEVEL2' , '1800');
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,17 +193,17 @@ define( 'WBF_CACHE_LEVEL2' , '1800' );
  * Is Urldesign activated
  *
  */
-define( 'URL_DESIGN' , false  );
+define('URL_DESIGN' , false  );
 
-define( 'URL_START_SEP' , ','  );
+define('URL_START_SEP' , ','  );
 
-define( 'URL_END_SEP' , ','  );
+define('URL_END_SEP' , ','  );
 
-define( 'URL_PARAM_SEP' , '-'  );
+define('URL_PARAM_SEP' , '-'  );
 
-define( 'URL_VALUE_SEP' , '-'  );
+define('URL_VALUE_SEP' , '-'  );
 
-define( 'URL_TITLE_SEP' , '-'  );
+define('URL_TITLE_SEP' , '-'  );
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -276,42 +276,42 @@ class Webfrap
    *
    * @param string $includePath
    */
-  public static function setIncludePath( $includePath )
+  public static function setIncludePath($includePath)
   {
     if (!isset(self::$includePath[$includePath]))
     {
-      set_include_path( get_include_path().P_S.$includePath );
+      set_include_path(get_include_path().P_S.$includePath);
       self::$includePath[$includePath] = true;
     }
-  }//end public static function setIncludePath( $includePath )
+  }//end public static function setIncludePath($includePath)
 
   /**
    * Enter description here...
    *
    * @param string $includePath
    */
-  public static function addIncludePath( $includePath )
+  public static function addIncludePath($includePath)
   {
     if (!isset(self::$includePath[$includePath]))
     {
-      set_include_path( get_include_path().P_S.$includePath );
+      set_include_path(get_include_path().P_S.$includePath);
       self::$includePath[$includePath] = true;
     }
-  }//end public static function setIncludePath( $includePath )
+  }//end public static function setIncludePath($includePath)
 
   /**
    * Enter description here...
    *
    * @param string $includePath
    */
-  public static function addAutoload( $autoload )
+  public static function addAutoload($autoload)
   {
     if (!isset(self::$autoload[$autoload]))
     {
       spl_autoload_register($autoload);
       self::$autoload[$autoload] = true;
     }
-  }//end public static function setIncludePath( $includePath )
+  }//end public static function setIncludePath($includePath)
 
   /**
    * wrapper for class exists
@@ -319,19 +319,19 @@ class Webfrap
    * @param string $classname
    * @return boolean
    */
-  public static function class_loadable( $classname )
+  public static function class_loadable($classname)
   {
     try
     {
       $back = class_exists($classname);
       return $back;
     }
-    catch( SysClassNotFoundException $e )
+    catch(SysClassNotFoundException $e)
     {
       return false;
     }
 
-  }//end function class_loadable( $classname )
+  }//end function class_loadable($classname)
 
   /** The Autoloadfunction
    *
@@ -341,7 +341,7 @@ class Webfrap
    *
    *  @param string Name The Name of the Class that needs to be loaded
    */
-  public static function vhostAutoload( $classname )
+  public static function vhostAutoload($classname)
   {
 
       $length = strlen($classname);
@@ -353,7 +353,7 @@ class Webfrap
       $package = '';
 
 
-      if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+      if (file_exists(USER_LIB_PATH.$classname.'.php'))
       {
         $requireMe = USER_LIB_PATH.$classname.'.php' ;
       }
@@ -361,38 +361,38 @@ class Webfrap
       {
         // 3 Stufen Packages
         $level = 0;
-        for ( $pos = 1 ; $pos < $length  ; ++$pos )
+        for ($pos = 1 ; $pos < $length  ; ++$pos)
         {
-          if (ctype_upper($classname[$pos]) )
+          if (ctype_upper($classname[$pos]))
           {
-            $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
+            $package .= strtolower(substr($classname, $start, $end  )).'/' ;
             $start += $end;
             $end = 0;
             ++$level;
 
-            if ( file_exists( USER_LIB_PATH.$package.$classname.'.php' ) )
+            if (file_exists(USER_LIB_PATH.$package.$classname.'.php'))
             {
               $requireMe = USER_LIB_PATH.$package.$classname.'.php' ;
 
               break;
             }
 
-            if ( $level == MAX_PACKAGE_LEVEL )
+            if ($level == MAX_PACKAGE_LEVEL)
             {
               break;
             }
           }
           ++$end;
         }
-      }//end if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+      }//end if (file_exists(USER_LIB_PATH.$classname.'.php'))
 
 
-      if ( $requireMe )
+      if ($requireMe)
       {
         require $requireMe;
       }
 
-  } //function __autoload( $classname )
+  } //function __autoload($classname)
 
   /** The Autoloadfunction
    *
@@ -402,7 +402,7 @@ class Webfrap
    *
    *  @param string Name The Name of the Class that needs to be loaded
    */
-  public static function sandboxAutoload( $classname )
+  public static function sandboxAutoload($classname)
   {
 
     $length = strlen($classname);
@@ -413,7 +413,7 @@ class Webfrap
     $end = 1;
     $package = '';
 
-    if ( file_exists( SANDBOX_LIB_PATH.$classname.'.php' ) )
+    if (file_exists(SANDBOX_LIB_PATH.$classname.'.php'))
     {
       $requireMe = SANDBOX_LIB_PATH.$classname.'.php' ;
     }
@@ -421,37 +421,37 @@ class Webfrap
     {
       // 3 Stufen Packages
       $level = 0;
-      for ( $pos = 1 ; $pos < $length  ; ++$pos )
+      for ($pos = 1 ; $pos < $length  ; ++$pos)
       {
-        if (ctype_upper($classname[$pos]) )
+        if (ctype_upper($classname[$pos]))
         {
-          $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
+          $package .= strtolower(substr($classname, $start, $end  )).'/' ;
           $start += $end;
           $end = 0;
           ++$level;
 
-          if ( file_exists( SANDBOX_LIB_PATH.$package.$classname.'.php' ) )
+          if (file_exists(SANDBOX_LIB_PATH.$package.$classname.'.php'))
           {
             $requireMe = SANDBOX_LIB_PATH.$package.$classname.'.php' ;
             break;
           }
 
-          if ( $level == MAX_PACKAGE_LEVEL )
+          if ($level == MAX_PACKAGE_LEVEL)
           {
             break;
           }
         }
         ++$end;
       }
-    }//end if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+    }//end if (file_exists(USER_LIB_PATH.$classname.'.php'))
 
 
-    if ( $requireMe )
+    if ($requireMe)
     {
       require $requireMe;
     }
 
-  } //end public static function sandboxAutoload( $classname )
+  } //end public static function sandboxAutoload($classname)
 
   /** The Autoloadfunction
    *
@@ -461,7 +461,7 @@ class Webfrap
    *
    *  @param string Name The Name of the Class that needs to be loaded
    */
-  public static function autoload( $classname )
+  public static function autoload($classname)
   {
 
     $length = strlen($classname);
@@ -472,7 +472,7 @@ class Webfrap
     $end = 1;
     $package = '';
 
-    if ( file_exists( LIB_PATH.$classname.'.php' ) )
+    if (file_exists(LIB_PATH.$classname.'.php'))
     {
       $requireMe = LIB_PATH.$classname.'.php' ;
     }
@@ -480,22 +480,22 @@ class Webfrap
     {
       // 3 Stufen Packages
       $level = 0;
-      for ( $pos = 1 ; $pos < $length  ; ++$pos )
+      for ($pos = 1 ; $pos < $length  ; ++$pos)
       {
-        if (ctype_upper($classname[$pos]) )
+        if (ctype_upper($classname[$pos]))
         {
-          $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
+          $package .= strtolower(substr($classname, $start, $end  )).'/' ;
           $start += $end;
           $end = 0;
           ++$level;
 
-          if ( file_exists( LIB_PATH.$package.$classname.'.php' ) )
+          if (file_exists(LIB_PATH.$package.$classname.'.php'))
           {
             $requireMe = LIB_PATH.$package.$classname.'.php' ;
             break;
           }
 
-          if ( $level == MAX_PACKAGE_LEVEL )
+          if ($level == MAX_PACKAGE_LEVEL)
           {
             break;
           }
@@ -504,19 +504,19 @@ class Webfrap
       }
     }
 
-    if ( $requireMe )
+    if ($requireMe)
     {
       require $requireMe;
     }
 
-  } //function public static function autoload( $classname )
+  } //function public static function autoload($classname)
 
   /**
    * Enter description here...
    *
    * @param unknown_type $classname
    */
-  public static function notfoundAutoload( $classname )
+  public static function notfoundAutoload($classname)
   {
 
     $filename = ROOT.'tmp/cnf/'.uniqid().'.tmp';
@@ -526,26 +526,26 @@ class Webfrap
     <?php
 
     // delete at require
-    unlink( '$filename' );
+    unlink('$filename');
 
     // throw at require
-    throw new SysClassNotFoundException( '$errorText' );
+    throw new SysClassNotFoundException('$errorText');
 
     class $classname
     {
       public function __construct()
       {
         // throw everytime somebody wants to create an object from this
-        throw new SysClassNotFoundException( '$errorText' );
+        throw new SysClassNotFoundException('$errorText');
       }
 
     }
     ?>";
 
-    file_put_contents( $filename , $toEval );
+    file_put_contents($filename , $toEval);
     require $filename;
 
-  } //function public static function notfoundAutoload( $classname )
+  } //function public static function notfoundAutoload($classname)
 
   /**
    * Webfrap Own Error Handler
@@ -649,7 +649,7 @@ if (ENABLE_FIREPHP)
        *
        * @param array $options Options for Error handler
        */
-      static public function create($options = array() )
+      static public function create($options = array())
       {
           if ($options)
           {
@@ -683,7 +683,7 @@ if (ENABLE_FIREPHP)
           if (!$ex instanceof wfErrorHandler) {
               $errMsg = get_class($ex).': '.$errMsg;
               array_unshift($backtrace, array('file'=>$ex->getFile(), 'line'=>$ex->getLine(),
-                 'function'=>'throw '.get_class($ex), 'args'=>array($errMsg, $ex->getCode()) ));
+                 'function'=>'throw '.get_class($ex), 'args'=>array($errMsg, $ex->getCode())));
           }
 
           $errMsg .= ' | '.date("Y-m-d H:i:s");
@@ -702,7 +702,7 @@ if (ENABLE_FIREPHP)
                   if (isset($v['args'])) {
                       $errRow[] = $v['args'];
                       $separator = '';
-                      foreach($v['args'] as $arg ) {
+                      foreach($v['args'] as $arg) {
                           $trace .= $separator.self::getArgument($arg);
                           $separator = ', ';
                       }
@@ -714,7 +714,7 @@ if (ENABLE_FIREPHP)
                   if (isset($v['args'])) {
                       $errRow[] = $v['args'];
                       $separator = '';
-                      foreach($v['args'] as $arg ) {
+                      foreach($v['args'] as $arg) {
                           $trace .= $separator.self::getArgument($arg);
                           $separator = ', ';
                       }
@@ -799,7 +799,7 @@ if (ENABLE_FIREPHP)
       static protected function getArgument($arg) {
           switch (strtolower(gettype($arg))) {
               case 'string':
-                  return( '"'.str_replace( array("\n","\""), array('','"'), $arg ).'"' );
+                  return('"'.str_replace(array("\n","\""), array('','"'), $arg).'"');
               case 'boolean':
                   return (bool)$arg;
               case 'object':

@@ -39,24 +39,24 @@ class SoftwareUbuntu
   /**
    * @param array $packages
    */
-  public function install( $packages )
+  public function install($packages)
   {
-    Process::system( 'apt-get -y install '.implode( ' ', $packages ) );
+    Process::system('apt-get -y install '.implode(' ', $packages));
   }//end public function install */
   
   /**
    * @param string $package
    */
-  public function isInstalled( $package )
+  public function isInstalled($package)
   {
     
-    $packageKey = Process::execute( 'dpkg --get-selections '.$package );
+    $packageKey = Process::execute('dpkg --get-selections '.$package);
 
-    $tmp = explode( "\t", $packageKey );
+    $tmp = explode("\t", $packageKey);
     
-    if ( $package == $tmp[0] )
+    if ($package == $tmp[0])
     {
-      if ( 'install' == $tmp[1]  )
+      if ('install' == $tmp[1]  )
         return true;
     }
     

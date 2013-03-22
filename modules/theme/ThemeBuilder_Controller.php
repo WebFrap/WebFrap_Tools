@@ -33,10 +33,10 @@ class ThemeBuilder_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Theme Builder' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Theme Builder');
     
-    $workarea->addTemplate( 'theme/form' );
+    $workarea->addTemplate('theme/form');
     
   }//end public function do_default */
   
@@ -49,9 +49,9 @@ class ThemeBuilder_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( 'Css' );
+    $workarea = $console->tpl->getWorkArea('Css');
     
-    $workarea->addTemplate( 'theme/theme_content' );
+    $workarea->addTemplate('theme/theme_content');
     
   }//end public function do_render */
 

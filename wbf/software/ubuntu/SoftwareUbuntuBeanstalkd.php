@@ -38,7 +38,7 @@ class SoftwareUbuntuBeanstalkd
   
   /**
    */
-  public function installCore( )
+  public function installCore()
   {
   
     $packages = array
@@ -47,7 +47,7 @@ class SoftwareUbuntuBeanstalkd
       'postfix-pgsql',
     );
     
-    $this->install( $packages );
+    $this->install($packages);
     
   }//end public function installCore */
 
@@ -55,37 +55,37 @@ class SoftwareUbuntuBeanstalkd
   
   /**
    */
-  public function reload( )
+  public function reload()
   {
     
-    Process::execute( "/etc/init.d/postfix reload" );
+    Process::execute("/etc/init.d/postfix reload");
     
   }//end public function reload */
   
   /**
    */
-  public function restart( )
+  public function restart()
   {
     
-    Process::execute( "/etc/init.d/postfix restart" );
+    Process::execute("/etc/init.d/postfix restart");
     
   }//end public function restart */
   
   /**
    */
-  public function start( )
+  public function start()
   {
     
-    Process::execute( "/etc/init.d/postfix start" );
+    Process::execute("/etc/init.d/postfix start");
     
   }//end public function start */
   
   /**
    */
-  public function stop( )
+  public function stop()
   {
     
-    Process::execute( "/etc/init.d/postfix stop" );
+    Process::execute("/etc/init.d/postfix stop");
     
   }//end public function stop */ 
   

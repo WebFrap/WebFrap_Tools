@@ -56,7 +56,7 @@ class Request
   /**
    * @param IsARequest $request
    */
-  public static function setActive( IsARequest $request )
+  public static function setActive(IsARequest $request)
   {
     self::$active = $request;
   }//end public static function setActive */
@@ -68,12 +68,12 @@ class Request
   /**
    * @param array $args
    */
-  public static function parseRequest( $args = null )
+  public static function parseRequest($args = null)
   {
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
-      if ( 1 < count($args) )
+      if (1 < count($args))
       {
         $parsed = '';
         parse_str($args[1],$parsed);
@@ -81,12 +81,12 @@ class Request
         self::$args = $parsed;
       }
       
-      self::$active = new RequestCli( $args );
+      self::$active = new RequestCli($args);
       return self::$active;
     }
     else 
     {
-      self::$active = new RequestHttp(  );
+      self::$active = new RequestHttp();
       return self::$active;
     }
     
@@ -97,16 +97,16 @@ class Request
    * @param string $default Der default Wert welcher zurückgegeben wird
    *   wenn für den key keine
    */
-  public static function arg( $key, $default = null )
+  public static function arg($key, $default = null)
   {
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
-      return isset( self::$args[$key] ) ? self::$args[$key] : $default;
+      return isset(self::$args[$key]) ? self::$args[$key] : $default;
     }
     else
     {
-      return isset( $_GET[$key] ) ? $_GET[$key] : $default;
+      return isset($_GET[$key]) ? $_GET[$key] : $default;
     }
     
   }//end public static function arg */
@@ -116,10 +116,10 @@ class Request
    * @param string $default Der default Wert welcher zurückgegeben wird
    *   wenn für den key keine
    */
-  public static function data( $key, $default = null )
+  public static function data($key, $default = null)
   {
     
-    return isset( $_POST[$key] ) ? $_POST[$key] : $default;
+    return isset($_POST[$key]) ? $_POST[$key] : $default;
     
   }//end public static function data */
 

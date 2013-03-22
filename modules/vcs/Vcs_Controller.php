@@ -27,23 +27,23 @@ class Vcs_Controller
   /**
    * Views cleanen
    */
-  public function do_switchTo( )
+  public function do_switchTo()
   {
 
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $confKey = $request->param( 'conf', Validator_File::PLAIN );
-    $branch  = $request->param( 'branch', Validator_Text::CKEY );
+    $confKey = $request->param('conf', Validator_File::PLAIN);
+    $branch  = $request->param('branch', Validator_Text::CKEY);
     
-    $console->info( "Switch to branch: ".$branch );
+    $console->info("Switch to branch: ".$branch);
 
-    $model = new Vcs_Model( $this );
-    $model->loadConf( $confKey );
+    $model = new Vcs_Model($this);
+    $model->loadConf($confKey);
 
-    $model->switchToBranch( $branch );
+    $model->switchToBranch($branch);
     
-    $console->info( "Done" );
+    $console->info("Done");
     
   }//end public function do_setTesting */
   
@@ -56,15 +56,15 @@ class Vcs_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $confKey = $request->param( 'conf', Validator_File::PLAIN );
+    $confKey = $request->param('conf', Validator_File::PLAIN);
     
-    $console->info( "Merge Development to Testing" );
+    $console->info("Merge Development to Testing");
 
-    $model = new Vcs_Model( $this );
-    $model->loadConf( $confKey );
-    $model->setTesting(  );
+    $model = new Vcs_Model($this);
+    $model->loadConf($confKey);
+    $model->setTesting();
     
-    $console->info( "Done" );
+    $console->info("Done");
     
   }//end public function do_setTesting */
   
@@ -77,15 +77,15 @@ class Vcs_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $confKey = $request->param( 'conf', Validator_File::PLAIN );
+    $confKey = $request->param('conf', Validator_File::PLAIN);
     
-    $console->info( "Merge Testing to Stable" );
+    $console->info("Merge Testing to Stable");
 
-    $model = new Vcs_Model( $this );
-    $model->loadConf( $confKey );
-    $model->setStable(  );
+    $model = new Vcs_Model($this);
+    $model->loadConf($confKey);
+    $model->setStable();
     
-    $console->info( "Done" );
+    $console->info("Done");
 
     
   }//end public function do_setStable */
@@ -108,7 +108,7 @@ gaia.php Vcs setStable conf=key
 
 HTML;
 
-    $console->out( $helpText );
+    $console->out($helpText);
 
     
   }//end public function do_help */

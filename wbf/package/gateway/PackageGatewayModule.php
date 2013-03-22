@@ -72,9 +72,9 @@ class PackageGatewayModule
   {
     
     $folders = array();
-    $fList   = $this->getNodes( 'folder' );
+    $fList   = $this->getNodes('folder');
     
-    foreach( $fList as $lNode )
+    foreach($fList as $lNode)
     {
       $folders[] = $lNode->getAttribute('name');
     }
@@ -87,27 +87,27 @@ class PackageGatewayModule
    * @param string $rootPath
    * @return StructPermission
    */
-  public function getPermission( $rootPath )
+  public function getPermission($rootPath)
   {
     
-    if ( !$this->permission )
+    if (!$this->permission)
     {
       $this->permission = new StructPermission();
       $this->permission->directory = $rootPath;
       
-      $owner = $this->getAttribute( 'owner' );
-      if ( $owner )
+      $owner = $this->getAttribute('owner');
+      if ($owner)
         $this->permission->owner = $owner;
         
-      $group = $this->getAttribute( 'group' );
-      if ( $group )
+      $group = $this->getAttribute('group');
+      if ($group)
         $this->permission->group = $group;
       
-      $access = $this->getAttribute( 'access' );
-      if ( $access )
+      $access = $this->getAttribute('access');
+      if ($access)
         $this->permission->accessMask = $access;
         
-      if ( !$owner && !$group && !$access )
+      if (!$owner && !$group && !$access)
         return null;
         
       $this->permission->directory =  $rootPath.$this->getName().'/';

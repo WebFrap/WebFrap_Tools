@@ -41,12 +41,12 @@ class TArray
    * Standard Konstruktor
    * Nimmt beliebig viele Elemente oder einen einzigen Array
    */
-  public function __construct( )
+  public function __construct()
   {
 
-    if ( $anz = func_num_args() )
+    if ($anz = func_num_args())
     {
-      if ( $anz == 1 and is_array(func_get_arg(0)) )
+      if ($anz == 1 and is_array(func_get_arg(0)))
       {
         $this->pool = func_get_arg(0);
       }
@@ -57,14 +57,14 @@ class TArray
       }
     }
 
-  }//end public function __construct( )
+  }//end public function __construct()
 
   /**
    * Zugriff Auf die Elemente per magic set
    * @param string $key
    * @param mixed $value
    */
-  public function __set( $key , $value )
+  public function __set($key , $value)
   {
     $this->pool[$key] = $value;
   }// end of public function __set */
@@ -75,7 +75,7 @@ class TArray
    * @param string $key
    * @return mixed
    */
-  public function __get( $key )
+  public function __get($key)
   {
     return isset($this->pool[$key])?$this->pool[$key]:null;
   }// end of public function __get */

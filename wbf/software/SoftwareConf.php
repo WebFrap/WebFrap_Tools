@@ -35,7 +35,7 @@ class SoftwareConf
   /**
    * @param string $fileName
    */
-  public function parse( $fileName )
+  public function parse($fileName)
   {
     
   }//end public function parse */

@@ -18,18 +18,18 @@
 // die Basis Logik einbinden
 include 'wbf/core.php';
 
-echo Zenity::dialog( 'fuu ', 'licence/licence.txt', 'bar' );
+echo Zenity::dialog('fuu ', 'licence/licence.txt', 'bar');
 
 /*
-echo Zenity::question( "question" );
+echo Zenity::question("question");
 
-echo Zenity::warning( "warning" );
+echo Zenity::warning("warning");
 
-echo Zenity::readText( "Antwort auf alle fragen?", "Is klar... ne?" );
-echo Zenity::readPassword( "Gibst du password", "aber zack zack" );
+echo Zenity::readText("Antwort auf alle fragen?", "Is klar... ne?");
+echo Zenity::readPassword("Gibst du password", "aber zack zack");
 
-echo Zenity::dialog( "warning" );
+echo Zenity::dialog("warning");
 
-echo Zenity::notification( "Some boring notification" );
+echo Zenity::notification("Some boring notification");
 */
 

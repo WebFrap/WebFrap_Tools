@@ -38,7 +38,7 @@ class UiDimension
    * @param int $width
    * @param int $height
    */
-  public function __construct( $width = null, $height = null )
+  public function __construct($width = null, $height = null)
   {
     
     $this->width   = $width;
@@ -54,10 +54,10 @@ class UiDimension
     
     $html = ' ';
     
-    if ( $this->width )
+    if ($this->width)
       $html .= ' --width='.$this->width;
     
-    if ( $this->height )
+    if ($this->height)
       $html .= ' --height='.$this->height;
       
     return $html;

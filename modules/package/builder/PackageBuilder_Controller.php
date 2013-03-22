@@ -33,32 +33,32 @@ class PackageBuilder_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $packagePath = $request->param( 'package', Validator_Text::PLAIN );
+    $packagePath = $request->param('package', Validator_Text::PLAIN);
     
-    $targetPath = $request->param( 'target', Validator_Text::PLAIN );
+    $targetPath = $request->param('target', Validator_Text::PLAIN);
     
-    if ( !$packagePath || !$targetPath )
+    if (!$packagePath || !$targetPath)
     {
       $this->do_help();
       return;
     }
 
-    $codeRoot = $request->param( 'root', Validator_Text::PLAIN );
-    if ( !$codeRoot )
+    $codeRoot = $request->param('root', Validator_Text::PLAIN);
+    if (!$codeRoot)
       $codeRoot = PATH_ROOT;
     
-    $packageKey = $request->param( 'key', Validator_Text::PLAIN );
-    if ( !$packageKey )
+    $packageKey = $request->param('key', Validator_Text::PLAIN);
+    if (!$packageKey)
       $packageKey = date('YmdHis');
     
 
-    $this->model = new PackageBuilder_Model( $this );
+    $this->model = new PackageBuilder_Model($this);
     
-    $console->info( 'Baue Paket: '.$packagePath );
+    $console->info('Baue Paket: '.$packagePath);
 
-    $this->model->buildPackage( $packagePath, $packageKey, $targetPath, $codeRoot );
+    $this->model->buildPackage($packagePath, $packageKey, $targetPath, $codeRoot);
     
-    $console->info( 'Das Paket '.$packagePath.' wurde erfolgreich gebaut '.date('Y-m-d H:i:s') );
+    $console->info('Das Paket '.$packagePath.' wurde erfolgreich gebaut '.date('Y-m-d H:i:s'));
     
     $this->model->cleanTmp();
     
@@ -94,7 +94,7 @@ key=package_key
   
 HTML;
 
-    $console->out( $helpText );
+    $console->out($helpText);
 
     
   }//end public function do_help */

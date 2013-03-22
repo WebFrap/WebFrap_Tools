@@ -29,11 +29,11 @@ include 'gaia/core.php';
 # CA -newreq[-nodes] ... will generate a certificate request 
 # CA -sign ... will sign the generated request and output 
 
-if ( Request::arg('help') )
+if (Request::arg('help'))
 {
-  Console::outl( "usage: ssl_cert.php \"help\" # for help" );
-  Console::outl( "usage: ssl_cert.php \"do=newcert|newreq|newreq-nodes|newca|sign|verify\"" );
-  Console::outl( "usage: ssl_cert.php \"cert=/cert/file&key=/cert/key.file&do=newcert|newreq|newca|sign|verify\"" );
+  Console::outl("usage: ssl_cert.php \"help\" # for help");
+  Console::outl("usage: ssl_cert.php \"do=newcert|newreq|newreq-nodes|newca|sign|verify\"");
+  Console::outl("usage: ssl_cert.php \"cert=/cert/file&key=/cert/key.file&do=newcert|newreq|newca|sign|verify\"");
   exit(0);
 }
 
@@ -56,7 +56,7 @@ $DIRMODE = 0777;
 $RET = 0;
 
 foreach (@ARGV) {
-  if ( /^(-\?|-h|-help)$/ ) {
+  if (/^(-\?|-h|-help)$/) {
       print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-verify\n";
       print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
       exit 0;
@@ -79,7 +79,7 @@ foreach (@ARGV) {
     # if explicitly asked for or it doesn't exist then setup the
     # directory structure that Eric likes to manage things 
       $NEW="1";
-      if ( "$NEW" || ! -f "${CATOP}/serial" ) {
+      if ("$NEW" || ! -f "${CATOP}/serial") {
     # create the directory hierarchy
     mkdir $CATOP, $DIRMODE;
     mkdir "${CATOP}/certs", $DIRMODE;
@@ -92,7 +92,7 @@ foreach (@ARGV) {
     print OUT "01\n";
     close OUT;
       }
-      if ( ! -f "${CATOP}/private/cakey.pem" ) {
+      if (! -f "${CATOP}/private/cakey.pem") {
     print "CA certificate filename (or enter to create)\n";
     $FILE = <STDIN>;
 

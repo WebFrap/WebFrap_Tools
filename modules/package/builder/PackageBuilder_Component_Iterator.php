@@ -122,11 +122,11 @@ class PackageBuilder_Component_Iterator
    * @param [DOMNode] $components
    * @param string $targetFolder
    */
-  public function __construct( $components, $targetFolder = '/code', $codeRoot = PATH_ROOT  )
+  public function __construct($components, $targetFolder = '/code', $codeRoot = PATH_ROOT  )
   {
 
     $this->components = array();
-    foreach( $components as $component )
+    foreach($components as $component)
     {
       $this->components[] = $component;
     }
@@ -158,7 +158,7 @@ class PackageBuilder_Component_Iterator
   public function next ()
   {
   
-    if ( !$this->components )
+    if (!$this->components)
     {
       return null;
     }
@@ -166,19 +166,19 @@ class PackageBuilder_Component_Iterator
     $tmp     = null;
     $doAgain = true;
     
-    while( $doAgain )
+    while($doAgain)
     {
       
       $doAgain = false;
       $current = null;
       
       // wir haben einen aktiven folder
-      if ( $this->activFolder )
+      if ($this->activFolder)
       {
         $current = $this->activFolder->current();
         $key     = $this->activFolder->key();
         
-        if ( !$current )
+        if (!$current)
         {
           $this->activFolder = null;
           $this->current     = null;
@@ -198,22 +198,22 @@ class PackageBuilder_Component_Iterator
       }
       
       // wir haben eine aktive componente
-      if ( $this->componentFolders )
+      if ($this->componentFolders)
       {
-        $activFolder = current( $this->componentFolders );
+        $activFolder = current($this->componentFolders);
         next($this->componentFolders);
 
-        if ( $activFolder )
+        if ($activFolder)
         {
           $componentName     = $this->componentName;
           
           $this->activFolder = new PackageBuilder_File_Iterator
-          ( 
+          (
             $this->codeRoot.$this->componentName.'/'.$activFolder->getAttribute('name'),
-            str_replace( '//', '/', $this->targetFolder.$activFolder->getAttribute('name') ),
+            str_replace('//', '/', $this->targetFolder.$activFolder->getAttribute('name')),
             IoFileIterator::RELATIVE,
-            (trim($activFolder->getAttribute('recursive'))  ==  'false' ?false :true ),
-            (trim($activFolder->getAttribute('filter'))  !='' ?trim($activFolder->getAttribute('filter')) :null )
+            (trim($activFolder->getAttribute('recursive'))  ==  'false' ?false :true),
+            (trim($activFolder->getAttribute('filter'))  !='' ?trim($activFolder->getAttribute('filter')) :null)
           );
           
           $doAgain = true;
@@ -227,14 +227,14 @@ class PackageBuilder_Component_Iterator
       }
       
       // das noch aktuelle repo zurücksetzen
-      if ( $this->activRepo )
+      if ($this->activRepo)
       {
-        $this->activRepo->switchBranch( $this->activRepoBranch );
+        $this->activRepo->switchBranch($this->activRepoBranch);
       }
       
       $next = current($this->components);
       
-      if ( !$next )
+      if (!$next)
       {
         $this->activFolder      = null;
         $this->componentFolders = null;
@@ -247,7 +247,7 @@ class PackageBuilder_Component_Iterator
         $this->componentFolders = array();
         $folders = $next->getElementsByTagName('folder');
         
-        foreach( $folders as $folder )
+        foreach($folders as $folder)
         {
           $this->componentFolders[] = $folder;
         }
@@ -255,13 +255,13 @@ class PackageBuilder_Component_Iterator
         $this->componentName    = $next->getAttribute('name');
         
         $type = $next->getAttribute('type');
-        if ( !$type )
+        if (!$type)
           $type = 'code';
         
         $this->componentType    = $type;
         
         $target = $next->getAttribute('target');
-        if ( !$target )
+        if (!$target)
           $target = $this->componentName;
         
         $this->targetFolder = (
@@ -270,11 +270,11 @@ class PackageBuilder_Component_Iterator
             : 'code/' 
         ).$target.'/' ;
           
-        $repoType = $next->getAttribute( 'repo_type' );
+        $repoType = $next->getAttribute('repo_type');
         
-        if ( $repoType )
+        if ($repoType)
         {
-          $this->activRepoType = FormatString::subToCamelCase( $repoType );
+          $this->activRepoType = FormatString::subToCamelCase($repoType);
           $this->activRepo     = VcsManager::useRepository
           (
             $this->activRepoType, 
@@ -282,14 +282,14 @@ class PackageBuilder_Component_Iterator
           );
           
           
-          if ( $this->activRepo->isRepository() )
+          if ($this->activRepo->isRepository())
           {
             $this->activRepoBranch = $this->activRepo->getActualBranch();
             
-            $branch = $next->getAttribute( 'branch' );
+            $branch = $next->getAttribute('branch');
             
-            if ( $branch )
-              $this->activRepo->switchBranch( $branch );
+            if ($branch)
+              $this->activRepo->switchBranch($branch);
           }
           else 
           {
@@ -307,7 +307,7 @@ class PackageBuilder_Component_Iterator
         }
         
           
-        UiConsole::debugLine( "Got component {$this->componentName} target {$this->targetFolder}" );
+        UiConsole::debugLine("Got component {$this->componentName} target {$this->targetFolder}");
         
         $doAgain = true;
         continue;
@@ -329,9 +329,9 @@ class PackageBuilder_Component_Iterator
     $this->key               = null;
     $this->current           = null;
     
-    if ( $this->components )
+    if ($this->components)
     {
-      reset( $this->components );
+      reset($this->components);
     }
       
     $this->next();

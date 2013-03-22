@@ -3,10 +3,10 @@
 
 // den deploypath festlegen
 $apacheVhost_Done = false;
-while( !$apacheVhost_Done )
+while(!$apacheVhost_Done)
 {
   
-  if ( !$conf->deployRoot = $console->question
+  if (!$conf->deployRoot = $console->question
   (
     'Soll ein Apache Vhost erstellt werden?'
   ))
@@ -15,13 +15,13 @@ while( !$apacheVhost_Done )
     break;
   }
   
-  if ( !isset($conf->apacheVhost)  )
+  if (!isset($conf->apacheVhost)  )
   {
     $conf->apacheVhost = new stdClass();
   }
   
   /*
-  if ( !isset($conf->apacheVhost)  )
+  if (!isset($conf->apacheVhost)  )
   {
     $conf->deployRoot = $console->readText
     (
@@ -40,23 +40,23 @@ while( !$apacheVhost_Done )
   }
   
   /*
-  if ( !Fs::isDir( $conf->deployRoot ) )
+  if (!Fs::isDir($conf->deployRoot))
   {
-    if ( $console->question( 'Der angegebene Pfad existiert nicht. Soll er erstellt werden?' ) )
+    if ($console->question('Der angegebene Pfad existiert nicht. Soll er erstellt werden?'))
     {
       Fs::mkdir($conf->deployRoot);
     }
     else
     {
-      $console->error( 'Die Installation wurde manuell angebrochen.' );
+      $console->error('Die Installation wurde manuell angebrochen.');
       exit(0);
     }
   }
   
-  if ( Fs::isDir( $conf->deployRoot.'/WebFrap' ) )
+  if (Fs::isDir($conf->deployRoot.'/WebFrap'))
   {
     $action = (int)$console->radioList
-    ( 
+    (
       "Im Angegebenen Pfad scheint bereits eine Installation zu existieren.", 
       array
       (
@@ -86,18 +86,18 @@ while( !$apacheVhost_Done )
         )
       ),
       array(),
-      new UiDimension( 550 )
+      new UiDimension(550)
     );
     
-    $console->out( $action );
+    $console->out($action);
     
-    if ( 1 === $action || 2 === $action )
+    if (1 === $action || 2 === $action)
     {
       $deplRootClear = true;
     }
-    else if ( 4 === $action )
+    else if (4 === $action)
     {
-      $console->error( 'Die Installation wurde manuell angebrochen.' );
+      $console->error('Die Installation wurde manuell angebrochen.');
       exit(0);
     }
     

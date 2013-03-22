@@ -85,7 +85,7 @@ class PackageGateway
   /**
    * @param string $codeRoot
    */
-  public function setCodeRoot( $codeRoot )
+  public function setCodeRoot($codeRoot)
   {
     $this->codeRoot = $codeRoot;
   }//end public function setCodeRoot */
@@ -93,7 +93,7 @@ class PackageGateway
   /**
    * @param string $confKey
    */
-  public function setConfKey( $confKey )
+  public function setConfKey($confKey)
   {
     $this->confKey = $confKey;
   }//end public function setConfKey */
@@ -101,7 +101,7 @@ class PackageGateway
   /**
    * @param string $gwName
    */
-  public function setGwName( $gwName )
+  public function setGwName($gwName)
   {
     $this->gwName = $gwName;
   }//end public function setGwName */
@@ -109,7 +109,7 @@ class PackageGateway
   /**
    * @param string $serverKey
    */
-  public function setServerKey( $serverKey )
+  public function setServerKey($serverKey)
   {
     $this->serverKey = $serverKey;
   }//end public function setServerKey */
@@ -124,7 +124,7 @@ class PackageGateway
   public function getName()
   {
     
-    if ( !$this->gwName )
+    if (!$this->gwName)
     {
       $this->gwName = $this->getAttribute('name');
     }
@@ -147,7 +147,7 @@ class PackageGateway
   public function getCodeRoot()
   {
     
-    if ( !$this->codeRoot )
+    if (!$this->codeRoot)
     {
       $this->codeRoot = $this->getNodeValue('code_root');
     }
@@ -162,7 +162,7 @@ class PackageGateway
   public function getConfKey()
   {
     
-    if ( !$this->confKey )
+    if (!$this->confKey)
     {
       $this->confKey = $this->getNodeAttr('conf','key');
     }
@@ -177,24 +177,24 @@ class PackageGateway
   public function getGwPermission()
   {
     
-    if ( !$this->defaultPermission )
+    if (!$this->defaultPermission)
     {
       $this->defaultPermission = new StructPermission();
       
-      $owner = $this->getNodeAttr( 'permissions', 'owner' );
-      if ( $owner )
+      $owner = $this->getNodeAttr('permissions', 'owner');
+      if ($owner)
         $this->defaultPermission->owner = $owner;
         
-      $group = $this->getNodeAttr( 'permissions', 'group' );
-      if ( $group )
+      $group = $this->getNodeAttr('permissions', 'group');
+      if ($group)
         $this->defaultPermission->group = $group;
       
-      $access = $this->getNodeAttr( 'permissions', 'access' );
-      if ( $access )
+      $access = $this->getNodeAttr('permissions', 'access');
+      if ($access)
         $this->defaultPermission->accessMask = $access;
         
         
-      if ( !$owner && !$group && !$access )
+      if (!$owner && !$group && !$access)
         return null;
         
       $this->defaultPermission->directory =  $this->codeRoot.$this->getName().'/';
@@ -211,23 +211,23 @@ class PackageGateway
   public function getCodePermission()
   {
     
-    if ( !$this->codePermission )
+    if (!$this->codePermission)
     {
       $this->codePermission = new StructPermission();
       
-      $owner = $this->getNodeAttr( 'permissions/code', 'owner' );
-      if ( $owner )
+      $owner = $this->getNodeAttr('permissions/code', 'owner');
+      if ($owner)
         $this->codePermission->owner = $owner;
         
-      $group = $this->getNodeAttr( 'permissions/code', 'group' );
-      if ( $group )
+      $group = $this->getNodeAttr('permissions/code', 'group');
+      if ($group)
         $this->codePermission->group = $group;
       
-      $access = $this->getNodeAttr( 'permissions/code', 'access' );
-      if ( $access )
+      $access = $this->getNodeAttr('permissions/code', 'access');
+      if ($access)
         $this->codePermission->accessMask = $access;
       
-      if ( !$owner && !$group && !$access )
+      if (!$owner && !$group && !$access)
         return null;
         
       $this->codePermission->directory =  $this->codeRoot;
@@ -245,8 +245,8 @@ class PackageGateway
   public function getDefOwner()
   {
     
-    $owner = $this->getNodeAttr( 'permissions', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions', 'owner');
+    if (!$owner)
       $owner = 'www-data';
       
     return $owner;
@@ -259,8 +259,8 @@ class PackageGateway
   public function getDefGroup()
   {
     
-    $group = $this->getNodeAttr( 'permissions', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions', 'group');
+    if (!$group)
       $group = 'www-data';
       
     return $group;
@@ -273,8 +273,8 @@ class PackageGateway
   public function getDefAccess()
   {
     
-    $access = $this->getNodeAttr( 'permissions', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions', 'access');
+    if (!$access)
       $access = '700';
       
     return $access;
@@ -287,8 +287,8 @@ class PackageGateway
   public function getDefWriteAccess()
   {
     
-    $access = $this->getNodeAttr( 'permissions', 'write_access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions', 'write_access');
+    if (!$access)
       $access = '700';
       
     return $access;
@@ -310,18 +310,18 @@ class PackageGateway
     // tmp
     $tmpPerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/tmp', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/tmp', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $tmpPerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/tmp', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/tmp', 'group');
+    if (!$group)
       $group = $defGroup;
     $tmpPerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/tmp', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/tmp', 'access');
+    if (!$access)
       $access = $defAccess;
     $tmpPerm->accessMask = $access;
       
@@ -332,18 +332,18 @@ class PackageGateway
     // cache
     $cachePerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/cache', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/cache', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $cachePerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/cache', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/cache', 'group');
+    if (!$group)
       $group = $defGroup;
     $cachePerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/cache', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/cache', 'access');
+    if (!$access)
       $access = $defAccess;
     $cachePerm->accessMask = $access;
       
@@ -354,18 +354,18 @@ class PackageGateway
     // files
     $filesPerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/files', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/files', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $filesPerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/files', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/files', 'group');
+    if (!$group)
       $group = $defGroup;
     $filesPerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/files', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/files', 'access');
+    if (!$access)
       $access = $defAccess;
     $filesPerm->accessMask = $access;
       
@@ -376,18 +376,18 @@ class PackageGateway
     // data
     $dataPerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/data', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/data', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $dataPerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/data', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/data', 'group');
+    if (!$group)
       $group = $defGroup;
     $dataPerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/data', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/data', 'access');
+    if (!$access)
       $access = $defAccess;
     $dataPerm->accessMask = $access;
       
@@ -398,36 +398,36 @@ class PackageGateway
     // backup
     $backupPerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/backup', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/backup', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $backupPerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/backup', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/backup', 'group');
+    if (!$group)
       $group = $defGroup;
     $backupPerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/backup', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/backup', 'access');
+    if (!$access)
       $access = $defAccess;
     $backupPerm->accessMask = $access;
     
     // log
     $logPerm = new StructPermission();
     
-    $owner = $this->getNodeAttr( 'permissions/log', 'owner' );
-    if ( !$owner )
+    $owner = $this->getNodeAttr('permissions/log', 'owner');
+    if (!$owner)
       $owner = $defOwner;
     $logPerm->owner = $owner;
       
-    $group = $this->getNodeAttr( 'permissions/log', 'group' );
-    if ( !$group )
+    $group = $this->getNodeAttr('permissions/log', 'group');
+    if (!$group)
       $group = $defGroup;
     $logPerm->group = $group;
     
-    $access = $this->getNodeAttr( 'permissions/log', 'access' );
-    if ( !$access )
+    $access = $this->getNodeAttr('permissions/log', 'access');
+    if (!$access)
       $access = $defAccess;
     $logPerm->accessMask = $access;
       
@@ -442,27 +442,27 @@ class PackageGateway
   /**
    * @return [StructPermission]
    */
-  public function getCustomPermissions( )
+  public function getCustomPermissions()
   {
     
     $permissions = array();
     
-    $nodes = $this->getNodes( 'permissions/root/path' );
+    $nodes = $this->getNodes('permissions/root/path');
     
-    foreach( $nodes as /* @var DOMElement $node */ $node )
+    foreach($nodes as /* @var DOMElement $node */ $node)
     {
       $perm = new StructPermission();
 
-      $owner = $node->getAttribute( 'owner' );
-      if ( $owner )
+      $owner = $node->getAttribute('owner');
+      if ($owner)
         $perm->owner = $owner;
         
-      $group = $node->getAttribute( 'group' );
-      if ( $group )
+      $group = $node->getAttribute('group');
+      if ($group)
         $perm->group = $group;
       
-      $access = $node->getAttribute( 'access' );
-      if ( $access )
+      $access = $node->getAttribute('access');
+      if ($access)
         $perm->accessMask = $access;
 
         
@@ -485,7 +485,7 @@ class PackageGateway
    */
   public function getIconThemeName()
   {
-    return $this->getNodeAttr( 'icon_themes', 'name' );
+    return $this->getNodeAttr('icon_themes', 'name');
   }//end public function getIconThemeName */
   
   /**
@@ -496,9 +496,9 @@ class PackageGateway
     
     $folders = array();
     
-    $fList = $this->getNodes( 'icon_themes/folder' );
+    $fList = $this->getNodes('icon_themes/folder');
     
-    foreach( $fList as $lNode )
+    foreach($fList as $lNode)
     {
       $folders[] = $lNode->getAttribute('name');
     }
@@ -513,7 +513,7 @@ class PackageGateway
   public function cleanIconThemes()
   {
     
-    $value = $this->getNodeAttr( 'icon_themes', 'clean' );
+    $value = $this->getNodeAttr('icon_themes', 'clean');
     return ('true' == $value)?true:false;
     
   }//end public function cleanIconThemes */
@@ -523,7 +523,7 @@ class PackageGateway
    */
   public function getUiThemeName()
   {
-    return $this->getNodeAttr( 'ui_themes', 'name' );
+    return $this->getNodeAttr('ui_themes', 'name');
   }//end public function getUiThemeName */
   
   /**
@@ -534,9 +534,9 @@ class PackageGateway
     
     $folders = array();
     
-    $fList = $this->getNodes( 'ui_themes/folder' );
+    $fList = $this->getNodes('ui_themes/folder');
     
-    foreach( $fList as $lNode )
+    foreach($fList as $lNode)
     {
       $folders[] = $lNode->getAttribute('name');
     }
@@ -551,7 +551,7 @@ class PackageGateway
   public function cleanUiThemes()
   {
     
-    $value = $this->getNodeAttr( 'ui_themes', 'clean' );
+    $value = $this->getNodeAttr('ui_themes', 'clean');
     return ('true' == $value)?true:false;
     
   }//end public function cleanUiThemes */
@@ -561,7 +561,7 @@ class PackageGateway
    */
   public function getWgtName()
   {
-    return $this->getNodeAttr( 'wgt', 'name' );
+    return $this->getNodeAttr('wgt', 'name');
   }//end public function getWgtName */
   
   /**
@@ -572,9 +572,9 @@ class PackageGateway
     
     $folders = array();
     
-    $fList = $this->getNodes( 'wgt/folder' );
+    $fList = $this->getNodes('wgt/folder');
     
-    foreach( $fList as $lNode )
+    foreach($fList as $lNode)
     {
       $folders[] = $lNode->getAttribute('name');
     }
@@ -589,7 +589,7 @@ class PackageGateway
   public function cleanWgt()
   {
     
-    $value = $this->getNodeAttr( 'wgt', 'clean' );
+    $value = $this->getNodeAttr('wgt', 'clean');
     return ('true' == $value)?true:false;
     
   }//end public function cleanWgt */
@@ -600,7 +600,7 @@ class PackageGateway
   public function getModules()
   {
     
-    return $this->getNodes( 'modules/module', 'PackageGatewayModule' );
+    return $this->getNodes('modules/module', 'PackageGatewayModule');
     
   }//end public function getModules */
   
@@ -610,7 +610,7 @@ class PackageGateway
   public function countModules()
   {
     
-    $nodeList =  $this->getNodes( 'modules/module' );
+    $nodeList =  $this->getNodes('modules/module');
     return $nodeList->length;
     
   }//end public function countModules */
@@ -621,7 +621,7 @@ class PackageGateway
   public function getVendorModules()
   {
     
-    return $this->getNodes( 'vendor_modules/module', 'PackageGatewayModule' );
+    return $this->getNodes('vendor_modules/module', 'PackageGatewayModule');
     
   }//end public function getVendorModules */
   
@@ -631,7 +631,7 @@ class PackageGateway
   public function countVendorModules()
   {
     
-    $nodeList =  $this->getNodes( 'vendor_modules/module' );
+    $nodeList =  $this->getNodes('vendor_modules/module');
     return $nodeList->length;
     
   }//end public function countVendorModules */
@@ -646,13 +646,13 @@ class PackageGateway
   public function getServers()
   {
     
-    if ( $this->serverKey )
+    if ($this->serverKey)
     {
-      return $this->getNodes( "servers/server[@name='{$this->serverKey}']", 'PackageServer' );
+      return $this->getNodes("servers/server[@name='{$this->serverKey}']", 'PackageServer');
     }
     else 
     {
-      return $this->getNodes( "servers/server[@deploy!='demand']", 'PackageServer' );
+      return $this->getNodes("servers/server[@deploy!='demand']", 'PackageServer');
     }
     
   }//end public function getServers */
@@ -663,13 +663,13 @@ class PackageGateway
   public function countServers()
   {
     
-    if ( $this->serverKey )
+    if ($this->serverKey)
     {
-      $nodeList =  $this->getNodes( "servers/server[@name='{$this->serverKey}']" );
+      $nodeList =  $this->getNodes("servers/server[@name='{$this->serverKey}']");
     }
     else 
     {
-      $nodeList =  $this->getNodes( "servers/server[@deploy!='demand']" );
+      $nodeList =  $this->getNodes("servers/server[@deploy!='demand']");
     }
     
     return $nodeList->length;
@@ -686,7 +686,7 @@ class PackageGateway
   public function getUsers()
   {
     
-    return $this->getNodes( 'users/user', 'PackageGatewayUser' );
+    return $this->getNodes('users/user', 'PackageGatewayUser');
     
   }//end public function getUsers */
   
@@ -696,7 +696,7 @@ class PackageGateway
   public function countUsers()
   {
     
-    $nodeList =  $this->getNodes( 'users/user' );
+    $nodeList =  $this->getNodes('users/user');
     return $nodeList->length;
     
   }//end public function countUsers */
@@ -711,12 +711,12 @@ class PackageGateway
   public function getBackupNode()
   {
     
-    if ( !$this->backup )
+    if (!$this->backup)
     {
       $tmp = $this->getNode('backup');
       
-      if ( $tmp )
-        $this->backup = new PackageGatewayBackup( $this->document, $tmp );
+      if ($tmp)
+        $this->backup = new PackageGatewayBackup($this->document, $tmp);
     }
     
     return $this->backup;
@@ -731,16 +731,16 @@ class PackageGateway
    * @param string $path 
    * @return boolean
    */
-  public function updateFlag( $path )
+  public function updateFlag($path)
   {
     
-    $node = $nodeList =  $this->getNode( $path );
+    $node = $nodeList =  $this->getNode($path);
     
-    if ( !$node )
+    if (!$node)
       return false;
       
     $enabled = trim($node->getAttribute('enabled'));
-    if ( !$enabled )
+    if (!$enabled)
       return true;
     
     return $enabled == 'false' ? false:true;
@@ -752,15 +752,15 @@ class PackageGateway
    * @param string $default 
    * @return string
    */
-  public function updateFlagMode( $path, $value = null )
+  public function updateFlagMode($path, $value = null)
   {
     
-    $mode = $this->getNodeAttr( $path, 'mode' );
+    $mode = $this->getNodeAttr($path, 'mode');
     
-    if ( !$mode )
+    if (!$mode)
       return null;
       
-    if ( !$value && $value == $mode )
+    if (!$value && $value == $mode)
       return true;
     
     return $mode;

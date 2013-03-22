@@ -38,7 +38,7 @@ class SoftwareUbuntuPostgresql
   
   /**
    */
-  public function installCore( )
+  public function installCore()
   {
     
     $packages = array
@@ -57,37 +57,37 @@ class SoftwareUbuntuPostgresql
   
   /**
    */
-  public function reload( )
+  public function reload()
   {
     
-    Process::execute( "/etc/init.d/apache reload" );
+    Process::execute("/etc/init.d/apache reload");
     
   }//end public function reload */
   
   /**
    */
-  public function restart( )
+  public function restart()
   {
     
-    Process::execute( "/etc/init.d/apache restart" );
+    Process::execute("/etc/init.d/apache restart");
     
   }//end public function restart */
   
   /**
    */
-  public function start( )
+  public function start()
   {
     
-    Process::execute( "/etc/init.d/apache start" );
+    Process::execute("/etc/init.d/apache start");
     
   }//end public function start */
   
   /**
    */
-  public function stop( )
+  public function stop()
   {
     
-    Process::execute( "/etc/init.d/apache stop" );
+    Process::execute("/etc/init.d/apache stop");
     
   }//end public function stop */ 
   

@@ -100,7 +100,7 @@ class IoFileIterator
    * @param string $filter
    */
   public function __construct
-  ( 
+  (
     $folder, 
     $mode       = IoFileIterator::RELATIVE, 
     $recursive  = true,
@@ -108,9 +108,9 @@ class IoFileIterator
   )
   {
     
-    $this->folder     = str_replace('//', '/', $folder );
+    $this->folder     = str_replace('//', '/', $folder);
 
-    if ( is_string( $mode ) )
+    if (is_string($mode))
     {
       $this->fileMode       = IoFileIterator::RELATIVE;
       $this->relativeFolder = $mode;
@@ -123,30 +123,30 @@ class IoFileIterator
     
     $this->recursive  = $recursive;
     
-    if ( $filter )
+    if ($filter)
     {
-      if ( is_string( $filter ) )
-        $this->filter     = explode( ',', $filter );
+      if (is_string($filter))
+        $this->filter     = explode(',', $filter);
       else 
         $this->filter     = $filter;
     }
    
 
-    if ( is_dir( $folder ) )
+    if (is_dir($folder))
     {
-      $this->fRes = opendir( $folder );
+      $this->fRes = opendir($folder);
       $this->next();
     }
     else 
     {
-      UiConsole::debugLine( 'Tried to open nonexisting Folder: '.$folder );
+      UiConsole::debugLine('Tried to open nonexisting Folder: '.$folder);
     }
 
   }// public function __construct 
   
   /**
    */
-  public function __desctruct( )
+  public function __desctruct()
   {
 
     $this->close();
@@ -155,11 +155,11 @@ class IoFileIterator
   
   /**
    */
-  public function close( )
+  public function close()
   {
     
-    if ( is_resource( $this->fRes ) )
-      closedir( $this->fRes );
+    if (is_resource($this->fRes))
+      closedir($this->fRes);
 
   }//end public function __desctruct */
 
@@ -178,7 +178,7 @@ class IoFileIterator
   /**
    * @return string
    */
-  public function getName( )
+  public function getName()
   {
     return $this->folder;
   } // end public function getName */
@@ -213,21 +213,21 @@ class IoFileIterator
   public function next ()
   {
     
-    if ( !is_resource($this->fRes) )
+    if (!is_resource($this->fRes))
       return null;
     
     $repeat   = true;
     $current  = null;
     
-    while( $repeat ) 
+    while($repeat) 
     {
       
-      if ( $this->subFolder )
+      if ($this->subFolder)
       {
         $nextSub = $this->subFolder->next();
         $nextKey = $this->subFolder->key();
         
-        if ( $nextSub )
+        if ($nextSub)
         {
           $this->current = $nextSub;
           $this->key     = $nextKey;
@@ -241,28 +241,28 @@ class IoFileIterator
         }
       }
 
-      $current    = readdir( $this->fRes );
+      $current    = readdir($this->fRes);
       $currentKey = null;
         
       // dirty.... so what?
-      if ( '.' == $current  )
+      if ('.' == $current  )
         continue;
         
-      if ( '..' == $current )
+      if ('..' == $current)
         continue;
 
-      if ( $current )
+      if ($current)
       {
-        if ( is_dir( $this->folder.'/'.$current )  )
+        if (is_dir($this->folder.'/'.$current)  )
         {
           
-          if ( !$this->recursive )
+          if (!$this->recursive)
             continue;
           
           // wenn current ein ordner ist wird ers über ihn iteriert bevor 
           // das nächste element des aktuellen ordners ausgelesen wird
           $this->subFolder = new IoFileIterator
-          ( 
+          (
             $this->folder.'/'.$current.'/',
             $this->relativeFolder.'/'.$current.'/',
             true,
@@ -272,7 +272,7 @@ class IoFileIterator
           $current    = $this->subFolder->current();
           $currentKey = $this->subFolder->key();
           
-          if ( !$current )
+          if (!$current)
           {
             $this->subFolder = null;
             $this->current   = null;
@@ -280,12 +280,12 @@ class IoFileIterator
           }
           
           // auf eine dateiendung prüfen
-          if ( $this->filter )
+          if ($this->filter)
           {
             
-            $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
+            $info = pathinfo(str_replace('//', '/', $this->folder.'/'.$current));
             
-            if ( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if (isset($info['extension']) && !in_array(strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
           }
           
@@ -294,21 +294,21 @@ class IoFileIterator
         {
 
           // auf eine dateiendung prüfen
-          if ( $this->filter )
+          if ($this->filter)
           {
             
-            $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
+            $info = pathinfo(str_replace('//', '/', $this->folder.'/'.$current));
             
-            if ( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if (isset($info['extension']) && !in_array(strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
             
           }
           
           // den rückgabe modus auswerten
-          if ( $this->fileMode != IoFileIterator::FILE_ONLY )
+          if ($this->fileMode != IoFileIterator::FILE_ONLY)
           {
-            $current    = str_replace( '//', '/', $this->folder.'/'.$current );
-            $currentKey = str_replace( '//', '/', $this->relativeFolder.'/'.$current );
+            $current    = str_replace('//', '/', $this->folder.'/'.$current);
+            $currentKey = str_replace('//', '/', $this->relativeFolder.'/'.$current);
           } 
          
         }
@@ -325,8 +325,8 @@ class IoFileIterator
     } 
     
     // sicher stellen, dass die pfade korrekt sind
-    if ( $current )
-      $this->current = str_replace( array('../','//'), array('/','/'), $current ) ;
+    if ($current)
+      $this->current = str_replace(array('../','//'), array('/','/'), $current) ;
     else 
       $this->current = null;
       
@@ -342,7 +342,7 @@ class IoFileIterator
   public function rewind ()
   {
     
-    if ( is_resource($this->fRes))
+    if (is_resource($this->fRes))
       rewinddir($this->fRes);
       
     $this->subFolder = null;

@@ -27,13 +27,13 @@ class Error_Controller
   /**
    * 
    */
-  public function missingService( $servName )
+  public function missingService($servName)
   {
 
     $request = $this->getRequest();
     $console = $this->getConsole();
 
-    $console->error( 'Missing Service '.$servName );
+    $console->error('Missing Service '.$servName);
     
   }//end public function missingService */
   
@@ -46,7 +46,7 @@ class Error_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
 
-    $console->info( 'Gaia Version: '. Gaia::VERSION );
+    $console->info('Gaia Version: '. Gaia::VERSION);
     
   }//end public function do_default */
 

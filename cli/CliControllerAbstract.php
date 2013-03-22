@@ -19,8 +19,8 @@ Licence    : Webfrap Business Licence 1.0 or later
 
 
 set_time_limit(0);
-error_reporting( E_ALL );
-date_default_timezone_set( "Europe/Berlin" );
+error_reporting(E_ALL);
+date_default_timezone_set("Europe/Berlin");
 
 
  /**
@@ -49,7 +49,7 @@ abstract class CliControllerAbstract
   * Unterstütze Kommandos
   */
   protected $actions = array
-  ( 
+  (
   'help'   => 'help'
   );
 
@@ -79,24 +79,24 @@ abstract class CliControllerAbstract
  /**
   * Der Standart Konstruktor
   */
-  public function __construct( )
+  public function __construct()
   {
 
 
-    for ( $nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam )
+    for ($nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam)
     {
 
-      if ( !$this->isFlag( $_SERVER['argv'][$nam] )  )
+      if (!$this->isFlag($_SERVER['argv'][$nam])  )
       {
-        if ( !$this->isCommand( $_SERVER['argv'][$nam] ) )
+        if (!$this->isCommand($_SERVER['argv'][$nam]))
         {
           $Key = $nam;
           ++$nam;
 
-          if ( !isset( $_SERVER['argv'][$nam] ) )
+          if (!isset($_SERVER['argv'][$nam]))
           {
             echo 'Falsche Parameter:\n\n';
-            $this->printHelp( );
+            $this->printHelp();
             exit(1);
           }
 
@@ -105,7 +105,7 @@ abstract class CliControllerAbstract
       }
     }
 
-    if ( isset( $this->arguments['-v'] ) )
+    if (isset($this->arguments['-v']))
     {
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
@@ -132,7 +132,7 @@ abstract class CliControllerAbstract
   public function main()
   {
 
-    switch( $this->checkAktion() )
+    switch($this->checkAktion())
     {
 
       case 'help':
@@ -162,7 +162,7 @@ abstract class CliControllerAbstract
   *
   * @return int
   */
-  public function printHelp( )
+  public function printHelp()
   {
     echo 'No Help yet\n';
   }
@@ -177,13 +177,13 @@ abstract class CliControllerAbstract
   * Soll die Datei gezählt werden oder nicht
   * @return boolean
   */
-  protected function isComment( $File )
+  protected function isComment($File)
   {
 
     $File = trim($File);
     $Lenght = strlen($File);
 
-    switch( $Lenght )
+    switch($Lenght)
     {
       case 0:
       {
@@ -194,7 +194,7 @@ abstract class CliControllerAbstract
 
       case 1:
       {
-        if ( $File != '#' && $File != '*' )
+        if ($File != '#' && $File != '*')
         {
           return false;
         }
@@ -207,8 +207,8 @@ abstract class CliControllerAbstract
 
       default:
       {
-        $Part = substr( $File , 0 , 2 );
-        if ( $Part != '//' && $Part != '/*' )
+        $Part = substr($File , 0 , 2);
+        if ($Part != '//' && $Part != '/*')
         {
           return false;
         }
@@ -232,10 +232,10 @@ abstract class CliControllerAbstract
   * Ausführen von Webfrap verhindert
   * @return bool
   */
-  protected function isFlag( $Data )
+  protected function isFlag($Data)
   {
 
-    if ( $Data{0} == '-' )
+    if ($Data{0} == '-')
     {
       $this->arguments[$Data] = true;
       return true;
@@ -254,11 +254,11 @@ abstract class CliControllerAbstract
   * @since 0.1
   * @return array
   */
-  protected function isCommand( $Data )
+  protected function isCommand($Data)
   {
     $Data = strtolower($Data);
 
-    if ( isset( $this->actions[$Data] ) )
+    if (isset($this->actions[$Data]))
     {
       $this->command = $Data;
       return true;
@@ -275,10 +275,10 @@ abstract class CliControllerAbstract
   *
   * @return String
   */
-  protected function checkAktion( )
+  protected function checkAktion()
   {
 
-    if ( !is_null($this->command) )
+    if (!is_null($this->command))
     {
       if ($this->debug)
         echo "Gebe command zurück\n";
@@ -301,7 +301,7 @@ abstract class CliControllerAbstract
   *
   * @return void
   */
-  protected function suicide( $Message )
+  protected function suicide($Message)
   {
 
     echo "\n$Message\n";

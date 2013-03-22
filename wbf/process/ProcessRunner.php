@@ -54,12 +54,12 @@ class ProcessRunner
    * @param string $command
    * @param string $params
    */
-  public function call( $command , $params = null, $execPath = null )
+  public function call($command , $params = null, $execPath = null)
   {
 
     $actFolder = null;
 
-    if ( $execPath )
+    if ($execPath)
     {
       $actFolder = getcwd();
       chdir($execPath);
@@ -67,10 +67,10 @@ class ProcessRunner
 
     $result = '';
 
-    if ( is_array( $params ) )
-      $params = implode( ' ', $params );
+    if (is_array($params))
+      $params = implode(' ', $params);
 
-    if ( $params )
+    if ($params)
       $command .= ' '.escapeshellcmd($params);
 
     if ($proc = popen("({$command})2>&1","r"))
@@ -81,8 +81,8 @@ class ProcessRunner
       pclose($proc);
     }
 
-    if ( $actFolder )
-      chdir( $actFolder );
+    if ($actFolder)
+      chdir($actFolder);
 
     return $result;
 
@@ -94,12 +94,12 @@ class ProcessRunner
    * @param string $command
    * @param string $params
    */
-  public function callAsRoot( $command , $params = null )
+  public function callAsRoot($command , $params = null)
   {
 
     $result = '';
 
-    if ( $params )
+    if ($params)
       $command .= ' '.escapeshellcmd($params);
 
     if ($proc = popen("({$command})2>&1","r"))
@@ -119,23 +119,23 @@ class ProcessRunner
    * @param string  $params
    * @param string  $env
    */
-  public function open( $command , $params = null, $env = null  )
+  public function open($command , $params = null, $env = null  )
   {
 
     $spec = array
     (
-       0 => array( "pipe", "r" ),  // stdin pipe for reading input
-       1 => array( "pipe", "w" ),  // stdout pipe for standard output
-       2 => array( "pipe", "w" )   // stderr pipe for errors
+       0 => array("pipe", "r"),  // stdin pipe for reading input
+       1 => array("pipe", "w"),  // stdout pipe for standard output
+       2 => array("pipe", "w")   // stderr pipe for errors
     );
     
-    if ( is_array( $params ) )
-      $params = implode( ' ', $params );
+    if (is_array($params))
+      $params = implode(' ', $params);
 
-    if ( $params )
+    if ($params)
       $command .= ' '.escapeshellcmd($params);
 
-    $this->proc = proc_open( $command ,$spec, $pipes, null, $env );
+    $this->proc = proc_open($command ,$spec, $pipes, null, $env);
 
     if (!is_resource($this->proc))
     {
@@ -149,12 +149,12 @@ class ProcessRunner
       return true;
     }
     
-    //stream_set_blocking( $this->stderr, 0 );
-    //stream_set_blocking( $this->stdin, 0 );
-    //stream_set_blocking( $this->stdout, 0 );
+    //stream_set_blocking($this->stderr, 0);
+    //stream_set_blocking($this->stdin, 0);
+    //stream_set_blocking($this->stdout, 0);
     
-    //fclose( $this->stdin );
-    //fclose( $this->stdout );
+    //fclose($this->stdin);
+    //fclose($this->stdout);
 
   }//end public function open */
 
@@ -164,10 +164,10 @@ class ProcessRunner
   public function readLine()
   {
     
-    if ( feof( $this->stdout ) )
+    if (feof($this->stdout))
       return null;
     
-    return fgets( $this->stdout, 1024 );
+    return fgets($this->stdout, 1024);
     
   }//end public function readLine */
 
@@ -177,8 +177,8 @@ class ProcessRunner
   public function read()
   {
 
-    $content = stream_get_contents( $this->stdout );
-    fclose( $this->stdout );
+    $content = stream_get_contents($this->stdout);
+    fclose($this->stdout);
     return $content;
 
   }//end public function read */
@@ -189,14 +189,14 @@ class ProcessRunner
   public function readError()
   {
 
-    return stream_get_contents( $this->stderr );
+    return stream_get_contents($this->stderr);
 
   }//end public function read */
 
   /**
    * @param string
    */
-  public function write( $content )
+  public function write($content)
   {
     return fputs($this->stdin, $content, 1024);
   }//end public function write */

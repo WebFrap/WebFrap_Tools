@@ -50,7 +50,7 @@ class Console
   /**
    * @param IsAConsole $console
    */
-  public static function setActive( IsAConsole $console )
+  public static function setActive(IsAConsole $console)
   {
     self::$active = $console;
   }//end public static function setActive */
@@ -63,7 +63,7 @@ class Console
    * Einfach ausgabe des Textes
    * @param string $text
    */
-  static function in(   )
+  static function in(  )
   {
     
     return fgets(STDIN);
@@ -74,7 +74,7 @@ class Console
    * Nicht sichbare eingabe
    * @return string
    */
-  static function secretIn(   )
+  static function secretIn(  )
   {
     
     system('stty -echo');
@@ -91,10 +91,10 @@ class Console
    * Einfach ausgabe des Textes
    * @param string $text
    */
-  static function out( $text, $appendDate = false  )
+  static function out($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
     echo $text;
@@ -106,13 +106,13 @@ class Console
    * Neue Zeile schreiben
    * @param string $text
    */
-  static function outl( $text, $appendDate = false  )
+  static function outl($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
       echo $text.NL;
     else 
       echo $text.NL."<br />";
@@ -125,13 +125,13 @@ class Console
    * Neue Zeile schreiben
    * @param string $text
    */
-  static function outln( $text, $appendDate = false  )
+  static function outln($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
       echo $text.NL;
     else 
       echo $text.NL."<br />";
@@ -144,15 +144,15 @@ class Console
    * Ausgabe eines Fehlers
    * @param string $text
    */
-  static function error( $text, $appendDate = false  )
+  static function error($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
-      fwrite( STDERR, 'ERROR: '.$text.NL );
+      fwrite(STDERR, 'ERROR: '.$text.NL);
     }
     else 
     {
@@ -166,13 +166,13 @@ class Console
    * Head Bereich
    * @param string $text
    */
-  static function header( $text, $appendDate = false  )
+  static function header($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
       echo "################################################################################".NL;
       echo "# ".$text.NL;
@@ -191,13 +191,13 @@ class Console
    * Head Bereich
    * @param string $text
    */
-  static function chapter( $text, $appendDate = false )
+  static function chapter($text, $appendDate = false)
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
       echo "| ".$text.NL;
       echo "|_______________________________________________________________________________".NL;
@@ -215,13 +215,13 @@ class Console
    * Head Bereich
    * @param string $text
    */
-  static function footer( $text, $appendDate = false  )
+  static function footer($text, $appendDate = false  )
   {
     
-    if ( $appendDate )
+    if ($appendDate)
       $text .= date('Y-m-d');
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
       echo "________________________________________________________________________________".NL;
       echo "|".NL;
@@ -240,10 +240,10 @@ class Console
   /**
    * Block Starten
    */
-  static function startBlock( )
+  static function startBlock()
   {
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
       //echo "--------------------------------------------------------------------------------".NL;
       echo NL;
@@ -260,10 +260,10 @@ class Console
   /**
    * Block beenden
    */
-  static function endBlock( )
+  static function endBlock()
   {
     
-    if ( IS_CLI )
+    if (IS_CLI)
     {
       //echo "--------------------------------------------------------------------------------".NL;
       echo NL.NL;

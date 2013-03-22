@@ -102,7 +102,7 @@ abstract class DbAdmin
    * @param string $pwd
    * @return boolean
    */
-   abstract public function setLoginEnv( $user, $pwd  );
+   abstract public function setLoginEnv($user, $pwd  );
    
 ////////////////////////////////////////////////////////////////////////////////
 // Protocol
@@ -111,7 +111,7 @@ abstract class DbAdmin
    /**
     * @param ProtocolWriter $protocol
     */
-   public function setProtocol( $protocol )
+   public function setProtocol($protocol)
    {
      $this->protocol = $protocol;
    }//end public function setProtocol */
@@ -126,14 +126,14 @@ abstract class DbAdmin
    * @param string $group
    * @return boolean
    */
-  abstract public function createGroup( $group );
+  abstract public function createGroup($group);
   
   /**
    * Prüfen ob eine bestimmte Gruppe schon existiert
    * @param string $group
    * @return boolean
    */
-  abstract public function groupExists( $group );
+  abstract public function groupExists($group);
   
 ////////////////////////////////////////////////////////////////////////////////
 // User
@@ -145,7 +145,7 @@ abstract class DbAdmin
    * @param string $pwd
    * @return boolean
    */
-  abstract public function createUser( $user, $pwd, $type = null );
+  abstract public function createUser($user, $pwd, $type = null);
   
   /**
    * Einen User mit passenden Rechten fürs Backend erstellen
@@ -153,7 +153,7 @@ abstract class DbAdmin
    * @param string $pwd
    * @return boolean
    */
-  abstract public function createBackendUser( $user, $pwd );
+  abstract public function createBackendUser($user, $pwd);
   
   /**
    * Einen User mit rechten fürs Frontend erstellen
@@ -161,7 +161,7 @@ abstract class DbAdmin
    * @param string $pwd
    * @return boolean
    */
-  abstract public function createFrontendUser( $user, $pwd );
+  abstract public function createFrontendUser($user, $pwd);
   
   /**
    * Einen Adminuser erstellen
@@ -169,14 +169,14 @@ abstract class DbAdmin
    * @param string $pwd
    * @return boolean
    */
-  abstract public function createAdminUser( $user, $pwd );
+  abstract public function createAdminUser($user, $pwd);
   
   /**
    * Prüfen ob ein user bereits existiert
    * @param string $user
    * @return boolean
    */
-  abstract public function userExists( $user );
+  abstract public function userExists($user);
   
 ////////////////////////////////////////////////////////////////////////////////
 // Database
@@ -189,14 +189,14 @@ abstract class DbAdmin
    * @param string $encoding
    * @return boolean
    */
-  abstract public function createDatabase(  $dbName, $owner, $encoding = "utf-8"  );
+  abstract public function createDatabase( $dbName, $owner, $encoding = "utf-8"  );
   
   /**
    * Prüfen ob eine Datenbank nicht bereits existiert
    * @param string $dbName
    * @return boolean
    */
-  abstract public function databaseExists(  $dbName  );
+  abstract public function databaseExists( $dbName  );
   
   
   /**
@@ -204,14 +204,14 @@ abstract class DbAdmin
    * @param string $oldName
    * @param string $newName
    */
-  abstract public function renameDatabase( $oldName, $newName   );
+  abstract public function renameDatabase($oldName, $newName   );
   
   /**
    * Prüfen ob eine Datenbank nicht bereits existiert
    * @param string $dbName
    * @return boolean
    */
-  abstract public function dropDatabase(  $dbName  );
+  abstract public function dropDatabase( $dbName  );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Schema
@@ -223,7 +223,7 @@ abstract class DbAdmin
    * @param string $schema
    * @param string $owner
    */
-  abstract public function createSchema( $dbName, $schema, $owner   );
+  abstract public function createSchema($dbName, $schema, $owner   );
   
   /**
    * Bestz
@@ -231,20 +231,20 @@ abstract class DbAdmin
    * @param string $schema
    * @param string $owner
    */
-  abstract public function dropSchema( $dbName, $schema );
+  abstract public function dropSchema($dbName, $schema);
 
   
   /**
    * @param string $dbName
    * @param string $schema
    */
-  abstract public function schemaExists( $dbName, $schema  );
+  abstract public function schemaExists($dbName, $schema  );
   
   /**
    * @param string $dbName
    * @param string $schema
    */
-  abstract public function renameSchema( $dbName, $oldName, $newName  );
+  abstract public function renameSchema($dbName, $oldName, $newName  );
   
 ////////////////////////////////////////////////////////////////////////////////
 // Sequence
@@ -256,7 +256,7 @@ abstract class DbAdmin
    * @param string $schemaName
    * @param string $sequence
    */
-  abstract public function sequenceExists( $dbName, $schemaName, $sequence );
+  abstract public function sequenceExists($dbName, $schemaName, $sequence);
   
   /**
    * @param string $dbName
@@ -270,7 +270,7 @@ abstract class DbAdmin
    * @return boolean
    */
   abstract public function createSequence
-  ( 
+  (
     $dbName,
     $dbSchema,
     $name, 
@@ -285,7 +285,7 @@ abstract class DbAdmin
    * @param array $gateways
    * @param string $deployPath
    */
-  abstract public function syncDatabase( $gateways, $deployPath );
+  abstract public function syncDatabase($gateways, $deployPath);
 
   /**
    * Eine Query absetzen
@@ -294,7 +294,7 @@ abstract class DbAdmin
    * @param string $user
    * @param string $passwd
    */
-  abstract public function query( $query, $dbName, $user = null, $passwd = null );
+  abstract public function query($query, $dbName, $user = null, $passwd = null);
   
   /**
    * Erstellen eines Dumps für das aktuelle Schema
@@ -302,7 +302,7 @@ abstract class DbAdmin
    * @param string $schema
    * @param string $dumpFile
    */
-  abstract public function dumpSchema( $dbName, $schema, $dumpFile );
+  abstract public function dumpSchema($dbName, $schema, $dumpFile);
   
   /**
    * Erstellen eines Dumps für das aktuelle Schema
@@ -311,24 +311,24 @@ abstract class DbAdmin
    * @param string $dumpFile
    * @param string $dumpSchema nur nötig wenn das schema nach dem import umbenannt werden soll
    */
-  abstract public function restoreSchema( $dbName, $schema, $dumpFile, $dumpSchema = null );
+  abstract public function restoreSchema($dbName, $schema, $dumpFile, $dumpSchema = null);
   
   /**
    * @param string $scriptPath
    * @param string $dbConf
    * @param string $tmpName
    */
-  public function createImportFile( $scriptPath, $dbConf, $tmpName )
+  public function createImportFile($scriptPath, $dbConf, $tmpName)
   {
     
     file_put_contents
-    ( 
+    (
       $tmpName, 
       str_replace
       (
-        array( '{@schema@}','{@owner@}' ), 
-        array( $dbConf['schema'], $dbConf['owner'] ), 
-        file_get_contents( $scriptPath )
+        array('{@schema@}','{@owner@}'), 
+        array($dbConf['schema'], $dbConf['owner']), 
+        file_get_contents($scriptPath)
       )
     );  
     

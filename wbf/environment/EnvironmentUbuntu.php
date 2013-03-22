@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 Environment::$osName = 'ubuntu';
-Environment::$installer = new InstallerUbuntu( Console::getActive() );
-Environment::$setup = new SetupUbuntu( Console::getActive() );
+Environment::$installer = new InstallerUbuntu(Console::getActive());
+Environment::$setup = new SetupUbuntu(Console::getActive());
 
 

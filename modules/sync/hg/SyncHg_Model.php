@@ -30,7 +30,7 @@ class SyncHg_Model
    * @param SyncHg_Conf $conf
    * @param array $repos
    */
-  public function setEnv( $conf, $repos )
+  public function setEnv($conf, $repos)
   {
     
     $this->tmpPath = Gaia::mkTmpFolder();
@@ -50,9 +50,9 @@ groups = *
 
 CODE;
 
-    foreach( $repos as $repoKey => $listRepos )
+    foreach($repos as $repoKey => $listRepos)
     {
-      foreach( $listRepos as $repo )
+      foreach($listRepos as $repo)
       {
     
         $key = str_replace('-','_',$repoKey);
@@ -69,7 +69,7 @@ CODE;
       }
     }
   
-    file_put_contents( $this->tmpPath.'.hgrc' , $hgRc  );
+    file_put_contents($this->tmpPath.'.hgrc' , $hgRc  );
     putenv("HGRCPATH={$this->tmpPath}.hgrc");
     
   }//end public function setEnv */

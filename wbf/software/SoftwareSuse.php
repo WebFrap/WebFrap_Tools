@@ -40,14 +40,14 @@ class SoftwareSuse
    * 
    * @param array $packages
    */
-  public function install( $packages )
+  public function install($packages)
   {
-    Process::system( 'apt-get -y install '.implode( ' ', $packages ) );
+    Process::system('apt-get -y install '.implode(' ', $packages));
   }//end public function install */
   
   /**
    */
-  public function installCore( )
+  public function installCore()
   {
   }//end public function installCore */
   
@@ -55,7 +55,7 @@ class SoftwareSuse
    * Ein bestimmtes Modul für die Software installieren
    * @param string $modName
    */
-  public function installModule( $modName )
+  public function installModule($modName)
   {
   }//end public function installModule */
   
@@ -70,28 +70,28 @@ class SoftwareSuse
   /**
    * Die Konfiguration eines dienstes neu laden
    */
-  public function reload( )
+  public function reload()
   {
   }//end public function reload */
   
   /**
    * Einen bestimmten Dienst neu starten
    */
-  public function restart( )
+  public function restart()
   {
   }//end public function restart */
   
   /**
    * Den Dienst starten
    */
-  public function start( )
+  public function start()
   {
   }//end public function start */
   
   /**
    * Den Dienst beenden
    */
-  public function stop( )
+  public function stop()
   {
   }//end public function stop */ 
   

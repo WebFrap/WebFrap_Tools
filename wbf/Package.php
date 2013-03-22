@@ -76,7 +76,7 @@ class Package
   /**
    * @param string $dataPath 
    */
-  public function setDataPath( $dataPath )
+  public function setDataPath($dataPath)
   {
     
     $this->hasCustom  = true;
@@ -87,7 +87,7 @@ class Package
   /**
    * @param string $codeRoot 
    */
-  public function setCodeRoot( $codeRoot )
+  public function setCodeRoot($codeRoot)
   {
     
     $this->hasCustom  = true;
@@ -98,7 +98,7 @@ class Package
   /**
    * @param string $confKey 
    */
-  public function setConfKey( $confKey )
+  public function setConfKey($confKey)
   {
     
     $this->hasCustom   = true;
@@ -109,7 +109,7 @@ class Package
   /**
    * @param string $serverKey
    */
-  public function setServerKey( $serverKey )
+  public function setServerKey($serverKey)
   {
     
     $this->hasCustom  = true;
@@ -120,7 +120,7 @@ class Package
   /**
    * @param string $deplGateway 
    */
-  public function setDeplGateway( $deplGateway )
+  public function setDeplGateway($deplGateway)
   {
     
     $this->hasCustom    = true;
@@ -131,7 +131,7 @@ class Package
   /**
    * @param string $gwName 
    */
-  public function setGwName( $gwName )
+  public function setGwName($gwName)
   {
     
     $this->hasCustom  = true;
@@ -184,12 +184,12 @@ class Package
   public function getDataPath()
   {
     
-    if ( $this->dataPath )
+    if ($this->dataPath)
       return $this->dataPath;
 
     $dataPath = $this->getNodeValue('data_path');
     
-    if ( $dataPath && '' != trim($dataPath) )
+    if ($dataPath && '' != trim($dataPath))
       return $dataPath;
     
     return GAIA_PATH.'data/';
@@ -242,24 +242,24 @@ class Package
   public function getGateways()
   {
     
-    if ( $this->deplGateway )
+    if ($this->deplGateway)
     {
-      $gws = $this->getNodes( "gateways/gateway[@name='{$this->deplGateway}']", 'PackageGateway' );
+      $gws = $this->getNodes("gateways/gateway[@name='{$this->deplGateway}']", 'PackageGateway');
       
-      if ( isset($gws[0]) )
+      if (isset($gws[0]))
       {
         
-        if ( $this->codeRoot )
-          $gws[0]->setCodeRoot( $this->codeRoot );
+        if ($this->codeRoot)
+          $gws[0]->setCodeRoot($this->codeRoot);
           
-        if ( $this->confKey )
+        if ($this->confKey)
         {
-          $gws[0]->setConfKey( $this->confKey );
+          $gws[0]->setConfKey($this->confKey);
         }
         
-        if ( $this->serverKey )
+        if ($this->serverKey)
         {
-          $gws[0]->setServerKey( $this->serverKey );
+          $gws[0]->setServerKey($this->serverKey);
         }
         
       }
@@ -269,7 +269,7 @@ class Package
     }
     else
     {
-      return $this->getNodes( 'gateways/gateway', 'PackageGateway' );
+      return $this->getNodes('gateways/gateway', 'PackageGateway');
     }
       
   }//end public function getGateways */
@@ -280,13 +280,13 @@ class Package
   public function countGateways()
   {
     
-    if ( $this->deplGateway )
+    if ($this->deplGateway)
     {
-      $nodeList = $this->getNodes( "gateways/gateway[@name='{$this->deplGateway}']" );
+      $nodeList = $this->getNodes("gateways/gateway[@name='{$this->deplGateway}']");
     }
     else 
     {
-      $nodeList = $this->getNodes( 'gateways/gateway' );
+      $nodeList = $this->getNodes('gateways/gateway');
     }
     
     
@@ -300,7 +300,7 @@ class Package
   public function countAllIconThemes()
   {
     
-    $nodeList = $this->getNodes( 'gateways/gateway/icon_themes/folder' );
+    $nodeList = $this->getNodes('gateways/gateway/icon_themes/folder');
     return $nodeList->length;
     
   }//end public function countAllIconThemes */
@@ -311,7 +311,7 @@ class Package
   public function countAllUiThemes()
   {
     
-    $nodeList = $this->getNodes( 'gateways/gateway/ui_themes/folder' );
+    $nodeList = $this->getNodes('gateways/gateway/ui_themes/folder');
     return $nodeList->length;
     
   }//end public function countAllUiThemes */
@@ -320,15 +320,15 @@ class Package
    * @param booolean $asArray
    * @return [string]
    */
-  public function getFolders( $asArray = false )
+  public function getFolders($asArray = false)
   {
     
-    $tmp     = $this->xpath( '/package/folders/folder' );
+    $tmp     = $this->xpath('/package/folders/folder');
     $folders = array();
     
-    if ( $asArray )
+    if ($asArray)
     {
-      foreach( $tmp as $folder )
+      foreach($tmp as $folder)
       {
         $folders[] = array
         (
@@ -342,9 +342,9 @@ class Package
     }
     else 
     {
-      foreach( $tmp as $folder )
+      foreach($tmp as $folder)
       {
-        $folders[] = $folder->getAttribute( 'name' );
+        $folders[] = $folder->getAttribute('name');
       }
     }
 
@@ -355,12 +355,12 @@ class Package
   /**
    * @return PackageBuilder_Component_Iterator
    */
-  public function getComponentIterator( )
+  public function getComponentIterator()
   {
     
-    $tmp     = $this->xpath( '/package/components/component' );
+    $tmp     = $this->xpath('/package/components/component');
     
-    return new PackageBuilder_Component_Iterator( $tmp, '/code' );
+    return new PackageBuilder_Component_Iterator($tmp, '/code');
     
   }//end public function getComponentIterator */
 
@@ -371,11 +371,11 @@ class Package
   public function getLicences()
   {
     
-    $tmp = $this->xpath( '/package/licences/licence' );
+    $tmp = $this->xpath('/package/licences/licence');
     
     $licences = array();
     
-    foreach( $tmp as $licence )
+    foreach($tmp as $licence)
     {
       $licences[] = $licence->nodeValue;
     }
@@ -390,11 +390,11 @@ class Package
   public function getFiles()
   {
     
-    $tmp = $this->xpath( '/package/files/file' );
+    $tmp = $this->xpath('/package/files/file');
     
     $files = array();
     
-    foreach( $tmp as $file )
+    foreach($tmp as $file)
     {
       $files[] = $file->nodeValue;
     }
@@ -409,11 +409,11 @@ class Package
   public function getLanguages()
   {
     
-    $tmp = $this->xpath( '/package/languages/lang' );
+    $tmp = $this->xpath('/package/languages/lang');
     
     $languages = array();
     
-    foreach( $tmp as $lang )
+    foreach($tmp as $lang)
     {
       $languages[] = $lang->nodeValue;
     }

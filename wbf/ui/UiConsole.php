@@ -52,7 +52,7 @@ abstract class UiConsole
   /**
    * @param UiConsole $active
    */
-  public static function setActive( $active )
+  public static function setActive($active)
   {
     
     self::$active = $active;  
@@ -63,7 +63,7 @@ abstract class UiConsole
   /**
    * @param string $text
    */
-  public function out( $text )
+  public function out($text)
   {
     
     echo $text."\n";
@@ -74,9 +74,9 @@ abstract class UiConsole
   /**
    * @param string $warning
    */
-  public static function debugLine( $error )
+  public static function debugLine($error)
   {
-    self::$active->debug( $error );
+    self::$active->debug($error);
   }
 
 }//end class UiConsole

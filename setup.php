@@ -18,34 +18,34 @@
 // die Basis Logik einbinden
 include 'wbf/core.php';
 
-Console::header( "Start Deployment", true );
+Console::header("Start Deployment", true);
 
 // erst mal die basis pakete installieren
 $serverSoftware = new ServerSoftwareUbuntu();
 $serverSoftware->install();
 
 // erstellen des deploypathes und temppathes soweit noch nicht vorhanden
-if ( !Fs::exists($deployPath) )
-  Fs::mkdir( $deployPath );
+if (!Fs::exists($deployPath))
+  Fs::mkdir($deployPath);
   
-if ( !Fs::exists( $tmpFolder ) )
-  Fs::mkdir( $tmpFolder );
+if (!Fs::exists($tmpFolder))
+  Fs::mkdir($tmpFolder);
 
 // dafür sorgend dass der tempfolder auch von der datenbank gelesen werden kann
-Fs::chmod( $tmpFolder, '775' );
+Fs::chmod($tmpFolder, '775');
   
-Fs::chdir( $deployPath );
+Fs::chdir($deployPath);
 
-if ( $syncBeforeDeploy )
+if ($syncBeforeDeploy)
 {
   
-  if ( !Fs::exists( $repoRoot ) )
-    Fs::mkdir( $repoRoot );
+  if (!Fs::exists($repoRoot))
+    Fs::mkdir($repoRoot);
   
   // eine Temporäre HG RC Datei erstellen, wird benötigt
   // um die Passwörter nicht in die URL packen zu müssen oder bei Proxies
   Hg::createTmpRc
-  ( 
+  (
     $repoRoot,
     $syncRepos,
     $displayName,
@@ -53,15 +53,15 @@ if ( $syncBeforeDeploy )
     $repoPwd
   );
   
-  Hg::checkout( $syncRepos, $repoRoot, $contactMail );
-  Fs::chown( $repoRoot, $repoOwner );
+  Hg::checkout($syncRepos, $repoRoot, $contactMail);
+  Fs::chown($repoRoot, $repoOwner);
 }
 
 
 // Module deployen
-Console::outln( "Deploying the modules" );
+Console::outln("Deploying the modules");
 Deploy::deployModules
-( 
+(
   $deplRepos, 
   $deployPath, 
   $sysOwner, 
@@ -69,9 +69,9 @@ Deploy::deployModules
 );
 
 // Icons deployen
-Console::outln( "Deploying the icon themes" );
+Console::outln("Deploying the icon themes");
 Deploy::deployComponent
-( 
+(
   $deplIcons, 
   $deployPath, 
   $sysOwner, 
@@ -79,9 +79,9 @@ Deploy::deployComponent
 );
 
 // Themes deployen
-Console::outln( "Deploying the themes" );
+Console::outln("Deploying the themes");
 Deploy::deployComponent
-( 
+(
   $deplThemes, 
   $deployPath, 
   $sysOwner, 
@@ -89,9 +89,9 @@ Deploy::deployComponent
 );
 
 // Webfrap Deployen
-Console::outln( "Deploying WebFrap" );
+Console::outln("Deploying WebFrap");
 Deploy::deployFw
-( 
+(
   $deplFw, 
   $deployPath, 
   $sysOwner, 
@@ -99,23 +99,23 @@ Deploy::deployFw
 );
 
 // Wgt Deployen
-Console::outln( "Deploying WGT" );
+Console::outln("Deploying WGT");
 Deploy::deployFw
-( 
+(
   $deplWgt, 
   $deployPath, 
   $sysOwner, 
   $sysAccess 
 );
 
-Fs::chown( $deployPath, $sysOwner );
-Fs::chmod( $deployPath, $sysAccess );
+Fs::chown($deployPath, $sysOwner);
+Fs::chmod($deployPath, $sysAccess);
 
 
 // Gateways deployent
-Console::outln( "Deploying the gateways" );
+Console::outln("Deploying the gateways");
 Deploy::deployGateways
-( 
+(
   $deplGateways, 
   $deplRepos,
   $deployPath, 
@@ -125,17 +125,17 @@ Deploy::deployGateways
 
 
 // Datenbanken erstellen
-Console::outln( "Start Database Setup" );
-Db::startSetup( $setupDb, $tmpFolder );
+Console::outln("Start Database Setup");
+Db::startSetup($setupDb, $tmpFolder);
 
 // Datenbank syncen
-Db::syncDatabase( $deplGateways, $deployPath );
-Db::finishSetup( $setupDb, $tmpFolder );
+Db::syncDatabase($deplGateways, $deployPath);
+Db::finishSetup($setupDb, $tmpFolder);
 
 
-Ssl::simpleCert( $universe );
-Webserver::createGwVhosts( $deplGateways, $deployPath, $universe );
+Ssl::simpleCert($universe);
+Webserver::createGwVhosts($deplGateways, $deployPath, $universe);
 
-Console::footer( 'Finished deployment', true );
+Console::footer('Finished deployment', true);
 
 

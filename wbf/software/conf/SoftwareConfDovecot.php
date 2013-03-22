@@ -47,7 +47,7 @@ class SoftwareConfDovecot
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_dovecot_conf( $server, $mailConf )
+  public function setupConf_dovecot_conf($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -125,7 +125,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_dovecot2_conf( $server, $mailConf )
+  public function setupConf_dovecot2_conf($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();

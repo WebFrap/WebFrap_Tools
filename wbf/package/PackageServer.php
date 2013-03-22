@@ -61,7 +61,7 @@ class PackageServer
   public function getDatabases()
   {
    
-    return $this->getNodes( 'databases/database', 'PackageServerDb' );
+    return $this->getNodes('databases/database', 'PackageServerDb');
     
   }//end public function getDatabases */
  
@@ -72,7 +72,7 @@ class PackageServer
   public function countDatabases()
   {
    
-    return $this->getNodes( 'databases/database' ).length;
+    return $this->getNodes('databases/database').length;
     
   }//end public function getDatabases */
   
@@ -87,7 +87,7 @@ class PackageServer
   public function getVhosts()
   {
    
-    return $this->getNodes( 'http/vhost', 'PackageServerVhost' );
+    return $this->getNodes('http/vhost', 'PackageServerVhost');
     
   }//end public function getVhosts */
  
@@ -98,7 +98,7 @@ class PackageServer
   public function countVhosts()
   {
    
-    return $this->getNodes( 'http/vhost' ).length;
+    return $this->getNodes('http/vhost').length;
     
   }//end public function countVhosts */
   

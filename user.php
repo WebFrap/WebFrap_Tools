@@ -19,57 +19,57 @@
 include 'wbf/core.php';
 include GAIA_PATH.'core/user/UserContainer.php';
 
-$action = Request::arg( 'action' );
+$action = Request::arg('action');
 
-switch ( $action )
+switch ($action)
 {
   case 'import_citems' :
   {
     
-    $dbKey = Request::arg( 'db' );
-    $file  = Request::arg( 'file' );
-    $start = Request::arg( 'start', 1 );
+    $dbKey = Request::arg('db');
+    $file  = Request::arg('file');
+    $start = Request::arg('start', 1);
     
-    $types = Request::arg( 'types' );
+    $types = Request::arg('types');
     
-    if ( !$types )
+    if (!$types)
     {
-      $types = array( '2' => 'mail' );
+      $types = array('2' => 'mail');
     }
     else 
     {
       
-      $tmp = explode( ',' , $types);
+      $tmp = explode(',' , $types);
       
       $types = array();
       
-      foreach( $tmp as $tNode )
+      foreach($tmp as $tNode)
       {
-        $t2 = explode( ':', $tNode );
+        $t2 = explode(':', $tNode);
         $types[$t2[0]] = $t2[1];
       }
       
     }
     
-    if ( !Fs::exists($file) )
+    if (!Fs::exists($file))
     {
-      Console::outln( "The given File: {$file} not exists" );
+      Console::outln("The given File: {$file} not exists");
       exit(1);
     }
     
-    User::importContactItems( $file, $types, $setupDb, $key );
+    User::importContactItems($file, $types, $setupDb, $key);
     
     break;
   }
   case 'add' :
   {
     
-    $dbKey = Request::arg( 'db' );
+    $dbKey = Request::arg('db');
     
     $data = new UserContainer();
     $data->read();
 
-    User::addUser( $data, $setupDb, $dbKey );
+    User::addUser($data, $setupDb, $dbKey);
 
     break;
   }  
@@ -80,14 +80,14 @@ switch ( $action )
     
 HELP;
 
-    Console::out( $help );
+    Console::out($help);
     
     break;
   }
   default:
   {
     ///TODO fehlermeldung verbessern
-    Console::outln( "Invalid Parameter" );
+    Console::outln("Invalid Parameter");
   }
 }
 

@@ -85,7 +85,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::commit()
  */
-  public function commit( $message )
+  public function commit($message)
   {
 
     // TODO Auto-generated method stub
@@ -95,7 +95,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::status()
  */
-  public function status( $justCheckChanges = false )
+  public function status($justCheckChanges = false)
   {
 
     // TODO Auto-generated method stub
@@ -105,7 +105,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::update()
  */
-  public function update( $branch = null )
+  public function update($branch = null)
   {
 
     // TODO Auto-generated method stub
@@ -135,7 +135,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::switchBranch()
  */
-  public function switchBranch( $branch )
+  public function switchBranch($branch)
   {
 
     // TODO Auto-generated method stub
@@ -145,7 +145,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::hasBranch()
  */
-  public function hasBranch( $branch )
+  public function hasBranch($branch)
   {
 
     // TODO Auto-generated method stub
@@ -155,7 +155,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::mergeBranches()
  */
-  public function mergeBranches( $target, $source, $commitMessage = null )
+  public function mergeBranches($target, $source, $commitMessage = null)
   {
 
     // TODO Auto-generated method stub
@@ -165,7 +165,7 @@ class Vcs_Git
 /* (non-PHPdoc)
  * @see IsAVcsAdapter::getHead()
  */
-  public function getHead( $branch )
+  public function getHead($branch)
   {
 
     // TODO Auto-generated method stub

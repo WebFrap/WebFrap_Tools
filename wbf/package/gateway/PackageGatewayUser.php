@@ -78,7 +78,7 @@ class PackageGatewayUser
    */
   public function getName()
   {
-    return $this->getAttribute( 'name' );
+    return $this->getAttribute('name');
   }//end public function getName */
   
   /**
@@ -86,7 +86,7 @@ class PackageGatewayUser
    */
   public function getPasswd()
   {
-    return $this->getNodeValue( 'passwd' );
+    return $this->getNodeValue('passwd');
   }//end public function getPasswd */
 
   /**
@@ -94,7 +94,7 @@ class PackageGatewayUser
    */
   public function getFirstname()
   {
-    return $this->getNodeValue( 'firstname' );
+    return $this->getNodeValue('firstname');
   }//end public function getFirstname */
   
   /**
@@ -102,7 +102,7 @@ class PackageGatewayUser
    */
   public function getLastname()
   {
-    return $this->getNodeValue( 'lastname' );
+    return $this->getNodeValue('lastname');
   }//end public function getLastname */
   
   /**
@@ -111,12 +111,12 @@ class PackageGatewayUser
   public function getLevel()
   {
     
-    $level = $this->getNodeValue( 'level' );
+    $level = $this->getNodeValue('level');
     
-    if ( !$level )
+    if (!$level)
       return 40;
       
-    if ( !isset( $this->levels[$level] ) )
+    if (!isset($this->levels[$level]))
     {
       throw new GaiaException("Got nonexisting Userlevel {$level}");
     }
@@ -130,7 +130,7 @@ class PackageGatewayUser
    */
   public function getProfile()
   {
-    return $this->getNodeValue( 'profile' );
+    return $this->getNodeValue('profile');
   }//end public function getProfile */
   
   /**
@@ -138,7 +138,7 @@ class PackageGatewayUser
    */
   public function getEmail()
   {
-    return $this->getNodeValue( 'email' );
+    return $this->getNodeValue('email');
   }//end public function getEmail */
 
 } // end class PackageGatewayUser 

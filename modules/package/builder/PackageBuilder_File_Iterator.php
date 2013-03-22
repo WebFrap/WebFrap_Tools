@@ -48,7 +48,7 @@ class PackageBuilder_File_Iterator
    * @param string $filter
    */
   public function __construct
-  ( 
+  (
     $folder,  
     $targetFolder,
     $mode = IoFileIterator::RELATIVE, 
@@ -57,22 +57,22 @@ class PackageBuilder_File_Iterator
   )
   {
     
-    $this->folder       = str_replace( '//', '/', $folder );
+    $this->folder       = str_replace('//', '/', $folder);
     $this->fileMode     = IoFileIterator::RELATIVE;
     $this->recursive    = $recursive;
-    $this->targetFolder = str_replace( '//', '/', $targetFolder.'/' );
+    $this->targetFolder = str_replace('//', '/', $targetFolder.'/');
 
-    if ( $filter )
-      $this->filter     = explode( ',', $filter );
+    if ($filter)
+      $this->filter     = explode(',', $filter);
 
-    if ( is_dir( $folder ) )
+    if (is_dir($folder))
     {
-      $this->fRes = opendir( $folder );
+      $this->fRes = opendir($folder);
       $this->next();
     }
     else 
     {
-      UiConsole::debugLine( 'Tried to open nonexisting Folder: '.$folder );
+      UiConsole::debugLine('Tried to open nonexisting Folder: '.$folder);
     }
 
   }// public function __construct 
@@ -91,15 +91,15 @@ class PackageBuilder_File_Iterator
     $repeat   = true;
     $current  = null;
     
-    while( $repeat ) 
+    while($repeat) 
     {
       
-      if ( $this->subFolder )
+      if ($this->subFolder)
       {
         $nextSub = $this->subFolder->current();
         $key     = $this->subFolder->key();
         
-        if ( $nextSub )
+        if ($nextSub)
         {
           $this->subFolder->next();
           $this->current = $nextSub;
@@ -115,28 +115,28 @@ class PackageBuilder_File_Iterator
         }
       }
 
-      $current = readdir( $this->fRes );
+      $current = readdir($this->fRes);
       $keyVal  = $current;
 
       // dirty.... so what?
-      if ( '.' == $current  )
+      if ('.' == $current  )
         continue;
         
-      if ( '..' == $current )
+      if ('..' == $current)
         continue;
 
-      if ( $current )
+      if ($current)
       {
-        if ( is_dir( $this->folder.'/'.$current )  )
+        if (is_dir($this->folder.'/'.$current)  )
         {
           
-          if ( !$this->recursive )
+          if (!$this->recursive)
             continue;
             
           // wenn current ein ordner ist wird ers über ihn iteriert bevor 
           // das nächste element des aktuellen ordners ausgelesen wird
           $this->subFolder = new PackageBuilder_File_Iterator
-          ( 
+          (
             $this->folder.'/'.$current.'/',
             $this->targetFolder.$current,
             $this->fileMode,
@@ -146,7 +146,7 @@ class PackageBuilder_File_Iterator
           
           $current  = $this->subFolder->current();
           
-          if ( !$current )
+          if (!$current)
           {
             $this->subFolder = null;
             $this->current   = null;
@@ -167,19 +167,19 @@ class PackageBuilder_File_Iterator
         {
 
           // auf eine dateiendung prüfen
-          if ( $this->filter )
+          if ($this->filter)
           {
             
-            $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
+            $info = pathinfo(str_replace('//', '/', $this->folder.'/'.$current));
             
-            if ( !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if (!in_array(strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
             
           }
 
           // den rückgabe modus auswerten
-          if ( $this->fileMode != IoFileIterator::FILE_ONLY )
-            $current = str_replace( '//', '/', $this->folder.'/'.$current );
+          if ($this->fileMode != IoFileIterator::FILE_ONLY)
+            $current = str_replace('//', '/', $this->folder.'/'.$current);
             
         }
         
@@ -194,12 +194,12 @@ class PackageBuilder_File_Iterator
     } 
     
     // sicher stellen, dass die pfade korrekt sind
-    if ( $current )
+    if ($current)
       $this->current = $current;
     else 
       $this->current = null;
       
-    $this->key = $this->targetFolder.$keyVal; // FormatString::shiftXTokens(str_replace( array('../','//'), array('/','/'), $keyVal ), '/', 2);
+    $this->key = $this->targetFolder.$keyVal; // FormatString::shiftXTokens(str_replace(array('../','//'), array('/','/'), $keyVal), '/', 2);
 
     return $this->current;
     

@@ -18,18 +18,18 @@
 // die Basis Logik einbinden
 include 'wbf/core.php';
 
-$action = Request::arg( 'action' );
+$action = Request::arg('action');
 
-switch ( $action )
+switch ($action)
 {
   case 'start_setup' :
   {
-    Db::startSetup( $setupDb, $tmpFolder );
+    Db::startSetup($setupDb, $tmpFolder);
     break;
   }
   case 'finish_setup' :
   {
-    Db::finishSetup( $setupDb, $tmpFolder );
+    Db::finishSetup($setupDb, $tmpFolder);
     break;
   }  
   case 'help' :
@@ -39,14 +39,14 @@ switch ( $action )
     
 HELP;
 
-    Console::out( $help );
+    Console::out($help);
     
     break;
   }
   default:
   {
     ///TODO fehlermeldung verbessern
-    Console::outln( "Invalid Parameter" );
+    Console::outln("Invalid Parameter");
   }
 }
 

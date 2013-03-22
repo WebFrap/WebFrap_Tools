@@ -40,7 +40,7 @@ class SoftwareUbuntuDovecot
    * (non-PHPdoc)
    * @see Software::installCore()
    */
-  public function installCore( )
+  public function installCore()
   {
 
     $packages = array
@@ -57,21 +57,21 @@ class SoftwareUbuntuDovecot
   /**
    * @param PackageServerMail $mailConf
    */
-  public function setupConf( $mailConf )
+  public function setupConf($mailConf)
   {
     
     // setup 
-    if ( !Fs::exists( SYS_ROOT.'var/wbf_mail' ) )
+    if (!Fs::exists(SYS_ROOT.'var/wbf_mail'))
     {
-      Fs::mkdir( SYS_ROOT.'var/wbf_mail', 0771 );
+      Fs::mkdir(SYS_ROOT.'var/wbf_mail', 0771);
       
-      $subDirs = explode( ' ', "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z" );
+      $subDirs = explode(' ', "0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z");
       
-      foreach( $subDirs as $dirName )
+      foreach($subDirs as $dirName)
       {
-        Fs::mkdir( SYS_ROOT.'var/wbf_mail/'.$dirName, 0751 );
+        Fs::mkdir(SYS_ROOT.'var/wbf_mail/'.$dirName, 0751);
       }
-      Fs::chgrp( SYS_ROOT.'var/wbf_mail', 'mail' );
+      Fs::chgrp(SYS_ROOT.'var/wbf_mail', 'mail');
     }
     
   }//end public function install */
@@ -80,10 +80,10 @@ class SoftwareUbuntuDovecot
    * (non-PHPdoc)
    * @see Software::reload()
    */
-  public function reload( )
+  public function reload()
   {
     
-    Process::execute( "/etc/init.d/dovecot reload" );
+    Process::execute("/etc/init.d/dovecot reload");
     
   }//end public function reload */
   
@@ -91,10 +91,10 @@ class SoftwareUbuntuDovecot
    * (non-PHPdoc)
    * @see Software::restart()
    */
-  public function restart( )
+  public function restart()
   {
     
-    Process::execute( "/etc/init.d/dovecot restart" );
+    Process::execute("/etc/init.d/dovecot restart");
     
   }//end public function restart */
   
@@ -102,10 +102,10 @@ class SoftwareUbuntuDovecot
    * (non-PHPdoc)
    * @see Software::start()
    */
-  public function start( )
+  public function start()
   {
     
-    Process::execute( "/etc/init.d/dovecot start" );
+    Process::execute("/etc/init.d/dovecot start");
     
   }//end public function start */
   
@@ -113,10 +113,10 @@ class SoftwareUbuntuDovecot
    * (non-PHPdoc)
    * @see Software::stop()
    */
-  public function stop( )
+  public function stop()
   {
     
-    Process::execute( "/etc/init.d/dovecot stop" );
+    Process::execute("/etc/init.d/dovecot stop");
     
   }//end public function stop */ 
   

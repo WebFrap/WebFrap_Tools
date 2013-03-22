@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 
-Console::header(  I18n::get('finished package deployment') , true );
+Console::header( I18n::get('finished package deployment') , true);
 
 
 

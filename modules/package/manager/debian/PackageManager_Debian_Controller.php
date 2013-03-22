@@ -33,10 +33,10 @@ class PackageManager_Debian_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Debian Packages' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Debian Packages');
     
-    $workarea->addTemplate( 'package/manager/debian/package_form' );
+    $workarea->addTemplate('package/manager/debian/package_form');
     
   }//end public function do_default */
 
@@ -49,10 +49,10 @@ class PackageManager_Debian_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Build Package' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Build Package');
     
-    $workarea->addTemplate( 'package/manager/debian/package_form' );
+    $workarea->addTemplate('package/manager/debian/package_form');
     
   }//end public function do_buildPackage */
   

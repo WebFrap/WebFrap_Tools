@@ -72,10 +72,10 @@ class FormatNumber
    * @param string $i18n
    * @param int $precision
    */
-  public function __construct( $i18n = null, $precision = 2 )
+  public function __construct($i18n = null, $precision = 2)
   {
 
-    if ( !$i18n )
+    if (!$i18n)
       $i18n = I18n::getActive();
 
     $this->size         = $precision;
@@ -103,7 +103,7 @@ class FormatNumber
   public static function getActive()
   {
 
-    if ( is_null( self::$instance) )
+    if (is_null(self::$instance))
     {
       self::$instance = new FormatNumber();
     }
@@ -120,11 +120,11 @@ class FormatNumber
    * 
    * @return LibFormatterNumeric
    */
-  public static function langFormatter( $separatorDec = ',', $separatorTh = '.', $size = 2 )
+  public static function langFormatter($separatorDec = ',', $separatorTh = '.', $size = 2)
   {
 
     $obj = new FormatNumber();
-    $obj->setFormat( $separatorDec, $separatorTh, $size );
+    $obj->setFormat($separatorDec, $separatorTh, $size);
 
     return $obj;
 
@@ -139,7 +139,7 @@ class FormatNumber
    * @param string $separatorTh
    * @param string $size
    */
-  public function setFormat( $separatorDec = ',', $separatorTh = '.', $size = 2 )
+  public function setFormat($separatorDec = ',', $separatorTh = '.', $size = 2)
   {
     $this->separatorDec = $separatorDec;
     $this->separatorTh  = $separatorTh;
@@ -149,14 +149,14 @@ class FormatNumber
   /**
    * @param string $numeric
    */
-  public function setNumericLanguage( $numeric )
+  public function setNumericLanguage($numeric)
   {
 
     $this->negativ = false;
 
     $numeric = trim($numeric);
 
-    if ( '-' == $numeric[0] )
+    if ('-' == $numeric[0])
       $this->negativ = true;
 
     $this->numericLanguage = $numeric;
@@ -164,25 +164,25 @@ class FormatNumber
     $catchablePatterns = array('(?:[0-9]*)(?:e[+-]?[0-9]+)?');
     $regex = '/(' .implode(')|(', $catchablePatterns) . ')/i';
     $flags = PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE ;
-    $rawMatches = preg_split( $regex, trim($numeric), -1, $flags);
+    $rawMatches = preg_split($regex, trim($numeric), -1, $flags);
 
-    if ( in_array( $this->separatorDec ,  $rawMatches )  )
+    if (in_array($this->separatorDec ,  $rawMatches)  )
     {
 
       $num = '';
-      $end = array_pop( $rawMatches );
+      $end = array_pop($rawMatches);
 
-      if ( !ctype_digit($end) )
+      if (!ctype_digit($end))
       {
         $end = '00';
       }
 
       $num = '';
 
-      foreach( $rawMatches as $match )
+      foreach($rawMatches as $match)
       {
 
-        if ( ctype_digit($match) )
+        if (ctype_digit($match))
           $num .= $match;
 
         $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.'.$end);
@@ -194,10 +194,10 @@ class FormatNumber
     {
       $num = '';
 
-      foreach( $rawMatches as $match )
+      foreach($rawMatches as $match)
       {
 
-        if ( ctype_digit($match) )
+        if (ctype_digit($match))
           $num .= $match;
 
         $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.00');
@@ -211,7 +211,7 @@ class FormatNumber
   /**
    * @param string $english
    */
-  public function setNumericEnglish( $english )
+  public function setNumericEnglish($english)
   {
     $this->numericEnglish = $english;
   }//end public function setnumericEnglish */
@@ -224,10 +224,10 @@ class FormatNumber
   /**
    * @param string $numeric
    */
-  public function formatToEnglish( $numeric = null )
+  public function formatToEnglish($numeric = null)
   {
 
-    if ( !is_null($numeric)  )
+    if (!is_null($numeric)  )
       $this->setNumericLanguage($numeric);
 
     return $this->numericEnglish;
@@ -237,10 +237,10 @@ class FormatNumber
   /**
    * @param string $numeric
    */
-  public function formatToLanguage( $numeric = null )
+  public function formatToLanguage($numeric = null)
   {
 
-    if ( is_null( $numeric ) )
+    if (is_null($numeric))
      $numeric = $this->numericEnglish;
 
     return number_format

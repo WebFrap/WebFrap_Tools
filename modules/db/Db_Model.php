@@ -44,11 +44,11 @@ class Db_Model
   /**
    * @param string $confKey
    */
-  public function init( $confKey )
+  public function init($confKey)
   {
     
-    $this->conf = $this->getConf( $confKey );
-    $this->getDb( $this->conf );
+    $this->conf = $this->getConf($confKey);
+    $this->getDb($this->conf);
     
   }//end public function init */
   
@@ -56,11 +56,11 @@ class Db_Model
    * @param string $confKey
    * @return ConfMaintenance
    */
-  public function getConf( $confKey )
+  public function getConf($confKey)
   {
     
     $conf = new ConfMaintenance();
-    $conf->load( $confKey );
+    $conf->load($confKey);
     
     return $conf;
     
@@ -70,24 +70,24 @@ class Db_Model
    * @param ConfMaintenance $conf
    * @return DbPostgresql
    */
-  public function getDb( ConfMaintenance $conf )
+  public function getDb(ConfMaintenance $conf)
   {
     
-    if ( !$this->db )
+    if (!$this->db)
     {
       
-      $dbConf = $conf->getDbConf( 'default' );
+      $dbConf = $conf->getDbConf('default');
       
-      if ( $dbConf )
+      if ($dbConf)
       {
         
-        $className = 'Db'.ucfirst( $dbConf->type );
+        $className = 'Db'.ucfirst($dbConf->type);
         
-        if ( !Gaia::classLoadable( $className ) )
-          throw new GaiaException( "Requested nonexisting DB Adapter ".$dbConf->type );
+        if (!Gaia::classLoadable($className))
+          throw new GaiaException("Requested nonexisting DB Adapter ".$dbConf->type);
         
         $this->db = new $className
-        ( 
+        (
           $this->getConsole(), 
           $dbConf->db_name, 
           $dbConf->user_name, 
@@ -114,9 +114,9 @@ class Db_Model
   {
     
     $dbAdmin = $this->db->getDbAdmin();
-    $dbConf  = $this->conf->getDbConf( 'default' );
+    $dbConf  = $this->conf->getDbConf('default');
     
-    $dbAdmin->dropSchemaViews( $dbConf->db_name , $dbConf->schema_name );
+    $dbAdmin->dropSchemaViews($dbConf->db_name , $dbConf->schema_name);
     
   }//end public function cleanViews */
 

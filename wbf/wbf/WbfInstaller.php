@@ -58,7 +58,7 @@ class WbfInstaller
    * @param string $dataPath
    * @param IsARequest $request
    */
-  public function __construct( $console, $dataPath, $request = null )
+  public function __construct($console, $dataPath, $request = null)
   {
     
     $this->console   = $console;
@@ -75,7 +75,7 @@ class WbfInstaller
   public function getRequest()
   {
     
-    if ( !$this->request )
+    if (!$this->request)
       $this->request = Request::getActive();
       
     return $this->request;

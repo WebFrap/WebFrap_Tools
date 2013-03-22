@@ -23,7 +23,7 @@ class Gaia
   extends WebfrapCli
 {
 
-  public static function main( $argv , $argc )
+  public static function main($argv , $argc)
   {
     
     

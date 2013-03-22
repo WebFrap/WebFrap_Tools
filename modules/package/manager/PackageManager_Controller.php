@@ -33,10 +33,10 @@ class PackageManager_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Package Manager' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Package Manager');
     
-    $workarea->addTemplate( 'package/manager/package_menu' );
+    $workarea->addTemplate('package/manager/package_menu');
     
   }//end public function do_default */
 

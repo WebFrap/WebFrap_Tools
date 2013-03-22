@@ -35,10 +35,10 @@ class Db_Controller
     
     $confKey = $request->param('conf');
     
-    $console->out( $confKey );
+    $console->out($confKey);
     
-    $model = new Db_Model( $this );
-    $model->init( $confKey );
+    $model = new Db_Model($this);
+    $model->init($confKey);
     
     $model->cleanSchemaViews();
 
@@ -60,7 +60,7 @@ gaia.php cleanSchemaViews conf=key
 
 HTML;
 
-    $console->out( $helpText );
+    $console->out($helpText);
 
     
   }//end public function do_help */

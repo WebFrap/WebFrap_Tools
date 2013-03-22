@@ -44,15 +44,15 @@ class SetupDb
    * @param string $type
    * @param ProtocolWriter $protocol
    */
-  public static function getSetup( $console, $type, $protocol = null )
+  public static function getSetup($console, $type, $protocol = null)
   {
     
-    $className = 'SetupDb'.ucfirst( $type );
+    $className = 'SetupDb'.ucfirst($type);
     
-    if ( !Gaia::classLoadable($className) )
-      throw new GaiaException( 'The requested setup not exists.' );
+    if (!Gaia::classLoadable($className))
+      throw new GaiaException('The requested setup not exists.');
     
-    return new $className( $console, $protocol );
+    return new $className($console, $protocol);
     
   }//end public static function getSetup */
 
@@ -63,7 +63,7 @@ class SetupDb
    * @param PackageServerDb $database
    * @param string $dataPath
    */
-  public function setup( $package, $gateway, $server, $database, $dataPath  )
+  public function setup($package, $gateway, $server, $database, $dataPath  )
   {
     
   }//end public function setup */
@@ -75,7 +75,7 @@ class SetupDb
    * @param PackageServerDb $database
    * @param string $dataPath
    */
-  public function update( $package, $gateway, $server, $database, $dataPath  )
+  public function update($package, $gateway, $server, $database, $dataPath  )
   {
     
   }//end public function update */

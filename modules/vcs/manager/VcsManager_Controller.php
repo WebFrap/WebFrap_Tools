@@ -33,9 +33,9 @@ class VcsManager_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'VCS Manager' );
-    $workarea->addTemplate( 'vcs/manager/menu' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('VCS Manager');
+    $workarea->addTemplate('vcs/manager/menu');
     
   }//end public function do_default */
 

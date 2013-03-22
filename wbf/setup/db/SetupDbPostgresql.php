@@ -72,7 +72,7 @@ class SetupDbPostgresql
    * @param PackageServerDb $database
    * @param string $dataPath 
    */
-  public function setup( $package, $gateway, $server, $database, $dataPath  )
+  public function setup($package, $gateway, $server, $database, $dataPath  )
   {
     
     ///TODO Check bauen ob pg auch läuft wenn nicht automatisch starten
@@ -103,15 +103,15 @@ class SetupDbPostgresql
     );
 
     // das DBMS installieren
-    $this->installDbms( $package, $gateway, $server, $database );
+    $this->installDbms($package, $gateway, $server, $database);
     
     // custom user und gruppen anlegen
-    $this->setupCustomUserAndRoles( $package, $gateway, $server, $database );
+    $this->setupCustomUserAndRoles($package, $gateway, $server, $database);
     
     // datenbank, schema + standard User anlegen
-    $this->setupDatabase( $package, $gateway, $server, $database, $dataPath );
+    $this->setupDatabase($package, $gateway, $server, $database, $dataPath);
     
-    $this->dbAdmin->setConnection( new DbPostgresql
+    $this->dbAdmin->setConnection(new DbPostgresql
     (
       $this->console, 
       $dbName, 
@@ -124,16 +124,16 @@ class SetupDbPostgresql
     
     // sicher gehen, dass die rechte in potentiell vorhandenen strukturen
     // stimmen
-    $this->setRights( $package, $gateway, $server, $database );
+    $this->setRights($package, $gateway, $server, $database);
     
     // Die nötigen sequences anlegen
-    $this->setupSequences( $package, $gateway, $server, $database );
+    $this->setupSequences($package, $gateway, $server, $database);
     
     // Das Gateway die Datenstruktur erstellen lassen
-    $this->syncGatewayDatabase( $package, $gateway, $server, $database, $dataPath );
+    $this->syncGatewayDatabase($package, $gateway, $server, $database, $dataPath);
 
     // setzen der rechte
-    $this->setRights( $package, $gateway, $server, $database );
+    $this->setRights($package, $gateway, $server, $database);
     
   }//end protected function setup */
   
@@ -145,7 +145,7 @@ class SetupDbPostgresql
    * @param PackageServerDb $database
    * @param string $dataPath 
    */
-  public function update( $package, $gateway, $server, $database, $dataPath  )
+  public function update($package, $gateway, $server, $database, $dataPath  )
   {
     
     ///TODO Check bauen ob pg auch läuft wenn nicht automatisch starten
@@ -175,16 +175,16 @@ class SetupDbPostgresql
     );
 
     // das DBMS installieren sollte bereits installiert sein.. oder?
-    // $this->installDbms( $package, $gateway, $server, $database );
+    // $this->installDbms($package, $gateway, $server, $database);
     
     // custom user und gruppen anlegen
-    $this->setupCustomUserAndRoles( $package, $gateway, $server, $database );
+    $this->setupCustomUserAndRoles($package, $gateway, $server, $database);
     
     // datenbank, schema + standard User anlegen
-    $this->updateDatabase( $package, $gateway, $server, $database );
+    $this->updateDatabase($package, $gateway, $server, $database);
 
     
-    $this->dbAdmin->setConnection( new DbPostgresql
+    $this->dbAdmin->setConnection(new DbPostgresql
     (
       $this->console, 
       $dbName, 
@@ -197,18 +197,18 @@ class SetupDbPostgresql
     
     
     // sicher gehen, dass vorhandene rechte passen
-    $this->setRights( $package, $gateway, $server, $database );
+    $this->setRights($package, $gateway, $server, $database);
     
     // Die nötigen sequences anlegen
-    $this->setupSequences( $package, $gateway, $server, $database );
+    $this->setupSequences($package, $gateway, $server, $database);
     
-    $this->cleanBeforeUpdate( $package, $gateway, $server, $database );
+    $this->cleanBeforeUpdate($package, $gateway, $server, $database);
     
     // Das Gateway die Datenstruktur erstellen lassen
-    $this->syncGatewayDatabase( $package, $gateway, $server, $database, $dataPath );
+    $this->syncGatewayDatabase($package, $gateway, $server, $database, $dataPath);
 
     // abschliesend nochmal vorsichtshalber alle rechte richtig setzen
-    $this->setRights( $package, $gateway, $server, $database );
+    $this->setRights($package, $gateway, $server, $database);
     
   }//end protected function update */
   
@@ -222,34 +222,34 @@ class SetupDbPostgresql
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function installDbms( $package, $gateway, $server, $database  )
+  protected function installDbms($package, $gateway, $server, $database  )
   {
     
     // prüfen ob der server installiert werden soll
-    if ( !$database->installServer() )
+    if (!$database->installServer())
       return;
     
     $dbType = ucfirst($database->getType());
     
-    if ( Environment::$isRoot )
+    if (Environment::$isRoot)
     {
       try 
       {
-        $dbInstaller = Software::getInstaller( $dbType );
+        $dbInstaller = Software::getInstaller($dbType);
         /* @var $dbInstaller Software */
         
-        if ( !$dbInstaller->allreadyInstalled() )
+        if (!$dbInstaller->allreadyInstalled())
         {
-          $this->protocol->info( "{$dbType} is not yet installed. The installer will install it and make the setup for you." );
+          $this->protocol->info("{$dbType} is not yet installed. The installer will install it and make the setup for you.");
           $dbInstaller->installCore();
         }
         else
         {
-          $this->protocol->info( "{$dbType} is allready installed." );
+          $this->protocol->info("{$dbType} is allready installed.");
         }
         
       }
-      catch( GaiaException $exc )
+      catch(GaiaException $exc)
       {
         $this->console->error($exc->getMessage());
         continue;
@@ -273,7 +273,7 @@ class SetupDbPostgresql
    * @param PackageServerDb $database
    * @param string $dataPath
    */
-  protected function setupDatabase( $package, $gateway, $server, $database, $dataPath  )
+  protected function setupDatabase($package, $gateway, $server, $database, $dataPath  )
   {
     
 
@@ -288,67 +288,67 @@ class SetupDbPostgresql
     $dbUser    = $database->getDbUser();
     $dbUserPwd = $database->getDbPwd();
 
-    if ( !$this->dbAdmin->userExists( $dbUser ) )
+    if (!$this->dbAdmin->userExists($dbUser))
     {
-      $this->protocol->info( "Lege den DB Backenduser: {$dbUser} an." );
-      if ( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
+      $this->protocol->info("Lege den DB Backenduser: {$dbUser} an.");
+      if (!$this->dbAdmin->createBackendUser($dbUser, $dbUserPwd))
       {
         $fatal = 'Konnte den DB User: '.$dbUser.' nicht anlegen';
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
     
-    if ( !$this->dbAdmin->databaseExists( $dbName ) )
+    if (!$this->dbAdmin->databaseExists($dbName))
     {
-      $this->protocol->info( "Erstelle die Datenbank: {$dbName} neu." );
+      $this->protocol->info("Erstelle die Datenbank: {$dbName} neu.");
       
-      if ( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
+      if (!$this->dbAdmin->createDatabase($dbName, $dbUser))
       {
         $fatal = 'Konnte die Datenbank: '.$dbName.' nicht anlegen';
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
     
     $dumpFile = $database->getDumpFile();
     
-    if ( $dumpFile )
+    if ($dumpFile)
     {
       
-      $this->protocol->info( "Erstelle Datenbankschema aus Dump: ".$dumpFile );
+      $this->protocol->info("Erstelle Datenbankschema aus Dump: ".$dumpFile);
       
       $dbDump     = $dataPath.'db_dump/'.$dumpFile;
       $dumpSchema = $database->getDumpFileSchema();
       
-      if ( Fs::exists( $dbDump ) )
+      if (Fs::exists($dbDump))
       {
-        $this->dbAdmin->restoreSchema( $dbName, $dbSchema, $dbDump, $dumpSchema );
+        $this->dbAdmin->restoreSchema($dbName, $dbSchema, $dbDump, $dumpSchema);
       }
       else 
       {
         $fatal = 'Der Datenbankdump: '.$dbDump.' welcher importiert werden sollte existiert nicht oder ist invalide.';
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
       
     }
     else 
     {
-      $this->setupDatabaseSchema( $package, $gateway, $server, $database, $dataPath );
+      $this->setupDatabaseSchema($package, $gateway, $server, $database, $dataPath);
     }
 
     // standard OID Sequence erstellen
-    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
+    if (!$this->dbAdmin->sequenceExists($dbName, $dbSchema, 'entity_oid_seq'))
     {
-      $this->protocol->info( "Erstelle Sequence: entity_oid_seq in {$dbName}.{$dbSchema}." );
-      $this->dbAdmin->createSequence( $dbName, $dbSchema, 'entity_oid_seq', $dbUser );
+      $this->protocol->info("Erstelle Sequence: entity_oid_seq in {$dbName}.{$dbSchema}.");
+      $this->dbAdmin->createSequence($dbName, $dbSchema, 'entity_oid_seq', $dbUser);
     }
     
-    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
+    if (!$this->dbAdmin->sequenceExists($dbName, $dbSchema, 'wbf_deploy_revision'))
     {
-      $this->protocol->info( "Erstelle Sequence: wbf_deploy_revision in {$dbName}.{$dbSchema}." );
-      $this->dbAdmin->createSequence( $dbName, $dbSchema, 'wbf_deploy_revision', $dbUser );
+      $this->protocol->info("Erstelle Sequence: wbf_deploy_revision in {$dbName}.{$dbSchema}.");
+      $this->dbAdmin->createSequence($dbName, $dbSchema, 'wbf_deploy_revision', $dbUser);
     }
     
   }//end protected function setupDatabase */
@@ -361,7 +361,7 @@ class SetupDbPostgresql
    * @param PackageServerDb $database
    * @param string $dataPath
    */
-  protected function setupDatabaseSchema( $package, $gateway, $server, $database, $dataPath  )
+  protected function setupDatabaseSchema($package, $gateway, $server, $database, $dataPath  )
   {
     
     ///TODO Check bauen ob pg auch läuft wenn nicht automatisch starten
@@ -372,12 +372,12 @@ class SetupDbPostgresql
     $dbUserPwd = $database->getDbPwd();
 
     
-    if ( $this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
+    if ($this->dbAdmin->schemaExists($dbName, $dbSchema))
     {
-      $this->protocol->info( "Das Zielschema: {$dbSchema} existiert bereits." );
+      $this->protocol->info("Das Zielschema: {$dbSchema} existiert bereits.");
       
       $action = (int)$this->console->radioList
-      ( 
+      (
         "Das angegeben Schema existiert bereits.", 
         array
         (
@@ -413,15 +413,15 @@ class SetupDbPostgresql
           )
         ),
         array(),
-        new UiDimension( 700,250 )
+        new UiDimension(700,250)
       );
       
-      switch ( $action )
+      switch ($action)
       {
         case '1':
         {
           $this->protocol->info
-          ( 
+          (
             "Der User hat enschieden, dass vorhandene Schema: {$dbSchema}"
             ." in der Datenbank {$dbName} unverändert zu verwenden."
           );
@@ -431,7 +431,7 @@ class SetupDbPostgresql
         case '2':
         {
           $this->protocol->info
-          ( 
+          (
             "Der User hat enschieden, dass vorhandene Schema: {$dbSchema} in der"
             ." Datenbank {$dbName} zu verwenden, aber an das neue System soweit nötig anzupassen."
           );
@@ -441,30 +441,30 @@ class SetupDbPostgresql
         case '3':
         {
           $this->protocol->info
-          ( 
+          (
             "Der User hat enschieden, dass vorhandene Schema: {$dbSchema} umzubenennen, so dass"
             ." das Setup ein neues Schema anlegen kann."
           );
           
                       
-          if ( !$this->dbAdmin->renameSchema( $dbName, $dbSchema, $dbSchema.'_setup_'.date('YmdHis') ) )
+          if (!$this->dbAdmin->renameSchema($dbName, $dbSchema, $dbSchema.'_setup_'.date('YmdHis')))
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte umbenannt werden.
 Ich breche das Setup daher ab. 
 FATAL;
-            $this->protocol->fatal( $fatal );
-            throw new GaiaException( $fatal );
+            $this->protocol->fatal($fatal);
+            throw new GaiaException($fatal);
           }
           
-          if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+          if (!$this->dbAdmin->createSchema($dbName, $dbSchema, $dbUser))
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
 Ich breche das Setup daher ab. 
 FATAL;
-            $this->protocol->fatal( $fatal );
-            throw new GaiaException( $fatal );
+            $this->protocol->fatal($fatal);
+            throw new GaiaException($fatal);
           }
           
           break;
@@ -472,30 +472,30 @@ FATAL;
         case '4':
         {
           $this->protocol->warning
-          ( 
+          (
             "Der User hat enschieden, dass vorhandene Schema: {$dbSchema} zu löschen,"
             ." so dass das Setup ein neues Schema aufsetzen kann. "
             ." Fürs Protokoll er wurde gewarnt, dass das womöglich keine gute Idee ist."
           );
           
-          if ( !$this->dbAdmin->dropSchema( $dbName, $dbSchema ) )
+          if (!$this->dbAdmin->dropSchema($dbName, $dbSchema))
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht gelöscht werden.
 Ich breche das Setup daher ab. 
 FATAL;
-            $this->protocol->fatal( $fatal );
-            throw new GaiaException( $fatal );
+            $this->protocol->fatal($fatal);
+            throw new GaiaException($fatal);
           }
           
-          if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+          if (!$this->dbAdmin->createSchema($dbName, $dbSchema, $dbUser))
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
 Ich breche das Setup daher ab. 
 FATAL;
-            $this->protocol->fatal( $fatal );
-            throw new GaiaException( $fatal );
+            $this->protocol->fatal($fatal);
+            throw new GaiaException($fatal);
           }
 
           break;
@@ -506,8 +506,8 @@ FATAL;
 Benutzer hat sich entschlossen das Setup abzubrechen, da in der Datenbank
 bereits ein Schema mit dem Namen: {$dbSchema} in der Datenbank {$dbName} vorhanden war. 
 FATAL;
-          $this->protocol->fatal( $fatal );
-          throw new GaiaException( $fatal );
+          $this->protocol->fatal($fatal);
+          throw new GaiaException($fatal);
           break;
         }
       }
@@ -515,15 +515,15 @@ FATAL;
     }
     else 
     {
-      $this->protocol->info( "Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt." );
-      if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+      $this->protocol->info("Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt.");
+      if (!$this->dbAdmin->createSchema($dbName, $dbSchema, $dbUser))
       {
           $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
 Ich breche das Setup daher ab. 
 FATAL;
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
 
@@ -535,26 +535,26 @@ FATAL;
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function setupCustomUserAndRoles( $package, $gateway, $server, $database  )
+  protected function setupCustomUserAndRoles($package, $gateway, $server, $database  )
   {
     
     $users = $database->getUsers();
     
-    foreach( $users as /* @var $user PackageDbUser  */ $user )
+    foreach($users as /* @var $user PackageDbUser  */ $user)
     {
-      if ( !$this->dbAdmin->userExists($user->getName()) )
+      if (!$this->dbAdmin->userExists($user->getName()))
       {
-        $this->dbAdmin->createUser( $user->getName(), $user->getPasswd(), $user->getType()  );
+        $this->dbAdmin->createUser($user->getName(), $user->getPasswd(), $user->getType()  );
       }
     }
     
     $groups = $database->getRoles();
     
-    foreach( $groups as /* @var $group PackageDbGroup  */ $group )
+    foreach($groups as /* @var $group PackageDbGroup  */ $group)
     {
-      if ( !$this->dbAdmin->groupExists( $group->getName() ) )
+      if (!$this->dbAdmin->groupExists($group->getName()))
       {
-        $this->dbAdmin->createGroup( $group->getName() );
+        $this->dbAdmin->createGroup($group->getName());
       }
     }
 
@@ -566,7 +566,7 @@ FATAL;
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function setupSequences( $package, $gateway, $server, $database  )
+  protected function setupSequences($package, $gateway, $server, $database  )
   {
     
     $dbName    = $database->getDbName();
@@ -574,10 +574,10 @@ FATAL;
     
     $sequences = $database->getSequences();
     
-    foreach( $sequences as /* @var $sequence PackageDbSequence */ $sequence )
+    foreach($sequences as /* @var $sequence PackageDbSequence */ $sequence)
     {
       $this->dbAdmin->createSequence
-      ( 
+      (
         $dbName,
         $dbSchema,
         $sequence->getName(), 
@@ -600,7 +600,7 @@ FATAL;
    * @throws GaiaException
    *   Wenn die Syntax eines Inputfiles broken ist
    */
-  protected function setupSystemLogic( $package, $gateway, $server, $database, $dataPath  )
+  protected function setupSystemLogic($package, $gateway, $server, $database, $dataPath  )
   {
     
     $dbName    = $database->getDbName();
@@ -609,26 +609,26 @@ FATAL;
 
     $files     = $database->getStructureFiles();
 
-    if ( $this->dbAdmin->con )
+    if ($this->dbAdmin->con)
     {
-      foreach( $files as /* @var PackageDbDumpFile $file */ $file )
+      foreach($files as /* @var PackageDbDumpFile $file */ $file)
       {
         
         $fileName = $dataPath.'db_dump/'.$file->getGateway().'/data/ddl/postgresql/gaia/'.$file->getName().'.php';
-        $this->protocol->info( 'Execute SQL file: '.$fileName );
+        $this->protocol->info('Execute SQL file: '.$fileName);
   
-        $this->dbAdmin->importStructureFile( $fileName, $dbName, $dbSchema, $dbUser );
+        $this->dbAdmin->importStructureFile($fileName, $dbName, $dbSchema, $dbUser);
       }
     }
     else 
     {
-      foreach( $files as /* @var PackageDbDumpFile $file */ $file )
+      foreach($files as /* @var PackageDbDumpFile $file */ $file)
       {
         
         $fileName = $dataPath.'db_dump/'.$file->getGateway().'/data/ddl/postgresql/'.$file->getName().'.sql';
-        $this->protocol->info( 'Execute SQL file: '.$fileName );
+        $this->protocol->info('Execute SQL file: '.$fileName);
   
-        $this->dbAdmin->importStructureFile( $fileName, $dbName, $dbSchema, $dbUser );
+        $this->dbAdmin->importStructureFile($fileName, $dbName, $dbSchema, $dbUser);
       }
     }
 
@@ -642,14 +642,14 @@ FATAL;
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function setRights( $package, $gateway, $server, $database )
+  protected function setRights($package, $gateway, $server, $database)
   {
     
     $dbName    = $database->getDbName();
     $dbSchema  = $database->getDbSchema();
     $dbUser    = $database->getDbUser();
 
-    $this->dbAdmin->chownSchemaCascade( $dbName, $dbSchema, $dbUser );
+    $this->dbAdmin->chownSchemaCascade($dbName, $dbSchema, $dbUser);
     
 
   }//end protected function setRights */
@@ -661,32 +661,32 @@ FATAL;
    * @param PackageServerDb $database
    * @param string $dataPath
    */
-  public function syncGatewayDatabase( $package, $gateway, $server, $database, $dataPath )
+  public function syncGatewayDatabase($package, $gateway, $server, $database, $dataPath)
   {
     
     $codeRoot  = $gateway->getCodeRoot();
     $gwName    = $gateway->getName();
     
-    $gwPath = realpath( $codeRoot.'/'.$gwName );
+    $gwPath = realpath($codeRoot.'/'.$gwName);
     
     // sicher stellen, dass wir im Gaia Path sind
-    Fs::chdir( GAIA_PATH );
+    Fs::chdir(GAIA_PATH);
     
     // den datenbanksync starten
-    Process::run( 'bash ./gaia/scripts/sync_database.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ' );   
+    Process::run('bash ./gaia/scripts/sync_database.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ');   
 
     // Erstellen der Systemlogik wie Views, Functions, Keys etc
-    Fs::chdir( GAIA_PATH );
-    $this->setupSystemLogic( $package, $gateway, $server, $database, $dataPath );
+    Fs::chdir(GAIA_PATH);
+    $this->setupSystemLogic($package, $gateway, $server, $database, $dataPath);
     
-    Fs::chdir( GAIA_PATH );
-    Process::run( 'bash ./gaia/scripts/sync_metadata.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ' );
+    Fs::chdir(GAIA_PATH);
+    Process::run('bash ./gaia/scripts/sync_metadata.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ');
     
-    Fs::chdir( GAIA_PATH );
-    Process::run( 'bash ./gaia/scripts/sync_data.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ' );
+    Fs::chdir(GAIA_PATH);
+    Process::run('bash ./gaia/scripts/sync_data.sh "'.$gwPath.'" "'.$dataPath.'/metadata/" ');
     
     // und wieder in den Gaia Path
-    Fs::chdir( GAIA_PATH );
+    Fs::chdir(GAIA_PATH);
     
   }//end public function syncGatewayDatabase */
   
@@ -700,7 +700,7 @@ FATAL;
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function updateDatabase( $package, $gateway, $server, $database  )
+  protected function updateDatabase($package, $gateway, $server, $database  )
   {
     
 
@@ -715,52 +715,52 @@ FATAL;
     $dbUser    = $database->getDbUser();
     $dbUserPwd = $database->getDbPwd();
 
-    if ( !$this->dbAdmin->userExists( $dbUser ) )
+    if (!$this->dbAdmin->userExists($dbUser))
     {
-      $this->protocol->info( "Lege den DB Backenduser: {$dbUser} an." );
-      if ( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
+      $this->protocol->info("Lege den DB Backenduser: {$dbUser} an.");
+      if (!$this->dbAdmin->createBackendUser($dbUser, $dbUserPwd))
       {
         $fatal = 'Konnte den DB User: '.$dbUser.' nicht anlegen';
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
     
-    if ( !$this->dbAdmin->databaseExists( $dbName ) )
+    if (!$this->dbAdmin->databaseExists($dbName))
     {
-      $this->protocol->info( "Erstelle die Datenbank: {$dbName} neu." );
+      $this->protocol->info("Erstelle die Datenbank: {$dbName} neu.");
       
-      if ( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
+      if (!$this->dbAdmin->createDatabase($dbName, $dbUser))
       {
         $fatal = 'Konnte die Datenbank: '.$dbName.' nicht anlegen';
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
     
-    if ( !$this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
+    if (!$this->dbAdmin->schemaExists($dbName, $dbSchema))
     {
-      $this->protocol->info( "Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt." );
-      if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+      $this->protocol->info("Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt.");
+      if (!$this->dbAdmin->createSchema($dbName, $dbSchema, $dbUser))
       {
           $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
 Ich breche das Update daher ab. 
 FATAL;
-        $this->protocol->fatal( $fatal );
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal);
+        throw new GaiaException($fatal);
       }
     }
     
     // standard OID Sequence erstellen
-    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
+    if (!$this->dbAdmin->sequenceExists($dbName, $dbSchema, 'entity_oid_seq'))
     {
-      $this->dbAdmin->createSequence( $dbName, $dbSchema, 'entity_oid_seq', $dbUser );
+      $this->dbAdmin->createSequence($dbName, $dbSchema, 'entity_oid_seq', $dbUser);
     }
     
-    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
+    if (!$this->dbAdmin->sequenceExists($dbName, $dbSchema, 'wbf_deploy_revision'))
     {
-      $this->dbAdmin->createSequence( $dbName, $dbSchema, 'wbf_deploy_revision', $dbUser );
+      $this->dbAdmin->createSequence($dbName, $dbSchema, 'wbf_deploy_revision', $dbUser);
     }
     
   }//end protected function updateDatabase */
@@ -771,7 +771,7 @@ FATAL;
    * @param PackageServer $server
    * @param PackageServerDb $database
    */
-  protected function cleanBeforeUpdate( $package, $gateway, $server, $database  )
+  protected function cleanBeforeUpdate($package, $gateway, $server, $database  )
   {
     ///TODO Check bauen ob pg auch läuft wenn nicht automatisch starten
 
@@ -779,10 +779,10 @@ FATAL;
     $dbSchema  = $database->getDbSchema();
     
     // löschen aller views vor dem update
-    if ( $database->updateFlag( 'clean/views' ) )
+    if ($database->updateFlag('clean/views'))
     {
-      $this->protocol->info( "Lösche alle Views vor dem Update um Konflikte zu vermeiden" );
-      $this->dbAdmin->dropSchemaViews( $dbName, $dbSchema );
+      $this->protocol->info("Lösche alle Views vor dem Update um Konflikte zu vermeiden");
+      $this->dbAdmin->dropSchemaViews($dbName, $dbSchema);
     }
 
   }//end protected function cleanBeforeUpdate */
@@ -792,68 +792,68 @@ FATAL;
    * @param array $databases
    * @param string $tmpFolder
    * /
-  public function startSetup( $databases, $tmpFolder )
+  public function startSetup($databases, $tmpFolder)
   {
     
     // der root user muss vorhanden sein
-    SetupDbPostgresql::setLoginEnv( $databases['root_user'], $databases['root_pwd']  );
+    SetupDbPostgresql::setLoginEnv($databases['root_user'], $databases['root_pwd']  );
 
-    foreach( $databases['db'] as $dbConf )
+    foreach($databases['db'] as $dbConf)
     {
       
-      Console::outl( "Create Database User: ".$dbConf['owner'] );
-      SetupDbPostgresql::createUser( $dbConf['owner'], $dbConf['owner_pwd'] );
+      Console::outl("Create Database User: ".$dbConf['owner']);
+      SetupDbPostgresql::createUser($dbConf['owner'], $dbConf['owner_pwd']);
       
-      Console::outl( "Create Database: ".$dbConf['name'] );
+      Console::outl("Create Database: ".$dbConf['name']);
       SetupDbPostgresql::createDatabase
-      ( 
+      (
         $dbConf['name'], 
         $dbConf['owner'],
-        ( isset($dbConf['encoding'])?$dbConf['encoding']:'utf-8' )
+        (isset($dbConf['encoding'])?$dbConf['encoding']:'utf-8')
       );
       
-      Console::outl( "Create Schema: ".$dbConf['schema'] );
-      SetupDbPostgresql::createSchema( $dbConf['name'], $dbConf['schema'], $dbConf['owner'] );
+      Console::outl("Create Schema: ".$dbConf['schema']);
+      SetupDbPostgresql::createSchema($dbConf['name'], $dbConf['schema'], $dbConf['owner']);
       
       // Wenn vorhanden allgemeine Scripts laden
-      if ( isset($databases['pre_scripts']) )
+      if (isset($databases['pre_scripts']))
       {
         
-        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
-          Fs::mkdir( $tmpFolder.'db_script/' );
+        if (!Fs::exists($tmpFolder.'db_script/'))
+          Fs::mkdir($tmpFolder.'db_script/');
         
-        foreach( $databases['pre_scripts'] as $script )
+        foreach($databases['pre_scripts'] as $script)
         {
-          if ( Fs::exists($script) )
+          if (Fs::exists($script))
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
-            SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
-            Process::execute( 'psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN );
+            SetupDbPostgresql::createImportFile($script, $dbConf, $tmpScriptN);
+            Process::execute('psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN);
           }
           else 
           {
-            Console::error( "Es wurde versucht ein nicht existierendes SQL Script {$script} zu laden" );
+            Console::error("Es wurde versucht ein nicht existierendes SQL Script {$script} zu laden");
           }
         }
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if ( isset($dbConf['pre_scripts']) )
+      if (isset($dbConf['pre_scripts']))
       {
-        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
-          Fs::mkdir( $tmpFolder.'db_script/' );
+        if (!Fs::exists($tmpFolder.'db_script/'))
+          Fs::mkdir($tmpFolder.'db_script/');
         
-        foreach( $dbConf['pre_scripts'] as $script )
+        foreach($dbConf['pre_scripts'] as $script)
         {
-          if ( Fs::exists($script) )
+          if (Fs::exists($script))
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
-            SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
-            Process::execute( 'psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN );
+            SetupDbPostgresql::createImportFile($script, $dbConf, $tmpScriptN);
+            Process::execute('psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN);
           }
           else 
           {
-            Console::error( "Es wurde versucht ein nicht existierendes DB SQL Script {$script} zu laden" );
+            Console::error("Es wurde versucht ein nicht existierendes DB SQL Script {$script} zu laden");
           }
         }
       }
@@ -867,53 +867,53 @@ FATAL;
    * @param array $databases
    * @param string $tmpFolder
    * /
-  public function finishSetup( $databases, $tmpFolder )
+  public function finishSetup($databases, $tmpFolder)
   {
     
-    SetupDbPostgresql::setLoginEnv( $databases['root_user'], $databases['root_pwd']  );
+    SetupDbPostgresql::setLoginEnv($databases['root_user'], $databases['root_pwd']  );
     
-    foreach( $databases['db'] as $dbConf )
+    foreach($databases['db'] as $dbConf)
     {
 
       // Wenn vorhanden allgemeine Scripts laden
-      if ( isset($databases['post_scripts']) )
+      if (isset($databases['post_scripts']))
       {
         
-        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
-          Fs::mkdir( $tmpFolder.'db_script/' );
+        if (!Fs::exists($tmpFolder.'db_script/'))
+          Fs::mkdir($tmpFolder.'db_script/');
           
-        foreach( $databases['post_scripts'] as $script )
+        foreach($databases['post_scripts'] as $script)
         {
-          if ( Fs::exists($script) )
+          if (Fs::exists($script))
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
-            SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
-            Process::execute( 'psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN );
+            SetupDbPostgresql::createImportFile($script, $dbConf, $tmpScriptN);
+            Process::execute('psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN);
           }
           else 
           {
-            Console::error( "Es wurde versucht ein nicht existierendes SQL Script {$script} zu laden" );
+            Console::error("Es wurde versucht ein nicht existierendes SQL Script {$script} zu laden");
           }
         }
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if ( isset($dbConf['post_scripts']) )
+      if (isset($dbConf['post_scripts']))
       {
-        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
-          Fs::mkdir( $tmpFolder.'db_script/' );
+        if (!Fs::exists($tmpFolder.'db_script/'))
+          Fs::mkdir($tmpFolder.'db_script/');
         
-        foreach( $databases['post_scripts'] as $script )
+        foreach($databases['post_scripts'] as $script)
         {
-          if ( Fs::exists($script) )
+          if (Fs::exists($script))
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
-            SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
-            Process::execute( 'psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN );
+            SetupDbPostgresql::createImportFile($script, $dbConf, $tmpScriptN);
+            Process::execute('psql '.$dbConf['name'].'  -h '.Db::$host.'  -f '.$tmpScriptN);
           }
           else 
           {
-            Console::error( "Es wurde versucht ein nicht existierendes SQL Script {$script} für die Datenbank {$dbConf['name']} zu laden" );
+            Console::error("Es wurde versucht ein nicht existierendes SQL Script {$script} für die Datenbank {$dbConf['name']} zu laden");
           }
         }
       }
@@ -926,13 +926,13 @@ FATAL;
   /**
    * @param array $gateways
    * /
-  public function syncGatewayDatabase( $gateways, $deployPath )
+  public function syncGatewayDatabase($gateways, $deployPath)
   {
 
-    foreach( $gateways as $gatewayProject )
+    foreach($gateways as $gatewayProject)
     {
-      Fs::chdir( GAIA_PATH );
-      Process::run( 'bash ./gaia/scripts/sync_database.sh "'.$deployPath.$gatewayProject['name'].'"' );    
+      Fs::chdir(GAIA_PATH);
+      Process::run('bash ./gaia/scripts/sync_database.sh "'.$deployPath.$gatewayProject['name'].'"');    
     }
     
   }//end public function syncGatewayDatabase */
@@ -943,17 +943,17 @@ FATAL;
    * @param string $dbConf
    * @param string $tmpName
    */
-  public function createImportFile( $scriptPath, $dbConf, $tmpName )
+  public function createImportFile($scriptPath, $dbConf, $tmpName)
   {
     
     file_put_contents
-    ( 
+    (
       $tmpName, 
       str_replace
       (
-        array( '{@schema@}','{@owner@}' ), 
-        array( $dbConf['schema'], $dbConf['owner'] ), 
-        file_get_contents( $scriptPath )
+        array('{@schema@}','{@owner@}'), 
+        array($dbConf['schema'], $dbConf['owner']), 
+        file_get_contents($scriptPath)
       )
     );  
     
@@ -963,12 +963,12 @@ FATAL;
    * Analysieren der Rückgabe auf Fehler
    * @param string $msg
    */
-  public function searchError( $msg )
+  public function searchError($msg)
   {
     
-    if ( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
+    if (false !== strpos($msg, 'FATAL:  Ident-Authentifizierung'))
       throw new DbException
-      ( 
+      (
         'Die Datenbank hat den Login verweigert. Dafür kann es mehrer Möglichkeiten geben.
         Der Benutzer ist falsch geschrieben, existiert nicht, das Password könnte falsch sein,
         oder in der pg_hba.conf ist für local indent anstelle von md5 eingetragen.' 

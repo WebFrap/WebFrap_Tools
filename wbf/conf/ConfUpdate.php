@@ -77,13 +77,13 @@ class ConfUpdate
   public function getDataPath()
   {
     
-    if ( $this->dataPath )
+    if ($this->dataPath)
       return $this->dataPath;
     
     
     $dataPath = $this->getNodeValue('data_path');
     
-    if ( $dataPath && '' != trim($dataPath) )
+    if ($dataPath && '' != trim($dataPath))
       return $dataPath;
     
     return GAIA_PATH.'data/';
@@ -93,7 +93,7 @@ class ConfUpdate
   /**
    * @param string $dataPath 
    */
-  public function setDataPath( $dataPath )
+  public function setDataPath($dataPath)
   {
     
     $this->dataPath = $dataPath;
@@ -146,7 +146,7 @@ class ConfUpdate
   public function getGateways()
   {
     
-    return $this->getNodes( 'gateways/gateway', 'PackageGateway' );
+    return $this->getNodes('gateways/gateway', 'PackageGateway');
     
   }//end public function getGateways */
   
@@ -156,7 +156,7 @@ class ConfUpdate
   public function countGateways()
   {
     
-    $nodeList = $this->getNodes( 'gateways/gateway' );
+    $nodeList = $this->getNodes('gateways/gateway');
     return $nodeList->length;
     
   }//end public function countGateways */
@@ -167,7 +167,7 @@ class ConfUpdate
   public function countAllIconThemes()
   {
     
-    $nodeList = $this->getNodes( 'gateways/gateway/icon_themes/folder' );
+    $nodeList = $this->getNodes('gateways/gateway/icon_themes/folder');
     return $nodeList->length;
     
   }//end public function countAllIconThemes */
@@ -178,7 +178,7 @@ class ConfUpdate
   public function countAllUiThemes()
   {
     
-    $nodeList = $this->getNodes( 'gateways/gateway/ui_themes/folder' );
+    $nodeList = $this->getNodes('gateways/gateway/ui_themes/folder');
     return $nodeList->length;
     
   }//end public function countAllUiThemes */
@@ -187,16 +187,16 @@ class ConfUpdate
    * @param booolean $asArray
    * @return [string]
    */
-  public function getFolders( $asArray = false )
+  public function getFolders($asArray = false)
   {
     
-    $tmp = $this->xpath( '/package/folders/folder' );
+    $tmp = $this->xpath('/package/folders/folder');
     
     $folders = array();
     
-    if ( $asArray )
+    if ($asArray)
     {
-      foreach( $tmp as $folder )
+      foreach($tmp as $folder)
       {
         $folders[] = array
         (
@@ -208,7 +208,7 @@ class ConfUpdate
     }
     else 
     {
-      foreach( $tmp as $folder )
+      foreach($tmp as $folder)
       {
         $folders[] = $folder->getAttribute('name');
       }
@@ -226,11 +226,11 @@ class ConfUpdate
   public function getLicences()
   {
     
-    $tmp = $this->xpath( '/package/licences/licence' );
+    $tmp = $this->xpath('/package/licences/licence');
     
     $licences = array();
     
-    foreach( $tmp as $licence )
+    foreach($tmp as $licence)
     {
       $licences[] = $licence->nodeValue;
     }
@@ -245,11 +245,11 @@ class ConfUpdate
   public function getFiles()
   {
     
-    $tmp = $this->xpath( '/package/files/file' );
+    $tmp = $this->xpath('/package/files/file');
     
     $files = array();
     
-    foreach( $tmp as $file )
+    foreach($tmp as $file)
     {
       $files[] = $file->nodeValue;
     }
@@ -264,11 +264,11 @@ class ConfUpdate
   public function getLanguages()
   {
     
-    $tmp = $this->xpath( '/package/languages/lang' );
+    $tmp = $this->xpath('/package/languages/lang');
     
     $languages = array();
     
-    foreach( $tmp as $lang )
+    foreach($tmp as $lang)
     {
       $languages[] = $lang->nodeValue;
     }

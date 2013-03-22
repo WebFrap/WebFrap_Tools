@@ -83,19 +83,19 @@ class Environment
     self::$architecture = php_uname('m');
     
     // check ob wir root sind
-    self::$isRoot = '0' ==  Process::execute( "echo \$EUID" ) 
+    self::$isRoot = '0' ==  Process::execute("echo \$EUID") 
       ?true
       :false;
     
-    if ( Fs::exists( '/etc/issue' ) )
+    if (Fs::exists('/etc/issue'))
     {
       self::$osName = 'ubuntu';
       
-      $osInfo = Fs::read( '/etc/issue' );
+      $osInfo = Fs::read('/etc/issue');
       
-      $parts  = explode( ' ', $osInfo); 
+      $parts  = explode(' ', $osInfo); 
       
-      $versions = explode( '.', $parts[1] );
+      $versions = explode('.', $parts[1]);
       
       self::$osVersion      = $versions[0];
       self::$osMinorVersion = isset($versions[1])?$versions[1]:0;

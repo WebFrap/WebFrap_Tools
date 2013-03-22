@@ -33,52 +33,52 @@ class Console_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
 
-    while( $command = trim($console->in()) )
+    while($command = trim($console->in()))
     {
       
-      if ( Gaia::C_QUIT == $command )
+      if (Gaia::C_QUIT == $command)
       {
-        if ( !$request->flag('s') )
+        if (!$request->flag('s'))
         {
-          $console->out( 'Good night' );
+          $console->out('Good night');
         }
         exit(0);
       }
     
-      $subRequest = new RequestSubCli( $command, $request );
+      $subRequest = new RequestSubCli($command, $request);
     
       $conClass = $subRequest->service.'_Controller';
       
-      if ( Gaia::classLoadable( $conClass ) )
+      if (Gaia::classLoadable($conClass))
       {
         $controller = new $conClass();
         /* @var $controller MvcController   */
-        $controller->setRequest( $subRequest );
-        $controller->setConsole( $console );
+        $controller->setRequest($subRequest);
+        $controller->setConsole($console);
         
         try 
         {
-          $controller->execute( $subRequest->action );
+          $controller->execute($subRequest->action);
         }
-        catch( GaiaException $exc )
+        catch(GaiaException $exc)
         {
-          $console->error( $exc->getMessage() );
+          $console->error($exc->getMessage());
         }
       }
       else 
       {
         $controller = new Error_Controller();
         /* @var $controller MvcController   */
-        $controller->setRequest( $subRequest );
-        $controller->setConsole( $console );
+        $controller->setRequest($subRequest);
+        $controller->setConsole($console);
         
         try 
         {
-          $controller->missingService( $subRequest->service );
+          $controller->missingService($subRequest->service);
         }
-        catch( GaiaException $exc )
+        catch(GaiaException $exc)
         {
-          $console->error( $exc->getMessage() );
+          $console->error($exc->getMessage());
         }
       }
     

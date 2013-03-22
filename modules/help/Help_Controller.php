@@ -30,7 +30,7 @@ class Help_Controller
   public function do_default()
   {
     
-    $this->console->out( "Info" );
+    $this->console->out("Info");
     
   }//end public function do_default */
 

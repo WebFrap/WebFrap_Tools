@@ -32,17 +32,17 @@ class VcsManager
    * 
    * @return IsAVcsAdapter
    */
-  public static function useRepository( $type, $path, $displayUser = null, $repoKey = null )
+  public static function useRepository($type, $path, $displayUser = null, $repoKey = null)
   {
     
     $className = 'Vcs_'.$type;
     
-    if ( !Gaia::classLoadable( $className ) )
+    if (!Gaia::classLoadable($className))
     {
-      throw new GaiaException( "Im Moment existiert noch kein VCS Adapter für {$type}" );
+      throw new GaiaException("Im Moment existiert noch kein VCS Adapter für {$type}");
     }
     
-    $mgmtNode = new $className( $path, $displayUser, $repoKey );
+    $mgmtNode = new $className($path, $displayUser, $repoKey);
     
     return $mgmtNode;
     

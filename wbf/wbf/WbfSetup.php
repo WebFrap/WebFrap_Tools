@@ -28,7 +28,7 @@ class WbfSetup
    * @param Package $package
    * @param UiConsole $console
    */
-  public function buildGateway( $package, $console )
+  public function buildGateway($package, $console)
   {
     
     $gateways = $package->getGateway();

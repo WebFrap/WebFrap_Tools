@@ -26,7 +26,7 @@ class WbfSetupApplication
   /**
    * @param Package $package
    */
-  public function setup( $package )
+  public function setup($package)
   {
     
     $this->protocol = Protocol::openProtocol
@@ -36,47 +36,47 @@ class WbfSetupApplication
       'setup'
     );
     
-    if ( $package->hasCustom )
+    if ($package->hasCustom)
     {
-      $this->protocol->subHead( 'Custom Daten' );
+      $this->protocol->subHead('Custom Daten');
       
-      if ( $package->dataPath )
-        $this->protocol->info( "Using Data Path: {$package->dataPath}" );
+      if ($package->dataPath)
+        $this->protocol->info("Using Data Path: {$package->dataPath}");
         
-      if ( $package->codeRoot )
-        $this->protocol->info( "Using Code Root: {$package->codeRoot}" );
+      if ($package->codeRoot)
+        $this->protocol->info("Using Code Root: {$package->codeRoot}");
         
-      if ( $package->confKey )
-        $this->protocol->info( "Using Conf Key: {$package->confKey}" );
+      if ($package->confKey)
+        $this->protocol->info("Using Conf Key: {$package->confKey}");
         
-      if ( $package->serverKey )
-        $this->protocol->info( "Using Server Key: {$package->serverKey}" );
+      if ($package->serverKey)
+        $this->protocol->info("Using Server Key: {$package->serverKey}");
         
-      if ( $package->deplGateway )
-        $this->protocol->info( "Using Depl Gateway: {$package->deplGateway}" );
+      if ($package->deplGateway)
+        $this->protocol->info("Using Depl Gateway: {$package->deplGateway}");
 
-      if ( $package->gwName )
-        $this->protocol->info( "Using GW Name: {$package->gwName}" );
+      if ($package->gwName)
+        $this->protocol->info("Using GW Name: {$package->gwName}");
 
     }
     
     $gateways = $package->getGateways();
     
-    foreach( $gateways as /* @var $gateway PackageGateway */ $gateway )
+    foreach($gateways as /* @var $gateway PackageGateway */ $gateway)
     {
-      $this->setupGateway( $package, $gateway );    
-      $this->setupIconThemes( $package, $gateway );
-      $this->setupUiThemes( $package, $gateway );
-      $this->setupWgt( $package, $gateway );
-      $this->copyCodeModules(  $package, $gateway );
-      $this->copyCodeVendorModules(  $package, $gateway );
+      $this->setupGateway($package, $gateway);    
+      $this->setupIconThemes($package, $gateway);
+      $this->setupUiThemes($package, $gateway);
+      $this->setupWgt($package, $gateway);
+      $this->copyCodeModules( $package, $gateway);
+      $this->copyCodeVendorModules( $package, $gateway);
       
       
-      $this->setupPermissions(  $package, $gateway );
+      $this->setupPermissions( $package, $gateway);
 
-      $this->setupDatabases( $package, $gateway );
+      $this->setupDatabases($package, $gateway);
 
-      $this->setupSystemUsers( $package, $gateway );
+      $this->setupSystemUsers($package, $gateway);
     }
     
     Protocol::closeProtocol();
@@ -87,7 +87,7 @@ class WbfSetupApplication
    * @param Package $package
    * @param PackageGateway $gateway
    */
-  protected function setupGateway( $package, $gateway )
+  protected function setupGateway($package, $gateway)
   {
     
     $request = $this->getRequest();
@@ -97,31 +97,31 @@ class WbfSetupApplication
     $gwName    = $gateway->getName();
     $gwSrc     = $gateway->getSrc();
     
-    $this->protocol->subHead( 'Deploy Gateway '.$gwName.' to '.$codeRoot );
+    $this->protocol->subHead('Deploy Gateway '.$gwName.' to '.$codeRoot);
     
-    if ( !Fs::exists($codeRoot) )
+    if (!Fs::exists($codeRoot))
     {
-      if ( !Fs::mkdir($codeRoot))
+      if (!Fs::mkdir($codeRoot))
       {
-        $this->protocol->error( 'Konnte das Zielverzeichnis: '.$codeRoot.' nicht anlegen.' );
-        throw new GaiaException( 'Konnte das Zielverzeichnis: '.$codeRoot.' nicht anlegen.' );
+        $this->protocol->error('Konnte das Zielverzeichnis: '.$codeRoot.' nicht anlegen.');
+        throw new GaiaException('Konnte das Zielverzeichnis: '.$codeRoot.' nicht anlegen.');
       }
     }
     
     $gwSrcPath    = $this->dataPath.'gateway/'.$gwSrc;
     $gwTargetPath = $codeRoot.'/'.$gwName;
     
-    if ( !Fs::exists($gwSrcPath) )
+    if (!Fs::exists($gwSrcPath))
     {
       $error = 'Konnte keine Daten zu dem Gateway: '.$gwSrc.' unter '.$gwSrcPath.' finden.';
-      $this->protocol->error( $error );
-      throw new GaiaException( $error );
+      $this->protocol->error($error);
+      throw new GaiaException($error);
     }
     
-    if ( Fs::exists( $gwTargetPath ) )
+    if (Fs::exists($gwTargetPath))
     {
       
-      if ( !$this->console->question
+      if (!$this->console->question
       (
         <<<QUESTION
 Es existiert bereits ein Gateway unter: {$gwTargetPath}.
@@ -140,76 +140,76 @@ bereits eine Installation vorhanden war.
 Zum updaten der Installation bitte das update Script verwenden.
 ERROR;
         
-        $this->protocol->error( $errMsg );
-        throw new GaiaException( $errMsg );
+        $this->protocol->error($errMsg);
+        throw new GaiaException($errMsg);
       }
       
       // löschen der alten installation
       // Hoffentlich hat da jemand gut drüber nachgedacht
-      Fs::del( $gwTargetPath );
+      Fs::del($gwTargetPath);
     }
     
-    if ( !Fs::copyContent( $gwSrcPath, $gwTargetPath ) )
+    if (!Fs::copyContent($gwSrcPath, $gwTargetPath))
     {
       $error = 'Kopieren der Gatewaydaten ist fehlgeschlagen';
-      $this->protocol->error( $error );
-      throw new GaiaException( $error );
+      $this->protocol->error($error);
+      throw new GaiaException($error);
     }
     
     // sollten versehentlich die sessiondaten mitkopiert worden sein
     // sicherstellen dass keine alten sessiondaten kopiert wurden
-    if ( Fs::exists( $gwTargetPath.'/tmp/session' ) )
+    if (Fs::exists($gwTargetPath.'/tmp/session'))
     {
-      $this->protocol->warning( 'lösche vorhadenen sessiondaten in '.$gwTargetPath.'/tmp/session' );
-      Fs::del( $gwTargetPath.'/tmp/session' );
+      $this->protocol->warning('lösche vorhadenen sessiondaten in '.$gwTargetPath.'/tmp/session');
+      Fs::del($gwTargetPath.'/tmp/session');
     }
-    Fs::mkdir( $gwTargetPath.'/tmp/session' );
+    Fs::mkdir($gwTargetPath.'/tmp/session');
     
     // sicher stellen, dass der cache nicht mit deployt wurde
-    if ( Fs::exists( $gwTargetPath.'/cache' ) )
+    if (Fs::exists($gwTargetPath.'/cache'))
     {
-      $this->protocol->warning( 'lösche vorhadenen cache in '.$gwTargetPath.'/cache' );
-      Fs::del( $gwTargetPath.'/cache' );
+      $this->protocol->warning('lösche vorhadenen cache in '.$gwTargetPath.'/cache');
+      Fs::del($gwTargetPath.'/cache');
     }
-    Fs::mkdir( $gwTargetPath.'/cache' );
+    Fs::mkdir($gwTargetPath.'/cache');
     
     // bearbeiten der gmod includes
-    if ( Fs::exists( $gwTargetPath.'/conf/include/available_gmod' ) )
+    if (Fs::exists($gwTargetPath.'/conf/include/available_gmod'))
     {
-      $this->protocol->warning( 'Leere /conf/include/available_gmod in '.$gwTargetPath );
-      Fs::del( $gwTargetPath.'/conf/include/available_gmod' );
+      $this->protocol->warning('Leere /conf/include/available_gmod in '.$gwTargetPath);
+      Fs::del($gwTargetPath.'/conf/include/available_gmod');
     }
-    Fs::mkdir( $gwTargetPath.'/conf/include/available_gmod' );
+    Fs::mkdir($gwTargetPath.'/conf/include/available_gmod');
     
-    if ( Fs::exists( $gwTargetPath.'/conf/include/gmod' ) )
+    if (Fs::exists($gwTargetPath.'/conf/include/gmod'))
     {
-      $this->protocol->warning( 'Leere /conf/include/gmod in '.$gwTargetPath );
-      Fs::del( $gwTargetPath.'/conf/include/gmod' );
+      $this->protocol->warning('Leere /conf/include/gmod in '.$gwTargetPath);
+      Fs::del($gwTargetPath.'/conf/include/gmod');
     }
-    Fs::mkdir( $gwTargetPath.'/conf/include/gmod' );
+    Fs::mkdir($gwTargetPath.'/conf/include/gmod');
     
     // bearbeiten der module includes
-    if ( Fs::exists( $gwTargetPath.'/conf/include/available_module' ) )
+    if (Fs::exists($gwTargetPath.'/conf/include/available_module'))
     {
-      $this->protocol->warning( 'Leere /conf/include/available_module in '.$gwTargetPath );
-      Fs::del( $gwTargetPath.'/conf/include/available_module' );
+      $this->protocol->warning('Leere /conf/include/available_module in '.$gwTargetPath);
+      Fs::del($gwTargetPath.'/conf/include/available_module');
     }
-    Fs::mkdir( $gwTargetPath.'/conf/include/available_module' );
+    Fs::mkdir($gwTargetPath.'/conf/include/available_module');
     
-    if ( Fs::exists( $gwTargetPath.'/conf/include/module' ) )
+    if (Fs::exists($gwTargetPath.'/conf/include/module'))
     {
-      $this->protocol->warning( 'Leere /conf/include/module in '.$gwTargetPath );
-      Fs::del( $gwTargetPath.'/conf/include/module' );
+      $this->protocol->warning('Leere /conf/include/module in '.$gwTargetPath);
+      Fs::del($gwTargetPath.'/conf/include/module');
     }
-    Fs::mkdir( $gwTargetPath.'/conf/include/module' );
+    Fs::mkdir($gwTargetPath.'/conf/include/module');
     
     // bearbeiten der metadata includes
-    if ( Fs::exists( $gwTargetPath.'/conf/include/metadata' ) )
+    if (Fs::exists($gwTargetPath.'/conf/include/metadata'))
     {
-      $this->protocol->warning( 'Leere /conf/include/metadata in '.$gwTargetPath );
-      Fs::del( $gwTargetPath.'/conf/include/metadata' );
+      $this->protocol->warning('Leere /conf/include/metadata in '.$gwTargetPath);
+      Fs::del($gwTargetPath.'/conf/include/metadata');
     }
-    Fs::mkdir( $gwTargetPath.'/conf/include/metadata' );
+    Fs::mkdir($gwTargetPath.'/conf/include/metadata');
 
     
     // kopieren der conf
@@ -218,13 +218,13 @@ ERROR;
     $confKey = $gateway->getConfKey();
     
 
-    if ( $confKey )
+    if ($confKey)
     {
-      $this->protocol->info( "Use configuration {$confKey}" );
+      $this->protocol->info("Use configuration {$confKey}");
       
-      if ( Fs::exists( $gwTargetPath.'/conf/space/'.$confKey ) )
+      if (Fs::exists($gwTargetPath.'/conf/space/'.$confKey))
       {
-        Fs::copyContent( $gwTargetPath.'/conf/space/'.$confKey, $gwTargetPath.'/conf/' );
+        Fs::copyContent($gwTargetPath.'/conf/space/'.$confKey, $gwTargetPath.'/conf/');
       }
       else 
       {
@@ -233,8 +233,8 @@ ERROR;
 Die angefragte Konfiguration: {$confKey} existiert nicht im Gateway: {$gwTargetPath}/conf/space/
 FATAL;
         
-        $this->protocol->fatal( $fatal ); 
-        throw new GaiaException( $fatal );
+        $this->protocol->fatal($fatal); 
+        throw new GaiaException($fatal);
       }
         
     }
@@ -247,7 +247,7 @@ FATAL;
    * @param Package $package
    * @param PackageGateway $gateway
    */
-  protected function setupPermissions( $package, $gateway )
+  protected function setupPermissions($package, $gateway)
   {
     
     $request = $this->getRequest();
@@ -257,38 +257,38 @@ FATAL;
     $gwName    = $gateway->getName();
     $gwSrc     = $gateway->getSrc();
     
-    $this->protocol->subHead( 'Setup Permissions Gw: '.$gwName );
+    $this->protocol->subHead('Setup Permissions Gw: '.$gwName);
     
     $codePermission = $gateway->getCodePermission();
-    if ( $codePermission )
+    if ($codePermission)
     {
-      Fs::setPermission( $codePermission, $this->protocol );
+      Fs::setPermission($codePermission, $this->protocol);
     }
     
     $permissions = $gateway->getCustomPermissions();
-    foreach( $permissions as /* @var StructPermission $permission */ $permission )
+    foreach($permissions as /* @var StructPermission $permission */ $permission)
     {
-      Fs::setPermission( $permission, $this->protocol );
+      Fs::setPermission($permission, $this->protocol);
     }
     
     // fix the permissions
     $gwPermission       = $gateway->getGwPermission();
     $gwEditPermissions  = $gateway->getGwEditPermissions();
     
-    if ( $gwPermission )
+    if ($gwPermission)
     {
-      Fs::setPermission( $gwPermission, $this->protocol );
+      Fs::setPermission($gwPermission, $this->protocol);
     }
     
-    foreach( $gwEditPermissions as $perm )
+    foreach($gwEditPermissions as $perm)
     {
       try 
       {
-        Fs::setPermission( $perm, $this->protocol );
+        Fs::setPermission($perm, $this->protocol);
       }
-      catch( GaiaException  $exc )
+      catch(GaiaException  $exc)
       {
-        $this->protocol->warning( $exc->getMessage() );
+        $this->protocol->warning($exc->getMessage());
       }
     }
 
@@ -299,16 +299,16 @@ FATAL;
    * @param PackageGateway $gateway
    * Setup der Icon Themes
    */
-  protected function setupIconThemes( $package, $gateway )
+  protected function setupIconThemes($package, $gateway)
   {
     
     // laden der nötigen informationen
     $codeRoot      = $gateway->getCodeRoot();
     $iconThemeName = $gateway->getIconThemeName();
     
-    if ( !$iconThemeName )
+    if (!$iconThemeName)
     {
-      $this->protocol->info( "Das Paket enthält keine Icon Themes, es wird nur das Standard WGT Theme vorhanden sein." );
+      $this->protocol->info("Das Paket enthält keine Icon Themes, es wird nur das Standard WGT Theme vorhanden sein.");
       return;
     }
     
@@ -316,16 +316,16 @@ FATAL;
     
     $themeTargetPath = $codeRoot.'/'.$iconThemeName;
     
-    $this->protocol->subHead( 'Deploy IconThemes '.$iconThemeName.' to '.$themeTargetPath );
+    $this->protocol->subHead('Deploy IconThemes '.$iconThemeName.' to '.$themeTargetPath);
     
-    if ( Fs::exists($themeTargetPath) )
+    if (Fs::exists($themeTargetPath))
     {
      
-      if ( 0 == count($folders) )
+      if (0 == count($folders))
       {
         
         $this->protocol->info
-        ( 
+        (
           'Das definierte Icontheme '.$iconThemeName.' enthält im Paket keine Theme-Informationen. Auf 
 dem Zielsystem sind jedoch bereits Themeinformationen vorhanden. Das Deploymentsystem geht davon aus,
 dass die vorhanden Informationen auch für hier neu deployte Gateway verwendet werden können.'
@@ -340,7 +340,7 @@ Es wird daher davon ausgegangen, dass die benötigten Icon Themes bereits vorhan
 INFO
         );
       }
-      else if ( !$this->console->question
+      else if (!$this->console->question
       (
         <<<QUESTION
 Es existiert bereits ein Icon Theme Container unter dem Pfad: {$themeTargetPath}.
@@ -350,7 +350,7 @@ QUESTION
       {
         
         $this->protocol->fatal
-        ( 
+        (
           'Die Installation wurde manuell abgebroche, da es einen Konflikt mit einem
 bereits vohandenen Theme in '.$iconThemeName.' gab. Der Benutzer hat sich dafür entschieden
 das vorhandene Theme nicht zu überschreiben, daher wurde die Installation abgebrochen.'
@@ -380,14 +380,14 @@ INFO
     
     
     // alle ordner kopieren
-    if ( $folders )
+    if ($folders)
     {
-      foreach( $folders as $folder )
+      foreach($folders as $folder)
       {
         
         $iconSrcPath = realpath($this->dataPath.'/icon_theme/'.$folder);
         
-        if ( !Fs::exists( $iconSrcPath ) )
+        if (!Fs::exists($iconSrcPath))
         {
           
           $error = <<<ERROR
@@ -396,16 +396,16 @@ Es fehlt jedoch leider im Datenpaket.
 Das kann dazu führen dass keine Icons vorhanden sein werden.
 ERROR;
           
-          $this->protocol->error( $error );
-          $this->console->error( $error );
+          $this->protocol->error($error);
+          $this->console->error($error);
           continue;
         }
         
-        if ( !Fs::copyContent( $iconSrcPath, $themeTargetPath ) )
+        if (!Fs::copyContent($iconSrcPath, $themeTargetPath))
         {
           $fatal = "Kopieren des IconThemes \"{$iconSrcPath} => {$themeTargetPath}\" ist fehlgeschlagen.";
-          $this->protocol->fatal( $fatal );
-          throw new GaiaException( $fatal );
+          $this->protocol->fatal($fatal);
+          throw new GaiaException($fatal);
         }
       }
     }
@@ -418,16 +418,16 @@ ERROR;
    * @param PackageGateway $gateway
    * Setup der Icon Themes
    */
-  protected function setupUiThemes( $package, $gateway )
+  protected function setupUiThemes($package, $gateway)
   {
     
     // laden der nötigen informationen
     $codeRoot      = $gateway->getCodeRoot();
     $uiThemeName   = $gateway->getUiThemeName();
     
-    if ( !$uiThemeName )
+    if (!$uiThemeName)
     {
-      $this->protocol->info( "Das Paket enthält keine UI Themes, es wird nur das Standard WGT Theme vorhanden sein." );
+      $this->protocol->info("Das Paket enthält keine UI Themes, es wird nur das Standard WGT Theme vorhanden sein.");
       return;
     }
     
@@ -438,13 +438,13 @@ ERROR;
     
     $themeTargetPath = $codeRoot.'/'.$uiThemeName;
     
-    $this->protocol->subHead( 'Deploy UIThemes '.$uiThemeName.' to '.$themeTargetPath );
+    $this->protocol->subHead('Deploy UIThemes '.$uiThemeName.' to '.$themeTargetPath);
     
-    Fs::touch( $gwTargetPath.'conf/include/module/'.$uiThemeName );
+    Fs::touch($gwTargetPath.'conf/include/module/'.$uiThemeName);
     
-    if ( Fs::exists($themeTargetPath) )
+    if (Fs::exists($themeTargetPath))
     {
-      if ( 0 == count($folders) )
+      if (0 == count($folders))
       {
         
         $infoMsg = <<<INFO
@@ -453,11 +453,11 @@ Der angegebenen UI Theme Container "{$themeTargetPath}" existiert jedoch bereits
 Es wird daher davon ausgegangen, dass die benötigten UI Themes bereits vorhanden sind.
 INFO;
         
-        $this->protocol->info( $infoMsg );
-        $this->console->info( $infoMsg );
+        $this->protocol->info($infoMsg);
+        $this->console->info($infoMsg);
         
       }
-      else if ( !$this->console->question
+      else if (!$this->console->question
       (
         <<<QUESTION
 Es existiert bereits ein UI Theme Container unter dem Pfad: {$themeTargetPath}.
@@ -473,21 +473,21 @@ bereits eine Installation vorhanden war.
 Zum updaten der Installation bitte das update Script verwenden.
 ERROR;
         
-        $this->protocol->info( $errorMsg );
-        throw new GaiaException( $errorMsg );
+        $this->protocol->info($errorMsg);
+        throw new GaiaException($errorMsg);
       }
     }
     
     // alle ordner kopieren
-    if ( $folders )
+    if ($folders)
     {
       
-      foreach( $folders as $folder )
+      foreach($folders as $folder)
       {
         
         $uiSrcPath = realpath($this->dataPath.'/ui_theme/'.$folder);
         
-        if ( !Fs::exists( $uiSrcPath ) )
+        if (!Fs::exists($uiSrcPath))
         {
           
           $errorMsg = <<<ERROR
@@ -496,16 +496,16 @@ Es fehlt jedoch leider im Datenpaket.
 Das kann dazu führen, dass keine Styleinformationen vorhanden sein werden.
 ERROR;
         
-          $this->protocol->error( $errorMsg );
-          $this->console->error( $errorMsg );
+          $this->protocol->error($errorMsg);
+          $this->console->error($errorMsg);
           continue;
         }
         
-        if ( !Fs::copyContent( $uiSrcPath, $themeTargetPath ) )
+        if (!Fs::copyContent($uiSrcPath, $themeTargetPath))
         {
           $errorMsg = "Kopieren des UI Themes \"{$uiSrcPath} => {$themeTargetPath}\" ist fehlgeschlagen.";
-          $this->protocol->error( $errorMsg );
-          throw new GaiaException( $errorMsg );
+          $this->protocol->error($errorMsg);
+          throw new GaiaException($errorMsg);
         }
         
       }
@@ -519,16 +519,16 @@ ERROR;
    * @param PackageGateway $gateway
    * Setup der Icon Themes
    */
-  protected function setupWgt( $package, $gateway )
+  protected function setupWgt($package, $gateway)
   {
     
     // laden der nötigen informationen
     $codeRoot  = $gateway->getCodeRoot();
     $wgtName   = $gateway->getWgtName();
     
-    if ( !$wgtName )
+    if (!$wgtName)
     {
-      $this->protocol->warning( "Das Paket enthält kein WGT Projekt. Das System kann nur im Servicemode betrieben werden." );
+      $this->protocol->warning("Das Paket enthält kein WGT Projekt. Das System kann nur im Servicemode betrieben werden.");
       return;
     }
     
@@ -536,11 +536,11 @@ ERROR;
     
     $wgtTargetPath = $codeRoot.'/'.$wgtName;
     
-    $this->protocol->subHead( 'Deploy Wgt Project to '.$wgtTargetPath );
+    $this->protocol->subHead('Deploy Wgt Project to '.$wgtTargetPath);
     
-    if ( Fs::exists( $wgtTargetPath ) )
+    if (Fs::exists($wgtTargetPath))
     {
-      if ( 0 == count($folders) )
+      if (0 == count($folders))
       {
         
         $infoMsg = <<<INFO
@@ -549,11 +549,11 @@ Das benötigte WGT Projekt existiert jedoch bereits unter "{$wgtTargetPath}".
 Es wird davon ausgegangen, dass dieses WGT Projekt in der passenden Version vorliegt.
 INFO;
         
-        $this->protocol->info( $infoMsg );
-        $this->console->info( $infoMsg );
+        $this->protocol->info($infoMsg);
+        $this->console->info($infoMsg);
 
       }
-      else if ( !$this->console->question
+      else if (!$this->console->question
       (
         <<<QUESTION
 Es existiert bereits ein WGT Projekt unter dem Pfad: {$wgtTargetPath}.
@@ -567,20 +567,20 @@ Die Installation wurde manuell abgebrochen, da bereits eine WGT installation vor
 war die nicht ersetzt werden sollte.
 ERROR;
         
-        $this->protocol->error( $error );
-        throw new GaiaException( $error );
+        $this->protocol->error($error);
+        throw new GaiaException($error);
       }
     }
     
     // alle ordner kopieren
-    if ( $folders )
+    if ($folders)
     {
-      foreach( $folders as $folder )
+      foreach($folders as $folder)
       {
         
         $wgtSrcPath = realpath($this->dataPath.'/wgt/'.$folder);
         
-        if ( !Fs::exists( $wgtSrcPath ) )
+        if (!Fs::exists($wgtSrcPath))
         {
           $this->console->error 
           (
@@ -593,10 +593,10 @@ ERROR
           continue;
         }
         
-        if ( !Fs::copyContent( $wgtSrcPath, $wgtTargetPath ) )
+        if (!Fs::copyContent($wgtSrcPath, $wgtTargetPath))
         {
           throw new GaiaException
-          ( 
+          (
             "Kopieren des WGT Projektes \"{$wgtSrcPath} => {$wgtTargetPath}\" ist fehlgeschlagen." 
           );
         }
@@ -610,7 +610,7 @@ ERROR
    * @param PackageGateway $gateway
    * Kopieren der Module
    */
-  protected function copyCodeModules(  $package, $gateway )
+  protected function copyCodeModules( $package, $gateway)
   {
     
     $codeRoot    = $gateway->getCodeRoot();
@@ -621,30 +621,30 @@ ERROR
     
     $modules = $gateway->getModules();
     
-    foreach( $modules as /* @var $module PackageGatewayModule */ $module )
+    foreach($modules as /* @var $module PackageGatewayModule */ $module)
     {
       
       $modName = $module->getName();
       $modType = $module->getType();
       $folders = $module->getFolders();
       
-      Fs::touch( $gwTargetPath.'conf/include/metadata/'.$modName );
+      Fs::touch($gwTargetPath.'conf/include/metadata/'.$modName);
 
-      if ( 'genf' == $modType )
+      if ('genf' == $modType)
       {
-        Fs::touch( $gwTargetPath.'conf/include/available_gmod/'.$modName );
-        Fs::touch( $gwTargetPath.'conf/include/gmod/'.$modName );
+        Fs::touch($gwTargetPath.'conf/include/available_gmod/'.$modName);
+        Fs::touch($gwTargetPath.'conf/include/gmod/'.$modName);
       }
       else 
       {
-        Fs::touch( $gwTargetPath.'conf/include/available_module/'.$modName );
-        Fs::touch( $gwTargetPath.'conf/include/module/'.$modName );
+        Fs::touch($gwTargetPath.'conf/include/available_module/'.$modName);
+        Fs::touch($gwTargetPath.'conf/include/module/'.$modName);
       }
       
-      foreach( $folders as $folder )
+      foreach($folders as $folder)
       {
         
-        if ( !Fs::exists( $modSrcPath.$folder ) )
+        if (!Fs::exists($modSrcPath.$folder))
         {
           $this->console->error 
           (
@@ -657,18 +657,18 @@ ERROR
           continue;
         }
         
-        $this->protocol->info( "Copy Module $modSrcPath.$folder => $codeRoot.'/'.$modName " );
+        $this->protocol->info("Copy Module $modSrcPath.$folder => $codeRoot.'/'.$modName ");
         Fs::copyContent
-        ( 
+        (
           $modSrcPath.$folder, 
           $codeRoot.'/'.$modName 
         );
       }
       
-      $permission = $module->getPermission( $codeRoot );
+      $permission = $module->getPermission($codeRoot);
       
-      if ( $permission )
-        Fs::setPermission( $permission, $this->protocol );
+      if ($permission)
+        Fs::setPermission($permission, $this->protocol);
       
     }
 
@@ -679,7 +679,7 @@ ERROR
    * @param PackageGateway $gateway
    * Kopieren der Module
    */
-  protected function copyCodeVendorModules(  $package, $gateway )
+  protected function copyCodeVendorModules( $package, $gateway)
   {
     
     $codeRoot    = $gateway->getCodeRoot();
@@ -690,20 +690,20 @@ ERROR
     
     $modules       = $gateway->getVendorModules();
     
-    foreach( $modules as /* @var $module PackageGatewayModule */ $module )
+    foreach($modules as /* @var $module PackageGatewayModule */ $module)
     {
       
       $modName = $module->getName();
       $modType = $module->getType();
       $folders = $module->getFolders();
 
-      Fs::touch( $gwTargetPath.'conf/include/available_module/'.$modName );
-      Fs::touch( $gwTargetPath.'conf/include/module/'.$modName );
+      Fs::touch($gwTargetPath.'conf/include/available_module/'.$modName);
+      Fs::touch($gwTargetPath.'conf/include/module/'.$modName);
       
-      foreach( $folders as $folder )
+      foreach($folders as $folder)
       {
         
-        if ( !Fs::exists( $modSrcPath.$folder ) )
+        if (!Fs::exists($modSrcPath.$folder))
         {
           $this->console->error 
           (
@@ -716,9 +716,9 @@ ERROR
           continue;
         }
         
-        $this->protocol->info( "Copy Vendor Module $modSrcPath.$folder => $codeRoot.'/'.$modName " );
+        $this->protocol->info("Copy Vendor Module $modSrcPath.$folder => $codeRoot.'/'.$modName ");
         Fs::copyContent
-        ( 
+        (
           $modSrcPath.$folder, 
           $codeRoot.'/'.$modName 
         );
@@ -726,10 +726,10 @@ ERROR
       }//end foreach
       
       
-      $permission = $module->getPermission( $codeRoot );
+      $permission = $module->getPermission($codeRoot);
       
-      if ( $permission )
-        Fs::setPermission( $permission, $this->protocol );
+      if ($permission)
+        Fs::setPermission($permission, $this->protocol);
       
     }//end foreach 
     
@@ -743,26 +743,26 @@ ERROR
    * @param Package $package
    * @param PackageGateway $gateway
    */
-  protected function setupDatabases( $package, $gateway )
+  protected function setupDatabases($package, $gateway)
   {
 
     $gwName = $gateway->getName();
     
-    $this->protocol->subHead( 'Setup der Datenbanken für Gateway '.$gwName );
+    $this->protocol->subHead('Setup der Datenbanken für Gateway '.$gwName);
 
     $servers = $gateway->getServers();
     
-    foreach( $servers as /* @var $server PackageServer */ $server )
+    foreach($servers as /* @var $server PackageServer */ $server)
     {
       $databases = $server->getDatabases();
-      foreach( $databases as /* @var $database PackageServerDb  */ $database )
+      foreach($databases as /* @var $database PackageServerDb  */ $database)
       {
         
-        $this->protocol->subHead( 'Setup der Datenbanken für Gateway '.$gwName );
+        $this->protocol->subHead('Setup der Datenbanken für Gateway '.$gwName);
         
-        $dbSetup = SetupDb::getSetup( $this->console,  $database->getType(), $this->protocol );
+        $dbSetup = SetupDb::getSetup($this->console,  $database->getType(), $this->protocol);
         /* @var $dbSetup SetupDb */
-        $dbSetup->setup( $package, $gateway, $servers, $database, $this->dataPath  );
+        $dbSetup->setup($package, $gateway, $servers, $database, $this->dataPath  );
         
       }
     }
@@ -777,29 +777,29 @@ ERROR
    * @param Package $package
    * @param PackageGateway $gateway
    */
-  protected function setupSystemUsers( $package, $gateway )
+  protected function setupSystemUsers($package, $gateway)
   {
 
     $gwName = $gateway->getName();
     
-    $this->protocol->subHead( 'Setup der Systemuser für Gateway '.$gwName );
+    $this->protocol->subHead('Setup der Systemuser für Gateway '.$gwName);
 
     $servers = $gateway->getServers();
     $users   = $gateway->getUsers();
     
-    foreach( $servers as /* @var $server PackageServer */ $server )
+    foreach($servers as /* @var $server PackageServer */ $server)
     {
       $databases = $server->getDatabases();
-      foreach( $databases as /* @var $database PackageServerDb  */ $database )
+      foreach($databases as /* @var $database PackageServerDb  */ $database)
       {
         
         $dbConnection = $database->getConnection();
         
-        $userMgmt     = new UserManagement( $dbConnection, $this->protocol );
+        $userMgmt     = new UserManagement($dbConnection, $this->protocol);
         
-        foreach( $users as /* @var $server PackageGatewayUser */ $user )
+        foreach($users as /* @var $server PackageGatewayUser */ $user)
         {
-          $userMgmt->createUser( $user );
+          $userMgmt->createUser($user);
         }
         
       }

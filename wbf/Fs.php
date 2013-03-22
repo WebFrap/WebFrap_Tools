@@ -38,7 +38,7 @@ class Fs
    * Den aktuellen Pfad des Scriptes ändern
    * @param string $path
    */
-  static function pathIsAbsolute( $path )
+  static function pathIsAbsolute($path)
   {
     
     return ($path[0] == '/');
@@ -49,7 +49,7 @@ class Fs
    * Den aktuellen Pfad des Scriptes ändern
    * @param string $path
    */
-  static function chdir( $path )
+  static function chdir($path)
   {
     
     chdir($path);
@@ -69,10 +69,10 @@ class Fs
    * Den aktuellen Pfad des Scriptes ändern
    * @param string $path
    */
-  static function exists( $path )
+  static function exists($path)
   {
     
-    return file_exists( $path );
+    return file_exists($path);
     
   }//end static function exists */
   
@@ -83,20 +83,20 @@ class Fs
    * @param string $target
    * @param boolean $isFolder
    */
-  static function copy( $src, $target, $isFolder = true )
+  static function copy($src, $target, $isFolder = true)
   {
     
-    if ( $isFolder )
+    if ($isFolder)
     {
-      if ( !file_exists($target) )
-        Fs::mkdir( $target );
+      if (!file_exists($target))
+        Fs::mkdir($target);
     }
     else 
     {
       Fs::touchFileFolder($target);
     }
     
-    if ( $isFolder )
+    if ($isFolder)
       Process::run("cp -rf $src $target");
     else 
       Process::run("cp $src $target");
@@ -113,12 +113,12 @@ class Fs
    * @param string $target
    * @param boolean $isFolder
    */
-  static function copyContent( $src, $target, $isFolder = true )
+  static function copyContent($src, $target, $isFolder = true)
   {
     
-    if ( $isFolder && !file_exists($target) )
+    if ($isFolder && !file_exists($target))
     {
-      Fs::mkdir( $target );
+      Fs::mkdir($target);
     }
     
     $src = realpath($src).'/*';
@@ -133,7 +133,7 @@ class Fs
    * Datei oder Verzeichniss rekursiv löschen
    * @param string $path
    */
-  static function del( $path )
+  static function del($path)
   {    
     
     Process::run("rm -rf $path");
@@ -144,17 +144,17 @@ class Fs
    * Datei oder Verzeichniss rekursiv löschen
    * @param string $path
    */
-  static function delFileDir( $filename )
+  static function delFileDir($filename)
   {    
     
-    if ( !file_exists($filename) )
+    if (!file_exists($filename))
     {
-      throw new GaiaException( "File {$filename} not exists." );
+      throw new GaiaException("File {$filename} not exists.");
     }
     
-    $dir = dirname( $filename );
+    $dir = dirname($filename);
     
-    Process::run( "rm -rf {$dir}" );
+    Process::run("rm -rf {$dir}");
     
   }//end static function delFileDir */
   
@@ -164,12 +164,12 @@ class Fs
    * @param string $path
    * @param int $mode
    */
-  static function mkdir( $path, $mode = 0777 )
+  static function mkdir($path, $mode = 0777)
   {    
     
-    if ( !file_exists( $path ) )
+    if (!file_exists($path))
     {
-      mkdir( $path, $mode, true );
+      mkdir($path, $mode, true);
     }
     
     return true;
@@ -182,13 +182,13 @@ class Fs
    * @param string $path
    * @param int $mode
    */
-  static function isDir( $path )
+  static function isDir($path)
   {    
     
-    if ( !file_exists( $path ) )
+    if (!file_exists($path))
       return false;
       
-    return is_dir( $path );
+    return is_dir($path);
     
   }//end static function mkdir */
   
@@ -198,15 +198,15 @@ class Fs
    * @param string $fileName
    * @param string $ending
    */
-  static function isA( $fileName, $ending )
+  static function isA($fileName, $ending)
   {    
     
-    $pathInfo = pathinfo( $fileName );
+    $pathInfo = pathinfo($fileName);
     
-    if ( !isset( $pathInfo['extension'] ) )
+    if (!isset($pathInfo['extension']))
       return false;
       
-    return ( $ending == $pathInfo['extension'] );
+    return ($ending == $pathInfo['extension']);
     
   }//end static function isA */
   
@@ -215,12 +215,12 @@ class Fs
    * 
    * @param string $fileName
    */
-  static function getFileType( $fileName  )
+  static function getFileType($fileName  )
   {    
     
-    $pathInfo = pathinfo( $fileName );
+    $pathInfo = pathinfo($fileName);
     
-    if ( !isset( $pathInfo['extension'] ) )
+    if (!isset($pathInfo['extension']))
       return null;
       
     return $pathInfo['extension'];
@@ -233,12 +233,12 @@ class Fs
    * @param string $fileName
    * @return string
    */
-  static function getFileFolder( $fileName  )
+  static function getFileFolder($fileName  )
   {    
     
-    $pathInfo = pathinfo( $fileName );
+    $pathInfo = pathinfo($fileName);
     
-    if ( !isset( $pathInfo['dirname'] ) )
+    if (!isset($pathInfo['dirname']))
       return null;
       
     return $pathInfo['dirname'];
@@ -249,15 +249,15 @@ class Fs
    * Eine Datei erstellen
    * @param string $path
    */
-  static function touch( $path )
+  static function touch($path)
   {    
     
     $dir = dirname($path);
     
-    if ( !Fs::exists($dir) )
+    if (!Fs::exists($dir))
       Fs::mkdir($dir);
 
-    Process::run( "touch $path" );
+    Process::run("touch $path");
     
   }//end static function touch */
   
@@ -265,12 +265,12 @@ class Fs
    * Eine Datei erstellen
    * @param string $path
    */
-  static function touchFileFolder( $path )
+  static function touchFileFolder($path)
   {    
     
     $dir = dirname($path);
     
-    if ( !Fs::exists($dir) )
+    if (!Fs::exists($dir))
       Fs::mkdir($dir);
 
   }//end static function touchFileFolder */
@@ -281,9 +281,9 @@ class Fs
    * @param string $path
    * @param string $user
    */
-  static function chown( $path, $user )
+  static function chown($path, $user)
   {    
-    Process::run( "chown -R $user $path" );
+    Process::run("chown -R $user $path");
     
   }//end static function chown */
   
@@ -293,9 +293,9 @@ class Fs
    * @param string $path
    * @param string $user
    */
-  static function chgrp( $path, $group )
+  static function chgrp($path, $group)
   {    
-    Process::run( "chgrp -R $group $path" );
+    Process::run("chgrp -R $group $path");
     
   }//end static function chgrp */
   
@@ -305,9 +305,9 @@ class Fs
    * @param string $path
    * @param string $level
    */
-  static function chmod( $path, $level )
+  static function chmod($path, $level)
   {    
-    Process::run( "chmod -R $level $path" );
+    Process::run("chmod -R $level $path");
     
   }//end static function chmod */
   
@@ -317,50 +317,50 @@ class Fs
    * @param StructPermission $perm
    * @param ProtocolWriter $protocol
    */
-  static function setPermission( $perm, $protocol = null )
+  static function setPermission($perm, $protocol = null)
   {    
     
-    if ( !$perm->directory )
-      throw new GaiaException( 'Missing the directory '.$perm->directory );
+    if (!$perm->directory)
+      throw new GaiaException('Missing the directory '.$perm->directory);
     
-    if ( !Fs::exists($perm->directory) )
-      throw new GaiaException( 'Directory '.$perm->directory.' not exists.' );
+    if (!Fs::exists($perm->directory))
+      throw new GaiaException('Directory '.$perm->directory.' not exists.');
     
     $cmdRec = '';
-    if ( $perm->recursive )
+    if ($perm->recursive)
     {
       $cmdRec = ' -R ';
     }
       
-    if ( $perm->owner && $perm->group )
+    if ($perm->owner && $perm->group)
     {
-      Process::run( 'chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"' );
+      Process::run('chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"');
       
-      if ( $protocol )
-        $protocol->info( 'chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"' );
+      if ($protocol)
+        $protocol->info('chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"');
     }
-    elseif ( $perm->owner )
+    elseif ($perm->owner)
     {
-      Process::run( 'chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"' );
+      Process::run('chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"');
       
-      if ( $protocol )
-        $protocol->info( 'chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"' );
+      if ($protocol)
+        $protocol->info('chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"');
       
     }
-    elseif ( $perm->group )
+    elseif ($perm->group)
     {
-      Process::run( 'chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"' );
+      Process::run('chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"');
       
-      if ( $protocol )
-        $protocol->info( 'chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"' );
+      if ($protocol)
+        $protocol->info('chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"');
     }
     
-    if ( $perm->accessMask )
+    if ($perm->accessMask)
     {
-      Process::run( 'chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"' );
+      Process::run('chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"');
       
-      if ( $protocol )
-        $protocol->info( 'chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"' );
+      if ($protocol)
+        $protocol->info('chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"');
     }
 
   }//end static function setPermission */
@@ -370,10 +370,10 @@ class Fs
    * 
    * @param string $path
    */
-  static function read( $path )
+  static function read($path)
   { 
        
-    return file_get_contents( $path );
+    return file_get_contents($path);
     
   }//end static function read */
   
@@ -383,11 +383,11 @@ class Fs
    * @param string $content
    * @param string $path
    */
-  static function write( $content, $path )
+  static function write($content, $path)
   {    
     
-    Fs::touchFileFolder( $path );
-    return file_put_contents( $path, $content );
+    Fs::touchFileFolder($path);
+    return file_put_contents($path, $content);
     
   }//end static function write */
   
@@ -396,22 +396,22 @@ class Fs
    * @param string $tplPath
    * @param array $values
    */
-  static function template( $targetPath, $tplPath, $values )
+  static function template($targetPath, $tplPath, $values)
   {
     
     $folder = dirname($targetPath);
     
-    if ( !Fs::exists($folder) )
-      Fs::mkdir( $folder );
+    if (!Fs::exists($folder))
+      Fs::mkdir($folder);
     
     file_put_contents
-    ( 
+    (
       $targetPath, 
       str_replace
       (
-        array_keys( $values ), 
-        array_values( $values ), 
-        file_get_contents( $tplPath )
+        array_keys($values), 
+        array_values($values), 
+        file_get_contents($tplPath)
       )
     );
 

@@ -39,10 +39,10 @@ class Webserver
    * @param string $rootPath
    * @param string $universe
    */
-  public static function createGwVhosts( $gwRepos, $rootPath, $universe )
+  public static function createGwVhosts($gwRepos, $rootPath, $universe)
   {
     
-    foreach( $gwRepos as $gwPrj )
+    foreach($gwRepos as $gwPrj)
     {
       $kvData = array
       (
@@ -59,13 +59,13 @@ class Webserver
 
       
       Fs::template
-      ( 
+      (
         "/etc/apache2/sites-available/{$gwPrj['vhost']['server_name']}.vhost", 
         GAIA_PATH.'data/apache/vhost.tpl',
         $kvData 
       );
       
-      Webserver::activatePage( $gwPrj['vhost']['server_name'] );
+      Webserver::activatePage($gwPrj['vhost']['server_name']);
       
     }
     
@@ -75,77 +75,77 @@ class Webserver
   
   /**
    */
-  public static function reload( )
+  public static function reload()
   {
     
-    Process::execute( "/etc/init.d/apache2 reload" );
+    Process::execute("/etc/init.d/apache2 reload");
     
   }//end public static function reload */
   
   /**
    */
-  public static function restart( )
+  public static function restart()
   {
     
-    Process::execute( "/etc/init.d/apache2 restart" );
+    Process::execute("/etc/init.d/apache2 restart");
     
   }//end public static function restart */
   
   /**
    */
-  public static function start( )
+  public static function start()
   {
     
-    Process::execute( "/etc/init.d/apache2 start" );
+    Process::execute("/etc/init.d/apache2 start");
     
   }//end public static function start */
   
   /**
    */
-  public static function stop( )
+  public static function stop()
   {
     
-    Process::execute( "/etc/init.d/apache2 stop" );
+    Process::execute("/etc/init.d/apache2 stop");
     
   }//end public static function stop */ 
 
   /**
    * @param string $pageName
    */
-  public static function activatePage( $pageName )
+  public static function activatePage($pageName)
   {
     
-    Process::execute( "a2enpage {$pageName}" );
+    Process::execute("a2enpage {$pageName}");
     
   }//end public static function activatePage */
   
   /**
    * @param string $pageName
    */
-  public static function deactivatePage( $pageName )
+  public static function deactivatePage($pageName)
   {
     
-    Process::execute( "a2dissite {$pageName}" );
+    Process::execute("a2dissite {$pageName}");
     
   }//end public static function deactivatePage */
   
   /**
    * @param string $modName
    */
-  public static function activateModule( $modName )
+  public static function activateModule($modName)
   {
     
-    Process::execute( "a2enmod {$modName}" );
+    Process::execute("a2enmod {$modName}");
     
   }//end public static function activateModule */
   
   /**
    * @param string $modName
    */
-  public static function deactivateModule( $modName )
+  public static function deactivateModule($modName)
   {
     
-    Process::execute( "a2dismod {$modName}" );
+    Process::execute("a2dismod {$modName}");
     
   }//end public static function deactivateModule */
 

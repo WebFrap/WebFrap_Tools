@@ -27,30 +27,30 @@
 
 
 
-define( 'NL', "\n" );
+define('NL', "\n");
 
-if ( 'cli' == php_sapi_name() )
-  define( 'IS_CLI', true );
+if ('cli' == php_sapi_name())
+  define('IS_CLI', true);
 else
-  define( 'IS_CLI', false );
+  define('IS_CLI', false);
 
 // definiere des GAIA Root Pfades
-define( 'GAIA_PATH', realpath( dirname(__FILE__).'/../' ).'/' );
+define('GAIA_PATH', realpath(dirname(__FILE__).'/../').'/');
 
 // root pfad der Gaia Installation
-define( 'PATH_ROOT', realpath( dirname(__FILE__).'/../../' ).'/' );
+define('PATH_ROOT', realpath(dirname(__FILE__).'/../../').'/');
 
 // der pfad für temporäre dateien
-define( 'TMP_PATH', PATH_ROOT.'tmp/' );
+define('TMP_PATH', PATH_ROOT.'tmp/');
 
-define( 'SYS_ROOT', '/var/www/test_root/' );
+define('SYS_ROOT', '/var/www/test_root/');
  
 include GAIA_PATH.'wbf/Gaia.php';
 
-spl_autoload_register( 'Gaia::pathAutoload' );
+spl_autoload_register('Gaia::pathAutoload');
 
 /*
-if ( '' == trim(Process::execute('echo $DISPLAY')) )
+if ('' == trim(Process::execute('echo $DISPLAY')))
 {
   include GAIA_PATH.'wbf/ui/UiConsoleCli.php';
 }
@@ -66,7 +66,7 @@ Environment::guessOsData();
 
 $console = UiConsole::getActive();
 
-if ( !defined( 'GAIA_CONTEXT' ) )
+if (!defined('GAIA_CONTEXT'))
 {
   $console->error("Der Scriptauthor hat vergessen einen GAIA_CONTEXT zu definieren.");
   exit(1);
@@ -81,22 +81,22 @@ if ( !defined( 'GAIA_CONTEXT' ) )
 $setupLang = 'de';
 $conf      = new stdClass();
 
-$request   = Request::parseRequest(  );
+$request   = Request::parseRequest();
 
 $confRequired = array
 (
   'sync'
 );
 
-if ( in_array(GAIA_CONTEXT, $confRequired) )
+if (in_array(GAIA_CONTEXT, $confRequired))
 {
 
-  if ( $key = Request::arg( 'conf' ) )
+  if ($key = Request::arg('conf'))
   {
     
     $confPath = GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.'.$key.'.php';
     
-    if ( Fs::exists($confPath) )
+    if (Fs::exists($confPath))
     {
       include $confPath;
     }
@@ -114,7 +114,7 @@ ERROR
   }
   else 
   {
-    if ( Fs::exists( GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php' ) )
+    if (Fs::exists(GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php'))
     {
       include  GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php';
     }
@@ -134,4 +134,4 @@ ERROR
 
 }
 
-I18n::loadLang( $setupLang );
+I18n::loadLang($setupLang);

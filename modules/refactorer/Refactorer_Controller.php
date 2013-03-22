@@ -33,9 +33,9 @@ class Refactorer_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Refactoring' );
-    $workarea->addTemplate( 'refactorer/form' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Refactoring');
+    $workarea->addTemplate('refactorer/form');
     
   }//end public function do_default */
   
@@ -53,24 +53,24 @@ class Refactorer_Controller
     $path    = $_POST['path']; //  $request->data('path', Validator::RAW);
     $ending  = $_POST['ending']; //  $request->data('ending', Validator::RAW);
     
-    if ( $path )
+    if ($path)
     {
       $model = new Refactorer_Model();
-      $files = $model->refactor( $search, $replace, PATH_ROOT.$path.'/', $ending );
+      $files = $model->refactor($search, $replace, PATH_ROOT.$path.'/', $ending);
     }
     else 
     {
       $files = '';
     }
     
-    $workarea = $console->tpl->getWorkArea( );
+    $workarea = $console->tpl->getWorkArea();
     $workarea->vars->search   = $search;
     $workarea->vars->replace  = $replace;
     $workarea->vars->path     = $path;
     $workarea->vars->ending   = $ending;
     $workarea->vars->files    = $files;
-    $workarea->setCaption( 'Refactoring' );
-    $workarea->addTemplate( 'refactorer/protocol' );
+    $workarea->setCaption('Refactoring');
+    $workarea->addTemplate('refactorer/protocol');
     
   }//end public function do_default */
 

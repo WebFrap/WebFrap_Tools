@@ -44,7 +44,7 @@ class EnvironmentCore
   /**
    * @param EnvironmentCore $env
    */
-  public function __construct( $env = null )
+  public function __construct($env = null)
   {
     
     $this->env = $env;
@@ -61,9 +61,9 @@ class EnvironmentCore
   public function getRequest()
   {
     
-    if ( !$this->request )
+    if (!$this->request)
     {
-      if ( $this->env )
+      if ($this->env)
         $this->request = $this->env->getRequest();
       else
         $this->request = Request::getActive();
@@ -76,7 +76,7 @@ class EnvironmentCore
   /**
    * @param IsARequest $request
    */
-  public function setRequest( IsARequest $request )
+  public function setRequest(IsARequest $request)
   {
     
     $this->request = $request;
@@ -89,9 +89,9 @@ class EnvironmentCore
   public function getConsole()
   {
     
-    if ( !$this->console )
+    if (!$this->console)
     {
-      if ( $this->env )
+      if ($this->env)
         $this->console = $this->env->getConsole();
       else
         $this->console = Console::getActive();
@@ -104,7 +104,7 @@ class EnvironmentCore
   /**
    * @param IsAConsole $console
    */
-  public function setConsole( IsAConsole $console )
+  public function setConsole(IsAConsole $console)
   {
     
     $this->console = $console;

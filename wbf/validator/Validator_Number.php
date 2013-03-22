@@ -44,7 +44,7 @@ class Validator_Number
   /* (non-PHPdoc)
    * @see IsaValidator::santisize()
    */
-  public function santisize( $value, $db = null, $flags = null )
+  public function santisize($value, $db = null, $flags = null)
   {
 
     // TODO Auto-generated method stub
@@ -54,7 +54,7 @@ class Validator_Number
   /* (non-PHPdoc)
    * @see IsaValidator::santisizeToContainer()
    */
-  public function santisizeToContainer( $value, $key, $container, $db = null, $flags = null )
+  public function santisizeToContainer($value, $key, $container, $db = null, $flags = null)
   {
 
     // TODO Auto-generated method stub
@@ -64,7 +64,7 @@ class Validator_Number
   /* (non-PHPdoc)
  * @see IsaValidator::validate()
  */
-  public function validate( $value, $db = null, $flags = null )
+  public function validate($value, $db = null, $flags = null)
   {
 
     // TODO Auto-generated method stub
@@ -74,7 +74,7 @@ class Validator_Number
   /* (non-PHPdoc)
    * @see IsaValidator::validateToContainer()
    */
-  public function validateToContainer( $value, $key, $container, $db = null, $flags = null )
+  public function validateToContainer($value, $key, $container, $db = null, $flags = null)
   {
 
     // TODO Auto-generated method stub

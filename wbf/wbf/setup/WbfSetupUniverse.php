@@ -27,7 +27,7 @@ class WbfSetupUniverse
    * @param Package $package
    * @param UiConsole $console
    */
-  public function setup( $package, $console )
+  public function setup($package, $console)
   {
     
     $gateways = $package->getGateway();
@@ -37,7 +37,7 @@ class WbfSetupUniverse
   /**
    * @param PackageGateway $gateway
    */
-  protected function setupGateway( $gateway )
+  protected function setupGateway($gateway)
   {
     
   }//end protected function setupGateway */

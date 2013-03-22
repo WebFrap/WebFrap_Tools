@@ -33,9 +33,9 @@ class Menu_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Menu' );
-    $workarea->addTemplate( 'menu/menu' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Menu');
+    $workarea->addTemplate('menu/menu');
     
   }//end public function do_default */
 

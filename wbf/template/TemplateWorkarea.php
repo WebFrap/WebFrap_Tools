@@ -87,16 +87,16 @@ class TemplateWorkarea
   public function sendHeader()
   {
     
-    header( 'Content-Type:'.$this->contentType.'; charset='.$this->encoding );
-    header( 'ETag: '.md5($this->renderedContent) );
-    header( 'Content-Length: '.mb_strlen($this->renderedContent) );
+    header('Content-Type:'.$this->contentType.'; charset='.$this->encoding);
+    header('ETag: '.md5($this->renderedContent));
+    header('Content-Length: '.mb_strlen($this->renderedContent));
     
   }//end public function sendHeader */
   
   /**
    * @param string $caption
    */
-  public function setCaption( $caption )
+  public function setCaption($caption)
   {
     
     $this->caption = $caption;
@@ -106,7 +106,7 @@ class TemplateWorkarea
   /**
    * @param string $template
    */
-  public function addTemplate( $template )
+  public function addTemplate($template)
   {
     
     $this->templates[] = $template;
@@ -122,11 +122,11 @@ class TemplateWorkarea
     $v = $this->vars;
     
     ob_start();
-    foreach( $this->templates as $template )
+    foreach($this->templates as $template)
     {
-      if ( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
+      if (Fs::exists(GAIA_PATH.'modules/'.$template.'.tpl'))
         include GAIA_PATH.'modules/'.$template.'.tpl';
-      elseif ( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
+      elseif (Fs::exists(GAIA_PATH.'wbf/'.$template.'.tpl'))
         include GAIA_PATH.'wbf/'.$template.'.tpl';
       else 
         echo '<p class="wgt-box-error" >Missing Template '.$template.'</p>'.NL;
@@ -136,9 +136,9 @@ class TemplateWorkarea
     ob_end_clean();
     
     ob_start();
-    if ( Fs::exists( GAIA_PATH.'modules/'.$this->index.'.idx' ) )
+    if (Fs::exists(GAIA_PATH.'modules/'.$this->index.'.idx'))
       include GAIA_PATH.'modules/'.$this->index.'.idx';
-    elseif ( Fs::exists( GAIA_PATH.'wbf/'.$this->index.'.idx' ) )
+    elseif (Fs::exists(GAIA_PATH.'wbf/'.$this->index.'.idx'))
       include GAIA_PATH.'wbf/'.$this->index.'.idx';
     else 
       echo '<p class="wgt-box-error" >Missing Index '.$this->index.'</p>'.NL;

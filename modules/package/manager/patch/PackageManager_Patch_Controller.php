@@ -33,10 +33,10 @@ class PackageManager_Patch_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Patch' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Patch');
     
-    $workarea->addTemplate( 'package/manager/patch/package_form' );
+    $workarea->addTemplate('package/manager/patch/package_form');
     
   }//end public function do_default */
 
@@ -49,27 +49,27 @@ class PackageManager_Patch_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Build Patch' );
-    $workarea->addTemplate( 'package/manager/patch/package_form' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Build Patch');
+    $workarea->addTemplate('package/manager/patch/package_form');
 
-    $jsonRaw = $request->data( 'json_raw' );
-    $noData = $request->data( 'no_data', Validator::BOOLEAN );
+    $jsonRaw = $request->data('json_raw');
+    $noData = $request->data('no_data', Validator::BOOLEAN);
     
-    $jsonData = json_decode( $jsonRaw );
+    $jsonData = json_decode($jsonRaw);
     
-    if ( JSON_ERROR_NONE !== json_last_error() )
-      throw new RequestInvalid_Exception("JSON was invalid ".json_last_error() );
+    if (JSON_ERROR_NONE !== json_last_error())
+      throw new RequestInvalid_Exception("JSON was invalid ".json_last_error());
     
     Console::startCache();
       
-    $model = new PackageManager_Patch_Model( $this );
+    $model = new PackageManager_Patch_Model($this);
     
-    if ( $noData )
+    if ($noData)
       $model->noData = true;
     
-    $model->readJson( $jsonData );
-    $model->buildPackage( );
+    $model->readJson($jsonData);
+    $model->buildPackage();
     
     $workarea->vars->message = Console::getCache();
     

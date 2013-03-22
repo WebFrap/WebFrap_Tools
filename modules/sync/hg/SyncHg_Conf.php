@@ -66,7 +66,7 @@ class SyncHg_Conf
   /**
    * @param string $path
    */
-  public function load( $path )
+  public function load($path)
   {
     
     // erst mal potentiell alte confs leeren
@@ -75,23 +75,23 @@ class SyncHg_Conf
     $this->displayName  = null;
     $this->repos        = array();
     
-    if ( Fs::exists( $path ) )
+    if (Fs::exists($path))
     {
       
       $error = null;
       
-      if ( Gaia::checkSyntax( $path, $error ) )
+      if (Gaia::checkSyntax($path, $error))
       {
         include $path;
       }
       else 
       {
-        throw new GaiaException( "Requested Conf {$path} was invalid ".$error );
+        throw new GaiaException("Requested Conf {$path} was invalid ".$error);
       }
     }
     else 
     {
-      throw new GaiaException( "Requested Conf {$path} not exists." );
+      throw new GaiaException("Requested Conf {$path} not exists.");
     }
 
   }//end public function load */

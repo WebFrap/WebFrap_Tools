@@ -48,14 +48,14 @@ class MvcController
    * (
    *   'helloworld' => array
    *   (
-   *     'method'    => array( 'GET', 'POST' ),
+   *     'method'    => array('GET', 'POST'),
    *     'interface' => array
    *     (
    *        'GET' => array
    *       (
    *         'param' => array
    *          (
-   *           'name' => array( 'type' => 'string', 'semantic' => 'The Name of the Whatever', 'required' => true, 'default' => 'true' ),
+   *           'name' => array('type' => 'string', 'semantic' => 'The Name of the Whatever', 'required' => true, 'default' => 'true'),
    *          ),
    *       )
    *       'POST' => array
@@ -80,7 +80,7 @@ class MvcController
    *     'docref'       => 'some_link',
    *     'author'       => 'author <author@mail.addr>'
    *   )
-   * );
+   *);
    *
    * @var array
    */
@@ -91,24 +91,24 @@ class MvcController
    * die vom request angeforderte methode auf rufen
    * @param string $action
    */
-  public function execute(  $action )
+  public function execute( $action)
   {
     
     $actionName = 'do_'.$action;
     
-    if ( method_exists( $this, $actionName ) )
+    if (method_exists($this, $actionName))
     {
-      $this->$actionName( );
+      $this->$actionName();
     }
     else 
     {
-      if ( method_exists( $this, 'do_help' ) )
+      if (method_exists($this, 'do_help'))
       {
-        $this->do_help( $action );
+        $this->do_help($action);
       }
       else 
       {
-        $this->invalidRequest( $action );
+        $this->invalidRequest($action);
       }
     }
 
@@ -117,18 +117,18 @@ class MvcController
   /**
    * @param string $action
    */
-  protected function invalidRequest( $action )
+  protected function invalidRequest($action)
   {
     
-    $this->console->error( "Invalid Request ".$action );
+    $this->console->error("Invalid Request ".$action);
     
   }//end protected function invalidRequest */
 
   /**
    */
-  public function do_help( $action )
+  public function do_help($action)
   {
-    $this->console->out( 'HELP '.$action );
+    $this->console->out('HELP '.$action);
   }//end public function do_help */
   
 }//end class MvcController */

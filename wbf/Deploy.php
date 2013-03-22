@@ -41,7 +41,7 @@ class Deploy
    * @param string $access
    */
   public static function deployModules
-  ( 
+  (
     $repos, 
     $deployPath, 
     $owner, 
@@ -51,33 +51,33 @@ class Deploy
   {
     
     // erst mal alle projekte kopieren
-    foreach( $repos as $packageName => $modules )
+    foreach($repos as $packageName => $modules)
     {
       
       // leere module ignorieren werden nur für die Gateways benötigt
-      if ( !count($modules) )
+      if (!count($modules))
         continue;
       
       // alten code komplett löschen
-      if ( $fastDepl )
+      if ($fastDepl)
       {
-        Fs::del( $deployPath.$packageName );
+        Fs::del($deployPath.$packageName);
       }
       
       // bei bedarf erst mal erstellen
-      if ( !Fs::exists($deployPath.$packageName) )
-        Fs::mkdir( $deployPath.$packageName );
+      if (!Fs::exists($deployPath.$packageName))
+        Fs::mkdir($deployPath.$packageName);
     
       // deployen
-      foreach ( $modules as $module => $modData )
+      foreach ($modules as $module => $modData)
       {
-        Fs::chdir( "{$modData['path']}/{$module}" );
-        Hg::update( (isset($modPath['rev'])?$modPath['rev']:null)  );
-        Hg::archive( "{$deployPath}{$packageName}" );
+        Fs::chdir("{$modData['path']}/{$module}");
+        Hg::update((isset($modPath['rev'])?$modPath['rev']:null)  );
+        Hg::archive("{$deployPath}{$packageName}");
       }
     
-      Fs::chown( $deployPath.$packageName, $owner );
-      Fs::chmod( $deployPath.$packageName, $access );
+      Fs::chown($deployPath.$packageName, $owner);
+      Fs::chmod($deployPath.$packageName, $access);
     
     }
     
@@ -92,7 +92,7 @@ class Deploy
    * @param string $access
    */
   public static function deployComponent
-  ( 
+  (
     $repos, 
     $deployPath, 
     $owner, 
@@ -101,22 +101,22 @@ class Deploy
   )
   {
     
-    foreach( $repos as $deplKey => $modules )
+    foreach($repos as $deplKey => $modules)
     {
       // Zielprojekt erst mal cleanen
-      if ( $fastDepl )
-        Fs::del( $deployPath.$deplKey );
+      if ($fastDepl)
+        Fs::del($deployPath.$deplKey);
       
-      foreach( $modules as $module )
+      foreach($modules as $module)
       {
-        Fs::chdir( $module['src'] );
+        Fs::chdir($module['src']);
         
-        Hg::update( (isset($module['rev'])?$module['rev']:null)  );
-        Hg::archive( $deployPath.$deplKey );
+        Hg::update((isset($module['rev'])?$module['rev']:null)  );
+        Hg::archive($deployPath.$deplKey);
       }
       
-      Fs::chown( $deployPath.$deplKey, $owner );
-      Fs::chmod( $deployPath.$deplKey, $access );
+      Fs::chown($deployPath.$deplKey, $owner);
+      Fs::chmod($deployPath.$deplKey, $access);
     }
     
   }//end public static function deployComponent */
@@ -130,7 +130,7 @@ class Deploy
    * @param string $access
    */
   public static function deployFw
-  ( 
+  (
     $repo, 
     $deployPath, 
     $owner, 
@@ -140,16 +140,16 @@ class Deploy
   {
     
     // Zielprojekt erst mal cleanen
-    if ( $fastDepl )
-      Fs::del( $deployPath.$repo['name'] );
+    if ($fastDepl)
+      Fs::del($deployPath.$repo['name']);
     
-    Fs::chdir( $repo['src'] );
+    Fs::chdir($repo['src']);
     
-    Hg::update( (isset($repo['rev'])?$repo['rev']:null)  );
-    Hg::archive( $deployPath.$repo['name'] );
+    Hg::update((isset($repo['rev'])?$repo['rev']:null)  );
+    Hg::archive($deployPath.$repo['name']);
     
-    Fs::chown( $deployPath.$repo['name'], $owner );
-    Fs::chmod( $deployPath.$repo['name'], $access );
+    Fs::chown($deployPath.$repo['name'], $owner);
+    Fs::chmod($deployPath.$repo['name'], $access);
     
   }//end public static function deployFw */
   
@@ -159,7 +159,7 @@ class Deploy
    * @param array $repos
    */
   public static function deployGateways
-  ( 
+  (
     $gwRepos, 
     $deplRepos,
     $deployPath, 
@@ -169,34 +169,34 @@ class Deploy
   )
   {
     
-    foreach( $gwRepos as $gatewayProject )
+    foreach($gwRepos as $gatewayProject)
     {
       
       // copy gateway
-      Fs::chdir( $gatewayProject['src'] );
-      Hg::update( (isset($gatewayProject['rev'])?$gatewayProject['rev']:null) );
-      Hg::archive( "{$deployPath}{$gatewayProject['name']}" );
+      Fs::chdir($gatewayProject['src']);
+      Hg::update((isset($gatewayProject['rev'])?$gatewayProject['rev']:null));
+      Hg::archive("{$deployPath}{$gatewayProject['name']}");
       
       // inlcude im gateway leeren
-      Fs::del( $deployPath.$gatewayProject['name'].'/conf/include/gmod/*' );
-      Fs::del( $deployPath.$gatewayProject['name'].'/conf/include/develop/*' );
-      Fs::del( $deployPath.$gatewayProject['name'].'/conf/include/module/*' );
-      Fs::del( $deployPath.$gatewayProject['name'].'/conf/include/metadata/*' );
+      Fs::del($deployPath.$gatewayProject['name'].'/conf/include/gmod/*');
+      Fs::del($deployPath.$gatewayProject['name'].'/conf/include/develop/*');
+      Fs::del($deployPath.$gatewayProject['name'].'/conf/include/module/*');
+      Fs::del($deployPath.$gatewayProject['name'].'/conf/include/metadata/*');
       
       // im gateway die module die einzubinden sind anlegen
       $modules = array_keys($deplRepos);
       
-      foreach( $modules as $projectName  )
+      foreach($modules as $projectName  )
       {
-        Fs::touch( $deployPath.$gatewayProject['name'].'/conf/include/module/'.$projectName );
-        Fs::touch( $deployPath.$gatewayProject['name'].'/conf/include/gmod/'.$projectName );
-        Fs::touch( $deployPath.$gatewayProject['name'].'/conf/include/metadata/'.$projectName );
+        Fs::touch($deployPath.$gatewayProject['name'].'/conf/include/module/'.$projectName);
+        Fs::touch($deployPath.$gatewayProject['name'].'/conf/include/gmod/'.$projectName);
+        Fs::touch($deployPath.$gatewayProject['name'].'/conf/include/metadata/'.$projectName);
       }
       
       // wenn angegeben eine spezielle konfiguration laden
-      if ( isset($gatewayProject['conf']) )
+      if (isset($gatewayProject['conf']))
       {
-        if ( Fs::exists( $deployPath.$gatewayProject['name'].'/conf/space/'.$gatewayProject['conf'].'/' ) )
+        if (Fs::exists($deployPath.$gatewayProject['name'].'/conf/space/'.$gatewayProject['conf'].'/'))
         {
           // copy the conf files
           Fs::copy
@@ -209,7 +209,7 @@ class Deploy
         else 
         {
           Console::error
-          ( 
+          (
             "Es wurde explizit eine Konfiguration für das Gateway: {$gatewayProject['name']} gesetzt.
             Für diese Konfiguration existieren jedoch keine Daten. Daher wird das Gateway sehr wahrscheinlich nicht benutzbar sein.
             Bitte eine andere Konfiguration wählen, oder die gewünschte definieren." 
@@ -219,11 +219,11 @@ class Deploy
       
       
       // Die session leeren
-      Fs::del( $deployPath.$gatewayProject['name'].'/tmp/session/' );
-      Fs::mkdir( $deployPath.$gatewayProject['name'].'/tmp/session/' );
+      Fs::del($deployPath.$gatewayProject['name'].'/tmp/session/');
+      Fs::mkdir($deployPath.$gatewayProject['name'].'/tmp/session/');
       
       // cache leeren
-      Fs::del( $deployPath.$gatewayProject['name'].'/cache/' );
+      Fs::del($deployPath.$gatewayProject['name'].'/cache/');
       
     }
     

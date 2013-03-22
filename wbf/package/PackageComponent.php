@@ -68,9 +68,9 @@ class PackageComponent
     
     $folders = array();
     
-    $fList = $this->getNodes( 'folder' );
+    $fList = $this->getNodes('folder');
     
-    foreach( $fList as $lNode )
+    foreach($fList as $lNode)
     {
       $folders[] = new PackageFolder($lNode);
     }

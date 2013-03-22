@@ -46,41 +46,41 @@ class PackageBuilder_Model
    * @param string $packagePath
    * @return Package $package
    */
-  public function getPackageNode( $packagePath )
+  public function getPackageNode($packagePath)
   {
     
     $console = $this->getConsole();
     
-    if ( !Fs::exists( $packagePath ) )
+    if (!Fs::exists($packagePath))
     {
-      $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
+      $console->error("Konnte kein Paket unter ".$packagePath.' finden.');
     }
     
-    if ( Fs::isA( $packagePath, 'package' ) || Fs::isA( $packagePath, 'zip' ) )
+    if (Fs::isA($packagePath, 'package') || Fs::isA($packagePath, 'zip'))
     {
-      $archive = new ArchiveZip( $packagePath, ArchiveZip::MODE_HUGE );
+      $archive = new ArchiveZip($packagePath, ArchiveZip::MODE_HUGE);
       $tmp     = Gaia::mkTmpFolder();
       $this->tmpPath = $tmp;
-      $archive->extractMetaFile( 'package.bdl', $tmp.'package.bdl' );
-      $package = new Package( $tmp.'package.bdl' );
+      $archive->extractMetaFile('package.bdl', $tmp.'package.bdl');
+      $package = new Package($tmp.'package.bdl');
       
-      if ( !$package->isLoaded() )
+      if (!$package->isLoaded())
       {
-        Fs::del( $tmp );
-        throw new GaiaException( 'Konnte die '.$tmp.'package.bdl nicht laden' );
+        Fs::del($tmp);
+        throw new GaiaException('Konnte die '.$tmp.'package.bdl nicht laden');
       }
       
-      $package->setDataPath( $tmp );
+      $package->setDataPath($tmp);
 
     }
     else 
     {
-      $package = new Package( $packagePath );
+      $package = new Package($packagePath);
       
-      if ( !$package->isLoaded() )
+      if (!$package->isLoaded())
       {
-        Fs::del( $tmp );
-        throw new GaiaException( 'Konnte '.$packagePath.' nicht laden' );
+        Fs::del($tmp);
+        throw new GaiaException('Konnte '.$packagePath.' nicht laden');
       }
     }
 
@@ -96,24 +96,24 @@ class PackageBuilder_Model
    * 
    * @return Package $package
    */
-  public function buildPackage( $packagePath, $packageKey, $targetPath, $codeRoot )
+  public function buildPackage($packagePath, $packageKey, $targetPath, $codeRoot)
   {
     
-    $package = new Package( $packagePath );
+    $package = new Package($packagePath);
     
     $packageName = $package->getName();
 
-    $folders    = $package->getFolders( true );
+    $folders    = $package->getFolders(true);
     $components = $package->getComponentIterator();
     
-    if ( !$targetPath )
+    if (!$targetPath)
       $targetPath = GAIA_PATH.'data/package/'.$packageName.'/';
     
     $path = $targetPath.'/'.$packageName.'-'.$packageKey.'.package' ;
 
-    $archive = new ArchiveZip( $path, ArchiveZip::MODE_HUGE  );
+    $archive = new ArchiveZip($path, ArchiveZip::MODE_HUGE  );
     
-    foreach( $folders as $folder )
+    foreach($folders as $folder)
     {
       $files = new IoFileIterator
       (
@@ -123,18 +123,18 @@ class PackageBuilder_Model
         (trim($folder['filter'])!=''?trim($folder['filter']):null)
       );
       
-      foreach( $files as $file )
+      foreach($files as $file)
       {
-        $archive->addFile( $codeRoot.$file, 'code/'.FormatString::shiftXTokens($file, '/', 2) );
+        $archive->addFile($codeRoot.$file, 'code/'.FormatString::shiftXTokens($file, '/', 2));
       }
     }
     
-    foreach( $components as $target => $componentPath )
+    foreach($components as $target => $componentPath)
     {
-      $archive->addFile( $componentPath, $target );
+      $archive->addFile($componentPath, $target);
     }
     
-    $archive->addMetaFile( $packagePath, 'package.bdl' );
+    $archive->addMetaFile($packagePath, 'package.bdl');
     
     $archive->close();
       
@@ -144,31 +144,31 @@ class PackageBuilder_Model
    * @param string $packagePath
    * @return Package $package
    */
-  public function getPackage( $packagePath )
+  public function getPackage($packagePath)
   {
     
     $console = $this->getConsole();
     
-    if ( !Fs::exists( $packagePath ) )
+    if (!Fs::exists($packagePath))
     {
-      $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
+      $console->error("Konnte kein Paket unter ".$packagePath.' finden.');
     }
     
-    $archive = new ArchiveZip( $packagePath, ArchiveZip::MODE_HUGE );
+    $archive = new ArchiveZip($packagePath, ArchiveZip::MODE_HUGE);
     $tmp     = Gaia::mkTmpFolder();
     $this->tmpPath = $tmp;
-    $archive->extractMetaFile( 'package.bdl', $tmp );
-    $archive->unpack( $tmp );
+    $archive->extractMetaFile('package.bdl', $tmp);
+    $archive->unpack($tmp);
     
-    $package = new Package( $tmp.'package.bdl' );
+    $package = new Package($tmp.'package.bdl');
     
-    if ( !$package->isLoaded() )
+    if (!$package->isLoaded())
     {
-      Fs::del( $tmp );
-      throw new GaiaException( 'Konnte die '.$tmp.'package.bdl nicht laden' );
+      Fs::del($tmp);
+      throw new GaiaException('Konnte die '.$tmp.'package.bdl nicht laden');
     }
     
-    $package->setDataPath( $tmp );
+    $package->setDataPath($tmp);
     
     return $package;
       
@@ -180,7 +180,7 @@ class PackageBuilder_Model
   public function cleanTmp()
   {
     
-    Fs::del( $this->tmpPath );
+    Fs::del($this->tmpPath);
     
   }//end public function cleanTmp */
 

@@ -25,14 +25,14 @@
 /// Danke ;-)
 ///
 
-define( 'NL', "\n" );
+define('NL', "\n");
 
-if ( 'cli' == php_sapi_name() )
-  define( 'IS_CLI', true );
+if ('cli' == php_sapi_name())
+  define('IS_CLI', true);
 else
-  define( 'IS_CLI', false );
+  define('IS_CLI', false);
 
-define( 'GAIA_PATH', realpath( dirname(__FILE__).'/../' ).'/' );
+define('GAIA_PATH', realpath(dirname(__FILE__).'/../').'/');
  
 include GAIA_PATH.'core/i18n.php';
 include GAIA_PATH.'core/request.php';
@@ -54,7 +54,7 @@ include GAIA_PATH.'core/file.php';
 include GAIA_PATH.'core/xml/XmlDocument.php';
 include GAIA_PATH.'core/package/PackageFile.php';
 
-if ( '' == trim(Process::execute('echo $DISPLAY')) )
+if ('' == trim(Process::execute('echo $DISPLAY')))
 {
   include GAIA_PATH.'core/ui/UiConsoleCli.php';
 }
@@ -74,15 +74,15 @@ $setupLang = 'de';
 $conf      = new stdClass();
 
 
-if ( IS_CLI )
+if (IS_CLI)
 {
-  Request::parseRequest( $argv );
+  Request::parseRequest($argv);
 }
 
 
-if ( $key = Request::arg( 'conf' ) )
+if ($key = Request::arg('conf'))
 {
-  if ( Fs::exists('./conf/conf.'.$key.'.php') )
+  if (Fs::exists('./conf/conf.'.$key.'.php'))
   {
     include './conf/conf.'.$key.'.php';
   }
@@ -100,7 +100,7 @@ if ( $key = Request::arg( 'conf' ) )
 }
 else 
 {
-  if ( Fs::exists( './conf/conf.default.php' ) )
+  if (Fs::exists('./conf/conf.default.php'))
   {
     include  './conf/conf.default.php';
   }
@@ -118,4 +118,4 @@ else
   }
 }
 
-I18n::loadLang( $setupLang );
+I18n::loadLang($setupLang);

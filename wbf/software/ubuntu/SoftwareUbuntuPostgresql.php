@@ -30,10 +30,10 @@ class SoftwareUbuntuPostgresql
    * (non-PHPdoc)
    * @see Software::installCore()
    */
-  public function installCore( )
+  public function installCore()
   {
     
-    if ( $this->isInstalled('postgresql') )
+    if ($this->isInstalled('postgresql'))
       return;
     
     $packages = array
@@ -44,7 +44,7 @@ class SoftwareUbuntuPostgresql
       'postgresql-client',
     );
     
-    $this->install( $packages );
+    $this->install($packages);
     
   }//end public function installCore */
 
@@ -54,7 +54,7 @@ class SoftwareUbuntuPostgresql
   public function allreadyInstalled()
   {
     
-    return $this->isInstalled( 'postgresql' );
+    return $this->isInstalled('postgresql');
     
   }//end public function allreadyInstalled */
   
@@ -63,10 +63,10 @@ class SoftwareUbuntuPostgresql
    * (non-PHPdoc)
    * @see Software::reload()
    */
-  public function reload( )
+  public function reload()
   {
     
-    Process::execute( "/etc/init.d/postgresql reload" );
+    Process::execute("/etc/init.d/postgresql reload");
     
   }//end public function reload */
   
@@ -74,10 +74,10 @@ class SoftwareUbuntuPostgresql
    * (non-PHPdoc)
    * @see Software::restart()
    */
-  public function restart( )
+  public function restart()
   {
     
-    Process::execute( "/etc/init.d/postgresql restart" );
+    Process::execute("/etc/init.d/postgresql restart");
     
   }//end public function restart */
   
@@ -85,10 +85,10 @@ class SoftwareUbuntuPostgresql
    * (non-PHPdoc)
    * @see Software::start()
    */
-  public function start( )
+  public function start()
   {
     
-    Process::execute( "/etc/init.d/postgresql start" );
+    Process::execute("/etc/init.d/postgresql start");
     
   }//end public function start */
   
@@ -96,10 +96,10 @@ class SoftwareUbuntuPostgresql
    * (non-PHPdoc)
    * @see Software::stop()
    */
-  public function stop( )
+  public function stop()
   {
     
-    Process::execute( "/etc/init.d/postgresql stop" );
+    Process::execute("/etc/init.d/postgresql stop");
     
   }//end public function stop */ 
   

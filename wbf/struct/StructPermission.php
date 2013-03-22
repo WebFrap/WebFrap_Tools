@@ -54,7 +54,7 @@ class StructPermission
    * @param string $path
    * @return StructPermission
    */
-  public function cloneForPath( $path )
+  public function cloneForPath($path)
   {
     
     $newPerm = clone $this;

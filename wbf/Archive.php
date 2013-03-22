@@ -39,35 +39,35 @@ class Archive
    * @param string $folder
    * @param string $relativPath 
    */
-  public static function create( $archiveName, $folder, $relativPath = null )
+  public static function create($archiveName, $folder, $relativPath = null)
   {
     
-    $tmp     = explode( '.', $archiveName );
+    $tmp     = explode('.', $archiveName);
     $ending  = $tmp[count($tmp)-1];
     
-    switch( $ending )
+    switch($ending)
     {
       case 'tar':
       {
-        Process::run( "tar -cvf ".$archiveName.' '.$folder );
+        Process::run("tar -cvf ".$archiveName.' '.$folder);
         return null;
       }
       
       case 'gz':
       {
-        Process::run( "tar -zcvf ".$archiveName.' '.$folder );
+        Process::run("tar -zcvf ".$archiveName.' '.$folder);
         return null;
       }
       
       case 'bz2':
       {
-        Process::run( "tar -cjvf ".$archiveName.' '.$folder );
+        Process::run("tar -cjvf ".$archiveName.' '.$folder);
         return null;
       }
       
       case 'zip':
       {
-        Process::run( "zip ".$archiveName.' '.$folder );
+        Process::run("zip ".$archiveName.' '.$folder);
         return null;
       }
         
@@ -83,35 +83,35 @@ class Archive
   /**
    * @param string $fileName
    */
-  public static function extract( $fileName  )
+  public static function extract($fileName  )
   {
     
-    $tmp     = explode( '.', $fileName );
+    $tmp     = explode('.', $fileName);
     $ending  = $tmp[count($tmp)-1];
     
-    switch( $ending )
+    switch($ending)
     {
       case 'tar':
       {
-        Process::run( "tar xvf ".$fileName );
+        Process::run("tar xvf ".$fileName);
         return null;
       }
       
       case 'gz':
       {
-        Process::run( "tar xzvf ".$fileName );
+        Process::run("tar xzvf ".$fileName);
         return null;
       }
       
       case 'bz2':
       {
-        Process::run( "tar xjvf ".$fileName );
+        Process::run("tar xjvf ".$fileName);
         return null;
       }
       
       case 'zip':
       {
-        Process::run( "unzip ".$fileName );
+        Process::run("unzip ".$fileName);
         return null;
       }
         

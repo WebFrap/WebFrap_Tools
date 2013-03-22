@@ -59,7 +59,7 @@ class UiConsoleHttp
   public static function getActive()
   {
     
-    if ( !self::$default )
+    if (!self::$default)
       self::$default = new UiConsoleHttp();
       
     return self::$default;  
@@ -77,7 +77,7 @@ class UiConsoleHttp
   /**
    * @return array
    */
-  public function version( )
+  public function version()
   {
     
     $version = array();
@@ -93,7 +93,7 @@ class UiConsoleHttp
   /**
    * @param string $text
    */
-  public function out( $text )
+  public function out($text)
   {
     
     echo $text.NL;
@@ -102,7 +102,7 @@ class UiConsoleHttp
   
   /**
    */
-  public function publish(  )
+  public function publish()
   {
     
     $content =  $this->tpl->render();
@@ -124,7 +124,7 @@ class UiConsoleHttp
    * Einfach ausgabe des Textes
    * @param string $text
    */
-  public function in( )
+  public function in()
   {
     
     return fgets(STDIN);
@@ -135,7 +135,7 @@ class UiConsoleHttp
    * Einfach ausgabe des Textes
    * @param string $text
    */
-  public function inSecure( )
+  public function inSecure()
   {
     
     system('stty -echo');
@@ -152,38 +152,38 @@ class UiConsoleHttp
   /**
    * @param string $info
    */
-  public function debug( $info )
+  public function debug($info)
   {
 
-    $this->out( 'DEBUG: '.$info );
+    $this->out('DEBUG: '.$info);
     
   }//end public function debug */
   
   /**
    * @param string $info
    */
-  public function info( $info )
+  public function info($info)
   {
     
-    $this->out( 'INFO: '.$info );
+    $this->out('INFO: '.$info);
 
   }//end public function info */
   
   /**
    * @param string $warning
    */
-  public function warning( $warning )
+  public function warning($warning)
   {
-    $this->out( 'WARNING: '.$warning );
+    $this->out('WARNING: '.$warning);
 
   }//end public function warning */
   
   /**
    * @param string $error
    */
-  public function error( $error )
+  public function error($error)
   {
-    $this->out( 'ERROR: '.$error );
+    $this->out('ERROR: '.$error);
     
   }//end public function warning */
   
@@ -191,13 +191,13 @@ class UiConsoleHttp
    * @param string $question
    * @return boolean
    */
-  public function question( $question )
+  public function question($question)
   {
       
-    $this->out( $question.' ( y / n )' );
+    $this->out($question.' (y / n)');
     $in = $this->in();
     
-    if ( 'y' == strtolower(trim($in)) )
+    if ('y' == strtolower(trim($in)))
       return true;
     else
       return false; 
@@ -209,26 +209,26 @@ class UiConsoleHttp
    * @param string $text
    * @param string $icon
    */
-  public function notification( $text, $icon = "info" )
+  public function notification($text, $icon = "info")
   {
-    $this->out( $text.' ( return to proceed )' );
+    $this->out($text.' (return to proceed)');
 
   }//end public function info */
   
   /**
    * @param string $fileName
    */
-  public function fileSelector( $fileName )
+  public function fileSelector($fileName)
   {
     
-    $this->out( "Please insert Filename" );
+    $this->out("Please insert Filename");
     
-    if ( $fileName )
-      $this->out( "Default would be: {$fileName}" );
+    if ($fileName)
+      $this->out("Default would be: {$fileName}");
     
-    $in = $this->in( );
+    $in = $this->in();
     
-    if ( '' != trim($in) )
+    if ('' != trim($in))
       return $in;
     else
       return $fileName;
@@ -240,17 +240,17 @@ class UiConsoleHttp
   /**
    * @param string $folderName
    */
-  public function folderSelector( $folderName )
+  public function folderSelector($folderName)
   {
     
-    $this->out( "Please insert Foldername" );
+    $this->out("Please insert Foldername");
     
-    if ( $folderName )
-      $this->out( "Default would be: {$folderName}" );
+    if ($folderName)
+      $this->out("Default would be: {$folderName}");
     
-    $in = $this->in( );
+    $in = $this->in();
     
-    if ( '' != trim($in) )
+    if ('' != trim($in))
       return $in;
     else
       return $folderName;
@@ -263,7 +263,7 @@ class UiConsoleHttp
    * @param string $entryText
    */
   public function readText
-  ( 
+  (
     $text, 
     $title = "Insert Value",
     $entryText  = null,
@@ -275,31 +275,31 @@ class UiConsoleHttp
     $userInput = null;
     
     
-    $this->out( $text );
+    $this->out($text);
     
-    if ( $entryText )
-      $this->out( "Default would be: {$entryText}" );
+    if ($entryText)
+      $this->out("Default would be: {$entryText}");
 
     $allFine = false;
     
-    while ( !$allFine )
+    while (!$allFine)
     {
 
       $userInput = $this->in();
       
-      if ( '' == $userInput )
+      if ('' == $userInput)
       {
-        if ( $required )
+        if ($required)
         {
           continue;
         }
       }
       
-      if ( $validator )
+      if ($validator)
       {
-        if ( $error = $validator( $userInput ) )
+        if ($error = $validator($userInput))
         {
-          $this->error( $error );
+          $this->error($error);
           continue;
         }
       }
@@ -316,10 +316,10 @@ class UiConsoleHttp
    * @param string $text
    * @param string $title
    */
-  public function readPassword( $text, $title = "Insert Password" )
+  public function readPassword($text, $title = "Insert Password")
   {
     
-    $this->out( $text );
+    $this->out($text);
     
     system('stty -echo');
     $password = trim(fgets(STDIN));
@@ -337,7 +337,7 @@ class UiConsoleHttp
    * @param string $head
    */
   public function dataList
-  ( 
+  (
     $title, 
     array $data, 
     array $head = array(), 
@@ -346,28 +346,28 @@ class UiConsoleHttp
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if ( !$data && !$head )
+    if (!$data && !$head)
       return null;
     
-    if ( !$head )
+    if (!$head)
     {
       $head = array_keys($data[0]);
     }
     
-    $this->out( $title );
+    $this->out($title);
     
     $columns = array();
-    foreach( $head as $headCol )
+    foreach($head as $headCol)
     {
-      $columns[] = str_pad( substr($headCol, 0,20), 20, ' ' ).'|';
+      $columns[] = str_pad(substr($headCol, 0,20), 20, ' ').'|';
     }
-    echo implode( '', $columns  )."\n";
+    echo implode('', $columns  )."\n";
     
-    foreach( $data as $row )
+    foreach($data as $row)
     {
-      foreach( $row as $cell )
+      foreach($row as $cell)
       {
-        echo str_pad( substr($cell, 0,20), 20, ' ' ).'|';
+        echo str_pad(substr($cell, 0,20), 20, ' ').'|';
       }
       
       echo "\n";
@@ -385,7 +385,7 @@ class UiConsoleHttp
    * @param string $head
    */
   public function radioList
-  ( 
+  (
     $title, 
     array $data, 
     array $head = array(), 
@@ -394,29 +394,29 @@ class UiConsoleHttp
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if ( !$data && !$head )
+    if (!$data && !$head)
       return null;
     
-    if ( !$head )
+    if (!$head)
     {
       $head = array_keys($data[0]);
     }
     
-    $this->out( $title );
+    $this->out($title);
     
     $columns = array();
-    foreach( $head as $headCol )
+    foreach($head as $headCol)
     {
-      $columns[] = str_pad( substr($headCol, 0,20), 20, ' ' ).'|';
+      $columns[] = str_pad(substr($headCol, 0,20), 20, ' ').'|';
     }
-    echo implode( '', $columns  )."\n";
+    echo implode('', $columns  )."\n";
     
 
-    foreach( $data as $row )
+    foreach($data as $row)
     {
-      foreach( $row as $cell )
+      foreach($row as $cell)
       {
-        echo str_pad( substr($cell, 0,20), 20, ' ' ).'|';
+        echo str_pad(substr($cell, 0,20), 20, ' ').'|';
       }
       
       echo "\n";
@@ -434,21 +434,21 @@ class UiConsoleHttp
    * @param string $file
    * @param string $checkboxText
    */
-  public function dialog( $title, $file, $checkboxText = null )
+  public function dialog($title, $file, $checkboxText = null)
   {
     
-    $this->out( $title );
-    $this->out( file_get_contents(realpath( './'.$file )) );
-    $this->out( $checkboxText.' (yes or no)' );
+    $this->out($title);
+    $this->out(file_get_contents(realpath('./'.$file)));
+    $this->out($checkboxText.' (yes or no)');
     
     $userInp = strtolower($this->in()) ;
     
-    return ( 'yes' == $userInp );
+    return ('yes' == $userInp);
 
   }//end public function dialog */
   
 }//end class UiConsoleHttp
 
 $console = new UiConsoleHttp();
-UiConsole::setActive( $console );
-Console::setActive( $console );
+UiConsole::setActive($console);
+Console::setActive($console);

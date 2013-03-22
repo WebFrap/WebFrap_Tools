@@ -31,7 +31,7 @@ class PackageDbSequence
    */
   public function getName()
   {
-    return $this->getAttribute( 'name' );
+    return $this->getAttribute('name');
   }//end public function getName */
   
   /**
@@ -39,7 +39,7 @@ class PackageDbSequence
    */
   public function getIncrement()
   {
-    return $this->getAttribute( 'increment' );
+    return $this->getAttribute('increment');
   }//end public function getIncrement */
   
   /**
@@ -47,7 +47,7 @@ class PackageDbSequence
    */
   public function getMinValue()
   {
-    return $this->getAttribute( 'minvalue' );
+    return $this->getAttribute('minvalue');
   }//end public function getMinValue */
   
   /**
@@ -55,7 +55,7 @@ class PackageDbSequence
    */
   public function getMaxValue()
   {
-    return $this->getAttribute( 'maxvalue' );
+    return $this->getAttribute('maxvalue');
   }//end public function getMaxValue */
   
   /**
@@ -63,7 +63,7 @@ class PackageDbSequence
    */
   public function getStart()
   {
-    return $this->getAttribute( 'start' );
+    return $this->getAttribute('start');
   }//end public function getStart */
 
 } // end class PackageDbSequence

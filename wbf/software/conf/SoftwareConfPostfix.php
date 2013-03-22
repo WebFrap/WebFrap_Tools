@@ -28,7 +28,7 @@ class SoftwareConfPostfix
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf( $server, $mailConf )
+  public function setupConf($server, $mailConf)
   {
     
   }//end public function setupConf */
@@ -37,7 +37,7 @@ class SoftwareConfPostfix
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_transport( $server, $mailConf )
+  public function setupConf_pg_transport($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -71,7 +71,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_relocated_maps( $server, $mailConf )
+  public function setupConf_pg_relocated_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -105,7 +105,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_smtpd_sender_login_maps( $server, $mailConf )
+  public function setupConf_pg_smtpd_sender_login_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -143,7 +143,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_smtpd_sender_login1_maps( $server, $mailConf )
+  public function setupConf_pg_smtpd_sender_login1_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -181,7 +181,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_virtual_alias_maps( $server, $mailConf )
+  public function setupConf_pg_virtual_alias_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -215,7 +215,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_virtual_gid_maps( $server, $mailConf )
+  public function setupConf_pg_virtual_gid_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -249,7 +249,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_virtual_mailbox_domains( $server, $mailConf )
+  public function setupConf_pg_virtual_mailbox_domains($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -283,7 +283,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_virtual_mailbox_maps( $server, $mailConf )
+  public function setupConf_pg_virtual_mailbox_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();
@@ -317,7 +317,7 @@ FILE;
    * @param PackageServer $server
    * @param PackageServerMail $mailConf
    */
-  public function setupConf_pg_virtual_uid_maps( $server, $mailConf )
+  public function setupConf_pg_virtual_uid_maps($server, $mailConf)
   {
     
     $host     = $mailConf->getConfDbHost();

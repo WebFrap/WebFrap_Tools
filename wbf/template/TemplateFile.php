@@ -54,7 +54,7 @@ class TemplateFile
   /**
    * @param string $template
    */
-  public function addTemplate( $template )
+  public function addTemplate($template)
   {
     
     $this->templates[] = $template;
@@ -70,11 +70,11 @@ class TemplateFile
     $v = $this->vars;
     
     ob_start();
-    foreach( $this->templates as $template )
+    foreach($this->templates as $template)
     {
-      if ( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
+      if (Fs::exists(GAIA_PATH.'modules/'.$template.'.tpl'))
         include GAIA_PATH.'modules/'.$template.'.tpl';
-      elseif ( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
+      elseif (Fs::exists(GAIA_PATH.'wbf/'.$template.'.tpl'))
         include GAIA_PATH.'wbf/'.$template.'.tpl';
       else 
         echo 'Missing Template '.$template.NL;
@@ -89,7 +89,7 @@ class TemplateFile
 
   }//end public function render */
   
-  public function save( $filename )
+  public function save($filename)
   {
     
   }//end public function save */

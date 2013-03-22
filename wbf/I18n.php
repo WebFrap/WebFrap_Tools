@@ -33,10 +33,10 @@ class I18n
   /**
    * @param string $lang
    */
-  public static function loadLang( $lang = 'de')
+  public static function loadLang($lang = 'de')
   {
     
-    if ( file_exists( GAIA_PATH.'wbf/i18n/'.$lang.'.php' ) )
+    if (file_exists(GAIA_PATH.'wbf/i18n/'.$lang.'.php'))
       include GAIA_PATH.'wbf/i18n/'.$lang.'.php';
     else 
       include GAIA_PATH.'wbf/i18n/en.php';
@@ -47,7 +47,7 @@ class I18n
   /**
    * @return string
    */
-  public static function get( $key )
+  public static function get($key)
   {
     return isset(self::$l[$key])?:$key;
   }//end public static function get */

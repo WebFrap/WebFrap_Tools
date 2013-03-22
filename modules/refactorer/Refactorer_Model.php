@@ -30,7 +30,7 @@ class Refactorer_Model
    * @param string $path
    * @param string $ending
    */
-  public function refactor( $search, $replace, $path, $ending = null )
+  public function refactor($search, $replace, $path, $ending = null)
   {
     
     
@@ -44,20 +44,20 @@ class Refactorer_Model
     
     $html = '';
     
-    foreach( $files as $file )
+    foreach($files as $file)
     {
       
-      $orig = str_replace( "\r\n", "\n", file_get_contents( $file ));
-      $search  = str_replace( "\r\n", "\n" , $search );
-      $replace = str_replace( "\r\n", "\n" , $replace );
+      $orig = str_replace("\r\n", "\n", file_get_contents($file));
+      $search  = str_replace("\r\n", "\n" , $search);
+      $replace = str_replace("\r\n", "\n" , $replace);
       
-      $new  = str_replace( $search ,$replace, $orig );
+      $new  = str_replace($search ,$replace, $orig);
       
-      //$new  = str_replace( "\r\n", "\n" , $orig );
+      //$new  = str_replace("\r\n", "\n" , $orig);
       
-      if ( $orig != $new )
+      if ($orig != $new)
       {
-        file_put_contents( $file, $new );
+        file_put_contents($file, $new);
         $html .= "Changed: $file<br />".NL;
       }
       else 

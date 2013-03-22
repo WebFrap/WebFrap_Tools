@@ -33,8 +33,8 @@ class Welcome_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->addTemplate( 'welcome/welcome' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->addTemplate('welcome/welcome');
     
   }//end public function do_default */
 

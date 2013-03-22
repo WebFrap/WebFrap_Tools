@@ -101,35 +101,35 @@ class ArchiveZip
    * @param int $mode normal oder huge file mode
    * @param boolean $ro readonly?
    */
-  public function __construct( $fileName, $mode = self::MODE_NORMAL, $ro = false  )
+  public function __construct($fileName, $mode = self::MODE_NORMAL, $ro = false  )
   {
     
     
     $this->fileName = $fileName;
     $this->mode     = $mode;
     
-    Fs::touch( $fileName );
+    Fs::touch($fileName);
     
-    if ( self::MODE_NORMAL == $mode )
+    if (self::MODE_NORMAL == $mode)
     {
       $this->resource = new ZipArchive();
-      $opened = $this->resource->open( $fileName, ZipArchive::CREATE );
+      $opened = $this->resource->open($fileName, ZipArchive::CREATE);
     }
     else 
     {
-      $this->hugeTempFoder = Gaia::tmpFolder( true );
-      Fs::mkdir( $this->hugeTempFoder );
+      $this->hugeTempFoder = Gaia::tmpFolder(true);
+      Fs::mkdir($this->hugeTempFoder);
       
       $this->mainResource  = new ZipArchive();
-      $this->mainResource->open( $this->fileName, ZipArchive::CREATE );
+      $this->mainResource->open($this->fileName, ZipArchive::CREATE);
       
       $this->resource = new ZipArchive();
-      $opened = $this->resource->open( $this->hugeTempFoder.$this->iteration, ZipArchive::CREATE );
+      $opened = $this->resource->open($this->hugeTempFoder.$this->iteration, ZipArchive::CREATE);
     }
 
-    if ( $opened !== true )
+    if ($opened !== true)
     {
-      throw new GaiaException( 'Failed to open Archive '.$fileName.' code '.$opened );
+      throw new GaiaException('Failed to open Archive '.$fileName.' code '.$opened);
     }
  
   }//end public function __construct */
@@ -145,13 +145,13 @@ class ArchiveZip
     $this->resource->close();
     $this->resource = new ZipArchive();
   
-    if ( self::MODE_NORMAL == $this->mode )
+    if (self::MODE_NORMAL == $this->mode)
     {
-      $this->resource->open( $this->fileName );
+      $this->resource->open($this->fileName);
     }
     else 
     {
-      $this->resource->open( $this->hugeTempFoder.$this->iteration );
+      $this->resource->open($this->hugeTempFoder.$this->iteration);
     }
 
     
@@ -168,11 +168,11 @@ class ArchiveZip
     
     $this->resource->close();
 
-    $this->mainResource->addFile( $this->hugeTempFoder.$this->iteration, '/'.$this->iteration );
+    $this->mainResource->addFile($this->hugeTempFoder.$this->iteration, '/'.$this->iteration);
     ++$this->iteration;
 
     $this->resource = new ZipArchive();
-    $this->resource->open( $this->hugeTempFoder.$this->iteration, ZipArchive::CREATE );
+    $this->resource->open($this->hugeTempFoder.$this->iteration, ZipArchive::CREATE);
     
   }//end public function closeSubArchive */
   
@@ -191,15 +191,15 @@ class ArchiveZip
   public function close()
   {
     
-    if ( self::MODE_HUGE == $this->mode )
+    if (self::MODE_HUGE == $this->mode)
     {
       $this->resource->close();
 
-      $this->mainResource->addFile( $this->hugeTempFoder.$this->iteration, '/'.$this->iteration );
+      $this->mainResource->addFile($this->hugeTempFoder.$this->iteration, '/'.$this->iteration);
       $this->mainResource->close();
       
       // temporären ordner löschen
-      Fs::del( $this->hugeTempFoder );
+      Fs::del($this->hugeTempFoder);
     }
     else 
     {
@@ -221,34 +221,34 @@ class ArchiveZip
    * @param string $folderName
    * @param string $relativePath
    */
-  public function addFolder( $folderName, $relativePath = null )
+  public function addFolder($folderName, $relativePath = null)
   {
     
-    $files = new IoFileIterator( $folderName );
+    $files = new IoFileIterator($folderName);
     
-    if ( $relativePath )
+    if ($relativePath)
       $relativePath = '/'.$relativePath;
     
-    foreach( $files as $file )
+    foreach($files as $file)
     {
       
-      if ( !file_exists( $file ) )
+      if (!file_exists($file))
       {
         UiConsole::debugLine("Tried to add nonexisting file: $file to archive");
         continue;
       }
       
-      if ( $this->resource->addFile( $file, $relativePath.$file ) )
+      if ($this->resource->addFile($file, $relativePath.$file))
       {
         
-        if ( $this->writeCounter >= self::MAX_FILES )
+        if ($this->writeCounter >= self::MAX_FILES)
         {
           $this->tmpSave();
         }
         
-        if ( self::MODE_HUGE == $this->mode )
+        if (self::MODE_HUGE == $this->mode)
         {
-          if ( $this->hugeCounter >= self::MAX_ARCH_FILES )
+          if ($this->hugeCounter >= self::MAX_ARCH_FILES)
           {
             $this->closeSubArchive();
           }
@@ -267,17 +267,17 @@ class ArchiveZip
    * @param string $fileName
    * @param string $innerName
    */
-  public function addFile( $fileName, $innerName = null )
+  public function addFile($fileName, $innerName = null)
   {
     
-    if ( $this->writeCounter >= self::MAX_FILES )
+    if ($this->writeCounter >= self::MAX_FILES)
     {
       $this->tmpSave();
     }    
     
-    if ( self::MODE_HUGE == $this->mode )
+    if (self::MODE_HUGE == $this->mode)
     {
-      if ( $this->hugeCounter >= self::MAX_ARCH_FILES )
+      if ($this->hugeCounter >= self::MAX_ARCH_FILES)
       {
         $this->closeSubArchive();
       }
@@ -285,16 +285,16 @@ class ArchiveZip
     }
     ++$this->writeCounter;
 
-    if ( !$innerName )
+    if (!$innerName)
       $innerName = $fileName;
       
-    if ( !file_exists( $fileName ) )
+    if (!file_exists($fileName))
     {
       UiConsole::debugLine("Tried to add nonexisting file: $fileName to archive");
       return;
     }
     
-    $this->resource->addFile( $fileName, $innerName );
+    $this->resource->addFile($fileName, $innerName);
     
   }//end public function addFolder */
   
@@ -303,27 +303,27 @@ class ArchiveZip
    * @param string $fileName
    * @param string $innerName
    */
-  public function addMetaFile( $fileName, $innerName = null )
+  public function addMetaFile($fileName, $innerName = null)
   {
     
     ++$this->writeCounter;
 
-    if ( !$innerName )
+    if (!$innerName)
       $innerName = $fileName;
       
-    if ( !file_exists( $fileName ) )
+    if (!file_exists($fileName))
     {
       UiConsole::debugLine("Tried to add nonexisting file: $fileName to archive");
       return;
     }
     
-    if ( $this->mainResource )
+    if ($this->mainResource)
     {
-      $this->mainResource->addFile( $fileName, $innerName );
+      $this->mainResource->addFile($fileName, $innerName);
     }
     else 
     {
-      $this->resource->addFile( $fileName, $innerName );
+      $this->resource->addFile($fileName, $innerName);
     }
     
   }//end public function addMetaFile */
@@ -333,18 +333,18 @@ class ArchiveZip
    * @param string $src
    * @param string $target
    */
-  public function extractMetaFile( $src, $target  )
+  public function extractMetaFile($src, $target  )
   {
 
-    Fs::touchFileFolder( $target );
+    Fs::touchFileFolder($target);
     
-    if ( $this->mainResource )
+    if ($this->mainResource)
     {
-      $this->mainResource->extractTo( $target, array($src) );
+      $this->mainResource->extractTo($target, array($src));
     }
     else 
     {
-      $this->resource->extractTo( $target, array( $src ) );
+      $this->resource->extractTo($target, array($src));
     }
     
   }//end public function extractMetaFile */
@@ -357,42 +357,42 @@ class ArchiveZip
    * Entpacken des Archives
    * @param string $targetFolder
    */
-  public function unpack( $targetFolder = './' )
+  public function unpack($targetFolder = './')
   {
     
-    if ( $this->mode == self::MODE_HUGE )
+    if ($this->mode == self::MODE_HUGE)
     {
-      $this->hugeTempFoder = Gaia::tmpFolder( true );
+      $this->hugeTempFoder = Gaia::tmpFolder(true);
       Fs::mkdir($this->hugeTempFoder);
       
-      $this->mainResource->extractTo( $this->hugeTempFoder );
+      $this->mainResource->extractTo($this->hugeTempFoder);
       
       $archives = new IoFileIterator($this->hugeTempFoder);
       
-      foreach ( $archives as $archive )
+      foreach ($archives as $archive)
       {
         
         // metadaten einfach so kopieren
-        $pInfo = pathinfo( $archive );
-        if ( isset($pInfo['extension']) && 'bdl' == $pInfo['extension'] )
+        $pInfo = pathinfo($archive);
+        if (isset($pInfo['extension']) && 'bdl' == $pInfo['extension'])
         {
-          Fs::touchFileFolder( $targetFolder );
-          Fs::copy( $archive, $targetFolder );
+          Fs::touchFileFolder($targetFolder);
+          Fs::copy($archive, $targetFolder);
           continue;
         }
           
         $archRes = new ZipArchive();
-        $archRes->open( $archive );
-        $archRes->extractTo( $targetFolder );
+        $archRes->open($archive);
+        $archRes->extractTo($targetFolder);
         $archRes->close();
       }
       
-      Fs::del( $this->hugeTempFoder );
+      Fs::del($this->hugeTempFoder);
       
     }
     else
     {
-      $this->resource->extractTo( $targetFolder );
+      $this->resource->extractTo($targetFolder);
     }
     
     

@@ -95,7 +95,7 @@ class DbAdminPostgresql
   /**
    * @param DbPostgresql $con
    */
-  public function setConnection( $con )
+  public function setConnection($con)
   {
     $this->con = $con;
   }//end public function setConnection */
@@ -103,36 +103,36 @@ class DbAdminPostgresql
   /**
    * Login Variablen ins Environment schreiben
    */
-  public function setLoginEnv( $user, $pwd  )
+  public function setLoginEnv($user, $pwd  )
   {
     // der root user muss vorhanden sein
-    putenv( "PGUSER={$user}" );
-    putenv( "PGPASSWORD={$pwd}" );
+    putenv("PGUSER={$user}");
+    putenv("PGPASSWORD={$pwd}");
     
   }//end public function setLoginEnv */
   
   /**
    * @param string $group
    */
-  public function createGroup( $group )
+  public function createGroup($group)
   {
     
     $sql = '"SELECT 1 FROM pg_roles WHERE rolname=\''.$group.'\'"';
     
     // wenn eine connection vorhanden ist verwenden wir die
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc '.$sql 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE ROLE '.$group.'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "CREATE ROLE '.$group.'"');
 
-    if ( 'CREATE ROLE' == trim($val) )
+    if ('CREATE ROLE' == trim($val))
       return true;
     else
       return false;
@@ -142,17 +142,17 @@ class DbAdminPostgresql
   /**
    * @param string $group
    */
-  public function groupExists( $group )
+  public function groupExists($group)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$group.'\'"' 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
     return false;
@@ -168,32 +168,32 @@ class DbAdminPostgresql
    * @param string $pwd
    * @param string $type
    */
-  public function createUser( $user, $pwd, $type = null )
+  public function createUser($user, $pwd, $type = null)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"');
 
-    if ( 'CREATE ROLE' == trim($val) )
+    if ('CREATE ROLE' == trim($val))
     {
-      if ( $this->protocol )
-        $this->protocol->info( "Lege Db User: ".$user." an" );
+      if ($this->protocol)
+        $this->protocol->info("Lege Db User: ".$user." an");
       
       return true;
     }
     else
     {
-      if ( $this->protocol )
-        $this->protocol->error( "Konnte den DB user: ".$user." nicht erstellen: ".$val );
+      if ($this->protocol)
+        $this->protocol->error("Konnte den DB user: ".$user." nicht erstellen: ".$val);
       
       return false;
     }
@@ -204,29 +204,29 @@ class DbAdminPostgresql
    * @param string $user
    * @param string $pwd
    */
-  public function createBackendUser( $user, $pwd )
+  public function createBackendUser($user, $pwd)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"');
 
-    if ( 'CREATE ROLE' == trim($val) )
+    if ('CREATE ROLE' == trim($val))
     {
-      if ( $this->protocol )
-        $this->protocol->info( "Lege Backend Db User: ".$user." an" );
+      if ($this->protocol)
+        $this->protocol->info("Lege Backend Db User: ".$user." an");
       
       return true;
     }
     else
     {
-      if ( $this->protocol )
-        $this->protocol->error( "Konnte den Backend DB user: ".$user." nicht erstellen: ".$val );
+      if ($this->protocol)
+        $this->protocol->error("Konnte den Backend DB user: ".$user." nicht erstellen: ".$val);
       
       return false;
     }
@@ -237,29 +237,29 @@ class DbAdminPostgresql
    * @param string $user
    * @param string $pwd
    */
-  public function createFrontendUser( $user, $pwd )
+  public function createFrontendUser($user, $pwd)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"');
   
-    if ( 'CREATE ROLE' == trim($val) )
+    if ('CREATE ROLE' == trim($val))
     {
-      if ( $this->protocol )
-        $this->protocol->info( "Lege Frontend Db User: ".$user." an" );
+      if ($this->protocol)
+        $this->protocol->info("Lege Frontend Db User: ".$user." an");
       
       return true;
     }
     else
     {
-      if ( $this->protocol )
-        $this->protocol->error( "Konnte den Frontend DB user: ".$user." nicht erstellen: ".$val );
+      if ($this->protocol)
+        $this->protocol->error("Konnte den Frontend DB user: ".$user." nicht erstellen: ".$val);
       
       return false;
     }
@@ -270,29 +270,29 @@ class DbAdminPostgresql
    * @param string $user
    * @param string $pwd
    */
-  public function createAdminUser( $user, $pwd )
+  public function createAdminUser($user, $pwd)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with createuser createdb password \''.$pwd.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with createuser createdb password \''.$pwd.'\'"');
     
-    if ( 'CREATE ROLE' == trim($val) )
+    if ('CREATE ROLE' == trim($val))
     {
-      if ( $this->protocol )
-        $this->protocol->info( "Lege Admin Db User: ".$user." an" );
+      if ($this->protocol)
+        $this->protocol->info("Lege Admin Db User: ".$user." an");
       
       return true;
     }
     else
     {
-      if ( $this->protocol )
-        $this->protocol->error( "Konnte den Admin DB user: ".$user." nicht erstellen: ".$val );
+      if ($this->protocol)
+        $this->protocol->error("Konnte den Admin DB user: ".$user." nicht erstellen: ".$val);
       
       return false;
     }
@@ -303,14 +303,14 @@ class DbAdminPostgresql
    * Prüfen ob ein user bereits existiert
    * @param string $user
    */
-  public function userExists( $user )
+  public function userExists($user)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     else 
       return false;
@@ -326,33 +326,33 @@ class DbAdminPostgresql
    * @param string $owner
    * @param string $encoding
    */
-  public function createDatabase(  $dbName, $owner, $encoding = "utf-8"  )
+  public function createDatabase( $dbName, $owner, $encoding = "utf-8"  )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"' );
+    $val = Process::execute('psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "CREATE DATABASE '.$dbName
       .' with owner  '.$owner
       .' encoding \''.$encoding.'\'"' 
     );
     
 
-    if ( 'CREATE DATABASE' == trim($val) )
+    if ('CREATE DATABASE' == trim($val))
     {
       
-      if ( $this->protocol )
-        $this->protocol->info( "Erstelle Datenbank: ".$dbName." " );
+      if ($this->protocol)
+        $this->protocol->info("Erstelle Datenbank: ".$dbName." ");
       
       // plpgsql language erstellen
       $val = Process::execute
-      ( 
+      (
         'psql '.$dbName.' -h '.$this->host.' -tAc "CREATE LANGUAGE plpgsql;"' 
       );
       
@@ -361,8 +361,8 @@ class DbAdminPostgresql
     else
     {
       
-      if ( $this->protocol )
-        $this->protocol->info( "Das Erstellen der Datenbank: ".$dbName." ist fehlgeschlagen: ".$val );
+      if ($this->protocol)
+        $this->protocol->info("Das Erstellen der Datenbank: ".$dbName." ist fehlgeschlagen: ".$val);
       
       return false;
     }
@@ -373,17 +373,17 @@ class DbAdminPostgresql
    * Prüfen ob eine Datenbank nicht bereits existiert
    * @param string $dbName
    */
-  public function databaseExists(  $dbName  )
+  public function databaseExists( $dbName  )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"' 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     else
       return false;
@@ -395,17 +395,17 @@ class DbAdminPostgresql
    * @param string $oldName
    * @param string $newName
    */
-  public function renameDatabase(  $oldName, $newName  )
+  public function renameDatabase( $oldName, $newName  )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "ALTER DATABASE '.$oldName.' RENAME TO '.$newName.';"' 
     );
     
-    if ( 'ALTER DATABSE' == trim($val) )
+    if ('ALTER DATABSE' == trim($val))
       return true;
     else
       return false;
@@ -416,17 +416,17 @@ class DbAdminPostgresql
    * löschen eine Datenbank
    * @param string $dbName
    */
-  public function dropDatabase(  $dbName  )
+  public function dropDatabase( $dbName  )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql postgres -h '.$this->host.' -tAc "DROP DATABASE '.$dbName.' CASCADE;"' 
     );
     
-    if ( 'DROP DATABSE' == trim($val) )
+    if ('DROP DATABSE' == trim($val))
       return true;
     else
       return false;
@@ -440,16 +440,16 @@ class DbAdminPostgresql
    * 
    * @return boolean
    */
-  public function chownDbCascade( $dbName, $owner )
+  public function chownDbCascade($dbName, $owner)
   {
     
     $schemas = $this->getSchemas();
     
-    $this->chownDb( $dbName, $owner );
+    $this->chownDb($dbName, $owner);
     
-    foreach( $schemas as $schema  )
+    foreach($schemas as $schema  )
     {
-      $this->chownSchemaCascade( $dbName, $schema['schema_name'], $owner );
+      $this->chownSchemaCascade($dbName, $schema['schema_name'], $owner);
     }
 
     
@@ -459,7 +459,7 @@ class DbAdminPostgresql
    * @param string $dbName
    * @param string $owner
    */
-  public function chownDb( $dbName, $owner )
+  public function chownDb($dbName, $owner)
   {
 
     $sql = <<<SQL
@@ -467,7 +467,7 @@ ALTER DATABASE {$dbName} OWNER TO {$owner};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function chownDb */
   
@@ -479,7 +479,7 @@ SQL;
    * @param string $dbName
    * @return array
    */
-  public function getSchemas( $dbName  )
+  public function getSchemas($dbName  )
   {
 
     $sql = <<<SQL
@@ -492,7 +492,7 @@ SQL;
       pg_database db on ns.nspowner = db.datdba
 SQL;
 
-    if ( $dbName )
+    if ($dbName)
     {
       $sql .= <<<SQL
     WHERE db.datname = '{$dbName}'
@@ -501,7 +501,7 @@ SQL;
     
     $sql .= ";";
 
-    return $this->con->select( $sql );
+    return $this->con->select($sql);
 
   }//end public function getSchemas */
   
@@ -512,30 +512,30 @@ SQL;
    * 
    * @return boolean
    */
-  public function createSchema( $dbName, $schema, $owner   )
+  public function createSchema($dbName, $schema, $owner   )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $val = Process::execute
-    ( 
+    (
       'psql '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"' 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     
     $val = Process::execute
-    ( 
+    (
       'psql '.$dbName.' -h '.$this->host.' -tAc "CREATE SCHEMA '.$schema
       .' AUTHORIZATION '.$owner.';"'
     );
 
-    if ( 'CREATE SCHEMA' == trim($val) )
+    if ('CREATE SCHEMA' == trim($val))
       return true;
     else
     {
-      UiConsole::debugLine( $val );
+      UiConsole::debugLine($val);
       return false;
     }
     
@@ -547,25 +547,25 @@ SQL;
    * 
    * @return boolean
    */
-  public function schemaExists( $dbName, $schema   )
+  public function schemaExists($dbName, $schema   )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    UiConsole::debugLine( 'psql '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"' );
+    UiConsole::debugLine('psql '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"');
     
     $val = Process::execute
-    ( 
+    (
       'psql  '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"' 
     );
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
     {
       return true;
     }
     else 
     {
-      UiConsole::debugLine( $val );
+      UiConsole::debugLine($val);
       return false;
     }
     
@@ -577,14 +577,14 @@ SQL;
    * 
    * @return boolean
    */
-  public function dropSchema( $dbName, $schema   )
+  public function dropSchema($dbName, $schema   )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "DROP SCHEMA '.$schema.' CASCADE;"' );
+    $val = Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "DROP SCHEMA '.$schema.' CASCADE;"');
     
-    if ( 'DROP SCHEMA' == trim($val) )
+    if ('DROP SCHEMA' == trim($val))
       return true;
     else 
       return false;
@@ -598,14 +598,14 @@ SQL;
    * 
    * @return boolean
    */
-  public function renameSchema( $dbName, $oldName, $newName   )
+  public function renameSchema($dbName, $oldName, $newName   )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
-    $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "ALTER SCHEMA '.$oldName.' RENAME TO '.$newName.';"' );
+    $val = Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "ALTER SCHEMA '.$oldName.' RENAME TO '.$newName.';"');
     
-    if ( 'ALTER SCHEMA' == trim($val) )
+    if ('ALTER SCHEMA' == trim($val))
       return true;
     else
       return false;
@@ -617,7 +617,7 @@ SQL;
    * @param string $schema
    * @param string $owner
    */
-  public function chownSchema( $schema, $owner )
+  public function chownSchema($schema, $owner)
   {
 
     $sql = <<<SQL
@@ -625,7 +625,7 @@ ALTER SCHEMA {$schema} OWNER TO {$owner};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function chownSchema */
   
@@ -635,28 +635,28 @@ SQL;
    * @param string $schema
    * @param string $dbSchema
    */
-  public function chownSchemaCascade( $dbName, $dbSchema, $owner )
+  public function chownSchemaCascade($dbName, $dbSchema, $owner)
   {
     
-    $this->chownSchema( $dbSchema, $owner );
+    $this->chownSchema($dbSchema, $owner);
         
-    $tables     = $this->getTables( $dbName, $dbSchema );
-    $views      = $this->getViews( $dbName, $dbSchema );
-    $sequences  = $this->getSequences( $dbName, $dbSchema );
+    $tables     = $this->getTables($dbName, $dbSchema);
+    $views      = $this->getViews($dbName, $dbSchema);
+    $sequences  = $this->getSequences($dbName, $dbSchema);
     
-    foreach( $tables as $table )
+    foreach($tables as $table)
     {
-      $this->chownTable( $dbName, $dbSchema, $table['name'], $owner );
+      $this->chownTable($dbName, $dbSchema, $table['name'], $owner);
     }
     
-    foreach( $views as $view )
+    foreach($views as $view)
     {
-      $this->chownView( $dbName, $dbSchema, $view['name'], $owner );
+      $this->chownView($dbName, $dbSchema, $view['name'], $owner);
     }
     
-    foreach( $sequences as $sequence )
+    foreach($sequences as $sequence)
     {
-      $this->chownSequence( $dbName, $dbSchema, $sequence['name'], $owner );
+      $this->chownSequence($dbName, $dbSchema, $sequence['name'], $owner);
     }
 
   }//end public function chownSchema */
@@ -672,7 +672,7 @@ SQL;
    * @param string $schema
    * @param string $dumpFile
    */
-  public function dumpSchema( $dbName, $schema, $dumpFile )
+  public function dumpSchema($dbName, $schema, $dumpFile)
   {
     
 
@@ -689,14 +689,14 @@ SQL;
     $callParams[] = '--schema '.$schema;
     $callParams[] = $dbName;
     
-    Fs::touchFileFolder( $dumpFile );
+    Fs::touchFileFolder($dumpFile);
     
     $callEnv = array();
     $callEnv['PGPASSWORD'] = $this->passwd;
     
 
     $dumpProcess = new ProcessRunner();
-    if ( !$dumpProcess->open( $command, $callParams, $callEnv ) )
+    if (!$dumpProcess->open($command, $callParams, $callEnv))
     {
       return "Failed to Open command {$command}";
     }
@@ -717,19 +717,19 @@ SQL;
    * @param string $dumpFile
    * @param string $schemaDump
    */
-  public function restoreSchema( $dbName, $schema, $dumpFile, $schemaDump = null )
+  public function restoreSchema($dbName, $schema, $dumpFile, $schemaDump = null)
   {
 
-    if ( !file_exists( $dumpFile ) )
+    if (!file_exists($dumpFile))
     {
-      throw new GaiaException( 'Missing dump '.$dumpFile );
+      throw new GaiaException('Missing dump '.$dumpFile);
     }
     
     // wenn das Schema bereits existiert, das vorhandene umbenennen
     // um keine daten zu verlieren
-    if ( $this->schemaExists( $dbName, $schema ) )
+    if ($this->schemaExists($dbName, $schema))
     {
-      $this->renameSchema( $dbName, $schema, $schema.'_bckbfrst_'.date('YmdHis') );
+      $this->renameSchema($dbName, $schema, $schema.'_bckbfrst_'.date('YmdHis'));
     }
     
     
@@ -750,23 +750,23 @@ SQL;
     $callEnv['PGPASSWORD'] = $this->passwd;
 
     $dumpProcess = new ProcessRunner();
-    if ( !$dumpProcess->open( $command, $callParams, $callEnv ) )
+    if (!$dumpProcess->open($command, $callParams, $callEnv))
     {
-      throw new GaiaException( "Failed to Open command {$command}" );
+      throw new GaiaException("Failed to Open command {$command}");
     }
     else 
     {
       
-      if ( $this->protocol )
-        $this->protocol->info( $dumpProcess->read() );
+      if ($this->protocol)
+        $this->protocol->info($dumpProcess->read());
 
     }
     
     // Sicher stellen, dass das Schema auch mit dem richtigen Namen
     // importiert wurde
-    if ( $schemaDump && $schemaDump != $schema  )
+    if ($schemaDump && $schemaDump != $schema  )
     {
-      $this->renameSchema( $dbName, $schemaDump, $schema );
+      $this->renameSchema($dbName, $schemaDump, $schema);
     }
     
     //$result = 'clear2';
@@ -787,18 +787,18 @@ SQL;
    * 
    * @return boolean
    */
-  public function sequenceExists( $dbName, $schemaName, $sequence   )
+  public function sequenceExists($dbName, $schemaName, $sequence   )
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
     
     $query = "SELECT 1 FROM  pg_class cl "
       ." JOIN pg_namespace ns ON ns.oid = cl.relnamespace "
       ." WHERE relkind = 'S' and relname = '{$sequence}' and ns.nspname = '{$schemaName}';";
 
-    $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
+    $val = Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
       return true;
     else
       return false;
@@ -817,7 +817,7 @@ SQL;
    * @return boolean
    */
   public function createSequence
-  ( 
+  (
     $dbName,
     $dbSchema,
     $sequence, 
@@ -829,42 +829,42 @@ SQL;
   )
   {
     
-    if ( !$owner )
+    if (!$owner)
       $owner = $this->user;
     
-    $this->setLoginEnv( $this->user, $this->passwd );
+    $this->setLoginEnv($this->user, $this->passwd);
     
     $query = "SELECT 1 FROM  pg_class cl "
       ." JOIN pg_namespace ns ON ns.oid = cl.relnamespace "
       ." WHERE relkind = 'S' and relname = '{$sequence}' and ns.nspname = '{$dbSchema}';";
 
-    $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
+    $val = Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"');
     
-    if ( '1' == trim($val) )
+    if ('1' == trim($val))
     {
-      UiConsole::debugLine( "Tried to create allready existing sequence {$sequence}" );
+      UiConsole::debugLine("Tried to create allready existing sequence {$sequence}");
       return true;
     }
     
     $query = "CREATE SEQUENCE {$dbSchema}.{$sequence} INCREMENT {$increment} START {$start};";
 
-    $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
+    $val = Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"');
 
-    if ( 'CREATE SEQUENCE' == trim($val) )
+    if ('CREATE SEQUENCE' == trim($val))
     {
 
-      if ( $this->protocol )
-        $this->protocol->info( "Erstelle Sequence: {$sequence} in {$dbName}.{$dbSchema}." );
+      if ($this->protocol)
+        $this->protocol->info("Erstelle Sequence: {$sequence} in {$dbName}.{$dbSchema}.");
       
-      Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "ALTER TABLE '.$dbSchema.'.'.$sequence.' OWNER TO '.$owner.';"' );
+      Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "ALTER TABLE '.$dbSchema.'.'.$sequence.' OWNER TO '.$owner.';"');
       return true;
     }
     else
     {
-      if ( $this->protocol )
-        $this->protocol->error( "Erstelle der Sequence: {$sequence} in {$dbName}.{$dbSchema} ist fehlgeschlagen. ".$val );
+      if ($this->protocol)
+        $this->protocol->error("Erstelle der Sequence: {$sequence} in {$dbName}.{$dbSchema} ist fehlgeschlagen. ".$val);
       
-      UiConsole::debugLine( $val );
+      UiConsole::debugLine($val);
       return false;
     }
     
@@ -875,7 +875,7 @@ SQL;
    * @param string $dbName 
    * @return array Liste aller vorhandenen Sequenzen
    */
-  public function getSequences( $dbName, $dbSchema )
+  public function getSequences($dbName, $dbSchema)
   {
 
     $sql = <<<SQL
@@ -902,7 +902,7 @@ SQL;
 
     $sql .= ";";
     
-    return $this->con->select( $sql );
+    return $this->con->select($sql);
     
   }//end public function getSequences */
   
@@ -913,7 +913,7 @@ SQL;
    * @param string $table
    * @param string $owner
    */
-  public function chownSequence( $dbName, $dbSchema, $table, $owner )
+  public function chownSequence($dbName, $dbSchema, $table, $owner)
   {
 
     $sql = <<<SQL
@@ -921,7 +921,7 @@ ALTER TABLE {$dbSchema}.{$table} OWNER TO {$owner};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function chownSequence */
   
@@ -933,7 +933,7 @@ SQL;
    * @param string $dbName
    * @param string $schemaName
    */
-  public function getTables( $dbName, $schemaName )
+  public function getTables($dbName, $schemaName)
   {
 
     $sql = <<<SQL
@@ -947,7 +947,7 @@ SQL;
     ORDER BY table_name ;
 SQL;
 
-    return $this->con->select( $sql );
+    return $this->con->select($sql);
 
   }//end public function getTables */
   
@@ -958,7 +958,7 @@ SQL;
    * @param string $table
    * @param string $owner
    */
-  public function chownTable( $dbName, $dbSchema, $table, $owner )
+  public function chownTable($dbName, $dbSchema, $table, $owner)
   {
 
     $sql = <<<SQL
@@ -966,7 +966,7 @@ ALTER TABLE {$dbSchema}.{$table} OWNER TO {$owner};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function chownTable */
   
@@ -977,7 +977,7 @@ SQL;
    * @param string $table
    * @param boolean $cascade
    */
-  public function dropTable( $dbName, $dbSchema, $table, $cascade = true )
+  public function dropTable($dbName, $dbSchema, $table, $cascade = true)
   {
     
     $codeCascade = $cascade?' CASCADE':'';
@@ -987,7 +987,7 @@ DROP TABLE {$dbSchema}.{$table} {$codeCascade};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function dropTable */
 
@@ -996,7 +996,7 @@ SQL;
    * @param string $schemaName
    * @param string $tableName
    */
-  public function getTableIndices( $dbName, $schemaName, $tableName )
+  public function getTableIndices($dbName, $schemaName, $tableName)
   {
 
     $sql = <<<SQL
@@ -1043,7 +1043,7 @@ substring(array_to_string(cls.reloptions, ',') from 'fillfactor=([0-9]*)') AS fi
  ORDER BY cls.relname;
 SQL;
 
-    return $this->con->select( $sql );
+    return $this->con->select($sql);
 
   }//end public function getTableIndices */
   
@@ -1053,12 +1053,12 @@ SQL;
    * @param string $tableName
    * @param string $indexName
    */
-  public function tableIndexExists( $dbName, $schemaName, $tableName, $indexName )
+  public function tableIndexExists($dbName, $schemaName, $tableName, $indexName)
   {
 
     $sql = <<<SQL
 SELECT  
-  count( cls.relname ) as num
+  count(cls.relname) as num
 FROM 
   pg_index idx
 JOIN 
@@ -1081,7 +1081,7 @@ WHERE
     AND cls.relname = '{$indexName}' ;
 SQL;
 
-    return (boolean)$this->con->select( $sql, 'num' );
+    return (boolean)$this->con->select($sql, 'num');
 
   }//end public function tableIndexExists */
   
@@ -1090,10 +1090,10 @@ SQL;
    * @param string $schemaName
    * @param string $indexName
    */
-  public function dropTableIndex( $dbName, $schemaName, $indexName )
+  public function dropTableIndex($dbName, $schemaName, $indexName)
   {
     
-    return $this->con->ddl( "DROP INDEX {$schemaName}.{$indexName};" );
+    return $this->con->ddl("DROP INDEX {$schemaName}.{$indexName};");
     
   }//end public function dropTableIndex */
   
@@ -1107,7 +1107,7 @@ SQL;
    * 
    * @return array liste der Views 
    */
-  public function getViews( $dbName, $dbSchema )
+  public function getViews($dbName, $dbSchema)
   {
 
     $sql = <<<SQL
@@ -1126,7 +1126,7 @@ pg_get_viewdef(c.oid, true) AS definition
 WHERE ((c.relhasrules AND (EXISTS (
            SELECT r.rulename FROM pg_rewrite r
             WHERE ((r.ev_class = c.oid)
-              AND (bpchar(r.ev_type) = '1'::bpchar)) ))) OR (c.relkind = 'v'::char))
+              AND (bpchar(r.ev_type) = '1'::bpchar))))) OR (c.relkind = 'v'::char))
   AND na.nspname = '{$dbSchema}'
 ORDER BY relname;
 
@@ -1145,7 +1145,7 @@ SQL;
    * @param string $table
    * @param string $owner
    */
-  public function chownView( $dbName, $dbSchema, $table, $owner )
+  public function chownView($dbName, $dbSchema, $table, $owner)
   {
 
     $sql = <<<SQL
@@ -1153,7 +1153,7 @@ ALTER TABLE {$dbSchema}.{$table} OWNER TO {$owner};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function chownView */
   
@@ -1165,7 +1165,7 @@ SQL;
    * @param string $viewName
    * @param boolean $cascade
    */
-  public function dropView( $dbName, $dbSchema, $viewName, $cascade = true )
+  public function dropView($dbName, $dbSchema, $viewName, $cascade = true)
   {
     
     $codeCascade = $cascade?' CASCADE':'';
@@ -1175,7 +1175,7 @@ DROP VIEW {$dbSchema}.{$viewName} {$codeCascade};
 
 SQL;
 
-    return $this->ddl( $sql );
+    return $this->ddl($sql);
 
   }//end public function dropView */
   
@@ -1184,16 +1184,16 @@ SQL;
    * @param string $dbName
    * @param string $dbSchema
    */
-  public function dropSchemaViews( $dbName, $dbSchema )
+  public function dropSchemaViews($dbName, $dbSchema)
   {
     
-    $views = $this->getViews( $dbName, $dbSchema );
+    $views = $this->getViews($dbName, $dbSchema);
     
-    foreach( $views as $view )
+    foreach($views as $view)
     {
       
       // könnte wegen dem cascade löschen passieren
-      if ( !$this->viewExists( $dbName, $dbSchema, $view['name'] ) )
+      if (!$this->viewExists($dbName, $dbSchema, $view['name']))
         continue;
       
       $sql = <<<SQL
@@ -1201,7 +1201,7 @@ DROP VIEW {$dbSchema}.{$view['name']} CASCADE;
 
 SQL;
 
-      $this->ddl( $sql );
+      $this->ddl($sql);
     }
 
   }//end public function dropSchemaViews */
@@ -1212,7 +1212,7 @@ SQL;
    * @param string $viewName
    *
    */
-  public function viewExists( $dbName, $schemaName, $viewName )
+  public function viewExists($dbName, $schemaName, $viewName)
   {
 
     $sql = <<<SQL
@@ -1238,19 +1238,19 @@ SQL;
    * @param array $gateways
    * @param string $deployPath
    */
-  public function syncDatabase( $gateways, $deployPath )
+  public function syncDatabase($gateways, $deployPath)
   {
     
-    $this->setLoginEnv( $this->user, $this->passwd  );
+    $this->setLoginEnv($this->user, $this->passwd  );
 
-    foreach( $gateways as $gatewayProject )
+    foreach($gateways as $gatewayProject)
     {
-      Protocol::info( "Sync Database: ".'bash ./sync_database.sh "'.$deployPath.$gatewayProject['name'].'" "'.$deployPath.'"'  );
-      Fs::chdir( GAIA_PATH );
-      Process::run( 'bash ./sync_database.sh "'.$deployPath.$gatewayProject['name'].'" "'.$deployPath.'"' );    
+      Protocol::info("Sync Database: ".'bash ./sync_database.sh "'.$deployPath.$gatewayProject['name'].'" "'.$deployPath.'"'  );
+      Fs::chdir(GAIA_PATH);
+      Process::run('bash ./sync_database.sh "'.$deployPath.$gatewayProject['name'].'" "'.$deployPath.'"');    
     }
     
-    Fs::chdir( GAIA_PATH );
+    Fs::chdir(GAIA_PATH);
     
   }//end public function syncDatabase */
   
@@ -1260,42 +1260,42 @@ SQL;
    * @param string $dbSchema
    * @param string $owner
    */
-  public function importStructureFile( $scriptPath, $dbName, $schemaName, $owner )
+  public function importStructureFile($scriptPath, $dbName, $schemaName, $owner)
   {
 
-    if ( !Fs::exists( $scriptPath ) )
+    if (!Fs::exists($scriptPath))
     {
-      throw new GaiaException( "Habe nicht existierendes DB Script zum importieren bekommen ".$scriptPath );
+      throw new GaiaException("Habe nicht existierendes DB Script zum importieren bekommen ".$scriptPath);
     } 
     
-    if ( $this->con )
+    if ($this->con)
     {
       $error = null;
-      if ( Gaia::checkSyntax( $scriptPath, $error ) )
+      if (Gaia::checkSyntax($scriptPath, $error))
         include $scriptPath;
       else
-        throw new GaiaException( "Syntax for Datafile: {$scriptPath} is invalid ".$error );
+        throw new GaiaException("Syntax for Datafile: {$scriptPath} is invalid ".$error);
       
       return;
     }
     
-    $tmpFileName = Gaia::tmpFile( 'db_dump' );
+    $tmpFileName = Gaia::tmpFile('db_dump');
     
     Fs::touch($tmpFileName);
     file_put_contents
-    ( 
+    (
       $tmpFileName, 
       'SET SEARCH_PATH = '.$schemaName."; \n".str_replace
       (
-        array( '{@db@}','{@schema@}','{@owner@}' ), 
-        array( $dbName, $schemaName, $owner ), 
-        file_get_contents( $scriptPath )
+        array('{@db@}','{@schema@}','{@owner@}'), 
+        array($dbName, $schemaName, $owner), 
+        file_get_contents($scriptPath)
       )
     );  
     
-    Process::execute( 'psql '.$dbName.' -h '.$this->host.' -f  '.$tmpFileName );
+    Process::execute('psql '.$dbName.' -h '.$this->host.' -f  '.$tmpFileName);
     
-    Fs::del( $tmpFileName );
+    Fs::del($tmpFileName);
     
   }//end public function importStructureFile */
 
@@ -1305,17 +1305,17 @@ SQL;
    * @param string $dbConf
    * @param string $tmpName
    */
-  public function createImportFile( $scriptPath, $dbConf, $tmpName )
+  public function createImportFile($scriptPath, $dbConf, $tmpName)
   {
     
     file_put_contents
-    ( 
+    (
       $tmpName, 
       str_replace
       (
-        array( '{@schema@}','{@owner@}' ), 
-        array( $dbConf['schema'], $dbConf['owner'] ), 
-        file_get_contents( $scriptPath )
+        array('{@schema@}','{@owner@}'), 
+        array($dbConf['schema'], $dbConf['owner']), 
+        file_get_contents($scriptPath)
       )
     );  
     
@@ -1325,12 +1325,12 @@ SQL;
    * Analysieren der Rückgabe auf Fehler
    * @param string $msg
    */
-  public function searchError( $msg )
+  public function searchError($msg)
   {
     
-    if ( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
+    if (false !== strpos($msg, 'FATAL:  Ident-Authentifizierung'))
       throw new DbException
-      ( 
+      (
         'Die Datenbank hat den Login verweigert. Dafür kann es mehrer Möglichkeiten geben.
         Der Benutzer ist falsch geschrieben, existiert nicht, das Password könnte falsch sein,
         oder in der pg_hba.conf ist für local indent anstelle von md5 eingetragen.' 
@@ -1347,21 +1347,21 @@ SQL;
    * @param string $user
    * @param string $passwd
    */
-  public function query( $query, $dbName = null, $user = null, $passwd = null )
+  public function query($query, $dbName = null, $user = null, $passwd = null)
   {
 
-    $this->setLoginEnv( $this->user, $this->passwd  );
-    return Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
+    $this->setLoginEnv($this->user, $this->passwd  );
+    return Process::execute('psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"');
 
   }//end public function query */
   
   /**
    * @param string $query
    */
-  public function ddl( $query )
+  public function ddl($query)
   {
     
-    $this->con->ddl( $query );
+    $this->con->ddl($query);
 
   }//end public function ddl */
 

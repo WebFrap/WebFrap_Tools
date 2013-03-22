@@ -35,12 +35,12 @@ class ProtocolWriter
   /**
    * @param string $fileName
    */
-  public function __construct( $fileName )
+  public function __construct($fileName)
   {
     
-    Fs::touch( $fileName );
+    Fs::touch($fileName);
     
-    $this->fileRes = fopen( $fileName, 'w' );
+    $this->fileRes = fopen($fileName, 'w');
 
   }//end public function __construct */
   
@@ -49,7 +49,7 @@ class ProtocolWriter
    */
   public function __destruct()
   {
-    if ( is_resource($this->fileRes) )
+    if (is_resource($this->fileRes))
       fclose($this->fileRes);
   }//end public function __destruct */
   
@@ -58,24 +58,24 @@ class ProtocolWriter
    */
   public function close()
   {
-    if ( is_resource($this->fileRes) )
+    if (is_resource($this->fileRes))
       fclose($this->fileRes);
   }//end public function close */
   
   /**
    * @param string $msg
    */
-  public function write( $msg )
+  public function write($msg)
   {
     
-    fwrite( $this->fileRes, $msg."\n" );
+    fwrite($this->fileRes, $msg."\n");
     
   }//end public function write */
   
  /**
    * @param string $msg
    */
-  public function head( $msg )
+  public function head($msg)
   {
     
       
@@ -85,14 +85,14 @@ class ProtocolWriter
 -------------------------------------------------------------------------------
 HEAD;
       
-    $this->write( $head );
+    $this->write($head);
 
   }//end public function head */
   
   /**
    * @param string $msg
    */
-  public function subHead( $msg )
+  public function subHead($msg)
   {
     
     $head = <<<HEAD
@@ -101,14 +101,14 @@ HEAD;
 -------------------------------------------------------------------------------
 HEAD;
       
-    $this->write( $head );
+    $this->write($head);
 
   }//end public function subHead */
   
   /**
    * @param string $msg
    */
-  public function foot( $msg )
+  public function foot($msg)
   {
     
     $head = <<<HEAD
@@ -117,57 +117,57 @@ HEAD;
 *******************************************************************************
 HEAD;
       
-    $this->write( $head );
+    $this->write($head);
 
   }//end public function foot */
   
   /**
    * @param string $msg
    */
-  public function line( $msg )
+  public function line($msg)
   {
     
-    $this->write( $msg );
+    $this->write($msg);
 
   }//end public function line */
   
   /**
    * @param string $msg
    */
-  public function info( $msg )
+  public function info($msg)
   {
     
-    $this->write( 'INFO: '.$msg );
+    $this->write('INFO: '.$msg);
 
   }//end public function info */
   
   /**
    * @param string $msg
    */
-  public function warning( $msg )
+  public function warning($msg)
   {
     
-    $this->write( 'WARN: '.$msg );
+    $this->write('WARN: '.$msg);
 
   }//end public function warning */
   
   /**
    * @param string $msg
    */
-  public function error( $msg )
+  public function error($msg)
   {
     
-    $this->write( 'ERROR: '.$msg );
+    $this->write('ERROR: '.$msg);
 
   }//end public function error */
   
   /**
    * @param string $msg
    */
-  public function fatal( $msg )
+  public function fatal($msg)
   {
     
-    $this->write( 'FATAL: '.$msg );
+    $this->write('FATAL: '.$msg);
 
   }//end public function error */
   

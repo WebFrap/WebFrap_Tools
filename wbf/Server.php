@@ -49,25 +49,25 @@ class Server
   /**
    * @param string $packageName
    */
-  public static function isInstalled( $packageName )
+  public static function isInstalled($packageName)
   {
     
-    if ( !self::$packages )
+    if (!self::$packages)
     {
       
     }
     
-    $packages = Process::execute( 'dpkg -l' );
+    $packages = Process::execute('dpkg -l');
  
   }//end public static function isInstalled */
   
   /**
    * 
    */
-  public static function install( $packages )
+  public static function install($packages)
   {
     
-    Process::system( 'apt-get -y install '.implode( ' ', $packages ) );
+    Process::system('apt-get -y install '.implode(' ', $packages));
  
   }//end public static function install */
 

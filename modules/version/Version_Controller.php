@@ -33,7 +33,7 @@ class Version_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
 
-    $console->info( 'Gaia Version: '. Gaia::VERSION );
+    $console->info('Gaia Version: '. Gaia::VERSION);
     
   }//end public function do_default */
 

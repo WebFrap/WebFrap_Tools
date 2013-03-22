@@ -33,69 +33,69 @@ class Update_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
     
-    $packagePath = $request->param( 'package', Validator_Text::PLAIN );
+    $packagePath = $request->param('package', Validator_Text::PLAIN);
     
-    if ( !$packagePath )
+    if (!$packagePath)
     {
       $this->do_help();
       return;
     }
     
-    $console->info( 'Update Package '.$packagePath );
+    $console->info('Update Package '.$packagePath);
     
-    $this->model = new Setup_Model( $this );
-    $package     = $this->model->getPackage( $packagePath );
+    $this->model = new Setup_Model($this);
+    $package     = $this->model->getPackage($packagePath);
 
     $type        = $package->getType();
     
-    $targetPath = $request->param( 'target', Validator_Folder::PLAIN );
-    if ( $targetPath )
-      $package->setCodeRoot( $targetPath );
+    $targetPath = $request->param('target', Validator_Folder::PLAIN);
+    if ($targetPath)
+      $package->setCodeRoot($targetPath);
       
-    $confKey = $request->param( 'conf_key', Validator_Text::PLAIN );
-    if ( $confKey )
-      $package->setConfKey( $confKey );
+    $confKey = $request->param('conf_key', Validator_Text::PLAIN);
+    if ($confKey)
+      $package->setConfKey($confKey);
       
-    $serverKey = $request->param( 'server_key', Validator_Text::PLAIN );
-    if ( $serverKey )
-      $package->setServerKey( $serverKey );
+    $serverKey = $request->param('server_key', Validator_Text::PLAIN);
+    if ($serverKey)
+      $package->setServerKey($serverKey);
       
-    $useGw = $request->param( 'use_gw', Validator_Text::PLAIN );
-    if ( $useGw )
-      $package->setDeplGateway( $useGw );
+    $useGw = $request->param('use_gw', Validator_Text::PLAIN);
+    if ($useGw)
+      $package->setDeplGateway($useGw);
       
-    $gwName = $request->param( 'gw_name', Validator_Text::PLAIN );
-    if ( $gwName )
-      $package->setGwName( $gwName );
+    $gwName = $request->param('gw_name', Validator_Text::PLAIN);
+    if ($gwName)
+      $package->setGwName($gwName);
     
     try 
     {
-      switch( $type )
+      switch($type)
       {
         case 'application':
         {
-          $builder = new WbfUpdateApplication( $console, $package->getDataPath() );
-          $builder->update( $package );
+          $builder = new WbfUpdateApplication($console, $package->getDataPath());
+          $builder->update($package);
           break;
         }
         case 'app':
         {
-          $builder = new WbfUpdateApplication( $console, $package->getDataPath() );
-          $builder->update( $package );
+          $builder = new WbfUpdateApplication($console, $package->getDataPath());
+          $builder->update($package);
           break;
         }
         default:
         {
-          $console->error( "Der Pakettype: ".$type." wird von dieser Version nicht unterstützt." );
+          $console->error("Der Pakettype: ".$type." wird von dieser Version nicht unterstützt.");
         }
       }
     }
-    catch( GaiaException $exc )
+    catch(GaiaException $exc)
     {
-      $console->error( 'Update wurde abgebrochen '.$exc->getMessage() );
+      $console->error('Update wurde abgebrochen '.$exc->getMessage());
     }
     
-    $console->info( 'Das Update wurde erfolgreich abgeschlossen '.date('Y-m-d H:i:s') );
+    $console->info('Das Update wurde erfolgreich abgeschlossen '.date('Y-m-d H:i:s'));
     
     $this->model->cleanTmp();
     
@@ -137,7 +137,7 @@ gw_name=gw_name
     
 HTML;
 
-    $console->out( $helpText );
+    $console->out($helpText);
 
     
   }//end public function do_help */

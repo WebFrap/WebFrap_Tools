@@ -53,18 +53,18 @@ interface IsAVcsAdapter
    * Commiten von Änderungen
    * @param string $message
    */
-  public function commit( $message );
+  public function commit($message);
   
   /**
    * @param boolean $justCheckChanges nur prüfen ob es Änderungen gab
    * @return string|boolean
    */
-  public function status( $justCheckChanges = false );
+  public function status($justCheckChanges = false);
   
   /**
    * @param string $branch
    */
-  public function update( $branch = null );
+  public function update($branch = null);
   
 ////////////////////////////////////////////////////////////////////////////////
 // Umgang mit Branches
@@ -93,14 +93,14 @@ interface IsAVcsAdapter
    * 
    * @throws GaiaException Wenn der Branch nicht existitert oder bei sonstigen fehlern
    */
-  public function switchBranch( $branch );
+  public function switchBranch($branch);
   
   /**
    * Checken ob ein bestimmter Branch überhaupt existiert
    * @param string $branch
    * @return boolean
    */
-  public function hasBranch( $branch );
+  public function hasBranch($branch);
   
 ////////////////////////////////////////////////////////////////////////////////
 // Merge Logik
@@ -111,7 +111,7 @@ interface IsAVcsAdapter
    * @param string $source
    * @param string $commitMessage
    */
-  public function mergeBranches( $target, $source, $commitMessage = null );
+  public function mergeBranches($target, $source, $commitMessage = null);
   
 ////////////////////////////////////////////////////////////////////////////////
 // Head
@@ -121,13 +121,13 @@ interface IsAVcsAdapter
    * @param string $branch
    * @return string
    */
-  public function getHead( $branch );
+  public function getHead($branch);
 
   /**
    * @param string $branch
    * @return array
    */
-  public function getHeads( );
+  public function getHeads();
   
   
 }//end class IsAVcsAdapter */

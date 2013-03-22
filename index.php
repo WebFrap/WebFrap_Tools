@@ -16,43 +16,43 @@
 *******************************************************************************/
 
 // definieren, dass dies ein Syncscript ist
-define( 'GAIA_CONTEXT', 'web' );
+define('GAIA_CONTEXT', 'web');
 
 // die Basis Logik einbinden
 include 'wbf/bootstrap.web.php';
 
 $conClass = $request->service.'_Controller';
 
-if ( Gaia::classLoadable( $conClass ) )
+if (Gaia::classLoadable($conClass))
 {
   $controller = new $conClass();
   /* @var $controller MvcController   */
-  $controller->setRequest( $request );
-  $controller->setConsole( $console );
+  $controller->setRequest($request);
+  $controller->setConsole($console);
   
   try 
   {
-    $controller->execute( $request->action );
+    $controller->execute($request->action);
   }
-  catch( GaiaException $exc )
+  catch(GaiaException $exc)
   {
-    $console->error( $exc->getMessage() );
+    $console->error($exc->getMessage());
   }
 }
 else 
 {
   $controller = new Error_Controller();
   /* @var $controller MvcController   */
-  $controller->setRequest( $request );
-  $controller->setConsole( $console );
+  $controller->setRequest($request);
+  $controller->setConsole($console);
   
   try 
   {
-    $controller->missingService( $request->service );
+    $controller->missingService($request->service);
   }
-  catch( GaiaException $exc )
+  catch(GaiaException $exc)
   {
-    $console->error( $exc->getMessage() );
+    $console->error($exc->getMessage());
   }
 }
 

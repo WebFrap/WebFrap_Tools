@@ -27,12 +27,12 @@ class BackupGateway
   /**
    * @param Package $package
    */
-  public function backupByPackage( $package )
+  public function backupByPackage($package)
   {
     
     $gateways = $package->getGateways();
 
-    foreach( $gateways as /* @var $gateway PackageGateway */ $gateway )
+    foreach($gateways as /* @var $gateway PackageGateway */ $gateway)
     {
 
       $codeRoot  = $gateway->getCodeRoot();
@@ -43,26 +43,26 @@ class BackupGateway
 
       $backupNode = $gateway->getBackupNode();
       
-      if ( !$backupNode )
+      if (!$backupNode)
       {
         continue;
       }
   
-      if ( !Fs::exists( $codeRoot ) )
+      if (!Fs::exists($codeRoot))
       {
         $error = 'Das Zielverzeichniss '.$codeRoot.' existiert nicht.'
           .' Bitte überprüfe den Pfad und ob überhaupt ein Installation vorhanden ist.';
           
-        throw new GaiaException( $error );
+        throw new GaiaException($error);
       }
       
-      if ( !Fs::exists( $gwTargetPath ) )
+      if (!Fs::exists($gwTargetPath))
       {
         $error = 'Das Target Gateway: '.$gwTargetPath.' existiert nicht.';
-        throw new GaiaException( $error );
+        throw new GaiaException($error);
       }
 
-      $this->backup( $package, $gateway, $backupNode );
+      $this->backup($package, $gateway, $backupNode);
       
     }
 
@@ -73,20 +73,20 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param PackageGatewayBackup $backup
    */
-  public function backup( $package, $gateway, $backup )
+  public function backup($package, $gateway, $backup)
   {
     
-    $type   = $backup->getType( );
+    $type   = $backup->getType();
     
-    if ( !$type )
+    if (!$type)
       $type = 'user_data';
     
-    $action = 'backup_'.FormatString::subToCamelCase( $type );
+    $action = 'backup_'.FormatString::subToCamelCase($type);
     
-    if ( !method_exists( $this, $action ) )
-      throw new GaiaException( "Got invalid backup type ".$type );
+    if (!method_exists($this, $action))
+      throw new GaiaException("Got invalid backup type ".$type);
     
-    $this->$action( $package, $gateway, $backup );
+    $this->$action($package, $gateway, $backup);
     
   }//end public function backup */
 
@@ -97,36 +97,36 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param PackageGatewayBackup $backup
    */
-  protected function backup_Full( $package, $gateway, $backup )
+  protected function backup_Full($package, $gateway, $backup)
   {
     
     $codeRoot    = $gateway->getCodeRoot();
     $gwName      = $gateway->getName();
     $backupDir   = $backup->getDir();
 
-    $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
+    $archive = new ArchiveZip($backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip');
     
-    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/data/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/data/', '/'.$gwName.'/data/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
     
-    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/files/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/files/', '/'.$gwName.'/files/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
     
-    $this->backupDatabase( $package, $gateway, $archive );
+    $this->backupDatabase($package, $gateway, $archive);
     
     $archive->close();
     
@@ -139,32 +139,32 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param PackageGatewayBackup $backup
    */
-  protected function backup_Files( $package, $gateway, $backup )
+  protected function backup_Files($package, $gateway, $backup)
   {
     $codeRoot    = $gateway->getCodeRoot();
     $gwName      = $gateway->getName();
     
     $backupDir   = $backup->getDir();
 
-    $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
+    $archive = new ArchiveZip($backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip');
     
-    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/data/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/data/', '/'.$gwName.'/data/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
     
-    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/files/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/files/', '/'.$gwName.'/files/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
 
@@ -179,36 +179,36 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param PackageGatewayBackup $backup
    */
-  protected function backup_UserData( $package, $gateway, $backup )
+  protected function backup_UserData($package, $gateway, $backup)
   {
     $codeRoot    = $gateway->getCodeRoot();
     $gwName      = $gateway->getName();
     
     $backupDir   = $backup->getDir();
 
-    $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
+    $archive = new ArchiveZip($backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip');
     
-    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/data/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/data/', '/'.$gwName.'/data/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
     
-    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if (Fs::exists($codeRoot.$gwName.'/files/'))
     {
-      $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
+      $dataFiles = new IoFileIterator($codeRoot.$gwName.'/files/', '/'.$gwName.'/files/'); 
       
-      foreach( $dataFiles as $target => $src )
+      foreach($dataFiles as $target => $src)
       {
-        $archive->addFile( $src, $target );
+        $archive->addFile($src, $target);
       }
     }
     
-    $this->backupDatabase( $package, $gateway, $archive );
+    $this->backupDatabase($package, $gateway, $archive);
     
     $archive->close();
     
@@ -222,16 +222,16 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param PackageGatewayBackup $backup
    */
-  protected function backup_Database( $package, $gateway, $backup )
+  protected function backup_Database($package, $gateway, $backup)
   {
     $codeRoot    = $gateway->getCodeRoot();
     $gwName      = $gateway->getName();
     
     $backupDir   = $backup->getDir();
 
-    $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
+    $archive = new ArchiveZip($backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip');
     
-    $this->backupDatabase( $package, $gateway, $archive );
+    $this->backupDatabase($package, $gateway, $archive);
     
     $archive->close();
     
@@ -246,18 +246,18 @@ class BackupGateway
    * @param PackageGateway $gateway
    * @param ArchiveZip $archive
    */ 
-  protected function backupDatabase( $package, $gateway, $archive )
+  protected function backupDatabase($package, $gateway, $archive)
   {
     
     $servers = $gateway->getServers();
     
     $gwName      = $gateway->getName();
     
-    foreach( $servers as /* @var $server PackageServer */ $server )
+    foreach($servers as /* @var $server PackageServer */ $server)
     {
       $databases = $server->getDatabases();
       
-      foreach( $databases as /* @var $database PackageServerDb  */ $database )
+      foreach($databases as /* @var $database PackageServerDb  */ $database)
       {
         
         $dbAdmin = Db::getAdmin
@@ -275,10 +275,10 @@ class BackupGateway
         $tmpFile  = $tmpFoder.$database->getType().'-'.$database->getDbName().'-'.$database->getDbSchema().'.backup';
 
         /* @var $dbAdmin DbAdmin */
-        $dbAdmin->dumpSchema( $database->getDbName(), $database->getDbSchema(), $tmpFile );
+        $dbAdmin->dumpSchema($database->getDbName(), $database->getDbSchema(), $tmpFile);
         
         $archive->addFile
-        ( 
+        (
           $tmpFile, 
           '/dbms/'.$gwName.'/'.$database->getType().'/'.$database->getDbName().'-'.$database->getDbSchema().'.backup' 
         );

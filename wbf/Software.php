@@ -46,17 +46,17 @@ class Software
    * Parsen der Configuration
    * @param string $fileType
    */
-  public static function getInstaller( $installerType )
+  public static function getInstaller($installerType)
   {
     
     $className = 'Software'.ucfirst(Environment::$osName).$installerType;
     
     $osName = Environment::$osName;
     
-    if ( !Gaia::classLoadable($className) )
-      throw new GaiaException( "Für das aktuelle Environment {$osName} existiert leider kein Installer: {$installerType}" );
+    if (!Gaia::classLoadable($className))
+      throw new GaiaException("Für das aktuelle Environment {$osName} existiert leider kein Installer: {$installerType}");
       
-    return new $className( UiConsole::getActive() );
+    return new $className(UiConsole::getActive());
     
   }//end public function getInstaller */
   
@@ -67,7 +67,7 @@ class Software
   /**
    * @param UiConsole $console
    */
-  public function __construct( $console )
+  public function __construct($console)
   {
     $this->console = $console;
   }//end public function __construct */
@@ -77,7 +77,7 @@ class Software
    * Parsen der Configuration
    * @param string $fileType
    */
-  public function parseConf( $fileType = null )
+  public function parseConf($fileType = null)
   {
     
   }//end public function parseConf */
@@ -85,24 +85,24 @@ class Software
   /**
    * @param array $packages
    */
-  public function install( $packages )
+  public function install($packages)
   {
-    Process::system( 'apt-get -y install '.implode( ' ', $packages ) );
+    Process::system('apt-get -y install '.implode(' ', $packages));
   }//end public function install */
   
   /**
    * @param string $package
    */
-  public function isInstalled( $package )
+  public function isInstalled($package)
   {
     
-    $packageKey = Process::execute( 'dpkg --get-selections '.$package );
+    $packageKey = Process::execute('dpkg --get-selections '.$package);
 
-    $tmp = explode( "\t", $packageKey );
+    $tmp = explode("\t", $packageKey);
     
-    if ( $package == $tmp[0] )
+    if ($package == $tmp[0])
     {
-      if ( 'install' == $tmp[1]  )
+      if ('install' == $tmp[1]  )
         return true;
     }
     
@@ -122,7 +122,7 @@ class Software
   
   /**
    */
-  public function installCore( )
+  public function installCore()
   {
     
   }//end public function installCore */
@@ -131,7 +131,7 @@ class Software
    * Ein bestimmtes Modul für die Software installieren
    * @param string $modName
    */
-  public function installModule( $modName )
+  public function installModule($modName)
   {
   }//end public function installModule */
   
@@ -146,28 +146,28 @@ class Software
   /**
    * Die Konfiguration eines dienstes neu laden
    */
-  public function reload( )
+  public function reload()
   {
   }//end public function reload */
   
   /**
    * Einen bestimmten Dienst neu starten
    */
-  public function restart( )
+  public function restart()
   {
   }//end public function restart */
   
   /**
    * Den Dienst starten
    */
-  public function start( )
+  public function start()
   {
   }//end public function start */
   
   /**
    * Den Dienst beenden
    */
-  public function stop( )
+  public function stop()
   {
   }//end public function stop */ 
 

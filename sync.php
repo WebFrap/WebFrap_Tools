@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 // definieren, dass dies ein Syncscript ist
-define( 'GAIA_CONTEXT', 'sync' );
+define('GAIA_CONTEXT', 'sync');
 
 // die Basis Logik einbinden
 // hier wird auch das entsprechende conf / settingsfile eingebunden
@@ -25,12 +25,12 @@ include 'wbf/bootstrap.php';
 
 /* @var $console UiConsole */
 
-$console->info( "Start sync", true );
+$console->info("Start sync", true);
 
 // eine Temporäre HG RC Datei erstellen, wird benötigt
 // um die Passwörter nicht in die URL packen zu müssen oder bei Proxies
 Hg::createTmpRc
-( 
+(
   $repoRoot,
   $syncRepos,
   $displayName,
@@ -38,11 +38,11 @@ Hg::createTmpRc
   $repoPwd
 );
 
-Hg::sync( $syncRepos, $contactMail );
-Fs::chown( $repoRoot, $repoOwner );
+Hg::sync($syncRepos, $contactMail);
+Fs::chown($repoRoot, $repoOwner);
 
 
-Console::footer( "Finished sync ", true );
+Console::footer("Finished sync ", true);
 
 
 

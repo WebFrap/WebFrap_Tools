@@ -28,7 +28,7 @@ class Router
    * @param string $controller
    * @param string $call
    */
-  public function dispatch( $controller, $call )
+  public function dispatch($controller, $call)
   {
     
     

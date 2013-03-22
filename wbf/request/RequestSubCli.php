@@ -61,26 +61,26 @@ class RequestSubCli
    * @param string $command
    * @param IsARequest $request
    */
-  public function __construct( $command, $request )
+  public function __construct($command, $request)
   {
     
     $this->request = $request;
     
-    $urlData = parse_url( $command );
+    $urlData = parse_url($command);
     $params  = array();
     
-    if ( isset( $urlData['query'] ) )
-      parse_str( $urlData['query'], $params );
+    if (isset($urlData['query']))
+      parse_str($urlData['query'], $params);
     
     $this->params = $params;
     
-    if ( isset( $urlData['path'] ) )
+    if (isset($urlData['path']))
     {
-      $tmp = explode( '.', $urlData['path'] );
+      $tmp = explode('.', $urlData['path']);
       
       $this->service = ucfirst($tmp[0]);
       
-      if ( isset( $tmp[1] ) )
+      if (isset($tmp[1]))
         $this->action = $tmp[1];
       else 
         $this->action = 'default';
@@ -104,10 +104,10 @@ class RequestSubCli
    * @param string Key Name der zu erfragende $_GET Variable
    * @return bool
    */
-  public function paramExists( $key )
+  public function paramExists($key)
   {
     
-    return isset( $this->params[$key] );
+    return isset($this->params[$key]);
     
   } // end public function paramExists */
 
@@ -118,10 +118,10 @@ class RequestSubCli
   * @param string $validator
   * @return string
   */
-  public function param( $key = null, $validator = null )
+  public function param($key = null, $validator = null)
   {
   
-    return isset( $this->params[$key] )
+    return isset($this->params[$key])
       ? $this->params[$key]
       : null;
   
@@ -134,7 +134,7 @@ class RequestSubCli
   * @param string $data Die Daten für die Urlvar
   * @return bool
   */
-  public function addParam( $key, $data = null  )
+  public function addParam($key, $data = null  )
   {
 
     $this->params[$key] = $data;
@@ -145,11 +145,11 @@ class RequestSubCli
    * remove some variables from the url
    * @param string $key
    */
-  public function removeParam( $key )
+  public function removeParam($key)
   {
 
-    if ( isset( $this->params[$key] ) )
-      unset( $this->params[$key] );
+    if (isset($this->params[$key]))
+      unset($this->params[$key]);
 
   }//end public function removeParam */
 
@@ -164,16 +164,16 @@ class RequestSubCli
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function dataExists( $key , $subkey = null )
+  public function dataExists($key , $subkey = null)
   {
 
-    if ( !is_null( $subkey ) )
+    if (!is_null($subkey))
     {
-      return isset( $this->data[$key][$subkey] );
+      return isset($this->data[$key][$subkey]);
     }
     else
     {
-      return isset( $this->data[$key] );
+      return isset($this->data[$key]);
     }
 
   } // end public function dataExists */
@@ -184,20 +184,20 @@ class RequestSubCli
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function dataSearchIds( $key )
+  public function dataSearchIds($key)
   {
 
-    if ( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
+    if (!isset($this->data[$key]) || !is_array($this->data[$key]))
       return array();
 
-    $keys = array_keys( $this->data[$key] );
+    $keys = array_keys($this->data[$key]);
 
     $tmp = array();
 
-    foreach( $keys as $key )
+    foreach($keys as $key)
     {
 
-      if ( 'id_' == substr( $key , 0, 3 ) )
+      if ('id_' == substr($key , 0, 3))
         $tmp[] = $key;
     }
 
@@ -211,23 +211,23 @@ class RequestSubCli
   * @param array/string[optional] Array mit Namen von Keys / Key Name der Variable
   * @return array
   */
-  public function data( $key = null , $validator = null , $subkey = null , $message = null  )
+  public function data($key = null , $validator = null , $subkey = null , $message = null  )
   {
     
     $response = $this->getResponse();
 
-    if ( $validator )
+    if ($validator)
     {
       $filter = $this->getValidator();
       $filter->clean(); // first clean the filter
 
-      if ( is_string($key) )
+      if (is_string($key))
       {
 
-        if ( $subkey )
+        if ($subkey)
         {
           
-          if ( isset( $this->data[$key][$subkey] ) )
+          if (isset($this->data[$key][$subkey]))
           {
             $data = $this->data[$key][$subkey];
           }
@@ -240,7 +240,7 @@ class RequestSubCli
         else
         {
           
-          if ( isset( $this->data[$key] ) )
+          if (isset($this->data[$key]))
           {
             $data = $this->data[$key];
           }
@@ -253,41 +253,41 @@ class RequestSubCli
 
         $fMethod = 'add'.ucfirst($validator);
 
-        if ( is_array( $data ) )
+        if (is_array($data))
         {
           // Clean all the same way
           // Good architecture :-)
-          return $this->validateArray( $fMethod , $data );
+          return $this->validateArray($fMethod , $data);
         }
         else
         {
           // clean only one
-          if ( !$error = $filter->$fMethod( $key, $data ) )
+          if (!$error = $filter->$fMethod($key, $data))
           {
-            return $filter->getData( $key );
+            return $filter->getData($key);
           }
           else
           {
-            $response->addError( ($message?$message:$error) ) ;
+            $response->addError(($message?$message:$error)) ;
             return;
           }
 
         }
 
       }// end is_string($key)
-      elseif ( is_array( $key ) )
+      elseif (is_array($key))
       {
         $data = array();
 
-        if ( is_array( $validator ) )
+        if (is_array($validator))
         {
-          foreach( $key as $id )
+          foreach($key as $id)
           {
-            $fMethod = 'add'.ucfirst($validator[$id] );
+            $fMethod = 'add'.ucfirst($validator[$id]);
 
-            if ( isset($this->data[$id]) )
+            if (isset($this->data[$id]))
             {
-              $filter->$fMethod( $this->data[$id], $id );
+              $filter->$fMethod($this->data[$id], $id);
               $data[$id] = $filter->getData($id);
             }
             else
@@ -298,13 +298,13 @@ class RequestSubCli
         }
         else
         {
-          foreach( $key as $id )
+          foreach($key as $id)
           {
             $fMethod = 'add'.ucfirst($validator);
 
-            if ( isset($this->data[$id]) )
+            if (isset($this->data[$id]))
             {
-              $filter->$fMethod( $this->data[$id], $id );
+              $filter->$fMethod($this->data[$id], $id);
               $data[$id] = $filter->post($id);
             }
             else
@@ -320,7 +320,7 @@ class RequestSubCli
     }//end if $validator
     else // else $validator
     {
-      if ( is_string($key) )
+      if (is_string($key))
       {
         if ($subkey)
         {
@@ -333,18 +333,18 @@ class RequestSubCli
             ?$this->data[$key]:null;
         }
       }
-      elseif ( is_array($key) )
+      elseif (is_array($key))
       {
         $data = array();
 
-        foreach( $key as $id )
+        foreach($key as $id)
         {
-          $data[$id] = isset( $this->data[$id] )? $this->data[$id] :null;
+          $data[$id] = isset($this->data[$id])? $this->data[$id] :null;
         }
 
         return $data;
       }
-      elseif ( is_null($key) )
+      elseif (is_null($key))
       {
         return $this->data;
       }
@@ -360,22 +360,22 @@ class RequestSubCli
    * remove some variables from the url
    *
    */
-  public function removeData( $key , $subkey = null )
+  public function removeData($key , $subkey = null)
   {
 
 
-    if ( is_null( $subkey ) )
+    if (is_null($subkey))
     {
-      if ( isset( $this->data[$key] ) )
+      if (isset($this->data[$key]))
       {
-        unset( $this->data[$key] );
+        unset($this->data[$key]);
       }
     }
     else
     {
-      if ( isset( $this->data[$key][$subkey] ) )
+      if (isset($this->data[$key][$subkey]))
       {
-        unset( $this->data[$key][$subkey] );
+        unset($this->data[$key][$subkey]);
       }
     }
 
@@ -387,23 +387,23 @@ class RequestSubCli
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function dataEmpty( $keys , $subkey = null )
+  public function dataEmpty($keys , $subkey = null)
   {
 
-    if ( $subkey )
+    if ($subkey)
     {
-      if ( is_array($keys) )
+      if (is_array($keys))
       {
 
-        foreach( $keys as $key )
+        foreach($keys as $key)
         {
 
-          if ( !isset( $this->data[$subkey][$key] ) )
+          if (!isset($this->data[$subkey][$key]))
           {
             return true;
           }
 
-          if ( trim($this->data[$subkey][$key]) == '' )
+          if (trim($this->data[$subkey][$key]) == '')
           {
             return true;
           }
@@ -416,12 +416,12 @@ class RequestSubCli
       else
       {
 
-        if ( !isset( $this->data[$subkey][$keys] ) )
+        if (!isset($this->data[$subkey][$keys]))
         {
           return true;
         }
 
-        if ( trim($this->data[$subkey][$keys]) == '' )
+        if (trim($this->data[$subkey][$keys]) == '')
         {
           return true;
         }
@@ -432,16 +432,16 @@ class RequestSubCli
     }
     else
     {
-      if ( is_array($keys) )
+      if (is_array($keys))
       {
 
-        foreach( $keys as $key )
+        foreach($keys as $key)
         {
 
-          if ( !isset( $this->data[$key] ) )
+          if (!isset($this->data[$key]))
             return true;
 
-          if ( trim($this->data[$key]) == '' )
+          if (trim($this->data[$key]) == '')
             return true;
 
           return false;
@@ -452,10 +452,10 @@ class RequestSubCli
       else
       {
 
-        if ( !isset( $this->data[$keys] ) )
+        if (!isset($this->data[$keys]))
           return true;
 
-        if ( trim($this->data[$keys]) == '' )
+        if (trim($this->data[$keys]) == '')
           return true;
 
         return false;
@@ -477,7 +477,7 @@ class RequestSubCli
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function issetCookie( $key  )
+  public function issetCookie($key  )
   {
     return false;
   } // end public function issetCookie */
@@ -488,7 +488,7 @@ class RequestSubCli
   * @param string Key Name des angefragten Cookies
   * @return string
   */
-  public function cookie( $key = null , $validator = null, $message = null )
+  public function cookie($key = null , $validator = null, $message = null)
   {
     return null;
   } // end public function cookie */
@@ -499,7 +499,7 @@ class RequestSubCli
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function fileExists( $key )
+  public function fileExists($key)
   {
     return false;
   } // end public function fileExists */
@@ -511,7 +511,7 @@ class RequestSubCli
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function file( $key = null, $type = null, $subkey = null, $message = null )
+  public function file($key = null, $type = null, $subkey = null, $message = null)
   {
     return null;
 
@@ -523,10 +523,10 @@ class RequestSubCli
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function serverExists( $key  )
+  public function serverExists($key  )
   {
 
-    return $this->request->serverExists( $key  );
+    return $this->request->serverExists($key  );
 
   } // end public function serverExists */
 
@@ -536,10 +536,10 @@ class RequestSubCli
   * @param string Key Name des angefragten Cookies
   * @return string
   */
-  public function server( $key = null , $validator = null, $message = null )
+  public function server($key = null , $validator = null, $message = null)
   {
 
-    return $this->request->server( $key, $validator, $message  );
+    return $this->request->server($key, $validator, $message  );
 
   } // end public function server */
 
@@ -549,9 +549,9 @@ class RequestSubCli
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function envExists( $key  )
+  public function envExists($key  )
   {
-    return $this->request->envExists( $key );
+    return $this->request->envExists($key);
   } // end public function envExists */
 
   /**
@@ -561,10 +561,10 @@ class RequestSubCli
   * @param string $validator the validatorname
   * @return mixed
   */
-  public function env( $key = null , $validator = null, $message = null )
+  public function env($key = null , $validator = null, $message = null)
   {
 
-    return $this->request->env( $key, $validator, $message );
+    return $this->request->env($key, $validator, $message);
 
   } // end public function env */
 
@@ -688,10 +688,10 @@ class RequestSubCli
    *
    * @return string
    */
-  public function method( $requested = null )
+  public function method($requested = null)
   {
 
-    return $this->request->method( $requested );
+    return $this->request->method($requested);
 
   }//end public function method */
 
@@ -700,10 +700,10 @@ class RequestSubCli
    *
    * @return string
    */
-  public function inMethod( $methodes )
+  public function inMethod($methodes)
   {
 
-    return $this->request->inMethod( $methodes );
+    return $this->request->inMethod($methodes);
 
   }//end public function inMethod */
 
@@ -713,7 +713,7 @@ class RequestSubCli
   public function isAjax()
   {
     
-    return $this->request->isAjax(  );
+    return $this->request->isAjax();
     
   }//end public function isAjax */
 
@@ -723,7 +723,7 @@ class RequestSubCli
    */
   public function getResource()
   {
-    return $this->request->getResource(  );
+    return $this->request->getResource();
     
   }//end public function getResource */
 

@@ -74,7 +74,7 @@ class ServerSoftwareUbuntu
   public function install()
   {
     
-    Server::install( $this->requiredPackages );
+    Server::install($this->requiredPackages);
     
   }//end public function install */
   

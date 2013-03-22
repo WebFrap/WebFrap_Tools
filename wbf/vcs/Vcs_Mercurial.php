@@ -104,10 +104,10 @@ class Vcs_Mercurial
   
   /**
    * @param sting $repoPath
-   * @param sting $displayUser ( Wird nicht zum lesen benötigt )
-   * @param sting $repoKey ( Wird nicht zum lesen benötigt )
+   * @param sting $displayUser (Wird nicht zum lesen benötigt)
+   * @param sting $repoKey (Wird nicht zum lesen benötigt)
    */
-  public function __construct( $repoPath, $displayUser = null, $repoKey = 'SomeRepo' )
+  public function __construct($repoPath, $displayUser = null, $repoKey = 'SomeRepo')
   {
     
     $this->repoPath    = $repoPath;
@@ -126,18 +126,18 @@ class Vcs_Mercurial
   public function startUsage()
   {
     
-    if ( $this->used )
+    if ($this->used)
       return false;
     
-    if ( !$this->origPath )
+    if (!$this->origPath)
       $this->origPath = getcwd().'/';
       
     // sicher stellen, dass die richtigen hg rc informationen verwendet werden
-    if ( $this->hgrcPath )
-      putenv( "HGRCPATH={$this->hgrcPath}" );
+    if ($this->hgrcPath)
+      putenv("HGRCPATH={$this->hgrcPath}");
     
-    if ( $this->origPath != $this->repoPath )
-      chdir( $this->repoPath );
+    if ($this->origPath != $this->repoPath)
+      chdir($this->repoPath);
       
     $this->used = true;
     
@@ -152,8 +152,8 @@ class Vcs_Mercurial
   public function endUsage()
   {
     
-    if ( $this->origPath != $this->repoPath )
-      chdir( $this->origPath );
+    if ($this->origPath != $this->repoPath)
+      chdir($this->origPath);
     
     $this->used = false;
       
@@ -164,11 +164,11 @@ class Vcs_Mercurial
    * @param string $userName
    * @param string $userPwd
    */
-  public function open(  $syncUrl = null, $userName = null, $userPwd = null )
+  public function open( $syncUrl = null, $userName = null, $userPwd = null)
   {
     
     $this->origPath = getcwd().'/';
-    $this->buildEnv( $syncUrl, $userName, $userPwd );
+    $this->buildEnv($syncUrl, $userName, $userPwd);
     
   }//end public function open */
   
@@ -178,8 +178,8 @@ class Vcs_Mercurial
   public function close()
   {
     
-    if ( $this->hgrcPath )
-      Fs::del( $this->hgrcPath );
+    if ($this->hgrcPath)
+      Fs::del($this->hgrcPath);
     
   }//end public function close */
 
@@ -191,7 +191,7 @@ class Vcs_Mercurial
    * @param string $proxyUser
    * @param string $proxyPasswd
    */
-  public function setProxy( $proxyUrl, $proxyUser, $proxyPasswd ) 
+  public function setProxy($proxyUrl, $proxyUser, $proxyPasswd) 
   {
     
     $this->proxyUrl = $proxyUrl;
@@ -205,7 +205,7 @@ class Vcs_Mercurial
    * 
    * @param string $protocol
    */
-  public function setProtocol( $protocol ) 
+  public function setProtocol($protocol) 
   {
     
     $this->protocol = $protocol;
@@ -241,7 +241,7 @@ class Vcs_Mercurial
   public function isRepository()
   {
     
-    return Fs::exists( $this->repoPath.'/.hgrc' ); 
+    return Fs::exists($this->repoPath.'/.hgrc'); 
     
   }//end public function isRepository */
   
@@ -256,31 +256,31 @@ class Vcs_Mercurial
    * @param string $userName
    * @param string $userPwd
    */
-  public function buildEnv( $syncUrl = null, $userName = null, $userPwd = null )
+  public function buildEnv($syncUrl = null, $userName = null, $userPwd = null)
   {
     
-    if ( $this->hgrcPath )
+    if ($this->hgrcPath)
     {
-      putenv( "HGRCPATH={$this->hgrcPath}" );
+      putenv("HGRCPATH={$this->hgrcPath}");
       return;
     }
     
-    if ( !$this->syncUrl )
+    if (!$this->syncUrl)
       $this->syncUrl = $syncUrl;
       
-    if ( !$this->userName )
+    if (!$this->userName)
       $this->userName = $userName;
       
-    if ( !$this->userPasswd )
+    if (!$this->userPasswd)
       $this->userPasswd = $userPwd;
 
-    if ( !$syncUrl )
+    if (!$syncUrl)
       $syncUrl = $this->syncUrl;
       
-    if ( !$userName )
+    if (!$userName)
       $userName = $this->userName;
       
-    if ( !$userPwd )
+    if (!$userPwd)
       $userPwd = $this->userPasswd;
 
     $hgRc = <<<HGRC
@@ -296,7 +296,7 @@ groups = *
 
 HGRC;
 
-    if ( $this->proxyUrl )
+    if ($this->proxyUrl)
     {
     
     $hgRc .= <<<HGRC
@@ -321,7 +321,7 @@ HGRC;
     $tmpFolder = Gaia::mkTmpFolder();
     $this->hgrcPath = $tmpFolder.'.hgrc';
     
-    Fs::write( $hgRc, $this->hgrcPath );
+    Fs::write($hgRc, $this->hgrcPath);
     
     putenv("HGRCPATH={$this->hgrcPath}");
 
@@ -330,28 +330,28 @@ HGRC;
   /**
    * @param string $branch
    */
-  public function update( $branch = null )
+  public function update($branch = null)
   {
     
-    if ( $branch )
-      return $this->sendCommand( "{$this->bin} update \"{$branch}\"" );
+    if ($branch)
+      return $this->sendCommand("{$this->bin} update \"{$branch}\"");
     else 
-      return $this->sendCommand( "{$this->bin} update" );
+      return $this->sendCommand("{$this->bin} update");
 
   }//end public function update */
   
   /**
    * @param string $message
    */
-  public function commit( $message )
+  public function commit($message)
   {
     
-    if ( !$this->displayName )
+    if (!$this->displayName)
     {
-      throw new GaiaException( "Aborted commit... Displayname is missing" );
+      throw new GaiaException("Aborted commit... Displayname is missing");
     }
     
-    $this->sendCommand( "{$this->bin} commit -A -u \"{$this->displayName}\" -m \"{$message}\"" );
+    $this->sendCommand("{$this->bin} commit -A -u \"{$this->displayName}\" -m \"{$message}\"");
     
   }//end public function commit */
   
@@ -360,14 +360,14 @@ HGRC;
    * @param boolean $justCheckChanges nur prüfen ob es Änderungen gab
    * @return string|boolean
    */
-  public function status( $justCheckChanges = false )
+  public function status($justCheckChanges = false)
   {
       
-    $status = $this->sendCommand( "{$this->bin} status" );
+    $status = $this->sendCommand("{$this->bin} status");
     
-    if ( $justCheckChanges )
+    if ($justCheckChanges)
     {
-      return ( '' == trim($justCheckChanges) );
+      return ('' == trim($justCheckChanges));
     }
     
     return $status;
@@ -395,10 +395,10 @@ HGRC;
    * @param string $branch
    * @return string
    */
-  public function switchBranch( $branch )
+  public function switchBranch($branch)
   {
 
-    $this->sendCommand( $this->bin.' update '.$branch );
+    $this->sendCommand($this->bin.' update '.$branch);
     
   }//end public function switchBranch */
   
@@ -407,25 +407,25 @@ HGRC;
    * @todo Error Handling
    */
   public function sync
-  ( 
+  (
     $syncMessage = 'this is an auto commit for synchronizing the repository with the master' 
   )
   {
     
     $this->startUsage();
     
-    if ( file_exists( $this->repoPath ) )
+    if (file_exists($this->repoPath))
     {
-      Process::execute( $this->bin." add" );
-      Process::execute( $this->bin.' commit -m "'.$syncMessage.'"' );
-      Process::execute( $this->bin.' pull -f "https://'.$this->syncUrl.'"' );
-      Process::execute( $this->bin.' update' );
-      Process::execute( $this->bin.' push -f "https://'.$this->syncUrl.'"' );
+      Process::execute($this->bin." add");
+      Process::execute($this->bin.' commit -m "'.$syncMessage.'"');
+      Process::execute($this->bin.' pull -f "https://'.$this->syncUrl.'"');
+      Process::execute($this->bin.' update');
+      Process::execute($this->bin.' push -f "https://'.$this->syncUrl.'"');
     }
     else
     {
-      Fs::touchFileFolder( $this->repoPath );
-      Process::execute( $this->bin.' clone "https://'.$this->syncUrl.'" "'.$this->repoPath.'"' );
+      Fs::touchFileFolder($this->repoPath);
+      Process::execute($this->bin.' clone "https://'.$this->syncUrl.'" "'.$this->repoPath.'"');
     }
     
     $this->endUsage();
@@ -441,13 +441,13 @@ HGRC;
    * @param string $branch
    * @return string
    */
-  public function getHead( $branch )
+  public function getHead($branch)
   {
     
-    $tmp   = $this->sendCommand( $this->bin." heads {$branch} -q" );
-    $heads = explode( "\n", $tmp );
+    $tmp   = $this->sendCommand($this->bin." heads {$branch} -q");
+    $heads = explode("\n", $tmp);
 
-    if ( 1 == count($heads) )
+    if (1 == count($heads))
       return $heads[0];
     else 
       return $heads;
@@ -459,11 +459,11 @@ HGRC;
    * @param string $branch
    * @return array
    */
-  public function getHeads(  )
+  public function getHeads()
   {
     
-    $tmp   = $this->sendCommand( $this->bin." heads -q" );
-    $heads = explode( "\n", $tmp );
+    $tmp   = $this->sendCommand($this->bin." heads -q");
+    $heads = explode("\n", $tmp);
     
     return $heads;
     
@@ -480,8 +480,8 @@ HGRC;
   public function getBranches()
   {
     
-    $tmp = $this->sendCommand( "hg branches -q" );
-    $branches = explode( "\n", $tmp );
+    $tmp = $this->sendCommand("hg branches -q");
+    $branches = explode("\n", $tmp);
     
     return $branches;
     
@@ -493,13 +493,13 @@ HGRC;
    * @param string $branch
    * @return boolean
    */
-  public function hasBranch( $branch )
+  public function hasBranch($branch)
   {
     
-    $tmp = $this->sendCommand( "hg branches -q" );
-    $branches = explode( "\n", $tmp );
+    $tmp = $this->sendCommand("hg branches -q");
+    $branches = explode("\n", $tmp);
 
-    return in_array( $branch, $branches );
+    return in_array($branch, $branches);
     
   }//end public function hasBranch */
   
@@ -509,7 +509,7 @@ HGRC;
   public function getActualBranch()
   {
 
-    return $this->sendCommand( "hg branch -q" );
+    return $this->sendCommand("hg branch -q");
     
   }//end public function pull */
   
@@ -523,38 +523,38 @@ HGRC;
    * @param string $source
    * @param string $commitMessage
    */
-  public function mergeBranches( $target, $source, $commitMessage = null )
+  public function mergeBranches($target, $source, $commitMessage = null)
   {
     
     $this->startUsage();
     
-    if ( $this->status( true ) )
+    if ($this->status(true))
     {
-      if ( !$commitMessage )
+      if (!$commitMessage)
         $commitMessage = "Commit Changes before merge {$source} in {$target}";
         
-      $this->commit( $commitMessage );
+      $this->commit($commitMessage);
     }
     
     $actualBranch = $this->getActualBranch();
 
-    if ( $target != $actualBranch )
+    if ($target != $actualBranch)
     {
-      $this->switchBranch( $target );
+      $this->switchBranch($target);
     }
     
-    $this->command( "merge {$source}" );
-    $this->command( 'commit -m "Merge '.$source.' in '.$target.'"' );
+    $this->command("merge {$source}");
+    $this->command('commit -m "Merge '.$source.' in '.$target.'"');
     
     /*
-    if ( $this->status( true ) )
+    if ($this->status(true))
     {
-      $this->command( 'commit -m "Merge '.$source.' in '.$target.'"' );
+      $this->command('commit -m "Merge '.$source.' in '.$target.'"');
     }*/
     
-    if ( $target != $actualBranch )
+    if ($target != $actualBranch)
     {
-      $this->switchBranch( $actualBranch );
+      $this->switchBranch($actualBranch);
     }
     
     $this->endUsage();
@@ -570,13 +570,13 @@ HGRC;
    * @param string $command
    * @return string
    */
-  protected function sendCommand( $command )
+  protected function sendCommand($command)
   {
     
     $started = $this->startUsage();
-    $val = Process::execute( $command );
+    $val = Process::execute($command);
     
-    if ( $started )
+    if ($started)
       $this->endUsage();
     
     return $val;
@@ -587,10 +587,10 @@ HGRC;
    * @param string $command
    * @return string
    */
-  protected function command( $command )
+  protected function command($command)
   {
 
-    $val = Process::execute( $this->bin.' '.$command );
+    $val = Process::execute($this->bin.' '.$command);
     
     echo $val."\n";
     return $val;

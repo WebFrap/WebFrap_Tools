@@ -118,19 +118,19 @@ class UserContainer
   public function read()
   {
     
-    Console::out( 'Username:' );
-    $this->username = Console::in( );
+    Console::out('Username:');
+    $this->username = Console::in();
     
-    Console::out( 'Firstname:' );
-    $this->firstname = Console::in( );
+    Console::out('Firstname:');
+    $this->firstname = Console::in();
     
-    Console::out( 'Lastname:' );
-    $this->lastname = Console::in( );
+    Console::out('Lastname:');
+    $this->lastname = Console::in();
     
     $this->readPassword();
     
-    Console::out( 'E-Mail:' );
-    $this->email = Console::in( );
+    Console::out('E-Mail:');
+    $this->email = Console::in();
     
     $this->readProfile();
     $this->readLevel();
@@ -143,15 +143,15 @@ class UserContainer
   public function readPassword()
   {
     
-    Console::out( 'Password:' );
-    $password = Console::secretIn( );
+    Console::out('Password:');
+    $password = Console::secretIn();
     
-    Console::out( 'Repeat Password:' );
-    $password2 = Console::secretIn( );
+    Console::out('Repeat Password:');
+    $password2 = Console::secretIn();
     
-    if ( $password != $password2 )
+    if ($password != $password2)
     {
-      Console::out( 'Sorry password where not equal' );
+      Console::out('Sorry password where not equal');
       $this->readPassword();
     }
     else 
@@ -167,24 +167,24 @@ class UserContainer
   public function readLevel()
   {
     
-    Console::outln( 'Level:' );
-    Console::outln( '- public_edit' );
-    Console::outln( '- public_access' );
-    Console::outln( '- user' );
-    Console::outln( '- ident' );
-    Console::outln( '- employee' );
-    Console::outln( '- superior' );
-    Console::outln( '- l4_manager' );
-    Console::outln( '- l3_manager' );
-    Console::outln( '- l2_manager' );
-    Console::outln( '- l1_manager' );
-    Console::outln( '- system' );
+    Console::outln('Level:');
+    Console::outln('- public_edit');
+    Console::outln('- public_access');
+    Console::outln('- user');
+    Console::outln('- ident');
+    Console::outln('- employee');
+    Console::outln('- superior');
+    Console::outln('- l4_manager');
+    Console::outln('- l3_manager');
+    Console::outln('- l2_manager');
+    Console::outln('- l1_manager');
+    Console::outln('- system');
     
-    $level = trim(Console::in( ));
+    $level = trim(Console::in());
     
-    if ( !isset($this->levels[$level]) )
+    if (!isset($this->levels[$level]))
     {
-      Console::outln( "Falsches Level angegeben {$level}" );
+      Console::outln("Falsches Level angegeben {$level}");
       $this->readLevel();
     }
     else 
@@ -200,20 +200,20 @@ class UserContainer
   public function readProfile()
   {
     
-    Console::outln( 'Choose Profile:' );
-    Console::outln( '- developer' );
-    Console::outln( '- admin' );
-    Console::outln( '- user' );
+    Console::outln('Choose Profile:');
+    Console::outln('- developer');
+    Console::outln('- admin');
+    Console::outln('- user');
     
-    $profile = trim(Console::in( ));
+    $profile = trim(Console::in());
     
-    if ( in_array( $profile, $this->profiles ) )
+    if (in_array($profile, $this->profiles))
     {
       $this->profile = $profile;
     }
     else 
     {
-      Console::outln( "Wrong profile {$profile}" );
+      Console::outln("Wrong profile {$profile}");
       $this->readProfile();
     }
     

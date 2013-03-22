@@ -60,18 +60,18 @@ class RequestHttp
 
     $this->init();
     
-    if ( isset( $_GET['serv'] ) )
+    if (isset($_GET['serv']))
     {
-      $tmp = explode( ':', $_GET['serv'] );
+      $tmp = explode(':', $_GET['serv']);
       
-      if ( 2 == count( $tmp ) )
+      if (2 == count($tmp))
       {
-        $this->service = FormatString::subToCamelCase( $tmp[0] );
+        $this->service = FormatString::subToCamelCase($tmp[0]);
         $this->action  = $tmp[1];
       }
       else 
       {
-        $this->service = FormatString::subToCamelCase( $tmp[0] );
+        $this->service = FormatString::subToCamelCase($tmp[0]);
         $this->action  = 'default';
       }
       
@@ -92,7 +92,7 @@ class RequestHttp
   {
 
     // bei PUT requests PUT in $_POST schieben
-    if ( $this->method( 'PUT' ) )
+    if ($this->method('PUT'))
     {
       mb_parse_str(file_get_contents("php://input"),$_POST);
     }
@@ -103,10 +103,10 @@ class RequestHttp
    *
    * @param string $key
    */
-  public function getSubRequest( $key )
+  public function getSubRequest($key)
   {
 
-    if ( !isset( $_POST[$key] ) )
+    if (!isset($_POST[$key]))
     {
       return null;
     }
@@ -133,10 +133,10 @@ class RequestHttp
    * @param string Key Name der zu erfragende $_GET Variable
    * @return bool
    */
-  public function paramExists( $key )
+  public function paramExists($key)
   {
 
-    if ( isset( $_GET[$key] ) )
+    if (isset($_GET[$key]))
     {
       return true;
     }
@@ -152,7 +152,7 @@ class RequestHttp
   * @param string Key Name der zu erfragende $_GET Variable
   * @return TArray
   */
-  public function paramList( $key, $validator )
+  public function paramList($key, $validator)
   {
 
     $response = $this->getResponse();
@@ -163,11 +163,11 @@ class RequestHttp
 
     $paramList = new TArray();
     
-    if ( isset( $_GET[$key] ) )
+    if (isset($_GET[$key]))
     {
       $data = $_GET[$key];
       
-      if ( !is_array( $data ) )
+      if (!is_array($data))
       {
         return $paramList;
       }
@@ -177,19 +177,19 @@ class RequestHttp
       return $paramList;
     }
 
-    $fMethod = 'add'.ucfirst( $validator );
+    $fMethod = 'add'.ucfirst($validator);
 
     // clean only one
-    foreach( $data as $key => $value )
+    foreach($data as $key => $value)
     {
-      $error = $filter->$fMethod( $key, $value );
-      if ( !$error )
+      $error = $filter->$fMethod($key, $value);
+      if (!$error)
       {
-        $paramList->$key = $filter->getData( $key );
+        $paramList->$key = $filter->getData($key);
       }
       else
       {
-        $response->addError( $error ) ;
+        $response->addError($error) ;
         continue;
       }
     }
@@ -204,10 +204,10 @@ class RequestHttp
   * @param string Key Name der zu erfragende $_GET Variable
   * @return string
   */
-  public function param( $key, $validator = null )
+  public function param($key, $validator = null)
   {
 
-    if ( isset( $_GET[$key] ) )
+    if (isset($_GET[$key]))
     {
       $data = $_GET[$key];
     }
@@ -225,10 +225,10 @@ class RequestHttp
   * @param string $data Die Daten für die Urlvar
   * @return bool
   */
-  public function addParam( $key, $data = null  )
+  public function addParam($key, $data = null  )
   {
 
-    if ( is_array($key) )
+    if (is_array($key))
     {
       $_GET = array_merge($_GET,$key);
     }
@@ -243,9 +243,9 @@ class RequestHttp
    * remove some variables from the url
    *
    */
-  public function removeParam( $key )
+  public function removeParam($key)
   {
-    if ( isset( $_GET[$key]) )
+    if (isset($_GET[$key]))
     {
       unset($_GET[$key]);
     }
@@ -265,10 +265,10 @@ class RequestHttp
    * 
    * @return bool
    */
-  public function dataExists( $key )
+  public function dataExists($key)
   {
     
-    if ( isset( $_POST[$key] ) )
+    if (isset($_POST[$key]))
     {
       return true;
     }
@@ -285,19 +285,19 @@ class RequestHttp
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function dataSearchIds( $key )
+  public function dataSearchIds($key)
   {
 
-    if ( !isset( $_POST[$key] ) || !is_array( $_POST[$key] ) )
+    if (!isset($_POST[$key]) || !is_array($_POST[$key]))
       return array();
 
-    $keys = array_keys( $_POST[$key] );
+    $keys = array_keys($_POST[$key]);
 
     $tmp = array();
 
-    foreach( $keys as $key )
+    foreach($keys as $key)
     {
-      if ( 'id_' == substr( $key , 0, 3 ) )
+      if ('id_' == substr($key , 0, 3))
         $tmp[] = $key;
     }
 
@@ -311,18 +311,18 @@ class RequestHttp
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function paramSearchIds( $key )
+  public function paramSearchIds($key)
   {
 
-    if ( !isset( $_GET[$key] ) || !is_array( $_GET[$key] ) )
+    if (!isset($_GET[$key]) || !is_array($_GET[$key]))
       return array();
 
-    $keys = array_keys( $_GET[$key] );
+    $keys = array_keys($_GET[$key]);
     $tmp  = array();
 
-    foreach( $keys as $key )
+    foreach($keys as $key)
     {
-      if ( 'id_' == substr( $key , 0, 3 ) )
+      if ('id_' == substr($key , 0, 3))
         $tmp[] = $key;
     }
 
@@ -338,10 +338,10 @@ class RequestHttp
   * 
   * @return array
   */
-  public function data( $key = null, $validator = null  )
+  public function data($key = null, $validator = null  )
   {
     
-    return isset( $_POST[$key] )
+    return isset($_POST[$key])
       ? $_POST[$key]
       : null;
 
@@ -350,12 +350,12 @@ class RequestHttp
   /**
    * remove some variables from the url
    */
-  public function removeData( $key )
+  public function removeData($key)
   {
 
-    if ( isset( $_POST[$key] ) )
+    if (isset($_POST[$key]))
     {
-      unset( $_POST[$key] );
+      unset($_POST[$key]);
     }
     
   }//end public function removeData */
@@ -366,23 +366,23 @@ class RequestHttp
    * @param string Key Name der zu prüfenden Variable
    * @return bool
    */
-  public function dataEmpty( $keys , $subkey = null )
+  public function dataEmpty($keys , $subkey = null)
   {
 
-    if ( $subkey )
+    if ($subkey)
     {
-      if ( is_array($keys) )
+      if (is_array($keys))
       {
 
-        foreach( $keys as $key )
+        foreach($keys as $key)
         {
 
-          if ( !isset( $_POST[$subkey][$key] ) )
+          if (!isset($_POST[$subkey][$key]))
           {
             return true;
           }
 
-          if ( trim($_POST[$subkey][$key]) == '' )
+          if (trim($_POST[$subkey][$key]) == '')
           {
             return true;
           }
@@ -395,12 +395,12 @@ class RequestHttp
       else
       {
 
-        if ( !isset( $_POST[$subkey][$keys] ) )
+        if (!isset($_POST[$subkey][$keys]))
         {
           return true;
         }
 
-        if ( trim($_POST[$subkey][$keys]) == '' )
+        if (trim($_POST[$subkey][$keys]) == '')
         {
           return true;
         }
@@ -412,16 +412,16 @@ class RequestHttp
     }
     else
     {
-      if ( is_array($keys) )
+      if (is_array($keys))
       {
 
-        foreach( $keys as $key )
+        foreach($keys as $key)
         {
 
-          if ( !isset( $_POST[$key] ) )
+          if (!isset($_POST[$key]))
             return true;
 
-          if ( trim($_POST[$key]) == '' )
+          if (trim($_POST[$key]) == '')
             return true;
 
           return false;
@@ -432,10 +432,10 @@ class RequestHttp
       else
       {
 
-        if ( !isset( $_POST[$keys] ) )
+        if (!isset($_POST[$keys]))
           return true;
 
-        if ( trim($_POST[$keys]) == '' )
+        if (trim($_POST[$keys]) == '')
           return true;
 
         return false;
@@ -457,7 +457,7 @@ class RequestHttp
    * @param array $data
    * @return array
    */
-  protected function validateArray( $fMethod , $data )
+  protected function validateArray($fMethod , $data)
   {
 
     $filter = Validator::getActive();
@@ -470,11 +470,11 @@ class RequestHttp
 
     // Clean all the same way
     // Good architecture :-)
-    foreach( $data as $key => $value )
+    foreach($data as $key => $value)
     {
-      if ( is_array($value) )
+      if (is_array($value))
       {
-        $back[$key] = $this->validateArray( $fMethod , $value );
+        $back[$key] = $this->validateArray($fMethod , $value);
       }
       else
       {
@@ -501,10 +501,10 @@ class RequestHttp
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function issetCookie( $key  )
+  public function issetCookie($key  )
   {
 
-    return isset( $_COOKIE[$key] );
+    return isset($_COOKIE[$key]);
     
   } // end public function issetCookie */
 
@@ -514,12 +514,12 @@ class RequestHttp
   * @param string Key Name des angefragten Cookies
   * @return string
   */
-  public function cookie( $key = null , $validator = null, $message = null )
+  public function cookie($key = null , $validator = null, $message = null)
   {
 
-    if ( is_null($key) )
+    if (is_null($key))
     {
-      return Db::addSlashes( $_COOKIE );
+      return Db::addSlashes($_COOKIE);
     }
 
     if ($validator)
@@ -527,12 +527,12 @@ class RequestHttp
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if (isset( $_COOKIE[$key] ))
+      if (isset($_COOKIE[$key]))
       {
         $fMethod = 'add'.ucfirst($validator);
         $filter->$fMethod($_COOKIE[$key],$key);
 
-        return Db::addSlashes( $filter->getData($key) );
+        return Db::addSlashes($filter->getData($key));
       }
       else
       {
@@ -541,7 +541,7 @@ class RequestHttp
     }
     else
     {
-      if (isset( $_COOKIE[$key] ))
+      if (isset($_COOKIE[$key]))
       {
          return Db::addSlashes($this->cookie[$key]);
       }
@@ -558,10 +558,10 @@ class RequestHttp
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function fileExists( $key )
+  public function fileExists($key)
   {
     
-    if ( isset( $_FILES[$key] ) )
+    if (isset($_FILES[$key]))
     {
       return true;
     }
@@ -582,10 +582,10 @@ class RequestHttp
   * 
   * @return LibUploadFile
   */
-  public function file( $key = null, $type = null, $subkey = null, $message = null )
+  public function file($key = null, $type = null, $subkey = null, $message = null)
   {
     
-    if ( is_null($key) )
+    if (is_null($key))
     {
       return $_FILES;
     }
@@ -593,10 +593,10 @@ class RequestHttp
     $filter = Validator::getActive();
     $filter->clean(); // first clean the filter
 
-    if ( $subkey )
+    if ($subkey)
     {
       // asume this was just an empty file
-      if ( !isset($_FILES[$subkey]) || '' == trim($_FILES[$subkey]['name'][$key]) )
+      if (!isset($_FILES[$subkey]) || '' == trim($_FILES[$subkey]['name'][$key]))
       {
         $data = null;
       }
@@ -613,7 +613,7 @@ class RequestHttp
     else
     {
       // asume this was just an empty file
-      if ( !isset($_FILES[$key]) || '' == trim($_FILES[$key]['name']) )
+      if (!isset($_FILES[$key]) || '' == trim($_FILES[$key]['name']))
       {
         $data = null;
       }
@@ -623,22 +623,22 @@ class RequestHttp
       }
     }
 
-    if ( !$data )
+    if (!$data)
       return null;
 
-    if ( $type )
+    if ($type)
     {
       $classname = 'LibUpload'.SParserString::subToCamelCase($type);
 
-      if ( !Webfrap::classLoadable( $classname ) )
-        throw new LibFlow_Exception( 'Requested nonexisting upload type: '.$classname );
+      if (!Webfrap::classLoadable($classname))
+        throw new LibFlow_Exception('Requested nonexisting upload type: '.$classname);
 
-      return new $classname( $data, $key );
+      return new $classname($data, $key);
 
     }
     else
     {
-      return new LibUploadFile( $data );
+      return new LibUploadFile($data);
     }
 
   } // end public function file */
@@ -649,10 +649,10 @@ class RequestHttp
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function serverExists( $key  )
+  public function serverExists($key  )
   {
 
-    if ( isset( $_SERVER[$key] ) )
+    if (isset($_SERVER[$key]))
     {
       return true;
     }
@@ -668,23 +668,23 @@ class RequestHttp
   * @param string Key Name des angefragten Cookies
   * @return string
   */
-  public function server( $key = null , $validator = null, $message = null )
+  public function server($key = null , $validator = null, $message = null)
   {
 
-    if ( is_null( $key ) )
-      return Db::addSlashes( $_SERVER );
+    if (is_null($key))
+      return Db::addSlashes($_SERVER);
 
-    if ( $validator )
+    if ($validator)
     {
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if ( isset( $_SERVER[$key] ) )
+      if (isset($_SERVER[$key]))
       {
-        $fMethod = 'add'.ucfirst( $validator );
-        $filter->$fMethod( $_SERVER[$key], $key );
+        $fMethod = 'add'.ucfirst($validator);
+        $filter->$fMethod($_SERVER[$key], $key);
 
-        return Db::addSlashes( $filter->getData( $key ) );
+        return Db::addSlashes($filter->getData($key));
       }
       else
       {
@@ -693,9 +693,9 @@ class RequestHttp
     }
     else
     {
-      if ( isset( $_SERVER[$key] ) )
+      if (isset($_SERVER[$key]))
       {
-        return Db::addSlashes( $_SERVER[$key] );
+        return Db::addSlashes($_SERVER[$key]);
       }
       else
       {
@@ -711,9 +711,9 @@ class RequestHttp
   * @param string Key Name des zu testenden Cookies
   * @return bool
   */
-  public function envExists( $key  )
+  public function envExists($key  )
   {
-    return isset( $_ENV[$key] );
+    return isset($_ENV[$key]);
   } // end public function envExists */
 
   /**
@@ -723,29 +723,29 @@ class RequestHttp
   * @param string $validator the validatorname
   * @return mixed
   */
-  public function env( $key = null , $validator = null, $message = null )
+  public function env($key = null , $validator = null, $message = null)
   {
     
-    if ( is_null($key) )
+    if (is_null($key))
     {
       return Db::addSlashes($_ENV);
     }
 
-    if ( $validator )
+    if ($validator)
     {
       
       $filter = Validator::getActive();
       $filter->clean(); // first clean the filter
 
-      if ( isset( $_ENV[$key] ) )
+      if (isset($_ENV[$key]))
       {
         if (Log::$levelDebug)
-          Log::debug('env['.$key.'] ist gesetzt' );
+          Log::debug('env['.$key.'] ist gesetzt');
 
         $fMethod = 'add'.ucfirst($validator);
         $filter->$fMethod($_ENV[$key],$key);
 
-        return Db::addSlashes( $filter->getData( $key ) );
+        return Db::addSlashes($filter->getData($key));
         
       }
       else
@@ -757,9 +757,9 @@ class RequestHttp
     else
     {
       
-      if ( isset( $_ENV[$key] ) )
+      if (isset($_ENV[$key]))
       {
-        return Db::addSlashes( $_SERVER[$key] );
+        return Db::addSlashes($_SERVER[$key]);
       }
       else
       {
@@ -784,28 +784,28 @@ class RequestHttp
   public function getBrowser()
   {
 
-    if ( isset( $this->browserInfo['name'] ) )
+    if (isset($this->browserInfo['name']))
       return $this->browserInfo['name'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-    if ( preg_match( '/opera/', $userAgent ) )
+    if (preg_match('/opera/', $userAgent))
     {
       $this->browserInfo['name'] = 'opera';
     }
-    elseif ( preg_match( '/webkit/', $userAgent ) )
+    elseif (preg_match('/webkit/', $userAgent))
     {
       $this->browserInfo['name'] = 'safari';
     }
-    elseif ( preg_match( '/msie/', $userAgent ) )
+    elseif (preg_match('/msie/', $userAgent))
     {
       $this->browserInfo['name'] = 'msie';
     }
-    elseif ( preg_match( '/chrome/', $userAgent) )
+    elseif (preg_match('/chrome/', $userAgent))
     {
       $this->browserInfo['name'] = 'chrome';
     }
-    elseif ( preg_match( '/mozilla/', $userAgent ) && !preg_match( '/compatible/', $userAgent ) )
+    elseif (preg_match('/mozilla/', $userAgent) && !preg_match('/compatible/', $userAgent))
     {
       $this->browserInfo['name'] = 'mozilla';
     }
@@ -824,7 +824,7 @@ class RequestHttp
    */
   public function getBrowserVersion()
   {
-    if ( isset($this->browserInfo['version'])  )
+    if (isset($this->browserInfo['version'])  )
       return $this->browserInfo['version'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -849,7 +849,7 @@ class RequestHttp
    */
   public function getPlatform()
   {
-    if ( isset($this->browserInfo['platform'])  )
+    if (isset($this->browserInfo['platform'])  )
       return $this->browserInfo['platform'];
 
     $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -883,7 +883,7 @@ class RequestHttp
    */
   public function getUseragent()
   {
-    return strtolower( $this->server('HTTP_USER_AGENT') );
+    return strtolower($this->server('HTTP_USER_AGENT'));
   }//end public function getUseragent */
 
   /**
@@ -893,7 +893,7 @@ class RequestHttp
    */
   public function getClientIp()
   {
-    return $this->server( 'HTTP_HOST' );
+    return $this->server('HTTP_HOST');
   }//end public function getClientIp */
 
   /**
@@ -904,7 +904,7 @@ class RequestHttp
   public function getEncoding()
   {
     // 'gzip,deflate'
-    return explode( ',', $this->server('HTTP_ACCEPT_ENCODING') );
+    return explode(',', $this->server('HTTP_ACCEPT_ENCODING'));
   }//end public function getClientIp */
 
   /**
@@ -916,7 +916,7 @@ class RequestHttp
   {
 
     // 'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'
-    return explode( ';', $this->server('HTTP_ACCEPT_LANGUAGE') );
+    return explode(';', $this->server('HTTP_ACCEPT_LANGUAGE'));
   }//end public function getClientLanguage */
 
   /**
@@ -927,7 +927,7 @@ class RequestHttp
   public function getCharset()
   {
     // 'ISO-8859-1,utf-8;q=0.7,*;q=0.7'
-    return explode( ';', $this->server('HTTP_ACCEPT_CHARSET') ) ;
+    return explode(';', $this->server('HTTP_ACCEPT_CHARSET')) ;
   }//end public function getCharset */
 
 
@@ -951,12 +951,12 @@ class RequestHttp
    *
    * @return string
    */
-  public function method( $requested = null )
+  public function method($requested = null)
   {
 
-    if ( !isset( $_SERVER['REQUEST_METHOD'] ) )
+    if (!isset($_SERVER['REQUEST_METHOD']))
     {
-      Error::report( 'Got no request method, asumig this was a get request' );
+      Error::report('Got no request method, asumig this was a get request');
       $method = 'GET';
     }
     else
@@ -965,15 +965,15 @@ class RequestHttp
     }
 
     //this should always be uppper, but no risk here
-    if ( !$requested )
+    if (!$requested)
       return $method;
     else
     {
-      if ( is_array( $requested ) )
+      if (is_array($requested))
       {
-        foreach( $requested as $reqKey )
+        foreach($requested as $reqKey)
         {
-          if ( $method == $reqKey )
+          if ($method == $reqKey)
             return true;
           
         }
@@ -994,20 +994,20 @@ class RequestHttp
    *
    * @return string
    */
-  public function inMethod( $methodes )
+  public function inMethod($methodes)
   {
 
-    if ( !isset( $_SERVER['REQUEST_METHOD'] ) )
+    if (!isset($_SERVER['REQUEST_METHOD']))
     {
       $method = 'GET';
     }
     else
     {
-      $method = strtoupper( $_SERVER['REQUEST_METHOD'] );
+      $method = strtoupper($_SERVER['REQUEST_METHOD']);
     }
 
     //this should always be uppper, but no risk here
-    return in_array( $method, $methodes );
+    return in_array($method, $methodes);
 
   }//end public function inMethod */
 
@@ -1043,38 +1043,38 @@ class RequestHttp
    * @param boolean $forceHttps 
    * @return string
    */
-  public function getServerAddress( $forceHttps = false )
+  public function getServerAddress($forceHttps = false)
   {
     
-    if ( !$this->serverAddress )
+    if (!$this->serverAddress)
     {
       
-      $this->serverAddress = ( (isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS']) || $forceHttps )
+      $this->serverAddress = ((isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS']) || $forceHttps)
         ? 'https://' 
         : 'http://';
         
       $this->serverAddress .= $_SERVER['SERVER_NAME'];
       
-      if ( isset( $_SERVER['HTTPS'] ) && 'on' == $_SERVER['HTTPS'] )
+      if (isset($_SERVER['HTTPS']) && 'on' == $_SERVER['HTTPS'])
       {
-        if ( $_SERVER['SERVER_PORT'] != '443' )
+        if ($_SERVER['SERVER_PORT'] != '443')
         {
           $this->serverAddress .= ':'.$_SERVER['SERVER_PORT'];
         }
       }
       else 
       {
-        if ( $_SERVER['SERVER_PORT'] != '80' )
+        if ($_SERVER['SERVER_PORT'] != '80')
         {
           $this->serverAddress .= ':'.$_SERVER['SERVER_PORT'];
         }
       }
       
-      $this->serverAddress .='/'.mb_substr( $_SERVER['REQUEST_URI'] , 0 , strrpos($_SERVER['REQUEST_URI'],'/')+1);
+      $this->serverAddress .='/'.mb_substr($_SERVER['REQUEST_URI'] , 0 , strrpos($_SERVER['REQUEST_URI'],'/')+1);
         
       $length = strlen($this->serverAddress);
       
-      if ( '/' != $this->serverAddress[($length-1)] )
+      if ('/' != $this->serverAddress[($length-1)])
         $this->serverAddress .= '/';
         
     }

@@ -38,9 +38,9 @@ class SetupProject_Controller
     $request = $this->getRequest();
     $console = $this->getConsole();
   
-    $workarea = $console->tpl->getWorkArea( );
-    $workarea->setCaption( 'Setup Project' );
-    $workarea->addTemplate( 'setup/project/project_form' );
+    $workarea = $console->tpl->getWorkArea();
+    $workarea->setCaption('Setup Project');
+    $workarea->addTemplate('setup/project/project_form');
 
   }//end public function do_default */
   

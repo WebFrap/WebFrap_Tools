@@ -1,8 +1,8 @@
 <?php 
 
-$console->out( I18n::get('Aufräumen der Installationsdateien') );
+$console->out(I18n::get('Aufräumen der Installationsdateien'));
 
-if ( $console->question
+if ($console->question
 (
   "Das Setup war erfolgreich.\n"
     ."Die temporären Installationsdaten werden nun nichtmehr benötigt.\n"
@@ -11,7 +11,7 @@ if ( $console->question
 ))
 {
 
-  if ( Fs::exists( './code' ) )
-    Fs::del( './code' );
+  if (Fs::exists('./code'))
+    Fs::del('./code');
   
 }

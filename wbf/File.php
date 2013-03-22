@@ -41,18 +41,18 @@ class File
    * @param string $enclosure
    * @param string $escape
    */
-  public static function getCsvContent( $file, $start = 0, $delimiter = ';', $enclosure = '"', $escape    = '\\' )
+  public static function getCsvContent($file, $start = 0, $delimiter = ';', $enclosure = '"', $escape    = '\\')
   {
     
     $data = array();
     $pos = 0;
     
-    if ( ( $handle = fopen( $file, "r")) !== FALSE) 
+    if (($handle = fopen($file, "r")) !== FALSE) 
     {
       
-      while (($row = fgetcsv($handle, 4096, $delimiter, $enclosure, $escape )) !== FALSE) 
+      while (($row = fgetcsv($handle, 4096, $delimiter, $enclosure, $escape)) !== FALSE) 
       {
-        if ( $start > $pos )
+        if ($start > $pos)
         {
           ++$pos;
           continue;

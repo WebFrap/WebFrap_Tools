@@ -24,8 +24,8 @@ Changes:
 *******************************************************************************/
 
 set_time_limit(0);
-error_reporting(E_ALL );
-date_default_timezone_set( "Europe/Berlin" );
+error_reporting(E_ALL);
+date_default_timezone_set("Europe/Berlin");
 
 define('FPDF_FONTPATH','../pdf/font');
 require('../pdf/fpdf.php');
@@ -63,7 +63,7 @@ class PdfCombine
 
 }
 
-$pdf= new PdfCombine( 'L' ,'mm', 'A4'  );
+$pdf= new PdfCombine('L' ,'mm', 'A4'  );
 
 $pdf->setFiles(array
 (

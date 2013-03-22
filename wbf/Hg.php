@@ -46,7 +46,7 @@ class Hg
    * @param string $proxy
    */
   public static function createTmpRc
-  ( 
+  (
     $deplPath,
     $repos, 
     $displayName, 
@@ -71,7 +71,7 @@ groups = *
 CODE;
     
     // wenn durch einen proxy hindurchgesynct werden soll
-    if ( $proxy )
+    if ($proxy)
     {
       
       $hgRc .= <<<CODE
@@ -89,12 +89,12 @@ CODE;
 
 CODE;
 
-    foreach( $repos as $repoKey => $listRepos )
+    foreach($repos as $repoKey => $listRepos)
     {
       
       $repoPath = $listRepos['path'];
       
-      foreach( $listRepos['repos'] as $repo => $tmpUrl )
+      foreach($listRepos['repos'] as $repo => $tmpUrl)
       {
     
         $key = str_replace('-','_',$repoKey);
@@ -113,11 +113,11 @@ CODE;
     
     $rcPath = GAIA_PATH;
     
-    if ( !Fs::exists( $rcPath ) )
-      Fs::mkdir( $rcPath );
+    if (!Fs::exists($rcPath))
+      Fs::mkdir($rcPath);
 
-    file_put_contents(  $rcPath.'.hgrc' , $hgRc  );
-    putenv( "HGRCPATH={$rcPath}.hgrc" );
+    file_put_contents( $rcPath.'.hgrc' , $hgRc  );
+    putenv("HGRCPATH={$rcPath}.hgrc");
 
   }//end public static function createTmpRc */
   
@@ -128,16 +128,16 @@ CODE;
    * @param string $user
    * @param string $pwd
    */
-  public static function cloneRepo( $url, $repo, $user = null, $pwd = null )
+  public static function cloneRepo($url, $repo, $user = null, $pwd = null)
   {
     
     // es wird nur https zugelassen. punkt
-    if ( $user && $pwd )
+    if ($user && $pwd)
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
 
-    Process::run( 'hg clone "'.$url.'" "'.$repo.'"' );
+    Process::run('hg clone "'.$url.'" "'.$repo.'"');
     
   }//end public static function cloneRepo */
   
@@ -150,15 +150,15 @@ CODE;
    * @param string $user
    * @param string $pwd
    */
-  public static function getArchive( $url, $type, $rev = null, $user = null, $pwd = null )
+  public static function getArchive($url, $type, $rev = null, $user = null, $pwd = null)
   {
     
-    if ( $user && $pwd )
+    if ($user && $pwd)
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
       
-    Process::run( 'wget "'.$url.'"' );
+    Process::run('wget "'.$url.'"');
     
   }//end public static function getArchive */
   
@@ -166,10 +166,10 @@ CODE;
    * Ein Archive aus einem geclonten repository erstellen
    * @param string $repo
    */
-  public static function archive( $target )
+  public static function archive($target)
   {
     
-    Process::run( 'hg archive "'.$target.'"' );
+    Process::run('hg archive "'.$target.'"');
     
   }//end public static function archive */
   
@@ -177,17 +177,17 @@ CODE;
    * Repository clonen
    * @param string $rev
    */
-  public static function update( $rev = null  )
+  public static function update($rev = null  )
   {
     
     $command = "hg update";
     
-    if ( $rev )
+    if ($rev)
     {
       
-      $tmp = explode( ':',$rev  );
+      $tmp = explode(':',$rev  );
       
-      if ( $rev[0] == 'ref' )
+      if ($rev[0] == 'ref')
         $command .= "-C -r ".$rev[1];
       else 
         $command .= " ".$rev[1].'  -C';
@@ -197,17 +197,17 @@ CODE;
       $command .= ' -C';
     }
     
-    Process::run( $command );
+    Process::run($command);
     
   }//end public static function update */
   
   /**
    * Änderungen commiten
    */
-  public static function commit( $message = 'Autocommit' )
+  public static function commit($message = 'Autocommit')
   {
     
-    Process::run( 'hg commit -A -m "'.$message.'"' );
+    Process::run('hg commit -A -m "'.$message.'"');
      
   }//end public static function commit */
   
@@ -217,18 +217,18 @@ CODE;
    * @param string $user
    * @param string $pwd
    */
-  public static function push( $url, $user = null, $pwd = null    )
+  public static function push($url, $user = null, $pwd = null    )
   {
     
     // es wird nur https zugelassen. punkt
-    if ( $user && $pwd )
+    if ($user && $pwd)
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
 
-    $message = Process::execute( 'hg push -f "'.$url.'"' );
+    $message = Process::execute('hg push -f "'.$url.'"');
     
-    Console::outln( $message );
+    Console::outln($message);
     
   }//end public static function push */
   
@@ -238,16 +238,16 @@ CODE;
    * @param string $user
    * @param string $pwd
    */
-  public static function pull( $url, $user = null, $pwd = null )
+  public static function pull($url, $user = null, $pwd = null)
   {
     
     // es wird nur https zugelassen. punkt
-    if ( $user && $pwd )
+    if ($user && $pwd)
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
 
-    Process::run( 'hg pull -f "'.$url.'"' );
+    Process::run('hg pull -f "'.$url.'"');
     
   }//end public static function pull */
   
@@ -257,23 +257,23 @@ CODE;
    * 
    * @param array $repos
    */
-  public static function sync( $repos, $contactMail )
+  public static function sync($repos, $contactMail)
   {
     
-    foreach( $repos as $repoKey => $listRepos )
+    foreach($repos as $repoKey => $listRepos)
     {
       $repoPath = $listRepos['path'];
       
-      foreach( $listRepos['repos'] as $repoName => $repoData )
+      foreach($listRepos['repos'] as $repoName => $repoData)
       {
-        if ( Fs::exists( $repoPath.'/'.$repoName) )
+        if (Fs::exists($repoPath.'/'.$repoName))
         {
           
-          Fs::chdir( $repoPath.'/'.$repoName );
+          Fs::chdir($repoPath.'/'.$repoName);
           
-          Console::chapter( "Sync {$repoData['url']}{$repoName} ", true );
+          Console::chapter("Sync {$repoData['url']}{$repoName} ", true);
           
-          Console::startBlock(  );
+          Console::startBlock();
           Hg::pull
           (
             $repoData['url'].$repoName,
@@ -282,7 +282,7 @@ CODE;
           );
           
           Hg::push
-          ( 
+          (
             $repoData['url'].$repoName,
             (isset($repoData['user'])?$repoData['user']:null), 
             (isset($repoData['pwd'])?$repoData['pwd']:null) 
@@ -294,12 +294,12 @@ CODE;
         else
         {
           
-          Console::chapter( "Clone {$repoData['url']}{$repoName} ", true  );
-          Console::startBlock(  );
-          Fs::chdir( $repoPath );
+          Console::chapter("Clone {$repoData['url']}{$repoName} ", true  );
+          Console::startBlock();
+          Fs::chdir($repoPath);
 
           Hg::cloneRepo
-          ( 
+          (
             $repoData['url'].$repoName, 
             $repoPath.'/'.$repoName,
             (isset($repoData['user'])?$repoData['user']:null), 
@@ -307,13 +307,13 @@ CODE;
           );
           
           // hgweb.config sollte bitte existieren, sonst schreiben wir keine
-          if ( Fs::exists( $repoPath.'hgweb.config' ) )
+          if (Fs::exists($repoPath.'hgweb.config'))
           {
-            Process::run( 'echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config' );
-            Process::run( 'echo "[web]" > ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "contact = '.$contactMail.'" >> ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "allow_archive = gz, zip, bz" >> ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "allow_push = *' );
+            Process::run('echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config');
+            Process::run('echo "[web]" > ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "contact = '.$contactMail.'" >> ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "allow_archive = gz, zip, bz" >> ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "allow_push = *');
           }
 
           Console::endBlock();
@@ -334,26 +334,26 @@ CODE;
    * @param string $repoPath
    * @param string $contactMail
    */
-  public static function checkout( $repos, $repoPath, $contactMail )
+  public static function checkout($repos, $repoPath, $contactMail)
   {
 
-    foreach( $repos as $repoKey => $listRepos )
+    foreach($repos as $repoKey => $listRepos)
     {
       $repoPath = $listRepos['path'];
       
-      if ( !Fs::exists( $repoPath ) )
-        Fs::mkdir( $repoPath );
+      if (!Fs::exists($repoPath))
+        Fs::mkdir($repoPath);
         
-      foreach( $listRepos['repos'] as $repoName => $repoData )
+      foreach($listRepos['repos'] as $repoName => $repoData)
       {
-        if ( Fs::exists( $repoPath.'/'.$repoName) )
+        if (Fs::exists($repoPath.'/'.$repoName))
         {
           
-          Fs::chdir( $repoPath.'/'.$repoName );
+          Fs::chdir($repoPath.'/'.$repoName);
           
-          Console::chapter( "Sync {$repoData['url']}{$repoName} ", true );
+          Console::chapter("Sync {$repoData['url']}{$repoName} ", true);
           
-          Console::startBlock(  );
+          Console::startBlock();
           Hg::pull
           (
             $repoData['url'].$repoName,
@@ -367,12 +367,12 @@ CODE;
         else
         {
           
-          Console::chapter( "Clone {$repoData['url']}{$repoName} ", true  );
-          Console::startBlock(  );
-          Fs::chdir( $repoPath );
+          Console::chapter("Clone {$repoData['url']}{$repoName} ", true  );
+          Console::startBlock();
+          Fs::chdir($repoPath);
 
           Hg::cloneRepo
-          ( 
+          (
             $repoData['url'].$repoName, 
             $repoPath.'/'.$repoName,
             (isset($repoData['user'])?$repoData['user']:null), 
@@ -380,13 +380,13 @@ CODE;
           );
           
           // hgweb.config sollte bitte existieren, sonst schreiben wir keine
-          if ( Fs::exists( $repoPath.'hgweb.config' ) )
+          if (Fs::exists($repoPath.'hgweb.config'))
           {
-            Process::run( 'echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config' );
-            Process::run( 'echo "[web]" > ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "contact = '.$contactMail.'" >> ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "allow_archive = gz, zip, bz" >> ./'.$repoName.'/.hg/hgrc' );
-            Process::run( 'echo "allow_push = *' );
+            Process::run('echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config');
+            Process::run('echo "[web]" > ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "contact = '.$contactMail.'" >> ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "allow_archive = gz, zip, bz" >> ./'.$repoName.'/.hg/hgrc');
+            Process::run('echo "allow_push = *');
           }
 
           Console::endBlock();
@@ -402,16 +402,16 @@ CODE;
   /**
    * @param string $message
    */
-  public static function checkError( $message )
+  public static function checkError($message)
   {
     
-    if ( false !== strpos( $message, 'abort: HTTP Error 404: Not Found' ) )
+    if (false !== strpos($message, 'abort: HTTP Error 404: Not Found'))
       return 'Repository not exists';
 
-    if ( false !== strpos( $message, 'abort: push creates new remote head' ) )
+    if (false !== strpos($message, 'abort: push creates new remote head'))
       return 'Push aborted cause of a conclict';
 
-    if ( false !== strpos( $message, 'abort: crosses branches' ) )
+    if (false !== strpos($message, 'abort: crosses branches'))
       return 'Repository has unresolved conflicts';
 
       

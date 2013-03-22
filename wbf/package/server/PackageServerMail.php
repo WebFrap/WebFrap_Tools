@@ -31,7 +31,7 @@ class PackageServerMail
    */
   public function getType()
   {
-    return $this->getAttribute( 'type' );
+    return $this->getAttribute('type');
   }//end public function getType */
   
   /**
@@ -39,7 +39,7 @@ class PackageServerMail
    */
   public function getName()
   {
-    return $this->getAttribute( 'name' );
+    return $this->getAttribute('name');
   }//end public function getName */
 
   
@@ -84,7 +84,7 @@ class PackageServerMail
    */
   public function getConfType()
   {
-    return $this->getNodeAttr( 'conf', 'type' );
+    return $this->getNodeAttr('conf', 'type');
   }//end public function getConfType */
   
   /**
@@ -92,7 +92,7 @@ class PackageServerMail
    */
   public function getConfDbHost()
   {
-    return $this->getNodeAttr( 'conf', 'host' );
+    return $this->getNodeAttr('conf', 'host');
   }//end public function getConfDbHost */
 
   /**
@@ -100,7 +100,7 @@ class PackageServerMail
    */
   public function getConfDbName()
   {
-    return $this->getNodeAttr( 'conf', 'db_name' );
+    return $this->getNodeAttr('conf', 'db_name');
   }//end public function getConfDbName */
 
   /**
@@ -108,7 +108,7 @@ class PackageServerMail
    */
   public function getConfDbSchema()
   {
-    return $this->getNodeAttr( 'conf', 'db_schema' );
+    return $this->getNodeAttr('conf', 'db_schema');
   }//end public function getConfDbSchema */
 
 } // end class PackageServerMail

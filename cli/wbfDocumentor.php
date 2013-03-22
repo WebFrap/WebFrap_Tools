@@ -25,7 +25,7 @@ Changes:
 
 set_time_limit(0);
 error_reporting(E_ALL | E_STRICT);
-date_default_timezone_set( "Europe/Berlin" );
+date_default_timezone_set("Europe/Berlin");
 
 class Documentor
 {
@@ -64,7 +64,7 @@ class Documentor
 
   public $replace = '';
 
-  public $endings = array( 'php');
+  public $endings = array('php');
 
   protected $commentOpen = false;
 
@@ -75,25 +75,25 @@ class Documentor
  /**
   * Der Standart Konstruktor
   */
-  public function __construct( )
+  public function __construct()
   {
 
 
 
-    for ( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
+    for ($nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam)
     {
 
-      if ( !$this->isFlag( $_SERVER["argv"][$nam] )  )
+      if (!$this->isFlag($_SERVER["argv"][$nam])  )
       {
-        if ( !$this->isCommand( $_SERVER["argv"][$nam] ) )
+        if (!$this->isCommand($_SERVER["argv"][$nam]))
         {
           $Key = $nam;
           ++$nam;
 
-          if ( !isset( $_SERVER["argv"][$nam] ) )
+          if (!isset($_SERVER["argv"][$nam]))
           {
             echo "Falsche Parameter:\n\n";
-            $this->printHelp( );
+            $this->printHelp();
             exit(1);
           }
 
@@ -102,13 +102,13 @@ class Documentor
       }
     }
 
-    if ( isset( $this->arguments["-v"] ) ){
+    if (isset($this->arguments["-v"])){
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
     }
 
 
-  } // end public function __construct( )
+  } // end public function __construct()
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main Function
@@ -124,7 +124,7 @@ class Documentor
   {
 
 
-    switch( $this->checkAktion() )
+    switch($this->checkAktion())
     {
 
       case 'help':
@@ -138,7 +138,7 @@ class Documentor
         if ($this->verbose)
           echo "Extract Comments from Code\n";
 
-        $this->extract( );
+        $this->extract();
         break;
       }
 
@@ -163,7 +163,7 @@ class Documentor
   *
   * @return int
   */
-  public function printHelp( )
+  public function printHelp()
   {
     echo "Projekt Statsmaker\n";
     echo "Author: Dominik Bonsch\n\n";
@@ -187,10 +187,10 @@ class Documentor
   *
   * @return int
   */
-  public function extract( )
+  public function extract()
   {
 
-    if ( !isset( $this->arguments['path'] ) )
+    if (!isset($this->arguments['path']))
     {
       $this->printHelp();
       return false;
@@ -200,9 +200,9 @@ class Documentor
 
     $path = $this->arguments['path'];
 
-    if ( is_dir($path) )
+    if (is_dir($path))
     {
-      $this->runInSubdirs( $path );
+      $this->runInSubdirs($path);
     }
     else
     {
@@ -222,28 +222,28 @@ class Documentor
   *
   * @return int
   */
-  protected function runInSubdirs( $path )
+  protected function runInSubdirs($path)
   {
     // auslesen und auswerten
     if ($dh = opendir($path))
     {
-        while ( ( $potFolder = readdir($dh) ) !== false )
+        while (($potFolder = readdir($dh)) !== false)
         {
-            if ( $potFolder != "." and $potFolder != ".." )
+            if ($potFolder != "." and $potFolder != "..")
             {
 
               $fullPath = $path."/".$potFolder ;
 
-              if ( is_file( $fullPath ) )
+              if (is_file($fullPath))
               {
-                if ( $this->validFile( $fullPath ) )
+                if ($this->validFile($fullPath))
                 {
-                  $this->replaceFile( $fullPath );
+                  $this->replaceFile($fullPath);
                 }
               }// Ende if
               else
               {
-                $this->runInSubdirs( $fullPath );
+                $this->runInSubdirs($fullPath);
               }// Ende if
 
             }
@@ -258,12 +258,12 @@ class Documentor
   * Zählen der Zeilen einer Datei
   * @return void
   */
-  protected function replaceFile( $file )
+  protected function replaceFile($file)
   {
 
 
     $content = '';
-    $handle = fopen ( $file , "r");
+    $handle = fopen ($file , "r");
 
     while (!feof($handle))
     {
@@ -279,20 +279,20 @@ class Documentor
 
   }// Ende protected function replace
 
-  public function checkComment( $row )
+  public function checkComment($row)
   {
     $row = trim($row);
 
     if ($this->commentOpen)
     {
-      if ( substr($row , -2 ) == '*/' )
+      if (substr($row , -2) == '*/')
       {
         $this->commentOpen = false;
       }
 
       return $row."\n";
     }
-    elseif ( substr($row , 0 , 3) == '/**' )
+    elseif (substr($row , 0 , 3) == '/**')
     {
       $this->commentOpen = true;
       return $row."\n";
@@ -309,26 +309,26 @@ class Documentor
   * Soll die Datei gezählt werden oder nicht
   * @return boolean
   */
-  protected function validFile( $file )
+  protected function validFile($file)
   {
 
-    $fileInfo = pathinfo( $file );
+    $fileInfo = pathinfo($file);
 
-    if ( !isset($fileInfo["extension"]) )
+    if (!isset($fileInfo["extension"]))
     {
       return false;
     }
 
     $ext = $fileInfo["extension"];
 
-    if (  in_array( $ext , $this->endings ) )
+    if ( in_array($ext , $this->endings))
     {
       return true;
     }
 
     return false;
 
-  }// protected function isFileToCount( $file )
+  }// protected function isFileToCount($file)
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -341,10 +341,10 @@ class Documentor
   * Ausführen von Webfrap verhindert
   * @return bool
   */
-  protected function isFlag( $Data )
+  protected function isFlag($Data)
   {
 
-    if ( $Data{0} == "-" )
+    if ($Data{0} == "-")
     {
       $this->arguments[$Data] = true;
       return true;
@@ -363,11 +363,11 @@ class Documentor
   * @since 0.1
   * @return array
   */
-  protected function isCommand( $Data )
+  protected function isCommand($Data)
   {
     $Data = strtolower($Data);
 
-    if ( isset( $this->actions[$Data] ) )
+    if (isset($this->actions[$Data]))
     {
       $this->command = $Data;
       return true;
@@ -384,10 +384,10 @@ class Documentor
   *
   * @return String
   */
-  protected function checkAktion( )
+  protected function checkAktion()
   {
 
-    if ( $this->command )
+    if ($this->command)
     {
       return $this->command;
     }
@@ -397,7 +397,7 @@ class Documentor
       return "refactor";
     }
 
-  } // end protected function checkAktion( )
+  } // end protected function checkAktion()
 
 
  /**
@@ -405,7 +405,7 @@ class Documentor
   *
   * @return void
   */
-  protected function _suicide( $Message )
+  protected function _suicide($Message)
   {
 
     echo "\n".$Message."\n";
@@ -415,15 +415,15 @@ class Documentor
 
 }
 
-$Start = microtime( true );
+$Start = microtime(true);
 $Run = new Documentor();
 
 $Run->arguments['path'] = '/var/www/WebFrapWorkspace/WebFrap_Application/src';
 $Run->main();
 
-$Ende = microtime( true );
+$Ende = microtime(true);
 
-echo 'Duration: '.( ($Ende-$Start) )."\n";
+echo 'Duration: '.(($Ende-$Start))."\n";
 
 exit(0);
 

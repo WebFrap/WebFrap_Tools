@@ -84,7 +84,7 @@ class ConfMaintenance
    * @param string $path
    * @throws GaiaException Wenn der Conf Pfad nicht vorhanden ist
    */
-  public function load( $path )
+  public function load($path)
   {
     
     $conf = $this;
@@ -92,27 +92,27 @@ class ConfMaintenance
     // erst mal potentiell alte confs leeren
     $this->databases     = array();
     
-    if ( !Fs::pathIsAbsolute( $path ) )
+    if (!Fs::pathIsAbsolute($path))
     {
       $path = GAIA_PATH.'conf/conf.'.$path.'.php';
     }
     
-    if ( Fs::exists( $path ) )
+    if (Fs::exists($path))
     {
       $error = null;
       
-      if ( Gaia::checkSyntax( $path, $error ) )
+      if (Gaia::checkSyntax($path, $error))
       {
         include $path;
       }
       else 
       {
-        throw new GaiaException( "Requested Conf {$path} was invalid ".$error );
+        throw new GaiaException("Requested Conf {$path} was invalid ".$error);
       }
     }
     else 
     {
-      throw new GaiaException( "Requested Conf {$path} not exists." );
+      throw new GaiaException("Requested Conf {$path} not exists.");
     }
 
   }//end public function load */
@@ -125,15 +125,15 @@ class ConfMaintenance
    * @param string $key
    * @return 
    */
-  public function getDbConf( $key = 'default' )
+  public function getDbConf($key = 'default')
   {
     
-    if ( !isset( $this->databases[$key] ) )
+    if (!isset($this->databases[$key]))
       return array();
     
     $conf = $this->databases[$key];
     
-    return new TArray( $conf );
+    return new TArray($conf);
     
   }//end public function getDbConf */
   
@@ -144,7 +144,7 @@ class ConfMaintenance
   /**
    * @return array
    */
-  public function getRepositories(  )
+  public function getRepositories()
   {
     
     return $this->repositories;

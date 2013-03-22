@@ -38,7 +38,7 @@ class SoftwareUbuntuMemcache
   
   /**
    */
-  public function installCore( )
+  public function installCore()
   {
     
     $packages = array
@@ -52,37 +52,37 @@ class SoftwareUbuntuMemcache
 
   /**
    */
-  public function reload( )
+  public function reload()
   {
     
-    Process::execute( "/etc/init.d/memcache reload" );
+    Process::execute("/etc/init.d/memcache reload");
     
   }//end public function reload */
   
   /**
    */
-  public function restart( )
+  public function restart()
   {
     
-    Process::execute( "/etc/init.d/memcache restart" );
+    Process::execute("/etc/init.d/memcache restart");
     
   }//end public function restart */
   
   /**
    */
-  public function start( )
+  public function start()
   {
     
-    Process::execute( "/etc/init.d/memcache start" );
+    Process::execute("/etc/init.d/memcache start");
     
   }//end public function start */
   
   /**
    */
-  public function stop( )
+  public function stop()
   {
     
-    Process::execute( "/etc/init.d/memcache stop" );
+    Process::execute("/etc/init.d/memcache stop");
     
   }//end public function stop */ 
   

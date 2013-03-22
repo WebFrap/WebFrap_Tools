@@ -42,7 +42,7 @@ class PackageServerDb
   {
     $val = $this->getAttribute('install');
     
-    return ( 'true' == $val );
+    return ('true' == $val);
     
   }//end public function installServer */
   
@@ -94,13 +94,13 @@ class PackageServerDb
   {
     $address = $this->getNodeAttr('../..','address');
     
-    if ( !$address )
+    if (!$address)
     {
       $hostType = $this->getNodeAttr('../..','type');
       
-      if (  $hostType && 'local' != $hostType )
+      if ( $hostType && 'local' != $hostType)
       {
-        throw new PackageException( 'Host ist nicht lokal. Hat aber keine Addresse' );
+        throw new PackageException('Host ist nicht lokal. Hat aber keine Addresse');
       }
       else 
       {
@@ -121,7 +121,7 @@ class PackageServerDb
     
     $port = $this->getNodeAttr('connection','port');
     
-    if ( !$port )
+    if (!$port)
     {
       $port = '5432';
     }
@@ -177,7 +177,7 @@ class PackageServerDb
   public function getDumpFile()
   {
 
-    $dumpFile = $this->getNodeAttr( 'structure/dump', 'name' );
+    $dumpFile = $this->getNodeAttr('structure/dump', 'name');
     return $dumpFile;
     
   }//end public function getDumpFile */
@@ -189,7 +189,7 @@ class PackageServerDb
   public function getDumpFileSchema()
   {
 
-    $schemaName = $this->getNodeAttr( 'structure/dump', 'schema_name' );
+    $schemaName = $this->getNodeAttr('structure/dump', 'schema_name');
     return $schemaName;
     
   }//end public function getDumpFileSchema */
@@ -201,7 +201,7 @@ class PackageServerDb
   public function getDumpType()
   {
 
-    $dumpType = $this->getNodeAttr( 'structure/dump', 'type' );
+    $dumpType = $this->getNodeAttr('structure/dump', 'type');
     return $dumpType;
     
   }//end public function getDumpType */
@@ -212,7 +212,7 @@ class PackageServerDb
   public function getRoles()
   {
 
-    return $this->getNodes( 'structure/roles/entries/entry', 'PackageDbGroup' );
+    return $this->getNodes('structure/roles/entries/entry', 'PackageDbGroup');
 
   }//end public function getRoles */
 
@@ -222,7 +222,7 @@ class PackageServerDb
   public function getRoleFiles()
   {
     
-    return $this->getNodes( 'structure/roles/files/file', 'PackageDbDumpFile' );
+    return $this->getNodes('structure/roles/files/file', 'PackageDbDumpFile');
     
   }//end public function getRoleFiles */
   
@@ -232,7 +232,7 @@ class PackageServerDb
   public function getUsers()
   {
 
-    return $this->getNodes( 'structure/users/entries/entry', 'PackageDbUser' );
+    return $this->getNodes('structure/users/entries/entry', 'PackageDbUser');
     
   }//end public function getUsers */
 
@@ -241,7 +241,7 @@ class PackageServerDb
    */
   public function getUserFiles()
   {
-    return $this->getNodes( 'structure/users/files/file', 'PackageDbDumpFile' );
+    return $this->getNodes('structure/users/files/file', 'PackageDbDumpFile');
   }//end public function getUserFiles */
   
   /**
@@ -250,7 +250,7 @@ class PackageServerDb
   public function getSequences()
   {
 
-    return $this->getNodes( 'structure/sequences/entries/entry', 'PackageDbSequence' );
+    return $this->getNodes('structure/sequences/entries/entry', 'PackageDbSequence');
     
   }//end public function getSequences */
 
@@ -261,7 +261,7 @@ class PackageServerDb
   public function getStructureFiles()
   {
     
-    return $this->getNodes( 'structure/files/file', 'PackageDbDumpFile' );
+    return $this->getNodes('structure/files/file', 'PackageDbDumpFile');
 
   }//end public function getStructureFiles */
  
@@ -276,16 +276,16 @@ class PackageServerDb
   public function getConnection()
   {
     
-    if ( $this->con )
+    if ($this->con)
       return $this->con;
       
     $className = 'Db'.ucfirst($this->getType());
     
-    if ( !Gaia::classLoadable( $className ) )
-      throw new GaiaException( "Requested Connection for nonexisting Type ".$this->getType() );
+    if (!Gaia::classLoadable($className))
+      throw new GaiaException("Requested Connection for nonexisting Type ".$this->getType());
       
     $this->con = new $className
-    ( 
+    (
       UiConsole::getActive(), 
       $this->getDbName(), 
       $this->getDbUser(), 
@@ -307,10 +307,10 @@ class PackageServerDb
    * @param string $path 
    * @return boolean
    */
-  public function updateFlag( $path )
+  public function updateFlag($path)
   {
     
-    $nodeList =  $this->getNodes( $path );
+    $nodeList =  $this->getNodes($path);
     return (boolean)$nodeList->length;
     
   }//end public function updateFlag */
@@ -320,15 +320,15 @@ class PackageServerDb
    * @param string $default 
    * @return string
    */
-  public function updateFlagMode( $path, $value = null )
+  public function updateFlagMode($path, $value = null)
   {
     
-    $mode = $this->getNodeAttr( $path, 'mode' );
+    $mode = $this->getNodeAttr($path, 'mode');
     
-    if ( !$mode )
+    if (!$mode)
       return null;
       
-    if ( !$value && $value == $mode )
+    if (!$value && $value == $mode)
       return true;
     
     return $mode;

@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 // definieren, dass dies ein Syncscript ist
-define( 'GAIA_CONTEXT', 'setup' );
+define('GAIA_CONTEXT', 'setup');
 
 
 // die Basis Logik einbinden
@@ -24,42 +24,42 @@ include 'wbf/bootstrap.cli.php';
 
 /* @var $console UiConsole  */
 
-$packagePath = Request::arg( 'package' );
+$packagePath = Request::arg('package');
 
 $tmp = null;
 
 
 // wenn ein package name übergeben wurde, wird dieses package installiert
-if ( $packagePath )
+if ($packagePath)
 {
   
-  if ( !Fs::exists( $packagePath ) )
+  if (!Fs::exists($packagePath))
   {
-    $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
+    $console->error("Konnte kein Paket unter ".$packagePath.' finden.');
   }
   
-  $archive = new ArchiveZip( $packagePath, ArchiveZip::MODE_HUGE );
+  $archive = new ArchiveZip($packagePath, ArchiveZip::MODE_HUGE);
   $tmp     = Gaia::mkTmpFolder();
-  $archive->unpack( $tmp );
+  $archive->unpack($tmp);
   
-  $package = new Package( $tmp.'package.bdl' );
+  $package = new Package($tmp.'package.bdl');
   
-  if ( !$package->isLoaded() )
+  if (!$package->isLoaded())
   {
-    $console->error( 'Konnte die '.$tmp.'package.bdl nicht laden' );
+    $console->error('Konnte die '.$tmp.'package.bdl nicht laden');
     exit(1);
   }
   
-  $package->setDataPath( $tmp );
+  $package->setDataPath($tmp);
   
 }
 else 
 {
-  $package = new Package( GAIA_PATH.'conf/package.bdl' );
+  $package = new Package(GAIA_PATH.'conf/package.bdl');
   
-  if ( !$package->isLoaded() )
+  if (!$package->isLoaded())
   {
-    $console->error( 'Konnte die '.GAIA_PATH.'conf/package.bdl nicht laden' );
+    $console->error('Konnte die '.GAIA_PATH.'conf/package.bdl nicht laden');
     exit(1);
   }
 }
@@ -68,12 +68,12 @@ $type     = $package->getType();
 
 try 
 {
-  switch( $type )
+  switch($type)
   {
     case 'patch':
     {
       $builder = new WbfSetupPatch();
-      $builder->patch( $package );
+      $builder->patch($package);
       
       break;
     }
@@ -83,14 +83,14 @@ try
     }
     case 'application':
     {
-      $builder = new WbfSetupApplication( $console, $package->getDataPath() );
-      $builder->setup( $package );
+      $builder = new WbfSetupApplication($console, $package->getDataPath());
+      $builder->setup($package);
       break;
     }
     case 'app':
     {
-      $builder = new WbfSetupApplication( $console, $package->getDataPath() );
-      $builder->setup( $package );
+      $builder = new WbfSetupApplication($console, $package->getDataPath());
+      $builder->setup($package);
       break;
     }
     case 'module':
@@ -99,16 +99,16 @@ try
     }
     default:
     {
-      $console->error( "Der pakettype: ".$type." wird von dieser Version nicht unterstützt." );
+      $console->error("Der pakettype: ".$type." wird von dieser Version nicht unterstützt.");
     }
   }
 }
-catch( GaiaException $exc )
+catch(GaiaException $exc)
 {
-  $console->error( 'Installation wurde abgebrochen '.$exc->getMessage() );
+  $console->error('Installation wurde abgebrochen '.$exc->getMessage());
 }
 
 // tmp löschen
-Fs::del( GAIA_PATH.'tmp' );
+Fs::del(GAIA_PATH.'tmp');
 
 

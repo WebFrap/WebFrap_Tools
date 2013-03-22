@@ -83,7 +83,7 @@ class Gaia
    *
    * @param string $classname Name der Klasse
    */
-  public static function pathAutoload( $classname )
+  public static function pathAutoload($classname)
   {
 
     $length = strlen($classname);
@@ -93,7 +93,7 @@ class Gaia
     $paths[] = GAIA_PATH.'wbf/';
     $paths[] = GAIA_PATH.'modules/';
 
-    foreach( $paths as $path )
+    foreach($paths as $path)
     {
       
       $requireMe = null;
@@ -103,7 +103,7 @@ class Gaia
       $end = 1;
       $package = '';
       
-      if ( file_exists( $path.$classname.'.php' ) )
+      if (file_exists($path.$classname.'.php'))
       {
         include $path.$classname.'.php' ;
         return;
@@ -112,31 +112,31 @@ class Gaia
       {
         // 3 Stufen Packages
         $level = 0;
-        for ( $pos = 1 ; $pos < $length  ; ++$pos )
+        for ($pos = 1 ; $pos < $length  ; ++$pos)
         {
   
-          if (ctype_upper($classname[$pos]) )
+          if (ctype_upper($classname[$pos]))
           {
-            $package  .= strtolower( str_replace( '_','', substr( $classname, $start, $end  ) ) ).'/' ;
+            $package  .= strtolower(str_replace('_','', substr($classname, $start, $end  ))).'/' ;
             $start    += $end;
             $end      = 0;
             ++$level;
   
             $file = realpath($path.$package.$classname.'.php');
-            if ( file_exists( $file ) )
+            if (file_exists($file))
             {
               self::$classIndex[$classname] = $file;
               include $file;
               return;
             }
   
-            if ( $level == self::MAX_PACKAGE_LEVEL )
+            if ($level == self::MAX_PACKAGE_LEVEL)
               break;
           }
           ++$end;
         }
         
-      }//end if ( file_exists( $path.$classname.'.php' ) )
+      }//end if (file_exists($path.$classname.'.php'))
       
     }
 
@@ -148,10 +148,10 @@ class Gaia
    * @param string $classname
    * @return boolean
    */
-  public static function classLoadable( $className )
+  public static function classLoadable($className)
   {
 
-    if ( !isset(self::$loadAble[$className]) )
+    if (!isset(self::$loadAble[$className]))
     {
       try
       {
@@ -159,7 +159,7 @@ class Gaia
         self::$loadAble[$className] = $back;
         return $back;
       }
-      catch( GaiaException $e )
+      catch(GaiaException $e)
       {
         self::$loadAble[$className] = false;
         return false;
@@ -178,10 +178,10 @@ class Gaia
    * @param string $classname
    * @return boolean
    */
-  public static function interfaceLoadable( $classname )
+  public static function interfaceLoadable($classname)
   {
 
-    if ( !isset(self::$loadAble[$classname]) )
+    if (!isset(self::$loadAble[$classname]))
     {
       try
       {
@@ -189,7 +189,7 @@ class Gaia
         self::$loadAble[$classname] = $back;
         return $back;
       }
-      catch( GaiaException $e )
+      catch(GaiaException $e)
       {
         self::$loadAble[$classname] = false;
         return false;
@@ -218,23 +218,23 @@ class Gaia
    * @param string $area
    * @return string
    */
-  public static function tmpFile(  $area = null )
+  public static function tmpFile( $area = null)
   {
     
-    if ( $area )
+    if ($area)
     {
-      $tmpF = TMP_PATH.$area.'/'.str_replace( '.','_', uniqid(mt_rand(), true) ).'.tmp';
+      $tmpF = TMP_PATH.$area.'/'.str_replace('.','_', uniqid(mt_rand(), true)).'.tmp';
       return $tmpF;
     }
 
-    return str_replace( '.','_', uniqid(mt_rand(), true) ) ;
+    return str_replace('.','_', uniqid(mt_rand(), true)) ;
     
   }//end public static function tmpFile */
 
   /**
    * @param string $prefix
    */
-  public static function uuid( $prefix = '' )
+  public static function uuid($prefix = '')
   {
 
     $tmp = md5(uniqid(mt_rand(), true));
@@ -248,10 +248,10 @@ class Gaia
    * Aktuelle Timestamp im Datenbankformat
    * @return string
    */
-  public static function timestamp(  )
+  public static function timestamp()
   {
 
-    return date( 'Y-m-d H:i:s' );
+    return date('Y-m-d H:i:s');
 
   }//end public static function timestamp */
   
@@ -260,7 +260,7 @@ class Gaia
    * @param string $key
    * @return string
    */
-  public static function keyHash( $key )
+  public static function keyHash($key)
   {
 
     $mul = "65599"; // (1 << 6) + (1 << 16) - 1
@@ -298,13 +298,13 @@ class Gaia
    * @param boolean $fullPath
    * @return string
    */
-  public static function tmpFolder( $fullPath = false )
+  public static function tmpFolder($fullPath = false)
   {
     
-    if ( $fullPath )
-      return TMP_PATH.str_replace( '.','_', uniqid(mt_rand(), true) ).'/' ;
+    if ($fullPath)
+      return TMP_PATH.str_replace('.','_', uniqid(mt_rand(), true)).'/' ;
     else 
-      return str_replace( '.','_', uniqid(mt_rand(), true) ) ;
+      return str_replace('.','_', uniqid(mt_rand(), true)) ;
  
   }//end public static function tmpFolder */
   
@@ -312,11 +312,11 @@ class Gaia
    * Erstellen eines Tmp Folders und Rückageb des Namens
    * @return string
    */
-  public static function mkTmpFolder( )
+  public static function mkTmpFolder()
   {
     
-    $tmpF = TMP_PATH.str_replace( '.','_', uniqid(mt_rand(), true) ).'/';
-    Fs::mkdir( $tmpF );
+    $tmpF = TMP_PATH.str_replace('.','_', uniqid(mt_rand(), true)).'/';
+    Fs::mkdir($tmpF);
     
     return $tmpF;
 
@@ -330,7 +330,7 @@ class Gaia
   public static function getRunId()
   {
     
-    if ( !self::$runkey )
+    if (!self::$runkey)
     {
       self::$runkey = time();
     }
@@ -345,12 +345,12 @@ class Gaia
    * @param string $errors
    * @return boolean
    */
-  public static function checkSyntax( $fileName, &$errors )
+  public static function checkSyntax($fileName, &$errors)
   {
     
-    $errors = Process::execute( "php -l {$fileName}"  );
+    $errors = Process::execute("php -l {$fileName}"  );
 
-    if ( 'No syntax errors' == substr($errors, 0, 16 ) )
+    if ('No syntax errors' == substr($errors, 0, 16))
       return true;
     else 
       return false;

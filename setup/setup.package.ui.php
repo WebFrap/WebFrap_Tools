@@ -27,7 +27,7 @@ include 'setup/base/ui.apache_vhost.php';
 
 
 
-$console->out( 'Instaliere in den Pfad '.$conf->deployRoot );
+$console->out('Instaliere in den Pfad '.$conf->deployRoot);
 
 
 
