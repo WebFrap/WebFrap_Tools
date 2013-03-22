@@ -184,12 +184,12 @@ class Package
   public function getDataPath()
   {
     
-    if( $this->dataPath )
+    if ( $this->dataPath )
       return $this->dataPath;
 
     $dataPath = $this->getNodeValue('data_path');
     
-    if( $dataPath && '' != trim($dataPath) )
+    if ( $dataPath && '' != trim($dataPath) )
       return $dataPath;
     
     return GAIA_PATH.'data/';
@@ -242,22 +242,22 @@ class Package
   public function getGateways()
   {
     
-    if( $this->deplGateway )
+    if ( $this->deplGateway )
     {
       $gws = $this->getNodes( "gateways/gateway[@name='{$this->deplGateway}']", 'PackageGateway' );
       
-      if( isset($gws[0]) )
+      if ( isset($gws[0]) )
       {
         
-        if( $this->codeRoot )
+        if ( $this->codeRoot )
           $gws[0]->setCodeRoot( $this->codeRoot );
           
-        if( $this->confKey )
+        if ( $this->confKey )
         {
           $gws[0]->setConfKey( $this->confKey );
         }
         
-        if( $this->serverKey )
+        if ( $this->serverKey )
         {
           $gws[0]->setServerKey( $this->serverKey );
         }
@@ -280,7 +280,7 @@ class Package
   public function countGateways()
   {
     
-    if( $this->deplGateway )
+    if ( $this->deplGateway )
     {
       $nodeList = $this->getNodes( "gateways/gateway[@name='{$this->deplGateway}']" );
     }
@@ -326,7 +326,7 @@ class Package
     $tmp     = $this->xpath( '/package/folders/folder' );
     $folders = array();
     
-    if( $asArray )
+    if ( $asArray )
     {
       foreach( $tmp as $folder )
       {

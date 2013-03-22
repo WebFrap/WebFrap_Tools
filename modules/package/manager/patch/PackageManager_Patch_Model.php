@@ -193,19 +193,19 @@ class PackageManager_Patch_Model
   public function readJson( $dataNode )
   {
     
-    if( !isset( $dataNode->deploy_path) )
+    if ( !isset( $dataNode->deploy_path) )
       throw new RequestInvalid_Exception( 'Missing deploy_path' );
       
-    if( !isset( $dataNode->code_root ) )
+    if ( !isset( $dataNode->code_root ) )
       throw new RequestInvalid_Exception( 'Missing code_root' );
       
-    if( !isset( $dataNode->package_path ) )
+    if ( !isset( $dataNode->package_path ) )
       throw new RequestInvalid_Exception( 'Missing package_path' );
       
-    if( !isset( $dataNode->package_name ) )
+    if ( !isset( $dataNode->package_name ) )
       throw new RequestInvalid_Exception( 'Missing package_name' );
       
-    if( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
+    if ( !isset( $dataNode->files_raw ) && !isset( $dataNode->repos ) )
       throw new RequestInvalid_Exception( 'Package has no content' );
       
     $this->deployPath  = $dataNode->deploy_path;
@@ -214,41 +214,41 @@ class PackageManager_Patch_Model
     $this->packageName = $dataNode->package_name;
     $this->gatewayName = $dataNode->gateway_name;
     
-    if( isset( $dataNode->app_name ) )
+    if ( isset( $dataNode->app_name ) )
       $this->appName = $dataNode->app_name;
     else 
       $this->appName = "YourApplication";
       
-    if( isset( $dataNode->app_version ) )
+    if ( isset( $dataNode->app_version ) )
       $this->appVersion = $dataNode->app_version;
     else 
       $this->appVersion = "1";
       
-    if( isset( $dataNode->app_revision ) )
+    if ( isset( $dataNode->app_revision ) )
       $this->appRevision = $dataNode->app_revision;
     else 
       $this->appRevision = date('YmdHis');
       
-    if( isset( $dataNode->sync_type ) )
+    if ( isset( $dataNode->sync_type ) )
       $this->syncType = $dataNode->sync_type;
       
-    if( isset( $dataNode->package_type ) )
+    if ( isset( $dataNode->package_type ) )
       $this->packageType = $dataNode->package_type;
       
     //$files = explode( NL,  $dataNode->files_raw );
     
-    if( isset( $dataNode->files_raw ) )
+    if ( isset( $dataNode->files_raw ) )
     {
       foreach( $dataNode->files_raw as $file )
       {
         $tmpFile = trim($file);
         
-        if( '' === $tmpFile )
+        if ( '' === $tmpFile )
           continue;
           
          $sourceTarget = explode( '->',  $tmpFile );
          
-         if( isset( $sourceTarget[1] ) )
+         if ( isset( $sourceTarget[1] ) )
          {
            $this->files[$sourceTarget[0]] = $sourceTarget[1];
          }
@@ -259,22 +259,22 @@ class PackageManager_Patch_Model
       }
     }
     
-    if( isset( $dataNode->touch ) )
+    if ( isset( $dataNode->touch ) )
     {
       $this->touchFiles = $dataNode->touch;
     }
     
-    if( isset( $dataNode->chowns ) )
+    if ( isset( $dataNode->chowns ) )
     {
       $this->chowns = $dataNode->chowns;
     }
     
-    if( isset( $dataNode->chmods ) )
+    if ( isset( $dataNode->chmods ) )
     {
       $this->chmods = $dataNode->chmods;
     }
     
-    if( isset( $dataNode->delete ) )
+    if ( isset( $dataNode->delete ) )
     {
       foreach( $dataNode->delete as $file )
       {
@@ -284,19 +284,19 @@ class PackageManager_Patch_Model
     
     // list of users that have to be notified when the deployment was
     // sucessfull
-    if( isset( $dataNode->notify ) )
+    if ( isset( $dataNode->notify ) )
     {
       $this->toNotify = $dataNode->notify;
     }
 
     // repositories to deploy    
-    if( isset( $dataNode->repos ) )
+    if ( isset( $dataNode->repos ) )
     {
       $this->repos = $dataNode->repos;
     }
 
     // repositories to deploy    
-    if( isset( $dataNode->scripts ) )
+    if ( isset( $dataNode->scripts ) )
     {
       
       foreach( $dataNode->scripts as $key => $scripts )
@@ -306,7 +306,7 @@ class PackageManager_Patch_Model
       
     }
     
-    if( isset( $dataNode->code_owner ) )
+    if ( isset( $dataNode->code_owner ) )
       $this->codeOwner = $dataNode->code_owner;
     
   }//end public function readJson
@@ -326,14 +326,14 @@ class PackageManager_Patch_Model
   protected function setupPackage()
   {
     
-    if( '' === trim( $this->packagePath ) || '' === trim( $this->appRevision ) )
+    if ( '' === trim( $this->packagePath ) || '' === trim( $this->appRevision ) )
       throw new GaiaException( 'Package path or package name was empty.' );
       
     $packageName = $this->packageName.'-'.$this->appVersion.'.'.$this->appRevision;
       
-    if( !$this->noData )
+    if ( !$this->noData )
     {
-      if( Fs::exists( $this->packagePath.'/'.$packageName ) )
+      if ( Fs::exists( $this->packagePath.'/'.$packageName ) )
         Fs::del( $this->packagePath.'/'.$packageName );
   
       Fs::mkdir( $this->packagePath.'/'.$packageName.'/files' );
@@ -679,11 +679,11 @@ CODE;
     }
     
     // then copy repos
-    if( $this->repos )
+    if ( $this->repos )
     {
       $iterator = new PackageBuilder_Repo_Iterator( $this->repos, null, $this->codeRoot );
       
-      if( !$this->noData )
+      if ( !$this->noData )
       {
         foreach( $iterator as $deployPath => $localPath )
         {
@@ -707,13 +707,13 @@ CODE;
     foreach( $this->files as $local => $target )
     {
       
-      if( !file_exists($this->codeRoot.$local) )
+      if ( !file_exists($this->codeRoot.$local) )
       {
         echo "Missing file ".$this->codeRoot.$local."<br />";
         continue;
       }
       
-      if( !$this->noData )
+      if ( !$this->noData )
       {
         Fs::copy( $this->codeRoot.$local, $pPath.$target, false );
       }
@@ -765,7 +765,7 @@ CODE;
     // notify stakeholders
     $this->script .= $this->renderNotifyMails();
      
-    if( !$this->noData )
+    if ( !$this->noData )
     {
       Fs::mkdir( $pPath );
       $oldDir = Fs::actualPath();
@@ -789,7 +789,7 @@ CODE;
     
 CODE;
 
-    if( $this->toNotify )
+    if ( $this->toNotify )
     {
       
     $code = <<<CODE
@@ -828,14 +828,14 @@ CODE;
       
       foreach( $scripts as $script )
       {
-        if( '/' === $script[0] )
+        if ( '/' === $script[0] )
         {
-          if( file_exists( $script ) )
+          if ( file_exists( $script ) )
             Fs::copy( $script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script), false );
         }
         else
         {
-          if( file_exists( GAIA_PATH.'bash/'.$script ) )
+          if ( file_exists( GAIA_PATH.'bash/'.$script ) )
             Fs::copy( GAIA_PATH.'bash/'.$script, $this->packagePath.'/'.$packageName.'/scripts/'.$scriptType.'/'.basename($script),false );
         }
       }

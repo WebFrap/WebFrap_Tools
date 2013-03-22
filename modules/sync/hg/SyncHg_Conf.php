@@ -75,12 +75,12 @@ class SyncHg_Conf
     $this->displayName  = null;
     $this->repos        = array();
     
-    if( Fs::exists( $path ) )
+    if ( Fs::exists( $path ) )
     {
       
       $error = null;
       
-      if( Gaia::checkSyntax( $path, $error ) )
+      if ( Gaia::checkSyntax( $path, $error ) )
       {
         include $path;
       }

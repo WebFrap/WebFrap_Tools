@@ -59,7 +59,7 @@ class Template_Http
     
     $className = 'TemplateWorkarea_'.FormatString::subToCamelCase( $key );
     
-    if( Gaia::classLoadable( $className ) )
+    if ( Gaia::classLoadable( $className ) )
       $this->workarea = new $className( );
     else 
       throw new GaiaException( "Workarea {$key} existiert nicht." );
@@ -74,13 +74,13 @@ class Template_Http
   public function getWorkArea( $key = null )
   {
     
-    if( !$this->workarea )
+    if ( !$this->workarea )
     {
-      if( $key )
+      if ( $key )
       {
         $className = 'TemplateWorkarea_'.FormatString::subToCamelCase( $key );
         
-        if( Gaia::classLoadable( $className ) )
+        if ( Gaia::classLoadable( $className ) )
           $this->workarea = new $className( );
         else 
           throw new GaiaException( "Workarea {$key} existiert nicht." );
@@ -102,7 +102,7 @@ class Template_Http
   public function render()
   {
     
-    if( $this->workarea )
+    if ( $this->workarea )
       $this->renderedContent = $this->workarea->render();
     else 
       $this->renderedContent = 'Nothing to see here';

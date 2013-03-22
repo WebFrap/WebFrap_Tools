@@ -52,7 +52,7 @@ class Server
   public static function isInstalled( $packageName )
   {
     
-    if( !self::$packages )
+    if ( !self::$packages )
     {
       
     }

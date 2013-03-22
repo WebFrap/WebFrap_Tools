@@ -30,10 +30,10 @@ $tmp = null;
 
 
 // wenn ein package name übergeben wurde, wird dieses package installiert
-if( $packagePath )
+if ( $packagePath )
 {
   
-  if( !Fs::exists( $packagePath ) )
+  if ( !Fs::exists( $packagePath ) )
   {
     $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
   }
@@ -44,7 +44,7 @@ if( $packagePath )
   
   $package = new Package( $tmp.'package.bdl' );
   
-  if( !$package->isLoaded() )
+  if ( !$package->isLoaded() )
   {
     $console->error( 'Konnte die '.$tmp.'package.bdl nicht laden' );
     exit(1);
@@ -57,7 +57,7 @@ else
 {
   $package = new Package( GAIA_PATH.'conf/package.bdl' );
   
-  if( !$package->isLoaded() )
+  if ( !$package->isLoaded() )
   {
     $console->error( 'Konnte die '.GAIA_PATH.'conf/package.bdl nicht laden' );
     exit(1);

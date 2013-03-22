@@ -110,7 +110,7 @@ class IoFileIterator
     
     $this->folder     = str_replace('//', '/', $folder );
 
-    if( is_string( $mode ) )
+    if ( is_string( $mode ) )
     {
       $this->fileMode       = IoFileIterator::RELATIVE;
       $this->relativeFolder = $mode;
@@ -123,16 +123,16 @@ class IoFileIterator
     
     $this->recursive  = $recursive;
     
-    if( $filter )
+    if ( $filter )
     {
-      if( is_string( $filter ) )
+      if ( is_string( $filter ) )
         $this->filter     = explode( ',', $filter );
       else 
         $this->filter     = $filter;
     }
    
 
-    if( is_dir( $folder ) )
+    if ( is_dir( $folder ) )
     {
       $this->fRes = opendir( $folder );
       $this->next();
@@ -158,7 +158,7 @@ class IoFileIterator
   public function close( )
   {
     
-    if( is_resource( $this->fRes ) )
+    if ( is_resource( $this->fRes ) )
       closedir( $this->fRes );
 
   }//end public function __desctruct */
@@ -213,7 +213,7 @@ class IoFileIterator
   public function next ()
   {
     
-    if( !is_resource($this->fRes) )
+    if ( !is_resource($this->fRes) )
       return null;
     
     $repeat   = true;
@@ -222,12 +222,12 @@ class IoFileIterator
     while( $repeat ) 
     {
       
-      if( $this->subFolder )
+      if ( $this->subFolder )
       {
         $nextSub = $this->subFolder->next();
         $nextKey = $this->subFolder->key();
         
-        if( $nextSub )
+        if ( $nextSub )
         {
           $this->current = $nextSub;
           $this->key     = $nextKey;
@@ -245,18 +245,18 @@ class IoFileIterator
       $currentKey = null;
         
       // dirty.... so what?
-      if( '.' == $current  )
+      if ( '.' == $current  )
         continue;
         
-      if( '..' == $current )
+      if ( '..' == $current )
         continue;
 
-      if( $current )
+      if ( $current )
       {
-        if( is_dir( $this->folder.'/'.$current )  )
+        if ( is_dir( $this->folder.'/'.$current )  )
         {
           
-          if( !$this->recursive )
+          if ( !$this->recursive )
             continue;
           
           // wenn current ein ordner ist wird ers über ihn iteriert bevor 
@@ -272,7 +272,7 @@ class IoFileIterator
           $current    = $this->subFolder->current();
           $currentKey = $this->subFolder->key();
           
-          if( !$current )
+          if ( !$current )
           {
             $this->subFolder = null;
             $this->current   = null;
@@ -280,12 +280,12 @@ class IoFileIterator
           }
           
           // auf eine dateiendung prüfen
-          if( $this->filter )
+          if ( $this->filter )
           {
             
             $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
             
-            if( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if ( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
           }
           
@@ -294,18 +294,18 @@ class IoFileIterator
         {
 
           // auf eine dateiendung prüfen
-          if( $this->filter )
+          if ( $this->filter )
           {
             
             $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
             
-            if( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if ( isset($info['extension']) && !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
             
           }
           
           // den rückgabe modus auswerten
-          if( $this->fileMode != IoFileIterator::FILE_ONLY )
+          if ( $this->fileMode != IoFileIterator::FILE_ONLY )
           {
             $current    = str_replace( '//', '/', $this->folder.'/'.$current );
             $currentKey = str_replace( '//', '/', $this->relativeFolder.'/'.$current );
@@ -325,7 +325,7 @@ class IoFileIterator
     } 
     
     // sicher stellen, dass die pfade korrekt sind
-    if( $current )
+    if ( $current )
       $this->current = str_replace( array('../','//'), array('/','/'), $current ) ;
     else 
       $this->current = null;
@@ -342,7 +342,7 @@ class IoFileIterator
   public function rewind ()
   {
     
-    if( is_resource($this->fRes))
+    if ( is_resource($this->fRes))
       rewinddir($this->fRes);
       
     $this->subFolder = null;

@@ -149,7 +149,7 @@ class UserContainer
     Console::out( 'Repeat Password:' );
     $password2 = Console::secretIn( );
     
-    if( $password != $password2 )
+    if ( $password != $password2 )
     {
       Console::out( 'Sorry password where not equal' );
       $this->readPassword();
@@ -182,7 +182,7 @@ class UserContainer
     
     $level = trim(Console::in( ));
     
-    if( !isset($this->levels[$level]) )
+    if ( !isset($this->levels[$level]) )
     {
       Console::outln( "Falsches Level angegeben {$level}" );
       $this->readLevel();
@@ -207,7 +207,7 @@ class UserContainer
     
     $profile = trim(Console::in( ));
     
-    if( in_array( $profile, $this->profiles ) )
+    if ( in_array( $profile, $this->profiles ) )
     {
       $this->profile = $profile;
     }

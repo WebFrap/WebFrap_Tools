@@ -75,7 +75,7 @@ class WbfInstaller
   public function getRequest()
   {
     
-    if( !$this->request )
+    if ( !$this->request )
       $this->request = Request::getActive();
       
     return $this->request;

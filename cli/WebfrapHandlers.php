@@ -220,7 +220,7 @@ the notfounAutoload at the end
 */
 spl_autoload_register('Webfrap::vhostAutoload');
 spl_autoload_register('Webfrap::autoload');
-if(Webfrap::class_loadable('ezcBase'))
+if (Webfrap::class_loadable('ezcBase'))
 {
   spl_autoload_register('ezcBase::autoload');
 }
@@ -278,7 +278,7 @@ class Webfrap
    */
   public static function setIncludePath( $includePath )
   {
-    if(!isset(self::$includePath[$includePath]))
+    if (!isset(self::$includePath[$includePath]))
     {
       set_include_path( get_include_path().P_S.$includePath );
       self::$includePath[$includePath] = true;
@@ -292,7 +292,7 @@ class Webfrap
    */
   public static function addIncludePath( $includePath )
   {
-    if(!isset(self::$includePath[$includePath]))
+    if (!isset(self::$includePath[$includePath]))
     {
       set_include_path( get_include_path().P_S.$includePath );
       self::$includePath[$includePath] = true;
@@ -306,7 +306,7 @@ class Webfrap
    */
   public static function addAutoload( $autoload )
   {
-    if(!isset(self::$autoload[$autoload]))
+    if (!isset(self::$autoload[$autoload]))
     {
       spl_autoload_register($autoload);
       self::$autoload[$autoload] = true;
@@ -353,7 +353,7 @@ class Webfrap
       $package = '';
 
 
-      if( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+      if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
       {
         $requireMe = USER_LIB_PATH.$classname.'.php' ;
       }
@@ -361,33 +361,33 @@ class Webfrap
       {
         // 3 Stufen Packages
         $level = 0;
-        for( $pos = 1 ; $pos < $length  ; ++$pos )
+        for ( $pos = 1 ; $pos < $length  ; ++$pos )
         {
-          if(ctype_upper($classname[$pos]) )
+          if (ctype_upper($classname[$pos]) )
           {
             $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
             $start += $end;
             $end = 0;
             ++$level;
 
-            if( file_exists( USER_LIB_PATH.$package.$classname.'.php' ) )
+            if ( file_exists( USER_LIB_PATH.$package.$classname.'.php' ) )
             {
               $requireMe = USER_LIB_PATH.$package.$classname.'.php' ;
 
               break;
             }
 
-            if( $level == MAX_PACKAGE_LEVEL )
+            if ( $level == MAX_PACKAGE_LEVEL )
             {
               break;
             }
           }
           ++$end;
         }
-      }//end if( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+      }//end if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
 
 
-      if( $requireMe )
+      if ( $requireMe )
       {
         require $requireMe;
       }
@@ -413,7 +413,7 @@ class Webfrap
     $end = 1;
     $package = '';
 
-    if( file_exists( SANDBOX_LIB_PATH.$classname.'.php' ) )
+    if ( file_exists( SANDBOX_LIB_PATH.$classname.'.php' ) )
     {
       $requireMe = SANDBOX_LIB_PATH.$classname.'.php' ;
     }
@@ -421,32 +421,32 @@ class Webfrap
     {
       // 3 Stufen Packages
       $level = 0;
-      for( $pos = 1 ; $pos < $length  ; ++$pos )
+      for ( $pos = 1 ; $pos < $length  ; ++$pos )
       {
-        if(ctype_upper($classname[$pos]) )
+        if (ctype_upper($classname[$pos]) )
         {
           $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
           $start += $end;
           $end = 0;
           ++$level;
 
-          if( file_exists( SANDBOX_LIB_PATH.$package.$classname.'.php' ) )
+          if ( file_exists( SANDBOX_LIB_PATH.$package.$classname.'.php' ) )
           {
             $requireMe = SANDBOX_LIB_PATH.$package.$classname.'.php' ;
             break;
           }
 
-          if( $level == MAX_PACKAGE_LEVEL )
+          if ( $level == MAX_PACKAGE_LEVEL )
           {
             break;
           }
         }
         ++$end;
       }
-    }//end if( file_exists( USER_LIB_PATH.$classname.'.php' ) )
+    }//end if ( file_exists( USER_LIB_PATH.$classname.'.php' ) )
 
 
-    if( $requireMe )
+    if ( $requireMe )
     {
       require $requireMe;
     }
@@ -472,7 +472,7 @@ class Webfrap
     $end = 1;
     $package = '';
 
-    if( file_exists( LIB_PATH.$classname.'.php' ) )
+    if ( file_exists( LIB_PATH.$classname.'.php' ) )
     {
       $requireMe = LIB_PATH.$classname.'.php' ;
     }
@@ -480,22 +480,22 @@ class Webfrap
     {
       // 3 Stufen Packages
       $level = 0;
-      for( $pos = 1 ; $pos < $length  ; ++$pos )
+      for ( $pos = 1 ; $pos < $length  ; ++$pos )
       {
-        if(ctype_upper($classname[$pos]) )
+        if (ctype_upper($classname[$pos]) )
         {
           $package .= strtolower(substr( $classname, $start, $end  )).'/' ;
           $start += $end;
           $end = 0;
           ++$level;
 
-          if( file_exists( LIB_PATH.$package.$classname.'.php' ) )
+          if ( file_exists( LIB_PATH.$package.$classname.'.php' ) )
           {
             $requireMe = LIB_PATH.$package.$classname.'.php' ;
             break;
           }
 
-          if( $level == MAX_PACKAGE_LEVEL )
+          if ( $level == MAX_PACKAGE_LEVEL )
           {
             break;
           }
@@ -504,7 +504,7 @@ class Webfrap
       }
     }
 
-    if( $requireMe )
+    if ( $requireMe )
     {
       require $requireMe;
     }
@@ -605,7 +605,7 @@ class Webfrap
 }//end class Webfrap
 
 
-if(ENABLE_FIREPHP)
+if (ENABLE_FIREPHP)
 {
   require_once ROOT.'vendor/FirePHPLibrary/lib/FirePHPCore/fb.php';
 
@@ -651,7 +651,7 @@ if(ENABLE_FIREPHP)
        */
       static public function create($options = array() )
       {
-          if($options)
+          if ($options)
           {
             self::$options = $options;
           }

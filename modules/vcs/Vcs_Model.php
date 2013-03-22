@@ -95,10 +95,10 @@ class Vcs_Model
         $repoKey
       );
       
-      if( $repository->hasBranch( $branch ) )
+      if ( $repository->hasBranch( $branch ) )
       {
         
-        if( $repository->status(true) )
+        if ( $repository->status(true) )
         {
           $repository->commit( "Commit changes before switching to branch: {$branch}" );
         }

@@ -72,9 +72,9 @@ class TemplateFile
     ob_start();
     foreach( $this->templates as $template )
     {
-      if( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
+      if ( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
         include GAIA_PATH.'modules/'.$template.'.tpl';
-      elseif( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
+      elseif ( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
         include GAIA_PATH.'wbf/'.$template.'.tpl';
       else 
         echo 'Missing Template '.$template.NL;

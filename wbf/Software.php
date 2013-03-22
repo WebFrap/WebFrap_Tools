@@ -53,7 +53,7 @@ class Software
     
     $osName = Environment::$osName;
     
-    if( !Gaia::classLoadable($className) )
+    if ( !Gaia::classLoadable($className) )
       throw new GaiaException( "Für das aktuelle Environment {$osName} existiert leider kein Installer: {$installerType}" );
       
     return new $className( UiConsole::getActive() );
@@ -100,9 +100,9 @@ class Software
 
     $tmp = explode( "\t", $packageKey );
     
-    if( $package == $tmp[0] )
+    if ( $package == $tmp[0] )
     {
-      if( 'install' == $tmp[1]  )
+      if ( 'install' == $tmp[1]  )
         return true;
     }
     

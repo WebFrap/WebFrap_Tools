@@ -110,7 +110,7 @@ class ArchiveZip
     
     Fs::touch( $fileName );
     
-    if( self::MODE_NORMAL == $mode )
+    if ( self::MODE_NORMAL == $mode )
     {
       $this->resource = new ZipArchive();
       $opened = $this->resource->open( $fileName, ZipArchive::CREATE );
@@ -127,7 +127,7 @@ class ArchiveZip
       $opened = $this->resource->open( $this->hugeTempFoder.$this->iteration, ZipArchive::CREATE );
     }
 
-    if( $opened !== true )
+    if ( $opened !== true )
     {
       throw new GaiaException( 'Failed to open Archive '.$fileName.' code '.$opened );
     }
@@ -145,7 +145,7 @@ class ArchiveZip
     $this->resource->close();
     $this->resource = new ZipArchive();
   
-    if( self::MODE_NORMAL == $this->mode )
+    if ( self::MODE_NORMAL == $this->mode )
     {
       $this->resource->open( $this->fileName );
     }
@@ -191,7 +191,7 @@ class ArchiveZip
   public function close()
   {
     
-    if( self::MODE_HUGE == $this->mode )
+    if ( self::MODE_HUGE == $this->mode )
     {
       $this->resource->close();
 
@@ -226,29 +226,29 @@ class ArchiveZip
     
     $files = new IoFileIterator( $folderName );
     
-    if( $relativePath )
+    if ( $relativePath )
       $relativePath = '/'.$relativePath;
     
     foreach( $files as $file )
     {
       
-      if( !file_exists( $file ) )
+      if ( !file_exists( $file ) )
       {
         UiConsole::debugLine("Tried to add nonexisting file: $file to archive");
         continue;
       }
       
-      if( $this->resource->addFile( $file, $relativePath.$file ) )
+      if ( $this->resource->addFile( $file, $relativePath.$file ) )
       {
         
-        if( $this->writeCounter >= self::MAX_FILES )
+        if ( $this->writeCounter >= self::MAX_FILES )
         {
           $this->tmpSave();
         }
         
-        if( self::MODE_HUGE == $this->mode )
+        if ( self::MODE_HUGE == $this->mode )
         {
-          if( $this->hugeCounter >= self::MAX_ARCH_FILES )
+          if ( $this->hugeCounter >= self::MAX_ARCH_FILES )
           {
             $this->closeSubArchive();
           }
@@ -270,14 +270,14 @@ class ArchiveZip
   public function addFile( $fileName, $innerName = null )
   {
     
-    if( $this->writeCounter >= self::MAX_FILES )
+    if ( $this->writeCounter >= self::MAX_FILES )
     {
       $this->tmpSave();
     }    
     
-    if( self::MODE_HUGE == $this->mode )
+    if ( self::MODE_HUGE == $this->mode )
     {
-      if( $this->hugeCounter >= self::MAX_ARCH_FILES )
+      if ( $this->hugeCounter >= self::MAX_ARCH_FILES )
       {
         $this->closeSubArchive();
       }
@@ -285,10 +285,10 @@ class ArchiveZip
     }
     ++$this->writeCounter;
 
-    if( !$innerName )
+    if ( !$innerName )
       $innerName = $fileName;
       
-    if( !file_exists( $fileName ) )
+    if ( !file_exists( $fileName ) )
     {
       UiConsole::debugLine("Tried to add nonexisting file: $fileName to archive");
       return;
@@ -308,16 +308,16 @@ class ArchiveZip
     
     ++$this->writeCounter;
 
-    if( !$innerName )
+    if ( !$innerName )
       $innerName = $fileName;
       
-    if( !file_exists( $fileName ) )
+    if ( !file_exists( $fileName ) )
     {
       UiConsole::debugLine("Tried to add nonexisting file: $fileName to archive");
       return;
     }
     
-    if( $this->mainResource )
+    if ( $this->mainResource )
     {
       $this->mainResource->addFile( $fileName, $innerName );
     }
@@ -338,7 +338,7 @@ class ArchiveZip
 
     Fs::touchFileFolder( $target );
     
-    if( $this->mainResource )
+    if ( $this->mainResource )
     {
       $this->mainResource->extractTo( $target, array($src) );
     }
@@ -360,7 +360,7 @@ class ArchiveZip
   public function unpack( $targetFolder = './' )
   {
     
-    if( $this->mode == self::MODE_HUGE )
+    if ( $this->mode == self::MODE_HUGE )
     {
       $this->hugeTempFoder = Gaia::tmpFolder( true );
       Fs::mkdir($this->hugeTempFoder);
@@ -374,7 +374,7 @@ class ArchiveZip
         
         // metadaten einfach so kopieren
         $pInfo = pathinfo( $archive );
-        if( isset($pInfo['extension']) && 'bdl' == $pInfo['extension'] )
+        if ( isset($pInfo['extension']) && 'bdl' == $pInfo['extension'] )
         {
           Fs::touchFileFolder( $targetFolder );
           Fs::copy( $archive, $targetFolder );

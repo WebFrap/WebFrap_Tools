@@ -71,7 +71,7 @@ groups = *
 CODE;
     
     // wenn durch einen proxy hindurchgesynct werden soll
-    if( $proxy )
+    if ( $proxy )
     {
       
       $hgRc .= <<<CODE
@@ -113,7 +113,7 @@ CODE;
     
     $rcPath = GAIA_PATH;
     
-    if( !Fs::exists( $rcPath ) )
+    if ( !Fs::exists( $rcPath ) )
       Fs::mkdir( $rcPath );
 
     file_put_contents(  $rcPath.'.hgrc' , $hgRc  );
@@ -132,7 +132,7 @@ CODE;
   {
     
     // es wird nur https zugelassen. punkt
-    if( $user && $pwd )
+    if ( $user && $pwd )
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
@@ -153,7 +153,7 @@ CODE;
   public static function getArchive( $url, $type, $rev = null, $user = null, $pwd = null )
   {
     
-    if( $user && $pwd )
+    if ( $user && $pwd )
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
@@ -182,12 +182,12 @@ CODE;
     
     $command = "hg update";
     
-    if( $rev )
+    if ( $rev )
     {
       
       $tmp = explode( ':',$rev  );
       
-      if( $rev[0] == 'ref' )
+      if ( $rev[0] == 'ref' )
         $command .= "-C -r ".$rev[1];
       else 
         $command .= " ".$rev[1].'  -C';
@@ -221,7 +221,7 @@ CODE;
   {
     
     // es wird nur https zugelassen. punkt
-    if( $user && $pwd )
+    if ( $user && $pwd )
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
@@ -242,7 +242,7 @@ CODE;
   {
     
     // es wird nur https zugelassen. punkt
-    if( $user && $pwd )
+    if ( $user && $pwd )
       $url = 'https://'.$user.':'.$pwd.'@'.$url;
     else 
       $url = 'https://'.$url;
@@ -266,7 +266,7 @@ CODE;
       
       foreach( $listRepos['repos'] as $repoName => $repoData )
       {
-        if( Fs::exists( $repoPath.'/'.$repoName) )
+        if ( Fs::exists( $repoPath.'/'.$repoName) )
         {
           
           Fs::chdir( $repoPath.'/'.$repoName );
@@ -307,7 +307,7 @@ CODE;
           );
           
           // hgweb.config sollte bitte existieren, sonst schreiben wir keine
-          if( Fs::exists( $repoPath.'hgweb.config' ) )
+          if ( Fs::exists( $repoPath.'hgweb.config' ) )
           {
             Process::run( 'echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config' );
             Process::run( 'echo "[web]" > ./'.$repoName.'/.hg/hgrc' );
@@ -341,12 +341,12 @@ CODE;
     {
       $repoPath = $listRepos['path'];
       
-      if( !Fs::exists( $repoPath ) )
+      if ( !Fs::exists( $repoPath ) )
         Fs::mkdir( $repoPath );
         
       foreach( $listRepos['repos'] as $repoName => $repoData )
       {
-        if( Fs::exists( $repoPath.'/'.$repoName) )
+        if ( Fs::exists( $repoPath.'/'.$repoName) )
         {
           
           Fs::chdir( $repoPath.'/'.$repoName );
@@ -380,7 +380,7 @@ CODE;
           );
           
           // hgweb.config sollte bitte existieren, sonst schreiben wir keine
-          if( Fs::exists( $repoPath.'hgweb.config' ) )
+          if ( Fs::exists( $repoPath.'hgweb.config' ) )
           {
             Process::run( 'echo "'.$repoName.' = ' .$repoPath.'/'.$repoName.'" >> hgweb.config' );
             Process::run( 'echo "[web]" > ./'.$repoName.'/.hg/hgrc' );
@@ -405,13 +405,13 @@ CODE;
   public static function checkError( $message )
   {
     
-    if( false !== strpos( $message, 'abort: HTTP Error 404: Not Found' ) )
+    if ( false !== strpos( $message, 'abort: HTTP Error 404: Not Found' ) )
       return 'Repository not exists';
 
-    if( false !== strpos( $message, 'abort: push creates new remote head' ) )
+    if ( false !== strpos( $message, 'abort: push creates new remote head' ) )
       return 'Push aborted cause of a conclict';
 
-    if( false !== strpos( $message, 'abort: crosses branches' ) )
+    if ( false !== strpos( $message, 'abort: crosses branches' ) )
       return 'Repository has unresolved conflicts';
 
       

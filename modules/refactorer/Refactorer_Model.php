@@ -55,7 +55,7 @@ class Refactorer_Model
       
       //$new  = str_replace( "\r\n", "\n" , $orig );
       
-      if( $orig != $new )
+      if ( $orig != $new )
       {
         file_put_contents( $file, $new );
         $html .= "Changed: $file<br />".NL;

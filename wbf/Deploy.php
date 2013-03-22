@@ -55,17 +55,17 @@ class Deploy
     {
       
       // leere module ignorieren werden nur für die Gateways benötigt
-      if( !count($modules) )
+      if ( !count($modules) )
         continue;
       
       // alten code komplett löschen
-      if( $fastDepl )
+      if ( $fastDepl )
       {
         Fs::del( $deployPath.$packageName );
       }
       
       // bei bedarf erst mal erstellen
-      if( !Fs::exists($deployPath.$packageName) )
+      if ( !Fs::exists($deployPath.$packageName) )
         Fs::mkdir( $deployPath.$packageName );
     
       // deployen
@@ -104,7 +104,7 @@ class Deploy
     foreach( $repos as $deplKey => $modules )
     {
       // Zielprojekt erst mal cleanen
-      if( $fastDepl )
+      if ( $fastDepl )
         Fs::del( $deployPath.$deplKey );
       
       foreach( $modules as $module )
@@ -140,7 +140,7 @@ class Deploy
   {
     
     // Zielprojekt erst mal cleanen
-    if( $fastDepl )
+    if ( $fastDepl )
       Fs::del( $deployPath.$repo['name'] );
     
     Fs::chdir( $repo['src'] );
@@ -194,9 +194,9 @@ class Deploy
       }
       
       // wenn angegeben eine spezielle konfiguration laden
-      if( isset($gatewayProject['conf']) )
+      if ( isset($gatewayProject['conf']) )
       {
-        if( Fs::exists( $deployPath.$gatewayProject['name'].'/conf/space/'.$gatewayProject['conf'].'/' ) )
+        if ( Fs::exists( $deployPath.$gatewayProject['name'].'/conf/space/'.$gatewayProject['conf'].'/' ) )
         {
           // copy the conf files
           Fs::copy

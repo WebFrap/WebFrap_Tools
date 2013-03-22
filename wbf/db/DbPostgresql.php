@@ -102,11 +102,11 @@ class DbPostgresql
     $this->user   = $user;
     $this->passwd = $passwd;
     
-    if( is_null( $host ) )
+    if ( is_null( $host ) )
       $host = '127.0.0.1';
     $this->host   = $host;
     
-    if( is_null( $port ) )
+    if ( is_null( $port ) )
       $port = '5432';
     $this->port   = $port;
     
@@ -126,12 +126,12 @@ class DbPostgresql
       .' user='.$this->user
       .' password='.$this->passwd;
 
-    if( !$this->connection = pg_connect( $pgsql_con_string ))
+    if ( !$this->connection = pg_connect( $pgsql_con_string ))
     {
       throw new DbException( 'Connection failed' );
     }
 
-    if( $this->schema  )
+    if ( $this->schema  )
     {
       $this->setSearchPath( $this->schema );
     }
@@ -144,7 +144,7 @@ class DbPostgresql
   public function close()
   {
     
-    if( is_resource(  $this->connection ) )
+    if ( is_resource(  $this->connection ) )
       pg_close( $this->connection );
     
   }//end public function close */
@@ -155,7 +155,7 @@ class DbPostgresql
   public function getDbAdmin()
   {
     
-    if( $this->dbAdmin )
+    if ( $this->dbAdmin )
       return $this->dbAdmin;
     
     $this->dbAdmin = new DbAdminPostgresql
@@ -186,7 +186,7 @@ class DbPostgresql
     $sqlstring = 'SET search_path = "'.$schema.'", pg_catalog;';
 
 
-    if( !$result = pg_query( $this->connection , $sqlstring ) )
+    if ( !$result = pg_query( $this->connection , $sqlstring ) )
     {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
@@ -220,12 +220,12 @@ class DbPostgresql
   public function select( $sql, $singleRow = null, $expectResult = false  )
   {
 
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
-    if( !$result = pg_query( $this->connection , $sql ) )
+    if ( !$result = pg_query( $this->connection , $sql ) )
     {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
@@ -236,21 +236,21 @@ class DbPostgresql
 
     $data = array();
     
-    if( $singleRow )
+    if ( $singleRow )
     {
        $row = pg_fetch_assoc( $result );
        
-       if( !$row )
+       if ( !$row )
        {
-         if( $expectResult )
+         if ( $expectResult )
            throw new DbException( "Result was empty, but result was expected" );
          
          return array();
        }
       
-      if( is_string($singleRow) )
+      if ( is_string($singleRow) )
       {
-        if( array_key_exists($singleRow, $row) )
+        if ( array_key_exists($singleRow, $row) )
           return $row[$singleRow];
         else 
           throw new DbException( "Requested nonexisting Index ".$singleRow );
@@ -263,9 +263,9 @@ class DbPostgresql
       $data[] = $row;
 
          
-   if( !$data )
+   if ( !$data )
    {
-     if( $expectResult )
+     if ( $expectResult )
        throw new DbException( "Result was empty, but result was expected" );
    }
       
@@ -287,12 +287,12 @@ class DbPostgresql
   {
 
 
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
-    if( !$result = pg_query( $this->connection , $sql ) )
+    if ( !$result = pg_query( $this->connection , $sql ) )
     {
       throw new DbException
       (
@@ -303,14 +303,14 @@ class DbPostgresql
     // das kann passieren, wenn eine insert if not exists query läuft
     // dann kann es dazu kommen, dass kein datensatz angelegt wird, also
     // wollen wir in dem kontext dann auch keine id zurückgeben
-    if( !pg_affected_rows($result) )
+    if ( !pg_affected_rows($result) )
       return null;
 
     //$sqlstring = 'select currval( \''.strtolower($tableName).'_'.strtolower($tablePk).'_seq\')';
     $sqlstring = "select currval('entity_oid_seq');";
 
 
-    if( !$result = pg_query( $this->connection , $sqlstring) )
+    if ( !$result = pg_query( $this->connection , $sqlstring) )
     {
       throw new DbException
       (
@@ -334,12 +334,12 @@ class DbPostgresql
   public function update( $sql )
   {
 
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
-    if( !$result = pg_query( $this->connection, $sql ) )
+    if ( !$result = pg_query( $this->connection, $sql ) )
     {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
@@ -362,12 +362,12 @@ class DbPostgresql
   public function delete( $sql )
   {
 
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
-    if( !$result = pg_query( $this->connection, $sql ) )
+    if ( !$result = pg_query( $this->connection, $sql ) )
     {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
@@ -390,12 +390,12 @@ class DbPostgresql
   public function ddl( $sql )
   {
 
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
-    if( !$result = pg_query( $this->connection, $sql ) )
+    if ( !$result = pg_query( $this->connection, $sql ) )
     {
       // Fehlermeldung raus und gleich mal nen Trace laufen lassen
       throw new DbException
@@ -421,7 +421,7 @@ class DbPostgresql
   public function nextVal( $seqName  )
   {
     
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
@@ -429,7 +429,7 @@ class DbPostgresql
     $sqlstring = "select nextval('".$seqName."');";
 
 
-    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    if ( !$result = pg_query( $this->connection, $sqlstring ) )
     {
       throw new DbException
       (
@@ -453,14 +453,14 @@ class DbPostgresql
   public function currVal( $seqName  )
   {
     
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
     $sqlstring = "select currval('".$seqName."');";
 
-    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    if ( !$result = pg_query( $this->connection, $sqlstring ) )
     {
       throw new DbException
       (
@@ -484,14 +484,14 @@ class DbPostgresql
   public function lastVal( $seqName  )
   {
     
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
 
     $sqlstring = "select lastval('".$seqName."');";
 
-    if( !$result = pg_query( $this->connection, $sqlstring ) )
+    if ( !$result = pg_query( $this->connection, $sqlstring ) )
     {
       throw new DbException
       (
@@ -516,12 +516,12 @@ class DbPostgresql
   public function begin(  )
   {
     
-    if( !is_resource($this->connection) )
+    if ( !is_resource($this->connection) )
     {
       $this->open();
     }
   
-    if(! $result = pg_query( $this->connection , 'BEGIN' ) )
+    if (! $result = pg_query( $this->connection , 'BEGIN' ) )
     {
       throw new DbException
       (
@@ -539,7 +539,7 @@ class DbPostgresql
   public function rollback( )
   {
 
-    if(! $result = pg_query( $this->connection , 'ROLLBACK' ) )
+    if (! $result = pg_query( $this->connection , 'ROLLBACK' ) )
     {
       throw new DbException
       (
@@ -557,7 +557,7 @@ class DbPostgresql
   public function commit( )
   {
 
-    if(! $result = pg_query( $this->connection , 'COMMIT' ) )
+    if (! $result = pg_query( $this->connection , 'COMMIT' ) )
     {
       throw new DbException
       (

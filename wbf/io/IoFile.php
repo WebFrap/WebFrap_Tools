@@ -88,7 +88,7 @@ class IoFile
   public function __construct( $folder , $fileName = null )
   {
 
-    if( $fileName )
+    if ( $fileName )
     {
       $this->folder = $folder;
       $this->fileName = $fileName;
@@ -121,7 +121,7 @@ class IoFile
   public function getName( $full = false )
   {
 
-    if( $full )
+    if ( $full )
     {
       return str_replace('//','/',$this->folder . '/' . $this->fileName )  ;
     }
@@ -138,7 +138,7 @@ class IoFile
   public function getExtension()
   {
 
-    if( is_null( $this->extension ) )
+    if ( is_null( $this->extension ) )
     {
       $this->splitExtension();
     }
@@ -152,7 +152,7 @@ class IoFile
    */
   public function getPlainFilename()
   {
-    if( is_null( $this->plainFilename) )
+    if ( is_null( $this->plainFilename) )
     {
       $this->splitextension();
     }
@@ -179,13 +179,13 @@ class IoFile
   public function getOwner( )
   {
 
-    if( $this->owner != null )
+    if ( $this->owner != null )
     {
       return $this->owner ;
     }
     else
     {
-      if($userdata = posix_getpwuid(fileowner($this->folder.'/'.$this->fileName )))
+      if ($userdata = posix_getpwuid(fileowner($this->folder.'/'.$this->fileName )))
       {
         $this->owner = $userdata['name'];
         return $this->owner;
@@ -207,7 +207,7 @@ class IoFile
   public function setOwner( $owner )
   {
 
-    if( chown( $this->folder . '/'. $this->fileName , $owner ) )
+    if ( chown( $this->folder . '/'. $this->fileName , $owner ) )
     {
 
       $this->owner = $owner;
@@ -228,13 +228,13 @@ class IoFile
   public function getGroup( )
   {
 
-    if( $this->group != null )
+    if ( $this->group != null )
     {
       return $this->group ;
     }
     else
     {
-      if( $groupdata = posix_getgrgid(filegroup( $this->folder. '/' . $this->fileName )))
+      if ( $groupdata = posix_getgrgid(filegroup( $this->folder. '/' . $this->fileName )))
       {
 
         $this->group = $groupdata['name'];
@@ -257,7 +257,7 @@ class IoFile
   public function setGroup( $group )
   {
 
-    if( is_string( $group ) and  chgrp( $this->folder . '/'
+    if ( is_string( $group ) and  chgrp( $this->folder . '/'
       . $this->fileName , $group ) )
     {
 
@@ -279,13 +279,13 @@ class IoFile
   public function getRights( )
   {
 
-    if( $this->rights != null )
+    if ( $this->rights != null )
     {
       return $this->rights ;
     }
     else
     {
-      if( $rights = fileperms( $this->folder . '/' . $this->fileName ) )
+      if ( $rights = fileperms( $this->folder . '/' . $this->fileName ) )
       {
         $this->rights = $rights;
         return $this->rights;
@@ -307,7 +307,7 @@ class IoFile
   public function setRights( $rights )
   {
 
-    if( chmod( $this->folder . '/' . $this->fileName , $rights ) )
+    if ( chmod( $this->folder . '/' . $this->fileName , $rights ) )
     {
       $this->rights = $rights;
       return true;
@@ -327,13 +327,13 @@ class IoFile
   public function getLastchanged( )
   {
 
-    if( $this->lastChanged != null )
+    if ( $this->lastChanged != null )
     {
       return $this->lastChanged ;
     }
     else
     {
-      if( $lastchanged = filemtime( $this->folder . '/' . $this->fileName ) )
+      if ( $lastchanged = filemtime( $this->folder . '/' . $this->fileName ) )
       {
         $this->lastChanged = $lastchanged;
         return $this->lastChanged;
@@ -354,13 +354,13 @@ class IoFile
   public function getTimeCreated( )
   {
 
-    if( $this->created != null )
+    if ( $this->created != null )
     {
       return $this->created ;
     }
     else
     {
-      if( $created = filectime( $this->folder . '/' . $this->fileName ) )
+      if ( $created = filectime( $this->folder . '/' . $this->fileName ) )
       {
         $this->created = $created;
         return $this->created;
@@ -394,7 +394,7 @@ class IoFile
 
     $format = strtolower( $format );
 
-    if(!isset( $calcs[$format] ))
+    if (!isset( $calcs[$format] ))
     {
       $faktor = 1024;
     }
@@ -404,13 +404,13 @@ class IoFile
     }
 
 
-    if( $this->size != null )
+    if ( $this->size != null )
     {
       return $this->size ;
     }
     else
     {
-      if( $size = filesize( $this->folder . '/' . $this->fileName ) )
+      if ( $size = filesize( $this->folder . '/' . $this->fileName ) )
       {
         $this->size =  $size;
         return round(($this->size / $faktor),$precision);
@@ -434,7 +434,7 @@ class IoFile
 
     $lines = 0;
 
-    if(!$handle = fopen ( $this->folder . '/' . $this->fileName  , "r"))
+    if (!$handle = fopen ( $this->folder . '/' . $this->fileName  , "r"))
       return null;
 
     while (!feof($handle))
@@ -458,12 +458,12 @@ class IoFile
 
     $data = pathinfo($target);
 
-    if( trim($data['dirname'])!= '' and !file_exists($data['dirname']))
+    if ( trim($data['dirname'])!= '' and !file_exists($data['dirname']))
     {
       Fs::touch($target);
     }
 
-    if( is_writeable($data['dirname']) )
+    if ( is_writeable($data['dirname']) )
     {
       return copy( $this->folder.'/'.$this->fileName , $target );
     }
@@ -484,9 +484,9 @@ class IoFile
   public function move( $target )
   {
 
-    if( is_writeable( $this->folder.'/'.$this->filename ) )
+    if ( is_writeable( $this->folder.'/'.$this->filename ) )
     {
-      if( $this->copy( $target ))
+      if ( $this->copy( $target ))
       {
         $this->delete();
         return true;
@@ -510,7 +510,7 @@ class IoFile
   {
 
 
-    if( is_writeable( $this->folder.'/'.$this->filename ) )
+    if ( is_writeable( $this->folder.'/'.$this->filename ) )
     {
       return unlink( $this->folder.'/'.$this->filename );
     }

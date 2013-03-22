@@ -124,9 +124,9 @@ class TemplateWorkarea
     ob_start();
     foreach( $this->templates as $template )
     {
-      if( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
+      if ( Fs::exists( GAIA_PATH.'modules/'.$template.'.tpl' ) )
         include GAIA_PATH.'modules/'.$template.'.tpl';
-      elseif( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
+      elseif ( Fs::exists( GAIA_PATH.'wbf/'.$template.'.tpl' ) )
         include GAIA_PATH.'wbf/'.$template.'.tpl';
       else 
         echo '<p class="wgt-box-error" >Missing Template '.$template.'</p>'.NL;
@@ -136,9 +136,9 @@ class TemplateWorkarea
     ob_end_clean();
     
     ob_start();
-    if( Fs::exists( GAIA_PATH.'modules/'.$this->index.'.idx' ) )
+    if ( Fs::exists( GAIA_PATH.'modules/'.$this->index.'.idx' ) )
       include GAIA_PATH.'modules/'.$this->index.'.idx';
-    elseif( Fs::exists( GAIA_PATH.'wbf/'.$this->index.'.idx' ) )
+    elseif ( Fs::exists( GAIA_PATH.'wbf/'.$this->index.'.idx' ) )
       include GAIA_PATH.'wbf/'.$this->index.'.idx';
     else 
       echo '<p class="wgt-box-error" >Missing Index '.$this->index.'</p>'.NL;

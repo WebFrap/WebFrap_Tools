@@ -96,13 +96,13 @@ class MvcController
     
     $actionName = 'do_'.$action;
     
-    if( method_exists( $this, $actionName ) )
+    if ( method_exists( $this, $actionName ) )
     {
       $this->$actionName( );
     }
     else 
     {
-      if( method_exists( $this, 'do_help' ) )
+      if ( method_exists( $this, 'do_help' ) )
       {
         $this->do_help( $action );
       }

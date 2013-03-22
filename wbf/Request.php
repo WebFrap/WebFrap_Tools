@@ -71,9 +71,9 @@ class Request
   public static function parseRequest( $args = null )
   {
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
-      if( 1 < count($args) )
+      if ( 1 < count($args) )
       {
         $parsed = '';
         parse_str($args[1],$parsed);
@@ -100,7 +100,7 @@ class Request
   public static function arg( $key, $default = null )
   {
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       return isset( self::$args[$key] ) ? self::$args[$key] : $default;
     }

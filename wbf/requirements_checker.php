@@ -61,17 +61,17 @@ class CheckRequirements
     $warnings = array();
     
     // prüfen der php version
-    if( PHP_MAJOR_VERSION < 5 )
+    if ( PHP_MAJOR_VERSION < 5 )
     {
       $errors[] = I18n::get( '{@appname@} requires a PHP version >= 5.3.0. You have {@your_version@} please upgrade your PHP version first to be able to install {@appname@} ' );
     }
-    else if( PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3 )
+    else if ( PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3 )
     {
       $errors[] = I18n::get( '{@appname@} requires a PHP version >= 5.3.0. You have {@your_version@} please upgrade your PHP version first to be able to install {@appname@} ' );
     }
     
     // prüfen der php konfiguration
-    if( ini_get('register_globals') )
+    if ( ini_get('register_globals') )
     {
       $errors[] = I18n::get( <<<I18N
 You have register_globals activated. Due to security reasosn it is NOT allowed to run {@appname@} with register_globals=on. 
@@ -83,7 +83,7 @@ I18N
 );
     }
     
-    if( ini_get('short_open_tag') )
+    if ( ini_get('short_open_tag') )
     {
       $errors[] = I18n::get( <<<I18N
 You have short_open_tag activated. This is in general a bad idea and will cause several errors in the system. Please deactive "short_open_tag" in the php.ini before proceding.
@@ -91,7 +91,7 @@ I18N
 );
     }
     
-    if( ini_get('allow_url_include') )
+    if ( ini_get('allow_url_include') )
     {
       $errors[] = I18n::get( <<<I18N
 You have allow_url_include activated. This is a very dangerous option whith a uncalculateable security risk. Therefore it's not permitted to install {@appname@} when this option 
@@ -105,7 +105,7 @@ I18N
     }
     
     
-    if( $mode == 'production' && ini_get('display_errors') )
+    if ( $mode == 'production' && ini_get('display_errors') )
     {
       $warnings[] = I18n::get( <<<I18N
 You are going to set up a production system on a php version with display_errors=on. If you use it just to check for errors during the installation process everything ist fine.
@@ -115,7 +115,7 @@ I18N
     }
     
     $defCharset = ini_get('default_charset');
-    if( strtolower($defCharset) != 'utf-8' )
+    if ( strtolower($defCharset) != 'utf-8' )
     {
       $warnings[] = I18n::get( <<<I18N
 This version of {@appname@} expect utf-8 as default charset. Please change the option default_charset to 'utf-8' in the php.ini;
@@ -125,7 +125,7 @@ I18N
     
     // prüfen der verfügbarkeit von benötigten modulen
     
-    if( !extension_loaded('apc') )
+    if ( !extension_loaded('apc') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension APC is missing. The module is required for performance reasons, caching and the upload progess implementation.
@@ -135,7 +135,7 @@ I18N
     }
     
    
-    if( !extension_loaded('dom') )
+    if ( !extension_loaded('dom') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension DOM is missing. This extension is required for XML handling, imports, exports etc.
@@ -145,7 +145,7 @@ I18N
     }
     
      
-    if( !extension_loaded('SimpleXML') )
+    if ( !extension_loaded('SimpleXML') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension SimpleXML is missing. This extension is required for XML handling, imports, exports etc.
@@ -154,7 +154,7 @@ I18N
 );
     }
    
-    if( !extension_loaded('ctype') )
+    if ( !extension_loaded('ctype') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension ctype is missing. This extension is essential for internal checks of data integrity.
@@ -164,7 +164,7 @@ I18N
     }
     
    
-    if( !extension_loaded('mbstring') )
+    if ( !extension_loaded('mbstring') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension mbstring is missing. This extension is essential for handling multibyte unicode strings.
@@ -174,7 +174,7 @@ I18N
     }
     
    
-    if( !extension_loaded('iconv') )
+    if ( !extension_loaded('iconv') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension iconv is missing. This extension is essential for handling multibyte unicode strings.
@@ -184,7 +184,7 @@ I18N
     }
     
    
-    if( !extension_loaded('imap') )
+    if ( !extension_loaded('imap') )
     {
       $warnings[] = I18n::get( <<<I18N
 PHP extension imap is missing. This extension is essential for the mailsystem.
@@ -194,7 +194,7 @@ I18N
     }
     
      
-    if( !extension_loaded('sockets') )
+    if ( !extension_loaded('sockets') )
     {
       $warnings[] = I18n::get( <<<I18N
 PHP extension sockets is missing. This extension is essential for the mailsystem.
@@ -204,7 +204,7 @@ I18N
     }
     
   
-    if( !extension_loaded('pgsql') )
+    if ( !extension_loaded('pgsql') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension pgsql is missing. This extension is required for accessing the database.
@@ -214,7 +214,7 @@ I18N
 );
     }
     
-    if( !extension_loaded('zip') )
+    if ( !extension_loaded('zip') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension zip is missing. This extension is required for backups, restore, the package manager an many other
@@ -225,7 +225,7 @@ I18N
 );
     }
      
-    if( !extension_loaded('zlib') )
+    if ( !extension_loaded('zlib') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension zlib is missing. This extension is required for backups, restore, the package manager an many other
@@ -237,7 +237,7 @@ I18N
     }
     
     
-    if( !extension_loaded('session') )
+    if ( !extension_loaded('session') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension session is missing. It's not even possible to login without this extension.
@@ -246,7 +246,7 @@ I18N
 );
     }
   
-    if( !extension_loaded('gd') )
+    if ( !extension_loaded('gd') )
     {
       $warnings[] = I18n::get( <<<I18N
 PHP extension gd is missing. This extension is essential for creating thumb images and render graph diagramms.
@@ -255,7 +255,7 @@ I18N
 );
     }
      
-    if( !extension_loaded('pcre') )
+    if ( !extension_loaded('pcre') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension pcre is missing. This extension is required for validation and processing / analysing of data.
@@ -264,7 +264,7 @@ I18N
 );
     }
      
-    if( !extension_loaded('filter') )
+    if ( !extension_loaded('filter') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension pcre is missing. This extension is required for the input validation.
@@ -273,7 +273,7 @@ I18N
 );
     }
      
-    if( !extension_loaded('hash') )
+    if ( !extension_loaded('hash') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension hash is missing. This extension is required for security reasons.
@@ -282,7 +282,7 @@ I18N
 );
     }
      
-    if( !extension_loaded('json') )
+    if ( !extension_loaded('json') )
     {
       $errors[] = I18n::get( <<<I18N
 PHP extension json is missing. This extension is required for data exchange.
@@ -292,7 +292,7 @@ I18N
     }
   
      
-    if( !extension_loaded('curl') )
+    if ( !extension_loaded('curl') )
     {
       $warnings[] = I18n::get( <<<I18N
 PHP extension curl is missing. This extension is required for reading webservices from other systems.

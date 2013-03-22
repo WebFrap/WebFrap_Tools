@@ -103,7 +103,7 @@ class Gaia
       $end = 1;
       $package = '';
       
-      if( file_exists( $path.$classname.'.php' ) )
+      if ( file_exists( $path.$classname.'.php' ) )
       {
         include $path.$classname.'.php' ;
         return;
@@ -112,10 +112,10 @@ class Gaia
       {
         // 3 Stufen Packages
         $level = 0;
-        for( $pos = 1 ; $pos < $length  ; ++$pos )
+        for ( $pos = 1 ; $pos < $length  ; ++$pos )
         {
   
-          if(ctype_upper($classname[$pos]) )
+          if (ctype_upper($classname[$pos]) )
           {
             $package  .= strtolower( str_replace( '_','', substr( $classname, $start, $end  ) ) ).'/' ;
             $start    += $end;
@@ -123,20 +123,20 @@ class Gaia
             ++$level;
   
             $file = realpath($path.$package.$classname.'.php');
-            if( file_exists( $file ) )
+            if ( file_exists( $file ) )
             {
               self::$classIndex[$classname] = $file;
               include $file;
               return;
             }
   
-            if( $level == self::MAX_PACKAGE_LEVEL )
+            if ( $level == self::MAX_PACKAGE_LEVEL )
               break;
           }
           ++$end;
         }
         
-      }//end if( file_exists( $path.$classname.'.php' ) )
+      }//end if ( file_exists( $path.$classname.'.php' ) )
       
     }
 
@@ -151,7 +151,7 @@ class Gaia
   public static function classLoadable( $className )
   {
 
-    if( !isset(self::$loadAble[$className]) )
+    if ( !isset(self::$loadAble[$className]) )
     {
       try
       {
@@ -181,7 +181,7 @@ class Gaia
   public static function interfaceLoadable( $classname )
   {
 
-    if( !isset(self::$loadAble[$classname]) )
+    if ( !isset(self::$loadAble[$classname]) )
     {
       try
       {
@@ -221,7 +221,7 @@ class Gaia
   public static function tmpFile(  $area = null )
   {
     
-    if( $area )
+    if ( $area )
     {
       $tmpF = TMP_PATH.$area.'/'.str_replace( '.','_', uniqid(mt_rand(), true) ).'.tmp';
       return $tmpF;
@@ -301,7 +301,7 @@ class Gaia
   public static function tmpFolder( $fullPath = false )
   {
     
-    if( $fullPath )
+    if ( $fullPath )
       return TMP_PATH.str_replace( '.','_', uniqid(mt_rand(), true) ).'/' ;
     else 
       return str_replace( '.','_', uniqid(mt_rand(), true) ) ;
@@ -330,7 +330,7 @@ class Gaia
   public static function getRunId()
   {
     
-    if( !self::$runkey )
+    if ( !self::$runkey )
     {
       self::$runkey = time();
     }
@@ -350,7 +350,7 @@ class Gaia
     
     $errors = Process::execute( "php -l {$fileName}"  );
 
-    if( 'No syntax errors' == substr($errors, 0, 16 ) )
+    if ( 'No syntax errors' == substr($errors, 0, 16 ) )
       return true;
     else 
       return false;

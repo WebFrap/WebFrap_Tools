@@ -36,9 +36,9 @@ class Console_Controller
     while( $command = trim($console->in()) )
     {
       
-      if( Gaia::C_QUIT == $command )
+      if ( Gaia::C_QUIT == $command )
       {
-        if( !$request->flag('s') )
+        if ( !$request->flag('s') )
         {
           $console->out( 'Good night' );
         }
@@ -49,7 +49,7 @@ class Console_Controller
     
       $conClass = $subRequest->service.'_Controller';
       
-      if( Gaia::classLoadable( $conClass ) )
+      if ( Gaia::classLoadable( $conClass ) )
       {
         $controller = new $conClass();
         /* @var $controller MvcController   */

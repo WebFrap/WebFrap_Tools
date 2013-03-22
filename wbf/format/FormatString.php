@@ -44,7 +44,7 @@ final class FormatString
     }
 
     // remove last
-    if( $ret != ''  )
+    if ( $ret != ''  )
     {
       $ret = substr($ret,0,-1);
     }
@@ -66,7 +66,7 @@ final class FormatString
 
     $ret = '';
 
-    if( ! isset($xml->$key)  )
+    if ( ! isset($xml->$key)  )
       return '';
 
     foreach( $xml->$key as $a )
@@ -75,7 +75,7 @@ final class FormatString
     }
 
     // remove last
-    if( $ret != ''  )
+    if ( $ret != ''  )
     {
       $ret = substr($ret,0,-1);
     }
@@ -96,7 +96,7 @@ final class FormatString
 
     foreach($data as $tmp)
     {
-      if(trim($tmp) =='')
+      if (trim($tmp) =='')
       {
         continue;
       }
@@ -135,9 +135,9 @@ final class FormatString
   {
     
     /*
-    if(!strpos($str, '_'))
+    if (!strpos($str, '_'))
     {
-      if( $firstSmall )
+      if ( $firstSmall )
       {
         return $str;
       }
@@ -166,7 +166,7 @@ final class FormatString
 
     $camelCase = implode( '_', $camelCase2 );
 
-    if( $firstSmall && isset( $camelCase[0] ) )
+    if ( $firstSmall && isset( $camelCase[0] ) )
       $camelCase[0] = mb_strtolower( $camelCase[0] );
 
     return $camelCase;
@@ -180,9 +180,9 @@ final class FormatString
   public static function subToModule( $str, $firstSmall = false  )
   {
 
-    if(!strpos($str, '_'))
+    if (!strpos($str, '_'))
     {
-      if( $firstSmall )
+      if ( $firstSmall )
       {
         return $str;
       }
@@ -194,7 +194,7 @@ final class FormatString
 
     $tmp = explode( '_' , trim($str) );
 
-    if( $firstSmall )
+    if ( $firstSmall )
       return array_shift($tmp);
     else 
       return ucfirst(array_shift($tmp));
@@ -208,9 +208,9 @@ final class FormatString
   public static function subToPackage( $str, $firstSmall = false  )
   {
 
-    if(!strpos($str, '_'))
+    if (!strpos($str, '_'))
     {
-      if( $firstSmall )
+      if ( $firstSmall )
       {
         return $str;
       }
@@ -234,7 +234,7 @@ final class FormatString
   public static function subToUrl( $str )
   {
 
-    if(!strpos($str, '_'))
+    if (!strpos($str, '_'))
     {
       return ucfirst($str);
     }
@@ -262,13 +262,13 @@ final class FormatString
 
     $tmp = explode( '_' , trim($str) );
 
-    if($shift)
+    if ($shift)
     {
       // shift only if there are more than one parts
-      if( count( $tmp > 1 ) )
+      if ( count( $tmp > 1 ) )
         array_shift($tmp);
     }
-    elseif( $tmp[0] == 'id' )
+    elseif ( $tmp[0] == 'id' )
     {
       array_shift($tmp);
     }
@@ -288,7 +288,7 @@ final class FormatString
   public static function ucAll( $parts )
   {
 
-    if( !is_array($parts) )
+    if ( !is_array($parts) )
     {
       $parts = explode(' ',$parts);
     }
@@ -420,9 +420,9 @@ final class FormatString
 
       $length = mb_strlen($className);
 
-      for( $pos = 1 ; $pos < $length  ; ++$pos )
+      for ( $pos = 1 ; $pos < $length  ; ++$pos )
       {
-        if( ctype_upper($className[$pos]) )
+        if ( ctype_upper($className[$pos]) )
         {
           $package .= mb_strtolower(substr( $className, $start, $end  )).'_' ;
           $start += $end;
@@ -433,7 +433,7 @@ final class FormatString
 
       $package .= mb_strtolower(substr( $className, $start, $end  ));
 
-      if( isset($package[mb_strlen($package)]) && $package[mb_strlen($package)] == '_' )
+      if ( isset($package[mb_strlen($package)]) && $package[mb_strlen($package)] == '_' )
       {
         $package = substr($package,0,-1);
       }
@@ -454,9 +454,9 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
         $package .= mb_strtolower(substr( $className, $start, $end  )).'.' ;
         $start += $end;
@@ -467,7 +467,7 @@ final class FormatString
 
     $package .= mb_strtolower(substr( $className, $start, $end  ));
 
-    if( $package[mb_strlen($package)] == '.' )
+    if ( $package[mb_strlen($package)] == '.' )
       $package = substr($package,0,-1);
 
     return $package;
@@ -486,9 +486,9 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
         $package .= substr( $className, $start, $end ).' ' ;
         $start += $end;
@@ -499,7 +499,7 @@ final class FormatString
 
     $package .= substr( $className, $start, $end );
 
-    if( $package[mb_strlen($package)] == '.' )
+    if ( $package[mb_strlen($package)] == '.' )
       $package = substr($package,0,-1);
 
     return $package;
@@ -521,15 +521,15 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
         $package .= mb_strtolower( str_replace( '_', '', substr( $className, $start, $end  ) ) ).'/' ;
         $start += $end;
         $end = 0;
         ++$level;
-        if( $level == Gaia::MAX_PACKAGE_LEVEL )
+        if ( $level == Gaia::MAX_PACKAGE_LEVEL )
         {
           break;
         }
@@ -537,7 +537,7 @@ final class FormatString
       ++$end;
     }
 
-    if( $full )
+    if ( $full )
     {
       $classPath = $package.$className.'.php';
     }
@@ -590,9 +590,9 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
         $hump = substr( $className, 0, $end  );
         break;
@@ -616,10 +616,10 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
 
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
         $hump = substr( $className, -($length-$end) );
         break;
@@ -644,9 +644,9 @@ final class FormatString
 
     $length = mb_strlen($className);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if(ctype_upper($className[$pos]) )
+      if (ctype_upper($className[$pos]) )
       {
 
         $package .= mb_strtolower(substr( $className, $start, $end  )).'/' ;
@@ -654,13 +654,13 @@ final class FormatString
         $end = 0;
         ++$level;
 
-        if( $level == Gaia::MAX_PACKAGE_LEVEL )
+        if ( $level == Gaia::MAX_PACKAGE_LEVEL )
           break;
       }
       ++$end;
     }
 
-    if( $full )
+    if ( $full )
       $classPath = $package.$className.'.js';
     else
       $classPath = $package;
@@ -712,9 +712,9 @@ final class FormatString
 
     $length = mb_strlen($eventName);
 
-    for( $pos = 1 ; $pos < $length  ; ++$pos )
+    for ( $pos = 1 ; $pos < $length  ; ++$pos )
     {
-      if( ctype_upper($eventName[$pos]) )
+      if ( ctype_upper($eventName[$pos]) )
       {
         $package .= mb_strtolower(substr( $eventName, $start, $end  )).'/' ;
         $start += $end;
@@ -724,7 +724,7 @@ final class FormatString
       ++$end;
     }
 
-    if($asString)
+    if ($asString)
       return $folder.$package.$eventName.'.php';
 
     else
@@ -755,7 +755,7 @@ final class FormatString
       $folder .= $subFolder."/";
     }*/
 
-    if( $withFile )
+    if ( $withFile )
     {
       return $folder.$fileName.".php";
     }
@@ -778,7 +778,7 @@ final class FormatString
 
     $tmp = explode( '.' , $name , 2 );
 
-    if( $lower )
+    if ( $lower )
     {
       // should be lower case, but you never know
       return mb_strtolower($tmp[0]);
@@ -799,7 +799,7 @@ final class FormatString
 
     $tmp = explode( '_' , $name , 2 );
 
-    if( $lower )
+    if ( $lower )
     {
       // should be lower case, but you never know
       return mb_strtolower($tmp[0]);
@@ -820,7 +820,7 @@ final class FormatString
 
     $tmp = explode( '_' , $name , 2 );
 
-    if( $lower )
+    if ( $lower )
     {
       // should be lower case, but you never know
       return mb_strtolower($tmp[0]);
@@ -853,15 +853,15 @@ final class FormatString
   public static function shiftXTokens( $string, $delimiter, $x )
   {
     
-    if( (int)$x < 0 )
+    if ( (int)$x < 0 )
       $x = -1*(int)$x;
       
-    if( !$x )
+    if ( !$x )
       return $string;
     
     $tmp = explode($delimiter, $string);
     
-    if( count($tmp) <= $x )
+    if ( count($tmp) <= $x )
       return '';
       
     while ( $x )
@@ -933,10 +933,10 @@ final class FormatString
   {
     $length = mb_strlen($string);
     
-    if( $length <= $size ) 
+    if ( $length <= $size ) 
       return $string;
       
-    if( $reverse )
+    if ( $reverse )
     {
       return $append.mb_substr( $string, (-1*($size - $length)), $length, 'utf-8' );
     } 
@@ -1013,7 +1013,7 @@ final class FormatString
     $tmp = explode( $seperator, $data );
 
     $data = array();
-    for( $nam = 0 ; $nam < count($tmp) ; ++$nam )
+    for ( $nam = 0 ; $nam < count($tmp) ; ++$nam )
     {
       $data[$tmp[$nam]] = $tmp[++$nam];
     }
@@ -1051,7 +1051,7 @@ final class FormatString
   public static function splitFilename( $filename )
   {
 
-    if(!$pos = strrpos( $filename , '/' ) )
+    if (!$pos = strrpos( $filename , '/' ) )
     {
       $back['folder'] = '';
       $back['file'] = $filename;

@@ -47,12 +47,12 @@ class File
     $data = array();
     $pos = 0;
     
-    if( ( $handle = fopen( $file, "r")) !== FALSE) 
+    if ( ( $handle = fopen( $file, "r")) !== FALSE) 
     {
       
       while (($row = fgetcsv($handle, 4096, $delimiter, $enclosure, $escape )) !== FALSE) 
       {
-        if( $start > $pos )
+        if ( $start > $pos )
         {
           ++$pos;
           continue;

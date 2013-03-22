@@ -75,7 +75,7 @@ class FormatNumber
   public function __construct( $i18n = null, $precision = 2 )
   {
 
-    if( !$i18n )
+    if ( !$i18n )
       $i18n = I18n::getActive();
 
     $this->size         = $precision;
@@ -103,7 +103,7 @@ class FormatNumber
   public static function getActive()
   {
 
-    if( is_null( self::$instance) )
+    if ( is_null( self::$instance) )
     {
       self::$instance = new FormatNumber();
     }
@@ -156,7 +156,7 @@ class FormatNumber
 
     $numeric = trim($numeric);
 
-    if( '-' == $numeric[0] )
+    if ( '-' == $numeric[0] )
       $this->negativ = true;
 
     $this->numericLanguage = $numeric;
@@ -166,13 +166,13 @@ class FormatNumber
     $flags = PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE ;
     $rawMatches = preg_split( $regex, trim($numeric), -1, $flags);
 
-    if( in_array( $this->separatorDec ,  $rawMatches )  )
+    if ( in_array( $this->separatorDec ,  $rawMatches )  )
     {
 
       $num = '';
       $end = array_pop( $rawMatches );
 
-      if( !ctype_digit($end) )
+      if ( !ctype_digit($end) )
       {
         $end = '00';
       }
@@ -182,7 +182,7 @@ class FormatNumber
       foreach( $rawMatches as $match )
       {
 
-        if( ctype_digit($match) )
+        if ( ctype_digit($match) )
           $num .= $match;
 
         $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.'.$end);
@@ -197,7 +197,7 @@ class FormatNumber
       foreach( $rawMatches as $match )
       {
 
-        if( ctype_digit($match) )
+        if ( ctype_digit($match) )
           $num .= $match;
 
         $this->numericEnglish = (float)(($this->negativ?'-':'').$num.'.00');
@@ -227,7 +227,7 @@ class FormatNumber
   public function formatToEnglish( $numeric = null )
   {
 
-    if( !is_null($numeric)  )
+    if ( !is_null($numeric)  )
       $this->setNumericLanguage($numeric);
 
     return $this->numericEnglish;
@@ -240,7 +240,7 @@ class FormatNumber
   public function formatToLanguage( $numeric = null )
   {
 
-    if( is_null( $numeric ) )
+    if ( is_null( $numeric ) )
      $numeric = $this->numericEnglish;
 
     return number_format

@@ -53,27 +53,27 @@ class RequestCli
   public function __construct( $args )
   {
     
-    if( 1 == count($args) )
+    if ( 1 == count($args) )
       return;
 
     foreach( $args as $pos => $argument )
     {
 
-      if( !$pos )
+      if ( !$pos )
         continue;
 
-      if( strpos( $argument, '=' ) )
+      if ( strpos( $argument, '=' ) )
       {
         $tmp = explode( '=', $argument );
         $this->params[$tmp[0]] = $tmp[1];
       }
-      else if( '-' == $argument[0] )
+      else if ( '-' == $argument[0] )
       {
         $this->flags[str_replace( '-', '', $argument )] = true;
       }
       else 
       {
-        if( !$this->service )
+        if ( !$this->service )
           $this->service = FormatString::subToCamelCase($argument) ;
         else 
           $this->action = $argument;
@@ -110,7 +110,7 @@ class RequestCli
   public function init()
   {
 
-    if( 2 < count( $_SERVER['argv']) )
+    if ( 2 < count( $_SERVER['argv']) )
     {
       $parsed = null;
       parse_str( $_SERVER['argv'][2], $parsed );
@@ -118,14 +118,14 @@ class RequestCli
       $this->params = $parsed;
     }
 
-    if( isset( $_SERVER['argv'][1] ) )
+    if ( isset( $_SERVER['argv'][1] ) )
     {
       
       $tmp = explode( '.', $_SERVER['argv'][1] );
       
       $this->action = $tmp[0];
       
-      if( isset( $tmp[1] ) )
+      if ( isset( $tmp[1] ) )
         $this->action = $tmp[1];
       else 
         $this->action = 'default';

@@ -61,7 +61,7 @@ class SoftwareUbuntuDovecot
   {
     
     // setup 
-    if( !Fs::exists( SYS_ROOT.'var/wbf_mail' ) )
+    if ( !Fs::exists( SYS_ROOT.'var/wbf_mail' ) )
     {
       Fs::mkdir( SYS_ROOT.'var/wbf_mail', 0771 );
       

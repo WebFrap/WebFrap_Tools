@@ -29,7 +29,7 @@
 
 define( 'NL', "\n" );
 
-if( 'cli' == php_sapi_name() )
+if ( 'cli' == php_sapi_name() )
   define( 'IS_CLI', true );
 else
   define( 'IS_CLI', false );
@@ -50,7 +50,7 @@ include GAIA_PATH.'wbf/Gaia.php';
 spl_autoload_register('Gaia::pathAutoload');
 
 /*
-if( '' == trim(Process::execute('echo $DISPLAY')) )
+if ( '' == trim(Process::execute('echo $DISPLAY')) )
 {
   include GAIA_PATH.'wbf/ui/UiConsoleCli.php';
 }
@@ -66,7 +66,7 @@ Environment::guessOsData();
 
 $console = UiConsole::getActive();
 
-if( !defined('GAIA_CONTEXT') )
+if ( !defined('GAIA_CONTEXT') )
 {
   $console->error("Der Scriptauthor hat vergessen einen GAIA_CONTEXT zu definieren.");
   exit(1);
@@ -88,15 +88,15 @@ $confRequired = array
   'sync'
 );
 
-if( in_array(GAIA_CONTEXT, $confRequired) )
+if ( in_array(GAIA_CONTEXT, $confRequired) )
 {
 
-  if( $key = Request::arg( 'conf' ) )
+  if ( $key = Request::arg( 'conf' ) )
   {
     
     $confPath = GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.'.$key.'.php';
     
-    if( Fs::exists($confPath) )
+    if ( Fs::exists($confPath) )
     {
       include $confPath;
     }
@@ -114,7 +114,7 @@ ERROR
   }
   else 
   {
-    if( Fs::exists( GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php' ) )
+    if ( Fs::exists( GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php' ) )
     {
       include  GAIA_PATH.'conf/conf.'.GAIA_CONTEXT.'.default.php';
     }

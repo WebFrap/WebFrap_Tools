@@ -44,9 +44,9 @@ class TArray
   public function __construct( )
   {
 
-    if( $anz = func_num_args() )
+    if ( $anz = func_num_args() )
     {
-      if( $anz == 1 and is_array(func_get_arg(0)) )
+      if ( $anz == 1 and is_array(func_get_arg(0)) )
       {
         $this->pool = func_get_arg(0);
       }

@@ -50,14 +50,14 @@ class User
       foreach( $dbs['db'] as $dbKey => $dbData )
       {
         
-        if( !is_null($key) && $dbKey !== $key  )
+        if ( !is_null($key) && $dbKey !== $key  )
           continue;
         
         foreach ( $types as $pos => $itemType  )
         {
           
           // keine leeren items importieren
-          if( '' == trim($row[$pos]) )
+          if ( '' == trim($row[$pos]) )
             continue;
             
           $uuid         = Gaia::uuid();
@@ -126,7 +126,7 @@ SQL;
     foreach( $dbs['db'] as $dbKey => $dbData )
     {
       
-      if( !is_null($key) && $dbKey !== $key  )
+      if ( !is_null($key) && $dbKey !== $key  )
         continue;
       
       $timeCreated  = Gaia::timestamp(); 
@@ -219,7 +219,7 @@ SQL;
         $dbs['root_pwd'] 
       );
       
-      if( '' != trim($userContainer->email) )
+      if ( '' != trim($userContainer->email) )
       {
         
         $uuidMail         = Gaia::uuid();

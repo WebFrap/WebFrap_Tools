@@ -52,7 +52,7 @@ class UserManagement
     
     $userName = $user->getName();
     
-    if( $this->userExists( $userName ) )
+    if ( $this->userExists( $userName ) )
     {
       $this->protocol->info( "Systemuser {$userName} allready exists." );      
       return;
@@ -146,7 +146,7 @@ SQL;
   public function userExists( $user )
   {
     
-    if( is_object( $user ) )
+    if ( is_object( $user ) )
       $user = $user->getName();
         
     return (boolean)$this->db->select( 'SELECT COUNT(rowid) as pos from wbfsys_role_user where upper(name) = upper(\''.$user.'\') ', 'pos' );
@@ -174,7 +174,7 @@ SQL;
     
     $this->db->delete( 'DELETE FROM wbfsys_role_user WHERE upper(name) = upper(\''.$user.'\') ' );
     
-    if( $person )
+    if ( $person )
       $this->db->delete( 'DELETE FROM core_person WHERE rowid = '.$person );
     
   }//end public function dropUser */

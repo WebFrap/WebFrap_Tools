@@ -59,7 +59,7 @@ class ProcessRunner
 
     $actFolder = null;
 
-    if( $execPath )
+    if ( $execPath )
     {
       $actFolder = getcwd();
       chdir($execPath);
@@ -67,10 +67,10 @@ class ProcessRunner
 
     $result = '';
 
-    if( is_array( $params ) )
+    if ( is_array( $params ) )
       $params = implode( ' ', $params );
 
-    if( $params )
+    if ( $params )
       $command .= ' '.escapeshellcmd($params);
 
     if ($proc = popen("({$command})2>&1","r"))
@@ -81,7 +81,7 @@ class ProcessRunner
       pclose($proc);
     }
 
-    if( $actFolder )
+    if ( $actFolder )
       chdir( $actFolder );
 
     return $result;
@@ -99,7 +99,7 @@ class ProcessRunner
 
     $result = '';
 
-    if( $params )
+    if ( $params )
       $command .= ' '.escapeshellcmd($params);
 
     if ($proc = popen("({$command})2>&1","r"))
@@ -129,10 +129,10 @@ class ProcessRunner
        2 => array( "pipe", "w" )   // stderr pipe for errors
     );
     
-    if( is_array( $params ) )
+    if ( is_array( $params ) )
       $params = implode( ' ', $params );
 
-    if( $params )
+    if ( $params )
       $command .= ' '.escapeshellcmd($params);
 
     $this->proc = proc_open( $command ,$spec, $pipes, null, $env );
@@ -164,7 +164,7 @@ class ProcessRunner
   public function readLine()
   {
     
-    if( feof( $this->stdout ) )
+    if ( feof( $this->stdout ) )
       return null;
     
     return fgets( $this->stdout, 1024 );

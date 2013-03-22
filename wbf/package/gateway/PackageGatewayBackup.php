@@ -44,7 +44,7 @@ class PackageGatewayBackup
      * user_data
      */
     
-    if( $asPart )
+    if ( $asPart )
       return '_'.ucfirst( $this->getAttribute( 'type' ) );
     else
       return $this->getAttribute( 'type' );
@@ -80,7 +80,7 @@ class PackageGatewayBackup
     // Monat
     // Quartal
     // Year
-    if( '' == $attrVal )
+    if ( '' == $attrVal )
       $attrVal = '7,2,2,1,1';
       
     $tmp = explode( ',', $attrVal );

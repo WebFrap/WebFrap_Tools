@@ -56,13 +56,13 @@ class XmlDocument
   public function __construct( $file )
   {
     
-    if( is_string( $file ) )
+    if ( is_string( $file ) )
     {
       $this->fileName = $file;
       
       $this->document = new DOMDocument();
       
-      if( !$this->document->load( $file ) )
+      if ( !$this->document->load( $file ) )
       {
         return;
       }
@@ -85,7 +85,7 @@ class XmlDocument
   public function xpath( $query, $node = null )
   {
     
-    if( $node )
+    if ( $node )
       return $this->xpath->evaluate( $query, $node );
     else 
       return $this->xpath->evaluate( $query );
@@ -151,7 +151,7 @@ class XmlDocument
     
     $node = $this->xpath( $path );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item( 0 );
       
     return null;
@@ -170,7 +170,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0);
       
     return null;
@@ -190,9 +190,9 @@ class XmlDocument
   {
     $list = $this->xpath( './'.$path, $this->rootNode );
     
-    if( $containerClass )
+    if ( $containerClass )
     {
-      if( class_exists($containerClass))
+      if ( class_exists($containerClass))
       {
         $tmp = array();
         
@@ -221,7 +221,7 @@ class XmlDocument
   public function createPath( $path, $position = null )
   {
     
-    if( $position )
+    if ( $position )
     {
       $dom = $this->getNode( './'.$position, $this->rootNode  );
     }
@@ -232,12 +232,12 @@ class XmlDocument
     
     $pos = strpos( $path, '/'  );
     
-    if( $pos )
+    if ( $pos )
     {
       $nodeName = substr( $path, 0, $pos );
       
       
-      if( $position )
+      if ( $position )
         $position = $position.'/'.$nodeName;
       else 
         $position = $nodeName;
@@ -252,9 +252,9 @@ class XmlDocument
 
     $node = $this->xpath( './'.$nodeName, $dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
-      if( $nextPath )
+      if ( $nextPath )
       {
         return $this->createPath( $nextPath, $position );
       }
@@ -264,7 +264,7 @@ class XmlDocument
       $newNode = $this->document->createElement( $nodeName, '' );
       $dom->appendChild( $newNode );
       
-      if( $nextPath )
+      if ( $nextPath )
       {
         return $this->createPath( $nextPath, $position );
       }
@@ -283,12 +283,12 @@ class XmlDocument
   public function addNode( $tagName, $value, $attributes = array(), $parent = null )
   {
     
-    if( !$parent )
+    if ( !$parent )
       $parent  = $this->rootNode;
 
     $newNode = $this->document->createElement( $tagName, $value );
     
-    if( $attributes )
+    if ( $attributes )
     {
       foreach( $attributes as $key => $valAttr )
       {
@@ -309,7 +309,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->nodeValue = $value;
     }
@@ -328,7 +328,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0)->textContent;
     else 
       return null;  
@@ -345,7 +345,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0)->getAttribute( $attrName );
     else 
       return null;  
@@ -361,7 +361,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->setAttribute( $attrName, $value );
     }
@@ -382,7 +382,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->removeAttribute( $attrName );
     }
@@ -395,7 +395,7 @@ class XmlDocument
   public function removeAttr( $attrName )
   {
     
-    if( $this->rootNode->hasAttribute( $attrName ) )
+    if ( $this->rootNode->hasAttribute( $attrName ) )
       $this->rootNode->removeAttribute( $attrName );
     
   }//end public function removeAttr */
@@ -407,14 +407,14 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       return $node->item(0);
     }
     else 
     {
       
-      if( strpos( $tagName, '/' ) )
+      if ( strpos( $tagName, '/' ) )
       {
         return $this->createPath( $tagName );
       }
@@ -432,7 +432,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node = $node->item(0);
       $node->parentNode->removeChild( $node );
@@ -447,7 +447,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node = $node->item(0);
       foreach( $node->childNodes  as $child )
@@ -465,7 +465,7 @@ class XmlDocument
   {
     $node = $this->xpath( './'.$tagName, $this->rootNode );
     
-    if( $node->length )
+    if ( $node->length )
       return true;
     else 
       return false;  
@@ -506,7 +506,7 @@ class XmlDocument
     
     $list = $this->xpath( './'.$type.'/text[@lang="'.$lang.'"]', $this->rootNode );
 
-    if( !$list->length )
+    if ( !$list->length )
       return '';
       
     return $list->item(0)->textContent;
@@ -526,13 +526,13 @@ class XmlDocument
     
     $nodes = array();
     
-    if( $list->length )
+    if ( $list->length )
     {
       $node = $list->item(0);
       
       $cdata = $node->ownerDocument->createCDATASection( $content  );
       
-      if( $node->hasChildNodes() )
+      if ( $node->hasChildNodes() )
       {
         $node->replaceChild( $cdata, $node->childNodes->item(0) );
       }
@@ -548,7 +548,7 @@ class XmlDocument
     {
       $tNodeList = $this->xpath( './'.$type, $this->rootNode );
       
-      if( !$tNodeList->length )
+      if ( !$tNodeList->length )
       {
         $newNode = $this->document->createElement( $type );
         $tNode = $this->rootNode->appendChild( $newNode );
@@ -580,7 +580,7 @@ class XmlDocument
     
     $list = $this->xpath( './'.$type.'/text[@lang="'.$lang.'"]', $this->rootNode );
 
-    if( $list->length )
+    if ( $list->length )
     {
       return true;
     }
@@ -604,7 +604,7 @@ class XmlDocument
   public function getSimple( )
   {
     
-    if( $this->simple )
+    if ( $this->simple )
       return $this->simple;
     
     $this->simple = simplexml_import_dom($this->rootNode);

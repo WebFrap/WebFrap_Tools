@@ -40,10 +40,10 @@ class Ssl
   public static function simpleCert( $universeKey )
   {
     
-    if( Fs::exists( "/etc/apache2/ssl/{$universeKey}/{$universeKey}.pem" ) )
+    if ( Fs::exists( "/etc/apache2/ssl/{$universeKey}/{$universeKey}.pem" ) )
       return;
     
-    if( !Fs::exists( "/etc/apache2/ssl/{$universeKey}/" ) )
+    if ( !Fs::exists( "/etc/apache2/ssl/{$universeKey}/" ) )
       Fs::mkdir( "/etc/apache2/ssl/{$universeKey}/" );
     
     Process::system

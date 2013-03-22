@@ -226,19 +226,19 @@ class SetupDbPostgresql
   {
     
     // prüfen ob der server installiert werden soll
-    if( !$database->installServer() )
+    if ( !$database->installServer() )
       return;
     
     $dbType = ucfirst($database->getType());
     
-    if( Environment::$isRoot )
+    if ( Environment::$isRoot )
     {
       try 
       {
         $dbInstaller = Software::getInstaller( $dbType );
         /* @var $dbInstaller Software */
         
-        if( !$dbInstaller->allreadyInstalled() )
+        if ( !$dbInstaller->allreadyInstalled() )
         {
           $this->protocol->info( "{$dbType} is not yet installed. The installer will install it and make the setup for you." );
           $dbInstaller->installCore();
@@ -288,10 +288,10 @@ class SetupDbPostgresql
     $dbUser    = $database->getDbUser();
     $dbUserPwd = $database->getDbPwd();
 
-    if( !$this->dbAdmin->userExists( $dbUser ) )
+    if ( !$this->dbAdmin->userExists( $dbUser ) )
     {
       $this->protocol->info( "Lege den DB Backenduser: {$dbUser} an." );
-      if( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
+      if ( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
       {
         $fatal = 'Konnte den DB User: '.$dbUser.' nicht anlegen';
         $this->protocol->fatal( $fatal );
@@ -299,11 +299,11 @@ class SetupDbPostgresql
       }
     }
     
-    if( !$this->dbAdmin->databaseExists( $dbName ) )
+    if ( !$this->dbAdmin->databaseExists( $dbName ) )
     {
       $this->protocol->info( "Erstelle die Datenbank: {$dbName} neu." );
       
-      if( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
+      if ( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
       {
         $fatal = 'Konnte die Datenbank: '.$dbName.' nicht anlegen';
         $this->protocol->fatal( $fatal );
@@ -313,7 +313,7 @@ class SetupDbPostgresql
     
     $dumpFile = $database->getDumpFile();
     
-    if( $dumpFile )
+    if ( $dumpFile )
     {
       
       $this->protocol->info( "Erstelle Datenbankschema aus Dump: ".$dumpFile );
@@ -321,7 +321,7 @@ class SetupDbPostgresql
       $dbDump     = $dataPath.'db_dump/'.$dumpFile;
       $dumpSchema = $database->getDumpFileSchema();
       
-      if( Fs::exists( $dbDump ) )
+      if ( Fs::exists( $dbDump ) )
       {
         $this->dbAdmin->restoreSchema( $dbName, $dbSchema, $dbDump, $dumpSchema );
       }
@@ -339,13 +339,13 @@ class SetupDbPostgresql
     }
 
     // standard OID Sequence erstellen
-    if( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
+    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
     {
       $this->protocol->info( "Erstelle Sequence: entity_oid_seq in {$dbName}.{$dbSchema}." );
       $this->dbAdmin->createSequence( $dbName, $dbSchema, 'entity_oid_seq', $dbUser );
     }
     
-    if( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
+    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
     {
       $this->protocol->info( "Erstelle Sequence: wbf_deploy_revision in {$dbName}.{$dbSchema}." );
       $this->dbAdmin->createSequence( $dbName, $dbSchema, 'wbf_deploy_revision', $dbUser );
@@ -372,7 +372,7 @@ class SetupDbPostgresql
     $dbUserPwd = $database->getDbPwd();
 
     
-    if( $this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
+    if ( $this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
     {
       $this->protocol->info( "Das Zielschema: {$dbSchema} existiert bereits." );
       
@@ -447,7 +447,7 @@ class SetupDbPostgresql
           );
           
                       
-          if( !$this->dbAdmin->renameSchema( $dbName, $dbSchema, $dbSchema.'_setup_'.date('YmdHis') ) )
+          if ( !$this->dbAdmin->renameSchema( $dbName, $dbSchema, $dbSchema.'_setup_'.date('YmdHis') ) )
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte umbenannt werden.
@@ -457,7 +457,7 @@ FATAL;
             throw new GaiaException( $fatal );
           }
           
-          if( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+          if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
@@ -478,7 +478,7 @@ FATAL;
             ." Fürs Protokoll er wurde gewarnt, dass das womöglich keine gute Idee ist."
           );
           
-          if( !$this->dbAdmin->dropSchema( $dbName, $dbSchema ) )
+          if ( !$this->dbAdmin->dropSchema( $dbName, $dbSchema ) )
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht gelöscht werden.
@@ -488,7 +488,7 @@ FATAL;
             throw new GaiaException( $fatal );
           }
           
-          if( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+          if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
           {
               $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
@@ -516,7 +516,7 @@ FATAL;
     else 
     {
       $this->protocol->info( "Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt." );
-      if( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+      if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
       {
           $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
@@ -542,7 +542,7 @@ FATAL;
     
     foreach( $users as /* @var $user PackageDbUser  */ $user )
     {
-      if( !$this->dbAdmin->userExists($user->getName()) )
+      if ( !$this->dbAdmin->userExists($user->getName()) )
       {
         $this->dbAdmin->createUser( $user->getName(), $user->getPasswd(), $user->getType()  );
       }
@@ -552,7 +552,7 @@ FATAL;
     
     foreach( $groups as /* @var $group PackageDbGroup  */ $group )
     {
-      if( !$this->dbAdmin->groupExists( $group->getName() ) )
+      if ( !$this->dbAdmin->groupExists( $group->getName() ) )
       {
         $this->dbAdmin->createGroup( $group->getName() );
       }
@@ -609,7 +609,7 @@ FATAL;
 
     $files     = $database->getStructureFiles();
 
-    if( $this->dbAdmin->con )
+    if ( $this->dbAdmin->con )
     {
       foreach( $files as /* @var PackageDbDumpFile $file */ $file )
       {
@@ -715,10 +715,10 @@ FATAL;
     $dbUser    = $database->getDbUser();
     $dbUserPwd = $database->getDbPwd();
 
-    if( !$this->dbAdmin->userExists( $dbUser ) )
+    if ( !$this->dbAdmin->userExists( $dbUser ) )
     {
       $this->protocol->info( "Lege den DB Backenduser: {$dbUser} an." );
-      if( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
+      if ( !$this->dbAdmin->createBackendUser( $dbUser, $dbUserPwd ) )
       {
         $fatal = 'Konnte den DB User: '.$dbUser.' nicht anlegen';
         $this->protocol->fatal( $fatal );
@@ -726,11 +726,11 @@ FATAL;
       }
     }
     
-    if( !$this->dbAdmin->databaseExists( $dbName ) )
+    if ( !$this->dbAdmin->databaseExists( $dbName ) )
     {
       $this->protocol->info( "Erstelle die Datenbank: {$dbName} neu." );
       
-      if( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
+      if ( !$this->dbAdmin->createDatabase( $dbName, $dbUser ) )
       {
         $fatal = 'Konnte die Datenbank: '.$dbName.' nicht anlegen';
         $this->protocol->fatal( $fatal );
@@ -738,10 +738,10 @@ FATAL;
       }
     }
     
-    if( !$this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
+    if ( !$this->dbAdmin->schemaExists( $dbName, $dbSchema ) )
     {
       $this->protocol->info( "Schema: {$dbSchema} existiert noch nicht in der Datenbank: {$dbName} und wird neu erstellt." );
-      if( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
+      if ( !$this->dbAdmin->createSchema( $dbName, $dbSchema, $dbUser ) )
       {
           $fatal = <<<FATAL
 Das Schema {$dbSchema} in der Datenbank {$dbName} konnte nicht erstellt werden.
@@ -753,12 +753,12 @@ FATAL;
     }
     
     // standard OID Sequence erstellen
-    if( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
+    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'entity_oid_seq' ) )
     {
       $this->dbAdmin->createSequence( $dbName, $dbSchema, 'entity_oid_seq', $dbUser );
     }
     
-    if( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
+    if ( !$this->dbAdmin->sequenceExists( $dbName, $dbSchema, 'wbf_deploy_revision' ) )
     {
       $this->dbAdmin->createSequence( $dbName, $dbSchema, 'wbf_deploy_revision', $dbUser );
     }
@@ -779,7 +779,7 @@ FATAL;
     $dbSchema  = $database->getDbSchema();
     
     // löschen aller views vor dem update
-    if( $database->updateFlag( 'clean/views' ) )
+    if ( $database->updateFlag( 'clean/views' ) )
     {
       $this->protocol->info( "Lösche alle Views vor dem Update um Konflikte zu vermeiden" );
       $this->dbAdmin->dropSchemaViews( $dbName, $dbSchema );
@@ -816,15 +816,15 @@ FATAL;
       SetupDbPostgresql::createSchema( $dbConf['name'], $dbConf['schema'], $dbConf['owner'] );
       
       // Wenn vorhanden allgemeine Scripts laden
-      if( isset($databases['pre_scripts']) )
+      if ( isset($databases['pre_scripts']) )
       {
         
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $databases['pre_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
             SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -838,14 +838,14 @@ FATAL;
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if( isset($dbConf['pre_scripts']) )
+      if ( isset($dbConf['pre_scripts']) )
       {
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $dbConf['pre_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
             SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -876,15 +876,15 @@ FATAL;
     {
 
       // Wenn vorhanden allgemeine Scripts laden
-      if( isset($databases['post_scripts']) )
+      if ( isset($databases['post_scripts']) )
       {
         
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
           
         foreach( $databases['post_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
             SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -898,14 +898,14 @@ FATAL;
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if( isset($dbConf['post_scripts']) )
+      if ( isset($dbConf['post_scripts']) )
       {
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $databases['post_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
             SetupDbPostgresql::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -966,7 +966,7 @@ FATAL;
   public function searchError( $msg )
   {
     
-    if( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
+    if ( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
       throw new DbException
       ( 
         'Die Datenbank hat den Login verweigert. Dafür kann es mehrer Möglichkeiten geben.

@@ -21,7 +21,7 @@ try
   include './conf/bootstrap.php';
 
   // Buffer Output
-  if(BUFFER_OUTPUT)
+  if (BUFFER_OUTPUT)
     ob_start();
 
   $errors = '';
@@ -46,15 +46,15 @@ catch( Exception $exception )
     $exception
   );
 
-  if( BUFFER_OUTPUT )
+  if ( BUFFER_OUTPUT )
   {
     $errors .= ob_get_contents();
     ob_end_clean();
   }
 
-  if( !DEBUG )
+  if ( !DEBUG )
   {
-    if( isset($view) and is_object($view) )
+    if ( isset($view) and is_object($view) )
     {
       $view->publishError( $exception->getMessage() , $errors );
     }

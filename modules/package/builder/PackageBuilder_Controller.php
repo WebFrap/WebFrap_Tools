@@ -37,18 +37,18 @@ class PackageBuilder_Controller
     
     $targetPath = $request->param( 'target', Validator_Text::PLAIN );
     
-    if( !$packagePath || !$targetPath )
+    if ( !$packagePath || !$targetPath )
     {
       $this->do_help();
       return;
     }
 
     $codeRoot = $request->param( 'root', Validator_Text::PLAIN );
-    if( !$codeRoot )
+    if ( !$codeRoot )
       $codeRoot = PATH_ROOT;
     
     $packageKey = $request->param( 'key', Validator_Text::PLAIN );
-    if( !$packageKey )
+    if ( !$packageKey )
       $packageKey = date('YmdHis');
     
 

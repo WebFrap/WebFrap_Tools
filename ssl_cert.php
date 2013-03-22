@@ -29,7 +29,7 @@ include 'gaia/core.php';
 # CA -newreq[-nodes] ... will generate a certificate request 
 # CA -sign ... will sign the generated request and output 
 
-if( Request::arg('help') )
+if ( Request::arg('help') )
 {
   Console::outl( "usage: ssl_cert.php \"help\" # for help" );
   Console::outl( "usage: ssl_cert.php \"do=newcert|newreq|newreq-nodes|newca|sign|verify\"" );

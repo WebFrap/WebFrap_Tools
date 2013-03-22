@@ -77,13 +77,13 @@ class ConfUpdate
   public function getDataPath()
   {
     
-    if( $this->dataPath )
+    if ( $this->dataPath )
       return $this->dataPath;
     
     
     $dataPath = $this->getNodeValue('data_path');
     
-    if( $dataPath && '' != trim($dataPath) )
+    if ( $dataPath && '' != trim($dataPath) )
       return $dataPath;
     
     return GAIA_PATH.'data/';
@@ -194,7 +194,7 @@ class ConfUpdate
     
     $folders = array();
     
-    if( $asArray )
+    if ( $asArray )
     {
       foreach( $tmp as $folder )
       {

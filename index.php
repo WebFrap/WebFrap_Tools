@@ -23,7 +23,7 @@ include 'wbf/bootstrap.web.php';
 
 $conClass = $request->service.'_Controller';
 
-if( Gaia::classLoadable( $conClass ) )
+if ( Gaia::classLoadable( $conClass ) )
 {
   $controller = new $conClass();
   /* @var $controller MvcController   */

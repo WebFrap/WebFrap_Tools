@@ -127,12 +127,12 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc '.$sql 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE ROLE '.$group.'"' );
 
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
       return true;
     else
       return false;
@@ -152,7 +152,7 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$group.'\'"' 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     return false;
@@ -178,21 +178,21 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
 
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Lege Db User: ".$user." an" );
       
       return true;
     }
     else
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->error( "Konnte den DB user: ".$user." nicht erstellen: ".$val );
       
       return false;
@@ -211,21 +211,21 @@ class DbAdminPostgresql
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
 
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Lege Backend Db User: ".$user." an" );
       
       return true;
     }
     else
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->error( "Konnte den Backend DB user: ".$user." nicht erstellen: ".$val );
       
       return false;
@@ -244,21 +244,21 @@ class DbAdminPostgresql
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with password \''.$pwd.'\'"' );
   
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Lege Frontend Db User: ".$user." an" );
       
       return true;
     }
     else
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->error( "Konnte den Frontend DB user: ".$user." nicht erstellen: ".$val );
       
       return false;
@@ -277,21 +277,21 @@ class DbAdminPostgresql
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "CREATE USER '.$user.' with createuser createdb password \''.$pwd.'\'"' );
     
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Lege Admin Db User: ".$user." an" );
       
       return true;
     }
     else
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->error( "Konnte den Admin DB user: ".$user." nicht erstellen: ".$val );
       
       return false;
@@ -310,7 +310,7 @@ class DbAdminPostgresql
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     else 
       return false;
@@ -333,7 +333,7 @@ class DbAdminPostgresql
     
     $val = Process::execute( 'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute
@@ -344,10 +344,10 @@ class DbAdminPostgresql
     );
     
 
-    if( 'CREATE DATABASE' == trim($val) )
+    if ( 'CREATE DATABASE' == trim($val) )
     {
       
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Erstelle Datenbank: ".$dbName." " );
       
       // plpgsql language erstellen
@@ -361,7 +361,7 @@ class DbAdminPostgresql
     else
     {
       
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Das Erstellen der Datenbank: ".$dbName." ist fehlgeschlagen: ".$val );
       
       return false;
@@ -383,7 +383,7 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"' 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     else
       return false;
@@ -405,7 +405,7 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc "ALTER DATABASE '.$oldName.' RENAME TO '.$newName.';"' 
     );
     
-    if( 'ALTER DATABSE' == trim($val) )
+    if ( 'ALTER DATABSE' == trim($val) )
       return true;
     else
       return false;
@@ -426,7 +426,7 @@ class DbAdminPostgresql
       'psql postgres -h '.$this->host.' -tAc "DROP DATABASE '.$dbName.' CASCADE;"' 
     );
     
-    if( 'DROP DATABSE' == trim($val) )
+    if ( 'DROP DATABSE' == trim($val) )
       return true;
     else
       return false;
@@ -492,7 +492,7 @@ SQL;
       pg_database db on ns.nspowner = db.datdba
 SQL;
 
-    if( $dbName )
+    if ( $dbName )
     {
       $sql .= <<<SQL
     WHERE db.datname = '{$dbName}'
@@ -522,7 +522,7 @@ SQL;
       'psql '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"' 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute
@@ -531,7 +531,7 @@ SQL;
       .' AUTHORIZATION '.$owner.';"'
     );
 
-    if( 'CREATE SCHEMA' == trim($val) )
+    if ( 'CREATE SCHEMA' == trim($val) )
       return true;
     else
     {
@@ -559,7 +559,7 @@ SQL;
       'psql  '.$dbName.' -h '.$this->host.' -tAc "SELECT 1 FROM information_schema.schemata WHERE catalog_name=\''.$dbName.'\' and schema_name=\''.$schema.'\';"' 
     );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
     {
       return true;
     }
@@ -584,7 +584,7 @@ SQL;
     
     $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "DROP SCHEMA '.$schema.' CASCADE;"' );
     
-    if( 'DROP SCHEMA' == trim($val) )
+    if ( 'DROP SCHEMA' == trim($val) )
       return true;
     else 
       return false;
@@ -605,7 +605,7 @@ SQL;
     
     $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "ALTER SCHEMA '.$oldName.' RENAME TO '.$newName.';"' );
     
-    if( 'ALTER SCHEMA' == trim($val) )
+    if ( 'ALTER SCHEMA' == trim($val) )
       return true;
     else
       return false;
@@ -696,7 +696,7 @@ SQL;
     
 
     $dumpProcess = new ProcessRunner();
-    if( !$dumpProcess->open( $command, $callParams, $callEnv ) )
+    if ( !$dumpProcess->open( $command, $callParams, $callEnv ) )
     {
       return "Failed to Open command {$command}";
     }
@@ -720,14 +720,14 @@ SQL;
   public function restoreSchema( $dbName, $schema, $dumpFile, $schemaDump = null )
   {
 
-    if( !file_exists( $dumpFile ) )
+    if ( !file_exists( $dumpFile ) )
     {
       throw new GaiaException( 'Missing dump '.$dumpFile );
     }
     
     // wenn das Schema bereits existiert, das vorhandene umbenennen
     // um keine daten zu verlieren
-    if( $this->schemaExists( $dbName, $schema ) )
+    if ( $this->schemaExists( $dbName, $schema ) )
     {
       $this->renameSchema( $dbName, $schema, $schema.'_bckbfrst_'.date('YmdHis') );
     }
@@ -750,21 +750,21 @@ SQL;
     $callEnv['PGPASSWORD'] = $this->passwd;
 
     $dumpProcess = new ProcessRunner();
-    if( !$dumpProcess->open( $command, $callParams, $callEnv ) )
+    if ( !$dumpProcess->open( $command, $callParams, $callEnv ) )
     {
       throw new GaiaException( "Failed to Open command {$command}" );
     }
     else 
     {
       
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( $dumpProcess->read() );
 
     }
     
     // Sicher stellen, dass das Schema auch mit dem richtigen Namen
     // importiert wurde
-    if( $schemaDump && $schemaDump != $schema  )
+    if ( $schemaDump && $schemaDump != $schema  )
     {
       $this->renameSchema( $dbName, $schemaDump, $schema );
     }
@@ -798,7 +798,7 @@ SQL;
 
     $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     else
       return false;
@@ -829,7 +829,7 @@ SQL;
   )
   {
     
-    if( !$owner )
+    if ( !$owner )
       $owner = $this->user;
     
     $this->setLoginEnv( $this->user, $this->passwd );
@@ -840,7 +840,7 @@ SQL;
 
     $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
     {
       UiConsole::debugLine( "Tried to create allready existing sequence {$sequence}" );
       return true;
@@ -850,10 +850,10 @@ SQL;
 
     $val = Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "'.$query.'"' );
 
-    if( 'CREATE SEQUENCE' == trim($val) )
+    if ( 'CREATE SEQUENCE' == trim($val) )
     {
 
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->info( "Erstelle Sequence: {$sequence} in {$dbName}.{$dbSchema}." );
       
       Process::execute( 'psql '.$dbName.' -h '.$this->host.' -tAc "ALTER TABLE '.$dbSchema.'.'.$sequence.' OWNER TO '.$owner.';"' );
@@ -861,7 +861,7 @@ SQL;
     }
     else
     {
-      if( $this->protocol )
+      if ( $this->protocol )
         $this->protocol->error( "Erstelle der Sequence: {$sequence} in {$dbName}.{$dbSchema} ist fehlgeschlagen. ".$val );
       
       UiConsole::debugLine( $val );
@@ -1193,7 +1193,7 @@ SQL;
     {
       
       // könnte wegen dem cascade löschen passieren
-      if( !$this->viewExists( $dbName, $dbSchema, $view['name'] ) )
+      if ( !$this->viewExists( $dbName, $dbSchema, $view['name'] ) )
         continue;
       
       $sql = <<<SQL
@@ -1263,15 +1263,15 @@ SQL;
   public function importStructureFile( $scriptPath, $dbName, $schemaName, $owner )
   {
 
-    if( !Fs::exists( $scriptPath ) )
+    if ( !Fs::exists( $scriptPath ) )
     {
       throw new GaiaException( "Habe nicht existierendes DB Script zum importieren bekommen ".$scriptPath );
     } 
     
-    if( $this->con )
+    if ( $this->con )
     {
       $error = null;
-      if( Gaia::checkSyntax( $scriptPath, $error ) )
+      if ( Gaia::checkSyntax( $scriptPath, $error ) )
         include $scriptPath;
       else
         throw new GaiaException( "Syntax for Datafile: {$scriptPath} is invalid ".$error );
@@ -1328,7 +1328,7 @@ SQL;
   public function searchError( $msg )
   {
     
-    if( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
+    if ( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
       throw new DbException
       ( 
         'Die Datenbank hat den Login verweigert. Dafür kann es mehrer Möglichkeiten geben.

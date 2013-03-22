@@ -49,7 +49,7 @@ class ProtocolWriter
    */
   public function __destruct()
   {
-    if( is_resource($this->fileRes) )
+    if ( is_resource($this->fileRes) )
       fclose($this->fileRes);
   }//end public function __destruct */
   
@@ -58,7 +58,7 @@ class ProtocolWriter
    */
   public function close()
   {
-    if( is_resource($this->fileRes) )
+    if ( is_resource($this->fileRes) )
       fclose($this->fileRes);
   }//end public function close */
   

@@ -54,7 +54,7 @@ class UiConsoleCli
   public static function getActive()
   {
     
-    if( !self::$default )
+    if ( !self::$default )
       self::$default = new UiConsoleCli();
       
     return self::$default;  
@@ -164,7 +164,7 @@ class UiConsoleCli
     $this->out( $question.' ( y / n )' );
     $in = $this->in();
     
-    if( 'y' == strtolower(trim($in)) )
+    if ( 'y' == strtolower(trim($in)) )
       return true;
     else
       return false; 
@@ -190,12 +190,12 @@ class UiConsoleCli
     
     $this->out( "Please insert Filename" );
     
-    if( $fileName )
+    if ( $fileName )
       $this->out( "Default would be: {$fileName}" );
     
     $in = $this->in( );
     
-    if( '' != trim($in) )
+    if ( '' != trim($in) )
       return $in;
     else
       return $fileName;
@@ -212,12 +212,12 @@ class UiConsoleCli
     
     $this->out( "Please insert Foldername" );
     
-    if( $folderName )
+    if ( $folderName )
       $this->out( "Default would be: {$folderName}" );
     
     $in = $this->in( );
     
-    if( '' != trim($in) )
+    if ( '' != trim($in) )
       return $in;
     else
       return $folderName;
@@ -244,7 +244,7 @@ class UiConsoleCli
     
     $this->out( $text );
     
-    if( $entryText )
+    if ( $entryText )
       $this->out( "Default would be: {$entryText}" );
 
     $allFine = false;
@@ -254,17 +254,17 @@ class UiConsoleCli
 
       $userInput = $this->in();
       
-      if( '' == $userInput )
+      if ( '' == $userInput )
       {
-        if( $required )
+        if ( $required )
         {
           continue;
         }
       }
       
-      if( $validator )
+      if ( $validator )
       {
-        if( $error = $validator( $userInput ) )
+        if ( $error = $validator( $userInput ) )
         {
           $this->error( $error );
           continue;
@@ -313,10 +313,10 @@ class UiConsoleCli
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if( !$data && !$head )
+    if ( !$data && !$head )
       return null;
     
-    if( !$head )
+    if ( !$head )
     {
       $head = array_keys($data[0]);
     }
@@ -361,10 +361,10 @@ class UiConsoleCli
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if( !$data && !$head )
+    if ( !$data && !$head )
       return null;
     
-    if( !$head )
+    if ( !$head )
     {
       $head = array_keys($data[0]);
     }

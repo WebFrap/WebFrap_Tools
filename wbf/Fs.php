@@ -86,9 +86,9 @@ class Fs
   static function copy( $src, $target, $isFolder = true )
   {
     
-    if( $isFolder )
+    if ( $isFolder )
     {
-      if( !file_exists($target) )
+      if ( !file_exists($target) )
         Fs::mkdir( $target );
     }
     else 
@@ -96,7 +96,7 @@ class Fs
       Fs::touchFileFolder($target);
     }
     
-    if( $isFolder )
+    if ( $isFolder )
       Process::run("cp -rf $src $target");
     else 
       Process::run("cp $src $target");
@@ -116,7 +116,7 @@ class Fs
   static function copyContent( $src, $target, $isFolder = true )
   {
     
-    if( $isFolder && !file_exists($target) )
+    if ( $isFolder && !file_exists($target) )
     {
       Fs::mkdir( $target );
     }
@@ -147,7 +147,7 @@ class Fs
   static function delFileDir( $filename )
   {    
     
-    if( !file_exists($filename) )
+    if ( !file_exists($filename) )
     {
       throw new GaiaException( "File {$filename} not exists." );
     }
@@ -167,7 +167,7 @@ class Fs
   static function mkdir( $path, $mode = 0777 )
   {    
     
-    if( !file_exists( $path ) )
+    if ( !file_exists( $path ) )
     {
       mkdir( $path, $mode, true );
     }
@@ -185,7 +185,7 @@ class Fs
   static function isDir( $path )
   {    
     
-    if( !file_exists( $path ) )
+    if ( !file_exists( $path ) )
       return false;
       
     return is_dir( $path );
@@ -203,7 +203,7 @@ class Fs
     
     $pathInfo = pathinfo( $fileName );
     
-    if( !isset( $pathInfo['extension'] ) )
+    if ( !isset( $pathInfo['extension'] ) )
       return false;
       
     return ( $ending == $pathInfo['extension'] );
@@ -220,7 +220,7 @@ class Fs
     
     $pathInfo = pathinfo( $fileName );
     
-    if( !isset( $pathInfo['extension'] ) )
+    if ( !isset( $pathInfo['extension'] ) )
       return null;
       
     return $pathInfo['extension'];
@@ -238,7 +238,7 @@ class Fs
     
     $pathInfo = pathinfo( $fileName );
     
-    if( !isset( $pathInfo['dirname'] ) )
+    if ( !isset( $pathInfo['dirname'] ) )
       return null;
       
     return $pathInfo['dirname'];
@@ -254,7 +254,7 @@ class Fs
     
     $dir = dirname($path);
     
-    if( !Fs::exists($dir) )
+    if ( !Fs::exists($dir) )
       Fs::mkdir($dir);
 
     Process::run( "touch $path" );
@@ -270,7 +270,7 @@ class Fs
     
     $dir = dirname($path);
     
-    if( !Fs::exists($dir) )
+    if ( !Fs::exists($dir) )
       Fs::mkdir($dir);
 
   }//end static function touchFileFolder */
@@ -320,46 +320,46 @@ class Fs
   static function setPermission( $perm, $protocol = null )
   {    
     
-    if( !$perm->directory )
+    if ( !$perm->directory )
       throw new GaiaException( 'Missing the directory '.$perm->directory );
     
-    if( !Fs::exists($perm->directory) )
+    if ( !Fs::exists($perm->directory) )
       throw new GaiaException( 'Directory '.$perm->directory.' not exists.' );
     
     $cmdRec = '';
-    if( $perm->recursive )
+    if ( $perm->recursive )
     {
       $cmdRec = ' -R ';
     }
       
-    if( $perm->owner && $perm->group )
+    if ( $perm->owner && $perm->group )
     {
       Process::run( 'chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"' );
       
-      if( $protocol )
+      if ( $protocol )
         $protocol->info( 'chown '.$cmdRec.$perm->owner.':'.$perm->group.' "'.$perm->directory.'"' );
     }
-    elseif( $perm->owner )
+    elseif ( $perm->owner )
     {
       Process::run( 'chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"' );
       
-      if( $protocol )
+      if ( $protocol )
         $protocol->info( 'chown '.$cmdRec.$perm->owner.' "'.$perm->directory.'"' );
       
     }
-    elseif( $perm->group )
+    elseif ( $perm->group )
     {
       Process::run( 'chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"' );
       
-      if( $protocol )
+      if ( $protocol )
         $protocol->info( 'chgrp '.$cmdRec.$perm->group.' "'.$perm->directory.'"' );
     }
     
-    if( $perm->accessMask )
+    if ( $perm->accessMask )
     {
       Process::run( 'chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"' );
       
-      if( $protocol )
+      if ( $protocol )
         $protocol->info( 'chmod '.$cmdRec.$perm->accessMask.' "'.$perm->directory.'"' );
     }
 
@@ -401,7 +401,7 @@ class Fs
     
     $folder = dirname($targetPath);
     
-    if( !Fs::exists($folder) )
+    if ( !Fs::exists($folder) )
       Fs::mkdir( $folder );
     
     file_put_contents

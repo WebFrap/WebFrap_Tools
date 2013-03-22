@@ -32,7 +32,7 @@ switch ( $action )
     
     $types = Request::arg( 'types' );
     
-    if( !$types )
+    if ( !$types )
     {
       $types = array( '2' => 'mail' );
     }
@@ -51,7 +51,7 @@ switch ( $action )
       
     }
     
-    if( !Fs::exists($file) )
+    if ( !Fs::exists($file) )
     {
       Console::outln( "The given File: {$file} not exists" );
       exit(1);

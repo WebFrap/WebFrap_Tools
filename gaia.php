@@ -30,7 +30,7 @@ include 'wbf/bootstrap.cli.php';
 /* @var $console UiConsole  */
 /* @var $request IsARequest  */
 
-if( !$request->flag('s') )
+if ( !$request->flag('s') )
 {
   $console->out( "Welcome to GAIA" );
   $console->out( "What do you want to do?" );
@@ -39,7 +39,7 @@ if( !$request->flag('s') )
 
 $conClass = $request->service.'_Controller';
 
-if( Gaia::classLoadable( $conClass ) )
+if ( Gaia::classLoadable( $conClass ) )
 {
   $controller = new $conClass();
   /* @var $controller MvcController   */

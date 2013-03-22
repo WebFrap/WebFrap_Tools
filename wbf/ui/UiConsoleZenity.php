@@ -47,7 +47,7 @@ class UiConsoleZenity
   public static function getActive()
   {
     
-    if( !self::$default )
+    if ( !self::$default )
       self::$default = new UiConsoleZenity();
       
     return self::$default;  
@@ -198,7 +198,7 @@ class UiConsoleZenity
     
     $userInput = null;
     
-    if( $entryText )
+    if ( $entryText )
       $entryText = '--entry-text="'.str_replace('"','\"',$entryText).'"';
       
     $allFine = false;
@@ -207,22 +207,22 @@ class UiConsoleZenity
     {
       
       // alte eingaben
-      if( !is_null($userInput) )
+      if ( !is_null($userInput) )
         $entryText = '--entry-text="'.str_replace('"','\"',$userInput).'"';
       
       $userInput = trim(Process::execute( 'zenity --entry --text="'.str_replace('"','\"',$text).'" '.$entryText.' --title="'.str_replace('"','\"',$title).'"' ));
       
-      if( '' == $userInput )
+      if ( '' == $userInput )
       {
-        if( $required )
+        if ( $required )
         {
           continue;
         }
       }
       
-      if( $validator )
+      if ( $validator )
       {
-        if( $error = $validator($userInput) )
+        if ( $error = $validator($userInput) )
         {
           $this->error($error);
           continue;
@@ -271,10 +271,10 @@ class UiConsoleZenity
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if( !$data && !$head )
+    if ( !$data && !$head )
       return null;
     
-    if( !$head )
+    if ( !$head )
     {
       $head = array_keys($data[0]);
     }
@@ -317,10 +317,10 @@ class UiConsoleZenity
   {
     
     // ok ne leere liste ohne head kann man halt nicht anzeigen
-    if( !$data && !$head )
+    if ( !$data && !$head )
       return null;
     
-    if( !$head )
+    if ( !$head )
     {
       $head = array_keys($data[0]);
     }
@@ -357,7 +357,7 @@ class UiConsoleZenity
   public function dialog( $title, $file, $checkboxText = null )
   {
     
-    if( $checkboxText )
+    if ( $checkboxText )
       $checkboxText = ' --checkbox "'.str_replace('"','\"',$checkboxText).'"';
       
     $realpath = realpath( './'.$file );

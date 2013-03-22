@@ -5,7 +5,7 @@ $deplRootClear = false;
 while( !$deplRootClear )
 {
   
-  if( !isset($conf->appRoot) || ''=== trim($conf->appRoot) )
+  if ( !isset($conf->appRoot) || ''=== trim($conf->appRoot) )
   {
     $conf->appRoot = '/var/www/'.$conf->appDomain;
   }
@@ -17,16 +17,16 @@ while( !$deplRootClear )
     $conf->appRoot
   );
   
-  if( !Fs::isDir( $conf->appRoot ) )
+  if ( !Fs::isDir( $conf->appRoot ) )
   {
     
-    if( $console->question( 'Der angegebene Pfad existiert nicht. Soll er erstellt werden?' ) )
+    if ( $console->question( 'Der angegebene Pfad existiert nicht. Soll er erstellt werden?' ) )
     {
       Fs::mkdir($conf->appRoot);
     }
     else
     {
-      if( $console->question( 'Pfad wechseln? (Nein bricht die Installation komplett ab.)' ) )
+      if ( $console->question( 'Pfad wechseln? (Nein bricht die Installation komplett ab.)' ) )
       {
         continue;
       }
@@ -38,7 +38,7 @@ while( !$deplRootClear )
     }
   }
   
-  if( Fs::isDir( $conf->appRoot.'/WebFrap' ) )
+  if ( Fs::isDir( $conf->appRoot.'/WebFrap' ) )
   {
     $action = (int)$console->radioList
     ( 
@@ -76,11 +76,11 @@ while( !$deplRootClear )
     
     $console->out( $action );
     
-    if( 1 === $action || 2 === $action )
+    if ( 1 === $action || 2 === $action )
     {
       $deplRootClear = true;
     }
-    else if( 4 === $action )
+    else if ( 4 === $action )
     {
       $console->error( 'Die Installation wurde manuell angebrochen.' );
       exit(0);

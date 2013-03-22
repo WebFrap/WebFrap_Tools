@@ -126,17 +126,17 @@ class Vcs_Mercurial
   public function startUsage()
   {
     
-    if( $this->used )
+    if ( $this->used )
       return false;
     
-    if( !$this->origPath )
+    if ( !$this->origPath )
       $this->origPath = getcwd().'/';
       
     // sicher stellen, dass die richtigen hg rc informationen verwendet werden
-    if( $this->hgrcPath )
+    if ( $this->hgrcPath )
       putenv( "HGRCPATH={$this->hgrcPath}" );
     
-    if( $this->origPath != $this->repoPath )
+    if ( $this->origPath != $this->repoPath )
       chdir( $this->repoPath );
       
     $this->used = true;
@@ -152,7 +152,7 @@ class Vcs_Mercurial
   public function endUsage()
   {
     
-    if( $this->origPath != $this->repoPath )
+    if ( $this->origPath != $this->repoPath )
       chdir( $this->origPath );
     
     $this->used = false;
@@ -178,7 +178,7 @@ class Vcs_Mercurial
   public function close()
   {
     
-    if( $this->hgrcPath )
+    if ( $this->hgrcPath )
       Fs::del( $this->hgrcPath );
     
   }//end public function close */
@@ -259,28 +259,28 @@ class Vcs_Mercurial
   public function buildEnv( $syncUrl = null, $userName = null, $userPwd = null )
   {
     
-    if( $this->hgrcPath )
+    if ( $this->hgrcPath )
     {
       putenv( "HGRCPATH={$this->hgrcPath}" );
       return;
     }
     
-    if( !$this->syncUrl )
+    if ( !$this->syncUrl )
       $this->syncUrl = $syncUrl;
       
-    if( !$this->userName )
+    if ( !$this->userName )
       $this->userName = $userName;
       
-    if( !$this->userPasswd )
+    if ( !$this->userPasswd )
       $this->userPasswd = $userPwd;
 
-    if( !$syncUrl )
+    if ( !$syncUrl )
       $syncUrl = $this->syncUrl;
       
-    if( !$userName )
+    if ( !$userName )
       $userName = $this->userName;
       
-    if( !$userPwd )
+    if ( !$userPwd )
       $userPwd = $this->userPasswd;
 
     $hgRc = <<<HGRC
@@ -296,7 +296,7 @@ groups = *
 
 HGRC;
 
-    if( $this->proxyUrl )
+    if ( $this->proxyUrl )
     {
     
     $hgRc .= <<<HGRC
@@ -333,7 +333,7 @@ HGRC;
   public function update( $branch = null )
   {
     
-    if( $branch )
+    if ( $branch )
       return $this->sendCommand( "{$this->bin} update \"{$branch}\"" );
     else 
       return $this->sendCommand( "{$this->bin} update" );
@@ -346,7 +346,7 @@ HGRC;
   public function commit( $message )
   {
     
-    if( !$this->displayName )
+    if ( !$this->displayName )
     {
       throw new GaiaException( "Aborted commit... Displayname is missing" );
     }
@@ -365,7 +365,7 @@ HGRC;
       
     $status = $this->sendCommand( "{$this->bin} status" );
     
-    if( $justCheckChanges )
+    if ( $justCheckChanges )
     {
       return ( '' == trim($justCheckChanges) );
     }
@@ -414,7 +414,7 @@ HGRC;
     
     $this->startUsage();
     
-    if( file_exists( $this->repoPath ) )
+    if ( file_exists( $this->repoPath ) )
     {
       Process::execute( $this->bin." add" );
       Process::execute( $this->bin.' commit -m "'.$syncMessage.'"' );
@@ -447,7 +447,7 @@ HGRC;
     $tmp   = $this->sendCommand( $this->bin." heads {$branch} -q" );
     $heads = explode( "\n", $tmp );
 
-    if( 1 == count($heads) )
+    if ( 1 == count($heads) )
       return $heads[0];
     else 
       return $heads;
@@ -528,9 +528,9 @@ HGRC;
     
     $this->startUsage();
     
-    if( $this->status( true ) )
+    if ( $this->status( true ) )
     {
-      if( !$commitMessage )
+      if ( !$commitMessage )
         $commitMessage = "Commit Changes before merge {$source} in {$target}";
         
       $this->commit( $commitMessage );
@@ -538,7 +538,7 @@ HGRC;
     
     $actualBranch = $this->getActualBranch();
 
-    if( $target != $actualBranch )
+    if ( $target != $actualBranch )
     {
       $this->switchBranch( $target );
     }
@@ -547,12 +547,12 @@ HGRC;
     $this->command( 'commit -m "Merge '.$source.' in '.$target.'"' );
     
     /*
-    if( $this->status( true ) )
+    if ( $this->status( true ) )
     {
       $this->command( 'commit -m "Merge '.$source.' in '.$target.'"' );
     }*/
     
-    if( $target != $actualBranch )
+    if ( $target != $actualBranch )
     {
       $this->switchBranch( $actualBranch );
     }
@@ -576,7 +576,7 @@ HGRC;
     $started = $this->startUsage();
     $val = Process::execute( $command );
     
-    if( $started )
+    if ( $started )
       $this->endUsage();
     
     return $val;

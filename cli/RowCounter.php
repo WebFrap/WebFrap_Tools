@@ -120,27 +120,27 @@ class StatsMaker
   public function __construct( $conf )
   {
 
-    if( $_SERVER["argc"] <= 1 )
+    if ( $_SERVER["argc"] <= 1 )
     {
       // Keine Parameter also Hilfe ausgeben
       $this->printHelp( );
       exit(0);
     }
     
-    if( isset($conf['validEndings']) )
+    if ( isset($conf['validEndings']) )
       $this->validEndings =  $conf['validEndings'];
 
-    for( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
+    for ( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
     {
 
-      if( !$this->_isFlag( $_SERVER["argv"][$nam] )  )
+      if ( !$this->_isFlag( $_SERVER["argv"][$nam] )  )
       {
-        if( !$this->_isCommand( $_SERVER["argv"][$nam] ) )
+        if ( !$this->_isCommand( $_SERVER["argv"][$nam] ) )
         {
           $Key = $nam;
           ++$nam;
 
-          if( !isset( $_SERVER["argv"][$nam] ) )
+          if ( !isset( $_SERVER["argv"][$nam] ) )
           {
             echo "Falsche Parameter:\n\n";
             $this->printHelp( );
@@ -152,7 +152,7 @@ class StatsMaker
       }
     }
 
-    if( isset( $this->_arguments["-v"] ) ){
+    if ( isset( $this->_arguments["-v"] ) ){
       $this->_verbose = true;
       echo "Bin geschwätzig...\n";
     }
@@ -191,7 +191,7 @@ class StatsMaker
       }
 
       case 'count':{
-        if($this->_verbose)
+        if ($this->_verbose)
           echo "Alle Dateien durchzählen\n";
 
         $this->runCounter( );
@@ -248,10 +248,10 @@ class StatsMaker
   */
   public function runCounter( )
   {
-    if($this->_verbose)
+    if ($this->_verbose)
       echo "Suche die Dateien...\n";
 
-    if( !isset( $this->_arguments['path'] ) )
+    if ( !isset( $this->_arguments['path'] ) )
     {
       $this->printHelp();
       return false;
@@ -260,18 +260,18 @@ class StatsMaker
     $Path = $this->_arguments['path'];
 
 
-    if( isset( $this->_arguments['-withSize'] ) ){
+    if ( isset( $this->_arguments['-withSize'] ) ){
       $this->_withSize = true;
     }
 
-    if( is_dir($Path) )
+    if ( is_dir($Path) )
     {
 
-      if( isset( $this->_arguments['-noComments'] ) )
+      if ( isset( $this->_arguments['-noComments'] ) )
       {
         $this->_runInSubdirsNoComments( $Path );
       }
-      elseif( isset( $this->_arguments['-noEmptys'] )  )
+      elseif ( isset( $this->_arguments['-noEmptys'] )  )
       {
         $this->_runInSubdirsNoEmptys( $Path );
       }
@@ -281,17 +281,17 @@ class StatsMaker
       }
 
       // Schaun ob noch die Dateien ausgegeben werden sollen
-      if( isset( $this->_arguments['-listFiles'] ) )
+      if ( isset( $this->_arguments['-listFiles'] ) )
       {
 
-        if( $this->_withSize ){
+        if ( $this->_withSize ){
 
           echo "\n\n";
           echo "Gefundene Dateien: \n\n";
 
           $Lenght = count($this->_fileLenght);
 
-          for( $nam = 0 ; $nam < $Lenght ; ++$nam ){
+          for ( $nam = 0 ; $nam < $Lenght ; ++$nam ){
             echo "Name: ".$this->_fileNames[$nam]."\t Lines: "
               .$this->_fileLenght[$nam]. "\t Size ". $this->_fileSize[$nam]
               ." Bytes\n";
@@ -305,7 +305,7 @@ class StatsMaker
 
           $Lenght = count($this->_fileLenght);
 
-          for( $nam = 0 ; $nam < $Lenght ; ++$nam ){
+          for ( $nam = 0 ; $nam < $Lenght ; ++$nam ){
             echo "Name: ".$this->_fileNames[$nam]." Lines: "
               .$this->_fileLenght[$nam]. "\n";
           }
@@ -317,7 +317,7 @@ class StatsMaker
       echo "Habe ".$this->_fileCounter." Dateien mit " .$this->_rowCounter
         . " Zeilen gezählt ";
 
-      if( $this->_withSize ){
+      if ( $this->_withSize ){
         echo "mit einer GesamtGröße von "
           . round( array_sum( $this->_fileSize ) / 1024 ). " Kb";
       }
@@ -354,14 +354,14 @@ class StatsMaker
     {
         while ( ( $PotFolder = readdir($dh) ) !== false )
         {
-            if( $PotFolder != "." and $PotFolder != ".." )
+            if ( $PotFolder != "." and $PotFolder != ".." )
             {
 
               $FullPath = $Path."/".$PotFolder ;
 
-              if( is_file( $FullPath ) )
+              if ( is_file( $FullPath ) )
               {
-                if(  $this->_isFileToCount( $FullPath ) )
+                if (  $this->_isFileToCount( $FullPath ) )
                 {
                   $this->_countRows( $FullPath );
                 }
@@ -369,8 +369,8 @@ class StatsMaker
 
               // Wenn der Ordner Subdirs hat und rekursiv getestet werden soll
               // Dann gehen wir in Rekursion
-              if( is_dir( $FullPath ) ){
-                if($this->_verbose)
+              if ( is_dir( $FullPath ) ){
+                if ($this->_verbose)
                   echo "Gehe in Unterverzeichniss: ".$FullPath."\n";
 
                 $this->_runInSubdirs( $FullPath );
@@ -396,14 +396,14 @@ class StatsMaker
     {
         while ( ( $PotFolder = readdir($dh) ) !== false )
         {
-            if( $PotFolder != "." and $PotFolder != ".." )
+            if ( $PotFolder != "." and $PotFolder != ".." )
             {
 
               $FullPath = $Path."/".$PotFolder ;
 
-              if( is_file( $FullPath ) )
+              if ( is_file( $FullPath ) )
               {
-                if(  $this->_isFileToCount( $FullPath ) )
+                if (  $this->_isFileToCount( $FullPath ) )
                 {
                   $this->_countNoEmptyRows( $FullPath );
                 }
@@ -411,8 +411,8 @@ class StatsMaker
 
               // Wenn der Ordner Subdirs hat und rekursiv getestet werden soll
               // Dann gehen wir in Rekursion
-              if( is_dir( $FullPath ) ){
-                if($this->_verbose)
+              if ( is_dir( $FullPath ) ){
+                if ($this->_verbose)
                   echo "Gehe in Unterverzeichniss: ".$FullPath."\n";
 
                 $this->_runInSubdirsNoEmptys( $FullPath );
@@ -438,14 +438,14 @@ class StatsMaker
     {
         while ( ( $PotFolder = readdir($dh) ) !== false )
         {
-            if( $PotFolder != "." and $PotFolder != ".." )
+            if ( $PotFolder != "." and $PotFolder != ".." )
             {
 
               $FullPath = $Path."/".$PotFolder ;
 
-              if( is_file( $FullPath ) )
+              if ( is_file( $FullPath ) )
               {
-                if(  $this->_isFileToCount( $FullPath ) )
+                if (  $this->_isFileToCount( $FullPath ) )
                 {
                   $this->_countNoComments( $FullPath );
                 }
@@ -453,8 +453,8 @@ class StatsMaker
 
               // Wenn der Ordner Subdirs hat und rekursiv getestet werden soll
               // Dann gehen wir in Rekursion
-              if( is_dir( $FullPath ) ){
-                if($this->_verbose)
+              if ( is_dir( $FullPath ) ){
+                if ($this->_verbose)
                   echo "Gehe in Unterverzeichniss: ".$FullPath."\n";
 
                 $this->_runInSubdirsNoComments( $FullPath );
@@ -476,7 +476,7 @@ class StatsMaker
 
     ++ $this->_fileCounter;
 
-    if( $this->_withSize ){
+    if ( $this->_withSize ){
       $this->_getSize( $File );
     }
 
@@ -507,7 +507,7 @@ class StatsMaker
 
     ++ $this->_fileCounter;
 
-    if( $this->_withSize ){
+    if ( $this->_withSize ){
       $this->_getSize( $File );
     }
 
@@ -519,7 +519,7 @@ class StatsMaker
     while (!feof($Handle))
     {
       $row = fgets($Handle, 4096);
-      if( trim($row) != "")
+      if ( trim($row) != "")
       {
         ++ $this->_rowCounter;
         ++ $InnerCounter;
@@ -541,7 +541,7 @@ class StatsMaker
 
     ++ $this->_fileCounter;
 
-    if( $this->_withSize ){
+    if ( $this->_withSize ){
       $this->_getSize( $File );
     }
 
@@ -553,7 +553,7 @@ class StatsMaker
     while (!feof($Handle))
     {
       $row = fgets($Handle, 4096);
-      if( !$this->_isComment($row) )
+      if ( !$this->_isComment($row) )
       {
         ++ $this->_rowCounter;
         ++ $InnerCounter;
@@ -586,12 +586,12 @@ class StatsMaker
 
     $FileInfo = pathinfo( $File );
 
-    if( !isset($FileInfo["extension"]) )
+    if ( !isset($FileInfo["extension"]) )
       return false;
 
     $Ext = $FileInfo["extension"];
 
-    if(  isset( $this->_countIn[$Ext] ) )
+    if (  isset( $this->_countIn[$Ext] ) )
       return true;
 
     return false;
@@ -619,7 +619,7 @@ class StatsMaker
 
       case 1:
       {
-        if( $File != "#" && $File != "*" )
+        if ( $File != "#" && $File != "*" )
         {
           return false;
         }
@@ -633,7 +633,7 @@ class StatsMaker
       default:
       {
         $Part = substr( $File , 0 , 2 );
-        if( $Part != "//" && $Part != "/*" )
+        if ( $Part != "//" && $Part != "/*" )
           return false;
 
         return true;
@@ -659,7 +659,7 @@ class StatsMaker
   protected function _isFlag( $Data )
   {
 
-    if( $Data{0} == "-" ){
+    if ( $Data{0} == "-" ){
       $this->_arguments[$Data] = true;
       return true;
     }
@@ -681,7 +681,7 @@ class StatsMaker
   {
     $Data = strtolower($Data);
 
-    if( isset( $this->_actions[$Data] ) )
+    if ( isset( $this->_actions[$Data] ) )
     {
       $this->_command = $Data;
       return true;
@@ -701,7 +701,7 @@ class StatsMaker
   protected function _checkAktion( )
   {
 
-    if( $this->_command )
+    if ( $this->_command )
     {
       return $this->_command;
     }

@@ -87,7 +87,7 @@ class Environment
       ?true
       :false;
     
-    if( Fs::exists( '/etc/issue' ) )
+    if ( Fs::exists( '/etc/issue' ) )
     {
       self::$osName = 'ubuntu';
       

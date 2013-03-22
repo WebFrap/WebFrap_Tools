@@ -83,17 +83,17 @@ abstract class CliControllerAbstract
   {
 
 
-    for( $nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam )
+    for ( $nam = 1 ; $nam < $_SERVER['argc'] ; ++$nam )
     {
 
-      if( !$this->isFlag( $_SERVER['argv'][$nam] )  )
+      if ( !$this->isFlag( $_SERVER['argv'][$nam] )  )
       {
-        if( !$this->isCommand( $_SERVER['argv'][$nam] ) )
+        if ( !$this->isCommand( $_SERVER['argv'][$nam] ) )
         {
           $Key = $nam;
           ++$nam;
 
-          if( !isset( $_SERVER['argv'][$nam] ) )
+          if ( !isset( $_SERVER['argv'][$nam] ) )
           {
             echo 'Falsche Parameter:\n\n';
             $this->printHelp( );
@@ -105,7 +105,7 @@ abstract class CliControllerAbstract
       }
     }
 
-    if( isset( $this->arguments['-v'] ) )
+    if ( isset( $this->arguments['-v'] ) )
     {
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
@@ -194,7 +194,7 @@ abstract class CliControllerAbstract
 
       case 1:
       {
-        if( $File != '#' && $File != '*' )
+        if ( $File != '#' && $File != '*' )
         {
           return false;
         }
@@ -208,7 +208,7 @@ abstract class CliControllerAbstract
       default:
       {
         $Part = substr( $File , 0 , 2 );
-        if( $Part != '//' && $Part != '/*' )
+        if ( $Part != '//' && $Part != '/*' )
         {
           return false;
         }
@@ -235,7 +235,7 @@ abstract class CliControllerAbstract
   protected function isFlag( $Data )
   {
 
-    if( $Data{0} == '-' )
+    if ( $Data{0} == '-' )
     {
       $this->arguments[$Data] = true;
       return true;
@@ -258,7 +258,7 @@ abstract class CliControllerAbstract
   {
     $Data = strtolower($Data);
 
-    if( isset( $this->actions[$Data] ) )
+    if ( isset( $this->actions[$Data] ) )
     {
       $this->command = $Data;
       return true;
@@ -278,16 +278,16 @@ abstract class CliControllerAbstract
   protected function checkAktion( )
   {
 
-    if( !is_null($this->command) )
+    if ( !is_null($this->command) )
     {
-      if($this->debug)
+      if ($this->debug)
         echo "Gebe command zurück\n";
       
       return $this->command;
     }
     else
     {
-      if($this->debug)
+      if ($this->debug)
         echo "hab kein command\n";
       
       // Keine Action gefunden, dann die Hilfe ausgeben

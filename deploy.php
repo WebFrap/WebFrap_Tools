@@ -23,11 +23,11 @@ Console::header( "Start Deployment", true);
 
 Fs::chdir( $deployPath );
 
-if( $syncBeforeDeploy )
+if ( $syncBeforeDeploy )
 {
   
   Console::outln( "Sync before deployment" );
-  if( !Fs::exists( $repoRoot ) )
+  if ( !Fs::exists( $repoRoot ) )
     Fs::mkdir( $repoRoot );
   
   // eine Temporäre HG RC Datei erstellen, wird benötigt

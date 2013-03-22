@@ -73,17 +73,17 @@ class Db_Model
   public function getDb( ConfMaintenance $conf )
   {
     
-    if( !$this->db )
+    if ( !$this->db )
     {
       
       $dbConf = $conf->getDbConf( 'default' );
       
-      if( $dbConf )
+      if ( $dbConf )
       {
         
         $className = 'Db'.ucfirst( $dbConf->type );
         
-        if( !Gaia::classLoadable( $className ) )
+        if ( !Gaia::classLoadable( $className ) )
           throw new GaiaException( "Requested nonexisting DB Adapter ".$dbConf->type );
         
         $this->db = new $className

@@ -49,7 +49,7 @@ class SetupDb
     
     $className = 'SetupDb'.ucfirst( $type );
     
-    if( !Gaia::classLoadable($className) )
+    if ( !Gaia::classLoadable($className) )
       throw new GaiaException( 'The requested setup not exists.' );
     
     return new $className( $console, $protocol );

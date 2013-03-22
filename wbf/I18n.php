@@ -36,7 +36,7 @@ class I18n
   public static function loadLang( $lang = 'de')
   {
     
-    if( file_exists( GAIA_PATH.'wbf/i18n/'.$lang.'.php' ) )
+    if ( file_exists( GAIA_PATH.'wbf/i18n/'.$lang.'.php' ) )
       include GAIA_PATH.'wbf/i18n/'.$lang.'.php';
     else 
       include GAIA_PATH.'wbf/i18n/en.php';

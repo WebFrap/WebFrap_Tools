@@ -94,11 +94,11 @@ class PackageServerDb
   {
     $address = $this->getNodeAttr('../..','address');
     
-    if( !$address )
+    if ( !$address )
     {
       $hostType = $this->getNodeAttr('../..','type');
       
-      if(  $hostType && 'local' != $hostType )
+      if (  $hostType && 'local' != $hostType )
       {
         throw new PackageException( 'Host ist nicht lokal. Hat aber keine Addresse' );
       }
@@ -121,7 +121,7 @@ class PackageServerDb
     
     $port = $this->getNodeAttr('connection','port');
     
-    if( !$port )
+    if ( !$port )
     {
       $port = '5432';
     }
@@ -276,12 +276,12 @@ class PackageServerDb
   public function getConnection()
   {
     
-    if( $this->con )
+    if ( $this->con )
       return $this->con;
       
     $className = 'Db'.ucfirst($this->getType());
     
-    if( !Gaia::classLoadable( $className ) )
+    if ( !Gaia::classLoadable( $className ) )
       throw new GaiaException( "Requested Connection for nonexisting Type ".$this->getType() );
       
     $this->con = new $className
@@ -325,10 +325,10 @@ class PackageServerDb
     
     $mode = $this->getNodeAttr( $path, 'mode' );
     
-    if( !$mode )
+    if ( !$mode )
       return null;
       
-    if( !$value && $value == $mode )
+    if ( !$value && $value == $mode )
       return true;
     
     return $mode;

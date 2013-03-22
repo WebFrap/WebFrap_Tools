@@ -54,9 +54,9 @@ class SoftwareUbuntu
 
     $tmp = explode( "\t", $packageKey );
     
-    if( $package == $tmp[0] )
+    if ( $package == $tmp[0] )
     {
-      if( 'install' == $tmp[1]  )
+      if ( 'install' == $tmp[1]  )
         return true;
     }
     

@@ -25,10 +25,10 @@ $serverSoftware = new ServerSoftwareUbuntu();
 $serverSoftware->install();
 
 // erstellen des deploypathes und temppathes soweit noch nicht vorhanden
-if( !Fs::exists($deployPath) )
+if ( !Fs::exists($deployPath) )
   Fs::mkdir( $deployPath );
   
-if( !Fs::exists( $tmpFolder ) )
+if ( !Fs::exists( $tmpFolder ) )
   Fs::mkdir( $tmpFolder );
 
 // dafür sorgend dass der tempfolder auch von der datenbank gelesen werden kann
@@ -36,10 +36,10 @@ Fs::chmod( $tmpFolder, '775' );
   
 Fs::chdir( $deployPath );
 
-if( $syncBeforeDeploy )
+if ( $syncBeforeDeploy )
 {
   
-  if( !Fs::exists( $repoRoot ) )
+  if ( !Fs::exists( $repoRoot ) )
     Fs::mkdir( $repoRoot );
   
   // eine Temporäre HG RC Datei erstellen, wird benötigt

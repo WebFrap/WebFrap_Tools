@@ -88,24 +88,24 @@ class VmstatToCsv
   public function __construct( )
   {
 
-    if( $_SERVER["argc"] <= 1 )
+    if ( $_SERVER["argc"] <= 1 )
     {
       // Keine Parameter also Hilfe ausgeben
       $this->printHelp( );
       exit(0);
     }
 
-    for( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
+    for ( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
     {
 
-      if( !$this->_isFlag( $_SERVER["argv"][$nam] )  )
+      if ( !$this->_isFlag( $_SERVER["argv"][$nam] )  )
       {
-        if( !$this->_isCommand( $_SERVER["argv"][$nam] ) )
+        if ( !$this->_isCommand( $_SERVER["argv"][$nam] ) )
         {
           $Key = $nam;
           ++$nam;
 
-          if( !isset( $_SERVER["argv"][$nam] ) )
+          if ( !isset( $_SERVER["argv"][$nam] ) )
           {
             echo "Falsche Parameter:\n\n";
             $this->printHelp( );
@@ -117,7 +117,7 @@ class VmstatToCsv
       }
     }
 
-    if( isset( $this->_arguments["-v"] ) ){
+    if ( isset( $this->_arguments["-v"] ) ){
       $this->_verbose = true;
       echo "Bin geschwätzig...\n";
     }
@@ -146,7 +146,7 @@ class VmstatToCsv
 
       case 'convert':
       {
-        if($this->_verbose)
+        if ($this->_verbose)
           echo "Convertieren der Datei\n";
 
         $this->runConverter( );
@@ -202,21 +202,21 @@ class VmstatToCsv
   */
   public function runConverter( )
   {
-    if($this->_verbose)
+    if ($this->_verbose)
       echo "Such Input Datei...\n";
 
-    if( isset( $this->_arguments['input'] ) )
+    if ( isset( $this->_arguments['input'] ) )
     {
       $this->_fileIn = $this->_arguments['input'] ;
     }
 
-    if( !is_readable($this->_fileIn) or !is_file($this->_fileIn))
+    if ( !is_readable($this->_fileIn) or !is_file($this->_fileIn))
     {
       $this->_suicide( "Fehler beim öffnen der Eingabedatei" );
     }
 
 
-    if(!$textarray = file( $this->_fileIn ))
+    if (!$textarray = file( $this->_fileIn ))
     {
       $this->_suicide( "Fehler beim einlesen der Datei" );
     }
@@ -225,7 +225,7 @@ class VmstatToCsv
     $CsvHead = "";
 
 
-    if( !isset($this->_arguments["-noHead"]) ){
+    if ( !isset($this->_arguments["-noHead"]) ){
       $Head = $textarray[1];
       $HeadLines = explode( " " , $Head);
 
@@ -234,7 +234,7 @@ class VmstatToCsv
             // ansonsten lauf durch
       foreach( $HeadLines as $Cell )
       {
-        if( trim( $Cell ) != "")
+        if ( trim( $Cell ) != "")
         {
           $CsvHead .= trim( $Cell ). ";";
         }
@@ -250,7 +250,7 @@ class VmstatToCsv
       $wort = explode( " " , $rows);
 
       // Wenns keine Zahl is: "Lauf WIDÄ!!"
-      if( !is_numeric(trim($wort[1])) )
+      if ( !is_numeric(trim($wort[1])) )
       {
         continue;
       }
@@ -258,7 +258,7 @@ class VmstatToCsv
       // ansonsten lauf durch
       foreach( $wort as $wor )
       {
-        if( trim( $wor ) != "")
+        if ( trim( $wor ) != "")
         {
           $CsvBody .= trim( $wor ). ";";
         }
@@ -270,7 +270,7 @@ class VmstatToCsv
 
 
     // Wenn wir geschwätzig sind dann verraten wir schnell mal das ergebnis
-    if($this->_verbose)
+    if ($this->_verbose)
     {
       echo "Convertierte Datei:\n";
       echo $CsvHead;
@@ -278,36 +278,36 @@ class VmstatToCsv
     }
 
 
-    if( isset( $this->_arguments['output'] ) )
+    if ( isset( $this->_arguments['output'] ) )
     {
       $this->_fileOut = $this->_arguments['output'] ;
     }
 
 
-    if(file_exists($this->_fileOut))
+    if (file_exists($this->_fileOut))
     {
-      if( !is_writeable($this->_fileOut))
+      if ( !is_writeable($this->_fileOut))
       {
         $this->_suicide('Ausgabedatei konnte bereits vorhandene Datei nicht ersetzen!!');
       }
 
     }
-    elseif( !touch($this->_fileOut) )
+    elseif ( !touch($this->_fileOut) )
     {
-      if( !is_writeable($this->_fileOut))
+      if ( !is_writeable($this->_fileOut))
       {
         $this->_suicide('Konnte Ausgabedatei nicht erstellen!!');
       }
     }
 
 
-    if(!file_put_contents ( $this->_fileOut , $CsvHead.$CsvBody ))
+    if (!file_put_contents ( $this->_fileOut , $CsvHead.$CsvBody ))
     {
       $this->_suicide('Konnte Daten nicht schreiben!');
     }
 
 
-    if($this->_verbose)
+    if ($this->_verbose)
       echo "Öhm, Fädsch, Feierabnd...\n";
 
   }
@@ -325,7 +325,7 @@ class VmstatToCsv
   protected function _isFlag( $Data )
   {
 
-    if( $Data{0} == "-" ){
+    if ( $Data{0} == "-" ){
       $this->_arguments[$Data] = true;
       return true;
     }
@@ -347,7 +347,7 @@ class VmstatToCsv
   {
     $Data = strtolower($Data);
 
-    if( isset( $this->_actions[$Data] ) )
+    if ( isset( $this->_actions[$Data] ) )
     {
       $this->_command = $Data;
       return true;
@@ -367,7 +367,7 @@ class VmstatToCsv
   protected function _checkAktion( )
   {
 
-    if( $this->_command )
+    if ( $this->_command )
     {
       return $this->_command;
     }

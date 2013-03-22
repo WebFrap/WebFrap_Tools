@@ -132,7 +132,7 @@ class PackageBuilder_Repo_Iterator
   public function next ()
   {
   
-    if( !$this->repos )
+    if ( !$this->repos )
     {
       return null;
     }
@@ -147,12 +147,12 @@ class PackageBuilder_Repo_Iterator
       $current = null;
       
       // wir haben einen aktiven folder
-      if( $this->activFolder )
+      if ( $this->activFolder )
       {
         $current = $this->activFolder->current();
         $key     = $this->activFolder->key();
         
-        if( !$current )
+        if ( !$current )
         {
           $this->activFolder = null;
           $this->current     = null;
@@ -172,12 +172,12 @@ class PackageBuilder_Repo_Iterator
       }
       
       // wir haben eine aktive componente
-      if( $this->repoFolders )
+      if ( $this->repoFolders )
       {
         $activFolder = current( $this->repoFolders );
         next($this->repoFolders);
 
-        if( $activFolder )
+        if ( $activFolder )
         {
           $repoName     = $this->repoName;
           
@@ -201,14 +201,14 @@ class PackageBuilder_Repo_Iterator
       }
       
       // das noch aktuelle repo zurücksetzen
-      if( $this->activRepo )
+      if ( $this->activRepo )
       {
         $this->activRepo->switchBranch( $this->activRepoBranch );
       }
       
       $next = current($this->repos);
       
-      if( !$next )
+      if ( !$next )
       {
         $this->activFolder = null;
         $this->repoFolders = null;
@@ -230,17 +230,17 @@ class PackageBuilder_Repo_Iterator
 
         $target = $this->repoName;
         
-        if( isset($next->target) )
+        if ( isset($next->target) )
           $target = $next->target;
           
         $this->targetFolder = $target.'/' ;
 
         $repoType = null;
         
-        if( isset( $next->repo_type ) )
+        if ( isset( $next->repo_type ) )
           $repoType = $next->repo_type;
         
-        if( $repoType )
+        if ( $repoType )
         {
           $this->activRepoType = FormatString::subToCamelCase( $repoType );
           $this->activRepo     = VcsManager::useRepository
@@ -250,13 +250,13 @@ class PackageBuilder_Repo_Iterator
           );
           
           
-         if( $this->activRepo->isRepository() )
+         if ( $this->activRepo->isRepository() )
          {
            $this->activRepoBranch = $this->activRepo->getActualBranch();
            
            $branch = $next->getAttribute( 'branch' );
            
-           if( $branch )
+           if ( $branch )
              $this->activRepo->switchBranch( $branch );
          }
          else 
@@ -295,7 +295,7 @@ class PackageBuilder_Repo_Iterator
     $this->key        = null;
     $this->current     = null;
     
-    if( $this->repos )
+    if ( $this->repos )
     {
       reset( $this->repos );
     }

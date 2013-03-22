@@ -51,12 +51,12 @@ class Install_Model
     
     $console = $this->getConsole();
     
-    if( !Fs::exists( $packagePath ) )
+    if ( !Fs::exists( $packagePath ) )
     {
       $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
     }
     
-    if( Fs::isA( $packagePath, 'package' ) || Fs::isA( $packagePath, 'zip' ) )
+    if ( Fs::isA( $packagePath, 'package' ) || Fs::isA( $packagePath, 'zip' ) )
     {
       $archive = new ArchiveZip( $packagePath, ArchiveZip::MODE_HUGE );
       $tmp     = Gaia::mkTmpFolder();
@@ -64,7 +64,7 @@ class Install_Model
       $archive->extractMetaFile( 'package.bdl', $tmp.'package.bdl' );
       $package = new Package( $tmp.'package.bdl' );
       
-      if( !$package->isLoaded() )
+      if ( !$package->isLoaded() )
       {
         Fs::del( $tmp );
         throw new GaiaException( 'Konnte die '.$tmp.'package.bdl nicht laden' );
@@ -77,7 +77,7 @@ class Install_Model
     {
       $package = new Package( $packagePath );
       
-      if( !$package->isLoaded() )
+      if ( !$package->isLoaded() )
       {
         Fs::del( $tmp );
         throw new GaiaException( 'Konnte '.$packagePath.' nicht laden' );
@@ -100,7 +100,7 @@ class Install_Model
     
     $console = $this->getConsole();
     
-    if( !Fs::exists( $packagePath ) )
+    if ( !Fs::exists( $packagePath ) )
     {
       $console->error( "Konnte kein Paket unter ".$packagePath.' finden.' );
     }
@@ -113,7 +113,7 @@ class Install_Model
     
     $package = new Package( $tmp.'package.bdl' );
     
-    if( !$package->isLoaded() )
+    if ( !$package->isLoaded() )
     {
       Fs::del( $tmp );
       throw new GaiaException( 'Konnte die '.$tmp.'package.bdl nicht laden' );

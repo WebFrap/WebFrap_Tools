@@ -35,7 +35,7 @@ class Update_Controller
     
     $packagePath = $request->param( 'package', Validator_Text::PLAIN );
     
-    if( !$packagePath )
+    if ( !$packagePath )
     {
       $this->do_help();
       return;
@@ -49,23 +49,23 @@ class Update_Controller
     $type        = $package->getType();
     
     $targetPath = $request->param( 'target', Validator_Folder::PLAIN );
-    if( $targetPath )
+    if ( $targetPath )
       $package->setCodeRoot( $targetPath );
       
     $confKey = $request->param( 'conf_key', Validator_Text::PLAIN );
-    if( $confKey )
+    if ( $confKey )
       $package->setConfKey( $confKey );
       
     $serverKey = $request->param( 'server_key', Validator_Text::PLAIN );
-    if( $serverKey )
+    if ( $serverKey )
       $package->setServerKey( $serverKey );
       
     $useGw = $request->param( 'use_gw', Validator_Text::PLAIN );
-    if( $useGw )
+    if ( $useGw )
       $package->setDeplGateway( $useGw );
       
     $gwName = $request->param( 'gw_name', Validator_Text::PLAIN );
-    if( $gwName )
+    if ( $gwName )
       $package->setGwName( $gwName );
     
     try 

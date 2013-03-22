@@ -113,10 +113,10 @@ class PackageGatewayUser
     
     $level = $this->getNodeValue( 'level' );
     
-    if( !$level )
+    if ( !$level )
       return 40;
       
-    if( !isset( $this->levels[$level] ) )
+    if ( !isset( $this->levels[$level] ) )
     {
       throw new GaiaException("Got nonexisting Userlevel {$level}");
     }

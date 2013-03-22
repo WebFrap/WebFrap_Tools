@@ -92,16 +92,16 @@ class ConfMaintenance
     // erst mal potentiell alte confs leeren
     $this->databases     = array();
     
-    if( !Fs::pathIsAbsolute( $path ) )
+    if ( !Fs::pathIsAbsolute( $path ) )
     {
       $path = GAIA_PATH.'conf/conf.'.$path.'.php';
     }
     
-    if( Fs::exists( $path ) )
+    if ( Fs::exists( $path ) )
     {
       $error = null;
       
-      if( Gaia::checkSyntax( $path, $error ) )
+      if ( Gaia::checkSyntax( $path, $error ) )
       {
         include $path;
       }
@@ -128,7 +128,7 @@ class ConfMaintenance
   public function getDbConf( $key = 'default' )
   {
     
-    if( !isset( $this->databases[$key] ) )
+    if ( !isset( $this->databases[$key] ) )
       return array();
     
     $conf = $this->databases[$key];

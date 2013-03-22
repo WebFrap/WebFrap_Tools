@@ -54,10 +54,10 @@ class UiDimension
     
     $html = ' ';
     
-    if( $this->width )
+    if ( $this->width )
       $html .= ' --width='.$this->width;
     
-    if( $this->height )
+    if ( $this->height )
       $html .= ' --height='.$this->height;
       
     return $html;

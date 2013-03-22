@@ -33,7 +33,7 @@ class SoftwareUbuntuPostgresql
   public function installCore( )
   {
     
-    if( $this->isInstalled('postgresql') )
+    if ( $this->isInstalled('postgresql') )
       return;
     
     $packages = array

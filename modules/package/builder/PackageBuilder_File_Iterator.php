@@ -62,10 +62,10 @@ class PackageBuilder_File_Iterator
     $this->recursive    = $recursive;
     $this->targetFolder = str_replace( '//', '/', $targetFolder.'/' );
 
-    if( $filter )
+    if ( $filter )
       $this->filter     = explode( ',', $filter );
 
-    if( is_dir( $folder ) )
+    if ( is_dir( $folder ) )
     {
       $this->fRes = opendir( $folder );
       $this->next();
@@ -94,12 +94,12 @@ class PackageBuilder_File_Iterator
     while( $repeat ) 
     {
       
-      if( $this->subFolder )
+      if ( $this->subFolder )
       {
         $nextSub = $this->subFolder->current();
         $key     = $this->subFolder->key();
         
-        if( $nextSub )
+        if ( $nextSub )
         {
           $this->subFolder->next();
           $this->current = $nextSub;
@@ -119,18 +119,18 @@ class PackageBuilder_File_Iterator
       $keyVal  = $current;
 
       // dirty.... so what?
-      if( '.' == $current  )
+      if ( '.' == $current  )
         continue;
         
-      if( '..' == $current )
+      if ( '..' == $current )
         continue;
 
-      if( $current )
+      if ( $current )
       {
-        if( is_dir( $this->folder.'/'.$current )  )
+        if ( is_dir( $this->folder.'/'.$current )  )
         {
           
-          if( !$this->recursive )
+          if ( !$this->recursive )
             continue;
             
           // wenn current ein ordner ist wird ers über ihn iteriert bevor 
@@ -146,7 +146,7 @@ class PackageBuilder_File_Iterator
           
           $current  = $this->subFolder->current();
           
-          if( !$current )
+          if ( !$current )
           {
             $this->subFolder = null;
             $this->current   = null;
@@ -167,18 +167,18 @@ class PackageBuilder_File_Iterator
         {
 
           // auf eine dateiendung prüfen
-          if( $this->filter )
+          if ( $this->filter )
           {
             
             $info = pathinfo(str_replace( '//', '/', $this->folder.'/'.$current ));
             
-            if( !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
+            if ( !in_array( strtolower('.'.$info['extension']), $this->filter  )  )
               continue;
             
           }
 
           // den rückgabe modus auswerten
-          if( $this->fileMode != IoFileIterator::FILE_ONLY )
+          if ( $this->fileMode != IoFileIterator::FILE_ONLY )
             $current = str_replace( '//', '/', $this->folder.'/'.$current );
             
         }
@@ -194,7 +194,7 @@ class PackageBuilder_File_Iterator
     } 
     
     // sicher stellen, dass die pfade korrekt sind
-    if( $current )
+    if ( $current )
       $this->current = $current;
     else 
       $this->current = null;

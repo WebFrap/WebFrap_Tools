@@ -53,7 +53,7 @@ class Refactorer_Controller
     $path    = $_POST['path']; //  $request->data('path', Validator::RAW);
     $ending  = $_POST['ending']; //  $request->data('ending', Validator::RAW);
     
-    if( $path )
+    if ( $path )
     {
       $model = new Refactorer_Model();
       $files = $model->refactor( $search, $replace, PATH_ROOT.$path.'/', $ending );

@@ -37,7 +37,7 @@ class VcsManager
     
     $className = 'Vcs_'.$type;
     
-    if( !Gaia::classLoadable( $className ) )
+    if ( !Gaia::classLoadable( $className ) )
     {
       throw new GaiaException( "Im Moment existiert noch kein VCS Adapter für {$type}" );
     }

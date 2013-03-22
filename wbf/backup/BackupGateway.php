@@ -43,12 +43,12 @@ class BackupGateway
 
       $backupNode = $gateway->getBackupNode();
       
-      if( !$backupNode )
+      if ( !$backupNode )
       {
         continue;
       }
   
-      if( !Fs::exists( $codeRoot ) )
+      if ( !Fs::exists( $codeRoot ) )
       {
         $error = 'Das Zielverzeichniss '.$codeRoot.' existiert nicht.'
           .' Bitte überprüfe den Pfad und ob überhaupt ein Installation vorhanden ist.';
@@ -56,7 +56,7 @@ class BackupGateway
         throw new GaiaException( $error );
       }
       
-      if( !Fs::exists( $gwTargetPath ) )
+      if ( !Fs::exists( $gwTargetPath ) )
       {
         $error = 'Das Target Gateway: '.$gwTargetPath.' existiert nicht.';
         throw new GaiaException( $error );
@@ -78,12 +78,12 @@ class BackupGateway
     
     $type   = $backup->getType( );
     
-    if( !$type )
+    if ( !$type )
       $type = 'user_data';
     
     $action = 'backup_'.FormatString::subToCamelCase( $type );
     
-    if( !method_exists( $this, $action ) )
+    if ( !method_exists( $this, $action ) )
       throw new GaiaException( "Got invalid backup type ".$type );
     
     $this->$action( $package, $gateway, $backup );
@@ -106,7 +106,7 @@ class BackupGateway
 
     $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
     
-    if( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
       
@@ -116,7 +116,7 @@ class BackupGateway
       }
     }
     
-    if( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
       
@@ -148,7 +148,7 @@ class BackupGateway
 
     $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
     
-    if( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
       
@@ -158,7 +158,7 @@ class BackupGateway
       }
     }
     
-    if( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
       
@@ -188,7 +188,7 @@ class BackupGateway
 
     $archive = new ArchiveZip( $backupDir.'/'.$gwName.'-'.date('YmdHis').'.zip' );
     
-    if( Fs::exists( $codeRoot.$gwName.'/data/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/data/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/data/', '/'.$gwName.'/data/' ); 
       
@@ -198,7 +198,7 @@ class BackupGateway
       }
     }
     
-    if( Fs::exists( $codeRoot.$gwName.'/files/' ) )
+    if ( Fs::exists( $codeRoot.$gwName.'/files/' ) )
     {
       $dataFiles = new IoFileIterator( $codeRoot.$gwName.'/files/', '/'.$gwName.'/files/' ); 
       

@@ -191,7 +191,7 @@ class WebserverApache
 
 CODE;
   
-    if( $vhostConf->noSSl )
+    if ( $vhostConf->noSSl )
     {
       
       $host .= <<<CODE

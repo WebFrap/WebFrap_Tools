@@ -90,24 +90,24 @@ class PackageGatewayModule
   public function getPermission( $rootPath )
   {
     
-    if( !$this->permission )
+    if ( !$this->permission )
     {
       $this->permission = new StructPermission();
       $this->permission->directory = $rootPath;
       
       $owner = $this->getAttribute( 'owner' );
-      if( $owner )
+      if ( $owner )
         $this->permission->owner = $owner;
         
       $group = $this->getAttribute( 'group' );
-      if( $group )
+      if ( $group )
         $this->permission->group = $group;
       
       $access = $this->getAttribute( 'access' );
-      if( $access )
+      if ( $access )
         $this->permission->accessMask = $access;
         
-      if( !$owner && !$group && !$access )
+      if ( !$owner && !$group && !$access )
         return null;
         
       $this->permission->directory =  $rootPath.$this->getName().'/';

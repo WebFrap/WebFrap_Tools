@@ -107,7 +107,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0);
       
     return null;
@@ -127,9 +127,9 @@ class XmlNode
   {
     $list = $this->document->xpath( './'.$path, $this->dom );
     
-    if( $containerClass )
+    if ( $containerClass )
     {
-      if( class_exists($containerClass))
+      if ( class_exists($containerClass))
       {
         $tmp = array();
         
@@ -157,7 +157,7 @@ class XmlNode
   public function createPath( $path, $position = null )
   {
     
-    if( $position )
+    if ( $position )
     {
       $dom = $this->getNode( './'.$position, $this->dom  );
     }
@@ -168,12 +168,12 @@ class XmlNode
     
     $pos = strpos( $path, '/'  );
     
-    if( $pos )
+    if ( $pos )
     {
       $nodeName = substr( $path, 0, $pos );
       
       
-      if( $position )
+      if ( $position )
         $position = $position.'/'.$nodeName;
       else 
         $position = $nodeName;
@@ -188,9 +188,9 @@ class XmlNode
 
     $node = $this->document->xpath( './'.$nodeName, $dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
-      if( $nextPath )
+      if ( $nextPath )
       {
         return $this->createPath( $nextPath, $position );
       }
@@ -200,7 +200,7 @@ class XmlNode
       $newNode = $this->document->createElement( $nodeName, '' );
       $dom->appendChild( $newNode );
       
-      if( $nextPath )
+      if ( $nextPath )
       {
         return $this->createPath( $nextPath, $position );
       }
@@ -219,7 +219,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->nodeValue = $value;
     }
@@ -238,7 +238,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0)->textContent;
     else 
       return null;  
@@ -254,7 +254,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0)->getAttribute( $attrName );
     else 
       return null;  
@@ -270,7 +270,7 @@ class XmlNode
   {
     $node = $this->document->xpath( $path, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
       return $node->item(0)->getAttribute( $attrName );
     else 
       return null;  
@@ -286,7 +286,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->setAttribute( $attrName, $value );
     }
@@ -307,7 +307,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node->item(0)->removeAttribute( $attrName );
     }
@@ -328,7 +328,7 @@ class XmlNode
   public function removeAttr( $attrName )
   {
     
-    if( $this->dom->hasAttribute( $attrName ) )
+    if ( $this->dom->hasAttribute( $attrName ) )
       $this->dom->removeAttribute( $attrName );
     
   }//end public function removeAttr */
@@ -358,14 +358,14 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
       return $node->item(0);
     }
     else 
     {
       
-      if( strpos( $tagName, '/' ) )
+      if ( strpos( $tagName, '/' ) )
       {
         return $this->createPath( $tagName );
       }
@@ -383,7 +383,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
     {
       $node = $node->item(0);
       $node->parentNode->removeChild( $node );
@@ -398,7 +398,7 @@ class XmlNode
   {
     $node = $this->document->xpath( './'.$tagName, $this->dom );
     
-    if( $node->length )
+    if ( $node->length )
       return true;
     else 
       return false;  
@@ -439,7 +439,7 @@ class XmlNode
     
     $list = $this->document->xpath( './'.$type.'/text[@lang="'.$lang.'"]', $this->dom );
 
-    if( !$list->length )
+    if ( !$list->length )
       return '';
       
     return $list->item(0)->textContent;
@@ -459,13 +459,13 @@ class XmlNode
     
     $nodes = array();
     
-    if( $list->length )
+    if ( $list->length )
     {
       $node = $list->item(0);
       
       $cdata = $node->ownerDocument->createCDATASection( $content  );
       
-      if( $node->hasChildNodes() )
+      if ( $node->hasChildNodes() )
       {
         $node->replaceChild( $cdata, $node->childNodes->item(0) );
       }
@@ -481,7 +481,7 @@ class XmlNode
     {
       $tNodeList = $this->document->xpath( './'.$type, $this->dom );
       
-      if( !$tNodeList->length )
+      if ( !$tNodeList->length )
       {
         $newNode = $this->document->createElement( $type );
         $tNode = $this->dom->appendChild( $newNode );
@@ -513,7 +513,7 @@ class XmlNode
     
     $list = $this->document->xpath( './'.$type.'/text[@lang="'.$lang.'"]', $this->dom );
 
-    if( $list->length )
+    if ( $list->length )
     {
       return true;
     }
@@ -537,7 +537,7 @@ class XmlNode
   public function getSimple( )
   {
     
-    if( $this->simple )
+    if ( $this->simple )
       return $this->simple;
     
     $this->simple = simplexml_import_dom($this->dom);

@@ -94,7 +94,7 @@ class Console
   static function out( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
     echo $text;
@@ -109,10 +109,10 @@ class Console
   static function outl( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
       echo $text.NL;
     else 
       echo $text.NL."<br />";
@@ -128,10 +128,10 @@ class Console
   static function outln( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
       echo $text.NL;
     else 
       echo $text.NL."<br />";
@@ -147,10 +147,10 @@ class Console
   static function error( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       fwrite( STDERR, 'ERROR: '.$text.NL );
     }
@@ -169,10 +169,10 @@ class Console
   static function header( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       echo "################################################################################".NL;
       echo "# ".$text.NL;
@@ -194,10 +194,10 @@ class Console
   static function chapter( $text, $appendDate = false )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       echo "| ".$text.NL;
       echo "|_______________________________________________________________________________".NL;
@@ -218,10 +218,10 @@ class Console
   static function footer( $text, $appendDate = false  )
   {
     
-    if( $appendDate )
+    if ( $appendDate )
       $text .= date('Y-m-d');
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       echo "________________________________________________________________________________".NL;
       echo "|".NL;
@@ -243,7 +243,7 @@ class Console
   static function startBlock( )
   {
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       //echo "--------------------------------------------------------------------------------".NL;
       echo NL;
@@ -263,7 +263,7 @@ class Console
   static function endBlock( )
   {
     
-    if( IS_CLI )
+    if ( IS_CLI )
     {
       //echo "--------------------------------------------------------------------------------".NL;
       echo NL.NL;

@@ -43,30 +43,30 @@ class PackageDbDumpFile
     // check auf dem Node
     $gwName = $this->getAttribute('src');
 
-    if( !$gwName )
+    if ( !$gwName )
     {
       
       // check auf files
       $gwName = $this->getNodeAttr( '..', 'src');
 
-      if( !$gwName )
+      if ( !$gwName )
       {
         // check auf dem type
         $gwName = $this->getNodeAttr( '../..', 'src');
         
             
-        if( !$gwName )
+        if ( !$gwName )
         {
           // check auf structure
           $gwName = $this->getNodeAttr( '../../..', 'src');
           
           
-          if( !$gwName )
+          if ( !$gwName )
           {
             // die Src des Gateways verwenden
             $gwName = $this->getNodeAttr( '../../../../../../../..', 'src');
             
-            if( !$gwName )
+            if ( !$gwName )
             {
               // wenn es nicht die src ist, kann es nur noch der name sein
               $gwName = $this->getNodeAttr( '../../../../../../../..', 'name');

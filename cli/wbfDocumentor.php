@@ -80,17 +80,17 @@ class Documentor
 
 
 
-    for( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
+    for ( $nam = 1 ; $nam < $_SERVER["argc"] ; ++$nam )
     {
 
-      if( !$this->isFlag( $_SERVER["argv"][$nam] )  )
+      if ( !$this->isFlag( $_SERVER["argv"][$nam] )  )
       {
-        if( !$this->isCommand( $_SERVER["argv"][$nam] ) )
+        if ( !$this->isCommand( $_SERVER["argv"][$nam] ) )
         {
           $Key = $nam;
           ++$nam;
 
-          if( !isset( $_SERVER["argv"][$nam] ) )
+          if ( !isset( $_SERVER["argv"][$nam] ) )
           {
             echo "Falsche Parameter:\n\n";
             $this->printHelp( );
@@ -102,7 +102,7 @@ class Documentor
       }
     }
 
-    if( isset( $this->arguments["-v"] ) ){
+    if ( isset( $this->arguments["-v"] ) ){
       $this->verbose = true;
       echo "Bin geschwätzig...\n";
     }
@@ -135,7 +135,7 @@ class Documentor
 
       case 'extract':
       {
-        if($this->verbose)
+        if ($this->verbose)
           echo "Extract Comments from Code\n";
 
         $this->extract( );
@@ -190,7 +190,7 @@ class Documentor
   public function extract( )
   {
 
-    if( !isset( $this->arguments['path'] ) )
+    if ( !isset( $this->arguments['path'] ) )
     {
       $this->printHelp();
       return false;
@@ -200,7 +200,7 @@ class Documentor
 
     $path = $this->arguments['path'];
 
-    if( is_dir($path) )
+    if ( is_dir($path) )
     {
       $this->runInSubdirs( $path );
     }
@@ -229,14 +229,14 @@ class Documentor
     {
         while ( ( $potFolder = readdir($dh) ) !== false )
         {
-            if( $potFolder != "." and $potFolder != ".." )
+            if ( $potFolder != "." and $potFolder != ".." )
             {
 
               $fullPath = $path."/".$potFolder ;
 
-              if( is_file( $fullPath ) )
+              if ( is_file( $fullPath ) )
               {
-                if( $this->validFile( $fullPath ) )
+                if ( $this->validFile( $fullPath ) )
                 {
                   $this->replaceFile( $fullPath );
                 }
@@ -283,16 +283,16 @@ class Documentor
   {
     $row = trim($row);
 
-    if($this->commentOpen)
+    if ($this->commentOpen)
     {
-      if( substr($row , -2 ) == '*/' )
+      if ( substr($row , -2 ) == '*/' )
       {
         $this->commentOpen = false;
       }
 
       return $row."\n";
     }
-    elseif( substr($row , 0 , 3) == '/**' )
+    elseif ( substr($row , 0 , 3) == '/**' )
     {
       $this->commentOpen = true;
       return $row."\n";
@@ -314,14 +314,14 @@ class Documentor
 
     $fileInfo = pathinfo( $file );
 
-    if( !isset($fileInfo["extension"]) )
+    if ( !isset($fileInfo["extension"]) )
     {
       return false;
     }
 
     $ext = $fileInfo["extension"];
 
-    if(  in_array( $ext , $this->endings ) )
+    if (  in_array( $ext , $this->endings ) )
     {
       return true;
     }
@@ -344,7 +344,7 @@ class Documentor
   protected function isFlag( $Data )
   {
 
-    if( $Data{0} == "-" )
+    if ( $Data{0} == "-" )
     {
       $this->arguments[$Data] = true;
       return true;
@@ -367,7 +367,7 @@ class Documentor
   {
     $Data = strtolower($Data);
 
-    if( isset( $this->actions[$Data] ) )
+    if ( isset( $this->actions[$Data] ) )
     {
       $this->command = $Data;
       return true;
@@ -387,7 +387,7 @@ class Documentor
   protected function checkAktion( )
   {
 
-    if( $this->command )
+    if ( $this->command )
     {
       return $this->command;
     }

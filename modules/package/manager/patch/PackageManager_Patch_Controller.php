@@ -58,14 +58,14 @@ class PackageManager_Patch_Controller
     
     $jsonData = json_decode( $jsonRaw );
     
-    if( JSON_ERROR_NONE !== json_last_error() )
+    if ( JSON_ERROR_NONE !== json_last_error() )
       throw new RequestInvalid_Exception("JSON was invalid ".json_last_error() );
     
     Console::startCache();
       
     $model = new PackageManager_Patch_Model( $this );
     
-    if( $noData )
+    if ( $noData )
       $model->noData = true;
     
     $model->readJson( $jsonData );

@@ -69,18 +69,18 @@ class RequestSubCli
     $urlData = parse_url( $command );
     $params  = array();
     
-    if( isset( $urlData['query'] ) )
+    if ( isset( $urlData['query'] ) )
       parse_str( $urlData['query'], $params );
     
     $this->params = $params;
     
-    if( isset( $urlData['path'] ) )
+    if ( isset( $urlData['path'] ) )
     {
       $tmp = explode( '.', $urlData['path'] );
       
       $this->service = ucfirst($tmp[0]);
       
-      if( isset( $tmp[1] ) )
+      if ( isset( $tmp[1] ) )
         $this->action = $tmp[1];
       else 
         $this->action = 'default';
@@ -148,7 +148,7 @@ class RequestSubCli
   public function removeParam( $key )
   {
 
-    if( isset( $this->params[$key] ) )
+    if ( isset( $this->params[$key] ) )
       unset( $this->params[$key] );
 
   }//end public function removeParam */
@@ -167,7 +167,7 @@ class RequestSubCli
   public function dataExists( $key , $subkey = null )
   {
 
-    if( !is_null( $subkey ) )
+    if ( !is_null( $subkey ) )
     {
       return isset( $this->data[$key][$subkey] );
     }
@@ -187,7 +187,7 @@ class RequestSubCli
   public function dataSearchIds( $key )
   {
 
-    if( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
+    if ( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
       return array();
 
     $keys = array_keys( $this->data[$key] );
@@ -197,7 +197,7 @@ class RequestSubCli
     foreach( $keys as $key )
     {
 
-      if( 'id_' == substr( $key , 0, 3 ) )
+      if ( 'id_' == substr( $key , 0, 3 ) )
         $tmp[] = $key;
     }
 
@@ -216,18 +216,18 @@ class RequestSubCli
     
     $response = $this->getResponse();
 
-    if( $validator )
+    if ( $validator )
     {
       $filter = $this->getValidator();
       $filter->clean(); // first clean the filter
 
-      if( is_string($key) )
+      if ( is_string($key) )
       {
 
-        if( $subkey )
+        if ( $subkey )
         {
           
-          if( isset( $this->data[$key][$subkey] ) )
+          if ( isset( $this->data[$key][$subkey] ) )
           {
             $data = $this->data[$key][$subkey];
           }
@@ -240,7 +240,7 @@ class RequestSubCli
         else
         {
           
-          if( isset( $this->data[$key] ) )
+          if ( isset( $this->data[$key] ) )
           {
             $data = $this->data[$key];
           }
@@ -253,7 +253,7 @@ class RequestSubCli
 
         $fMethod = 'add'.ucfirst($validator);
 
-        if( is_array( $data ) )
+        if ( is_array( $data ) )
         {
           // Clean all the same way
           // Good architecture :-)
@@ -262,7 +262,7 @@ class RequestSubCli
         else
         {
           // clean only one
-          if( !$error = $filter->$fMethod( $key, $data ) )
+          if ( !$error = $filter->$fMethod( $key, $data ) )
           {
             return $filter->getData( $key );
           }
@@ -275,17 +275,17 @@ class RequestSubCli
         }
 
       }// end is_string($key)
-      elseif( is_array( $key ) )
+      elseif ( is_array( $key ) )
       {
         $data = array();
 
-        if( is_array( $validator ) )
+        if ( is_array( $validator ) )
         {
           foreach( $key as $id )
           {
             $fMethod = 'add'.ucfirst($validator[$id] );
 
-            if( isset($this->data[$id]) )
+            if ( isset($this->data[$id]) )
             {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->getData($id);
@@ -302,7 +302,7 @@ class RequestSubCli
           {
             $fMethod = 'add'.ucfirst($validator);
 
-            if( isset($this->data[$id]) )
+            if ( isset($this->data[$id]) )
             {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->post($id);
@@ -320,9 +320,9 @@ class RequestSubCli
     }//end if $validator
     else // else $validator
     {
-      if( is_string($key) )
+      if ( is_string($key) )
       {
-        if($subkey)
+        if ($subkey)
         {
           return isset($this->data[$key][$subkey])
             ?$this->data[$key][$subkey]:null;
@@ -333,7 +333,7 @@ class RequestSubCli
             ?$this->data[$key]:null;
         }
       }
-      elseif( is_array($key) )
+      elseif ( is_array($key) )
       {
         $data = array();
 
@@ -344,7 +344,7 @@ class RequestSubCli
 
         return $data;
       }
-      elseif( is_null($key) )
+      elseif ( is_null($key) )
       {
         return $this->data;
       }
@@ -364,16 +364,16 @@ class RequestSubCli
   {
 
 
-    if( is_null( $subkey ) )
+    if ( is_null( $subkey ) )
     {
-      if( isset( $this->data[$key] ) )
+      if ( isset( $this->data[$key] ) )
       {
         unset( $this->data[$key] );
       }
     }
     else
     {
-      if( isset( $this->data[$key][$subkey] ) )
+      if ( isset( $this->data[$key][$subkey] ) )
       {
         unset( $this->data[$key][$subkey] );
       }
@@ -390,20 +390,20 @@ class RequestSubCli
   public function dataEmpty( $keys , $subkey = null )
   {
 
-    if( $subkey )
+    if ( $subkey )
     {
-      if( is_array($keys) )
+      if ( is_array($keys) )
       {
 
         foreach( $keys as $key )
         {
 
-          if( !isset( $this->data[$subkey][$key] ) )
+          if ( !isset( $this->data[$subkey][$key] ) )
           {
             return true;
           }
 
-          if( trim($this->data[$subkey][$key]) == '' )
+          if ( trim($this->data[$subkey][$key]) == '' )
           {
             return true;
           }
@@ -416,12 +416,12 @@ class RequestSubCli
       else
       {
 
-        if( !isset( $this->data[$subkey][$keys] ) )
+        if ( !isset( $this->data[$subkey][$keys] ) )
         {
           return true;
         }
 
-        if( trim($this->data[$subkey][$keys]) == '' )
+        if ( trim($this->data[$subkey][$keys]) == '' )
         {
           return true;
         }
@@ -432,16 +432,16 @@ class RequestSubCli
     }
     else
     {
-      if( is_array($keys) )
+      if ( is_array($keys) )
       {
 
         foreach( $keys as $key )
         {
 
-          if( !isset( $this->data[$key] ) )
+          if ( !isset( $this->data[$key] ) )
             return true;
 
-          if( trim($this->data[$key]) == '' )
+          if ( trim($this->data[$key]) == '' )
             return true;
 
           return false;
@@ -452,10 +452,10 @@ class RequestSubCli
       else
       {
 
-        if( !isset( $this->data[$keys] ) )
+        if ( !isset( $this->data[$keys] ) )
           return true;
 
-        if( trim($this->data[$keys]) == '' )
+        if ( trim($this->data[$keys]) == '' )
           return true;
 
         return false;

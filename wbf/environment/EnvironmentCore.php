@@ -61,9 +61,9 @@ class EnvironmentCore
   public function getRequest()
   {
     
-    if( !$this->request )
+    if ( !$this->request )
     {
-      if( $this->env )
+      if ( $this->env )
         $this->request = $this->env->getRequest();
       else
         $this->request = Request::getActive();
@@ -89,9 +89,9 @@ class EnvironmentCore
   public function getConsole()
   {
     
-    if( !$this->console )
+    if ( !$this->console )
     {
-      if( $this->env )
+      if ( $this->env )
         $this->console = $this->env->getConsole();
       else
         $this->console = Console::getActive();

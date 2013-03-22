@@ -62,7 +62,7 @@ class IoFolderIterator
     
     $this->folder = $folder;
     
-    if( is_dir($folder) )
+    if ( is_dir($folder) )
       $this->fRes = opendir($folder);
 
   }// public function __construct 
@@ -81,7 +81,7 @@ class IoFolderIterator
   public function close( )
   {
     
-    if( is_resource( $this->fRes ) )
+    if ( is_resource( $this->fRes ) )
       closedir( $this->fRes );
 
   }//end public function __desctruct */
@@ -114,11 +114,11 @@ class IoFolderIterator
 
     $folders = array();
 
-    if($asObject)
+    if ($asObject)
     {
       while ( ($subF = readdir($this->fRes) ) !== false )
       {
-        if( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
+        if ( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
         {
           $folders[] = new IoFolderIterator( $this->folder.'/'.$subF);
         }
@@ -128,7 +128,7 @@ class IoFolderIterator
     {
       while ( ($subF = readdir($this->fRes) ) !== false )
       {
-        if( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
+        if ( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
         {
           $folders[] = $this->folder.'/'.$subF;
         }
@@ -149,16 +149,16 @@ class IoFolderIterator
 
     while ( ($subF = readdir($this->fRes) ) !== false )
     {
-      if( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
+      if ( $subF[0] != "." and is_dir($this->folder.'/'.$subF) )
       {
         $folders[] = $subF;
       }
     }
       
-    if( is_null($sortAsc) )
+    if ( is_null($sortAsc) )
       return $folders;
       
-    if( $sortAsc )
+    if ( $sortAsc )
       asort( $folders );
     else 
       arsort( $folders ); 
@@ -176,21 +176,21 @@ class IoFolderIterator
 
     $files = array();
 
-    if( $asObject )
+    if ( $asObject )
     {
       while ( ($subF = readdir($this->fRes) ) !== false )
       {
-        if( $subF[0] != "." and !is_dir( $this->folder.'/'.$subF ) )
+        if ( $subF[0] != "." and !is_dir( $this->folder.'/'.$subF ) )
         {
           $files[$subF] = new IoFile( $this->folder.'/'.$subF );
         }
       }
-    }//end if( $asObject )
+    }//end if ( $asObject )
     else
     {
       while ( ($subF = readdir($this->fRes) ) !== false )
       {
-        if( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
+        if ( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
         {
           $files[$subF] = $this->folder.'/'.$subF;
         }
@@ -227,27 +227,27 @@ class IoFolderIterator
 
     // key = full filename with path
     // for better sorting, check if thats necessary
-    if( !$folder )
+    if ( !$folder )
       $folder = $this->folder;
 
 
-    if($asObject)
+    if ($asObject)
     {
-      if(  is_dir($folder) && $dh = opendir($folder) )
+      if (  is_dir($folder) && $dh = opendir($folder) )
       {
         while ( ($subF = readdir($dh) ) !== false )
         {
-          if( $subF == "." ||  $subF == ".." )
+          if ( $subF == "." ||  $subF == ".." )
             continue;
 
-          if( is_file( $folder.'/'.$subF ) )
+          if ( is_file( $folder.'/'.$subF ) )
           {
-            if( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
+            if ( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
             {
               $files[$folder.'/'.$subF] = new IoFile( $folder.'/'.$subF );
             }
           }
-          else if( $rekursiv  && is_dir( $folder.'/'.$subF )  )
+          else if ( $rekursiv  && is_dir( $folder.'/'.$subF )  )
           {
             $files = $this->getFilesByEnding( $ending, $asObject, $rekursiv, $files, $folder.'/'.$subF.'/'  );
           }
@@ -258,22 +258,22 @@ class IoFolderIterator
     }
     else
     {
-      if( is_dir( $folder ) && $dh = opendir($folder) )
+      if ( is_dir( $folder ) && $dh = opendir($folder) )
       {
         while ( ($subF = readdir($dh) ) !== false )
         {
 
-          if( $subF == "." ||  $subF == ".." )
+          if ( $subF == "." ||  $subF == ".." )
             continue;
 
-          if(  is_file( $folder.'/'.$subF ) )
+          if (  is_file( $folder.'/'.$subF ) )
           {
-            if( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
+            if ( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
             {
               $files[$folder.'/'.$subF] = $folder.'/'.$subF;
             }
           }
-          else if( $rekursiv  && is_dir( $folder.'/'.$subF )  )
+          else if ( $rekursiv  && is_dir( $folder.'/'.$subF )  )
           {
             $files = $this->getFilesByEnding( $ending, $asObject, $rekursiv, $files, $folder.'/'.$subF.'/'  );
           }
@@ -297,11 +297,11 @@ class IoFolderIterator
 
     $files = array();
 
-    if( is_dir($this->folder) && $dh = opendir($this->folder) )
+    if ( is_dir($this->folder) && $dh = opendir($this->folder) )
     {
       while ( ($subF = readdir($dh) ) !== false )
       {
-        if( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
+        if ( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
         {
           $files[$subF] = $subF;
         }
@@ -310,10 +310,10 @@ class IoFolderIterator
     }
     
     
-    if( is_null( $sortAsc ) )
+    if ( is_null( $sortAsc ) )
       return $files;
       
-    if( $sortAsc )
+    if ( $sortAsc )
       ksort( $files );
     else 
       krsort( $files ); 
@@ -330,13 +330,13 @@ class IoFolderIterator
 
     $files = array();
 
-    if( is_dir($this->folder) && $dh = opendir($this->folder) )
+    if ( is_dir($this->folder) && $dh = opendir($this->folder) )
     {
       while ( ($subF = readdir($dh) ) !== false )
       {
-        if( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
+        if ( $subF[0] != "." and is_file( $this->folder.'/'.$subF ) )
         {
-          if( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
+          if ( substr($subF , -(strlen($ending)), strlen($ending) ) == $ending )
           {
             $files[$subF] = $subF;
           }
@@ -357,11 +357,11 @@ class IoFolderIterator
   public function getActivFolder()
   {
 
-    if( is_null($this->activFolder) )
+    if ( is_null($this->activFolder) )
     {
       $folder = trim($this->getFoldername());
 
-      if($folder[(strlen($folder)-1)] == '/')
+      if ($folder[(strlen($folder)-1)] == '/')
         $folder = substr( $folder, 0, -1 );
 
       $add = ($folder[0] == '/' or $folder[0] == '.')  ? 1 : 0;

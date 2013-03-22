@@ -83,9 +83,9 @@ class RequestSubHttp
   public function getOrm()
   {
     // set default orm
-    if( !$this->orm )
+    if ( !$this->orm )
     {
-      if( !$this->db )
+      if ( !$this->db )
         $this->db  = Webfrap::$env->getDb();
         
       $this->orm = $this->db->getOrm();
@@ -101,7 +101,7 @@ class RequestSubHttp
   public function getDb()
   {
     // set default orm
-    if( !$this->db )
+    if ( !$this->db )
       $this->db  = Webfrap::$env->getDb();
 
     return $this->db;
@@ -114,7 +114,7 @@ class RequestSubHttp
   public function getResponse()
   {
     
-    if( !$this->response )
+    if ( !$this->response )
       $this->response = Response::getActive();
       
     return $this->response;
@@ -137,7 +137,7 @@ class RequestSubHttp
   public function getValidator()
   {
     // set default orm
-    if( !$this->validator )
+    if ( !$this->validator )
       $this->validator = Validator::getActive();
 
     return $this->validator;
@@ -230,7 +230,7 @@ class RequestSubHttp
   public function dataExists( $key , $subkey = null )
   {
 
-    if( !is_null( $subkey ) )
+    if ( !is_null( $subkey ) )
     {
       return isset( $this->data[$key][$subkey] );
     }
@@ -250,7 +250,7 @@ class RequestSubHttp
   public function dataSearchIds( $key )
   {
 
-    if( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
+    if ( !isset( $this->data[$key] ) || !is_array( $this->data[$key] ) )
       return array();
 
     $keys = array_keys( $this->data[$key] );
@@ -260,7 +260,7 @@ class RequestSubHttp
     foreach( $keys as $key )
     {
 
-      if( 'id_' == substr( $key , 0, 3 ) )
+      if ( 'id_' == substr( $key , 0, 3 ) )
         $tmp[] = $key;
     }
 
@@ -279,18 +279,18 @@ class RequestSubHttp
     
     $response = $this->getResponse();
 
-    if( $validator )
+    if ( $validator )
     {
       $filter = $this->getValidator();
       $filter->clean(); // first clean the filter
 
-      if( is_string($key) )
+      if ( is_string($key) )
       {
 
-        if( $subkey )
+        if ( $subkey )
         {
           
-          if( isset( $this->data[$key][$subkey] ) )
+          if ( isset( $this->data[$key][$subkey] ) )
           {
             $data = $this->data[$key][$subkey];
           }
@@ -303,7 +303,7 @@ class RequestSubHttp
         else
         {
           
-          if( isset( $this->data[$key] ) )
+          if ( isset( $this->data[$key] ) )
           {
             $data = $this->data[$key];
           }
@@ -316,7 +316,7 @@ class RequestSubHttp
 
         $fMethod = 'add'.ucfirst($validator);
 
-        if( is_array( $data ) )
+        if ( is_array( $data ) )
         {
           // Clean all the same way
           // Good architecture :-)
@@ -325,7 +325,7 @@ class RequestSubHttp
         else
         {
           // clean only one
-          if( !$error = $filter->$fMethod( $key, $data ) )
+          if ( !$error = $filter->$fMethod( $key, $data ) )
           {
             return $filter->getData( $key );
           }
@@ -338,17 +338,17 @@ class RequestSubHttp
         }
 
       }// end is_string($key)
-      elseif( is_array( $key ) )
+      elseif ( is_array( $key ) )
       {
         $data = array();
 
-        if( is_array( $validator ) )
+        if ( is_array( $validator ) )
         {
           foreach( $key as $id )
           {
             $fMethod = 'add'.ucfirst($validator[$id] );
 
-            if( isset($this->data[$id]) )
+            if ( isset($this->data[$id]) )
             {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->getData($id);
@@ -365,7 +365,7 @@ class RequestSubHttp
           {
             $fMethod = 'add'.ucfirst($validator);
 
-            if( isset($this->data[$id]) )
+            if ( isset($this->data[$id]) )
             {
               $filter->$fMethod( $this->data[$id], $id );
               $data[$id] = $filter->post($id);
@@ -383,9 +383,9 @@ class RequestSubHttp
     }//end if $validator
     else // else $validator
     {
-      if( is_string($key) )
+      if ( is_string($key) )
       {
-        if($subkey)
+        if ($subkey)
         {
           return isset($this->data[$key][$subkey])
             ?$this->data[$key][$subkey]:null;
@@ -396,7 +396,7 @@ class RequestSubHttp
             ?$this->data[$key]:null;
         }
       }
-      elseif( is_array($key) )
+      elseif ( is_array($key) )
       {
         $data = array();
 
@@ -407,7 +407,7 @@ class RequestSubHttp
 
         return $data;
       }
-      elseif( is_null($key) )
+      elseif ( is_null($key) )
       {
         return $this->data;
       }
@@ -437,16 +437,16 @@ class RequestSubHttp
         : null;
     */
 
-    if( is_null( $subkey ) )
+    if ( is_null( $subkey ) )
     {
-      if( isset( $this->data[$key] ) )
+      if ( isset( $this->data[$key] ) )
       {
         unset( $this->data[$key] );
       }
     }
     else
     {
-      if( isset( $this->data[$key][$subkey] ) )
+      if ( isset( $this->data[$key][$subkey] ) )
       {
         unset( $this->data[$key][$subkey] );
       }
@@ -463,20 +463,20 @@ class RequestSubHttp
   public function dataEmpty( $keys , $subkey = null )
   {
 
-    if( $subkey )
+    if ( $subkey )
     {
-      if( is_array($keys) )
+      if ( is_array($keys) )
       {
 
         foreach( $keys as $key )
         {
 
-          if( !isset( $this->data[$subkey][$key] ) )
+          if ( !isset( $this->data[$subkey][$key] ) )
           {
             return true;
           }
 
-          if( trim($this->data[$subkey][$key]) == '' )
+          if ( trim($this->data[$subkey][$key]) == '' )
           {
             return true;
           }
@@ -489,12 +489,12 @@ class RequestSubHttp
       else
       {
 
-        if( !isset( $this->data[$subkey][$keys] ) )
+        if ( !isset( $this->data[$subkey][$keys] ) )
         {
           return true;
         }
 
-        if( trim($this->data[$subkey][$keys]) == '' )
+        if ( trim($this->data[$subkey][$keys]) == '' )
         {
           return true;
         }
@@ -505,16 +505,16 @@ class RequestSubHttp
     }
     else
     {
-      if( is_array($keys) )
+      if ( is_array($keys) )
       {
 
         foreach( $keys as $key )
         {
 
-          if( !isset( $this->data[$key] ) )
+          if ( !isset( $this->data[$key] ) )
             return true;
 
-          if( trim($this->data[$key]) == '' )
+          if ( trim($this->data[$key]) == '' )
             return true;
 
           return false;
@@ -525,10 +525,10 @@ class RequestSubHttp
       else
       {
 
-        if( !isset( $this->data[$keys] ) )
+        if ( !isset( $this->data[$keys] ) )
           return true;
 
-        if( trim($this->data[$keys]) == '' )
+        if ( trim($this->data[$keys]) == '' )
           return true;
 
         return false;
@@ -565,7 +565,7 @@ class RequestSubHttp
     foreach( $data as $key => $value )
     {
       
-      if( is_array($value) )
+      if ( is_array($value) )
       {
         $back[$key] = $this->validateArray( $fMethod , $value );
       }
@@ -621,7 +621,7 @@ class RequestSubHttp
   public function fileExists( $key )
   {
     
-    if( isset( $this->files[$key] ) )
+    if ( isset( $this->files[$key] ) )
     {
       return true;
     }
@@ -641,7 +641,7 @@ class RequestSubHttp
   */
   public function file( $key = null, $type = null, $subkey = null, $message = null )
   {
-    if( is_null($key) )
+    if ( is_null($key) )
     {
       return $this->files;
     }
@@ -649,11 +649,11 @@ class RequestSubHttp
     $filter = $this->getValidator();
     $filter->clean(); // first clean the filter
 
-    if( $subkey )
+    if ( $subkey )
     {
       
       // asume this was just an empty file
-      if( !isset($this->files[$subkey]) || '' == trim($this->files[$subkey]['name'][$key]) )
+      if ( !isset($this->files[$subkey]) || '' == trim($this->files[$subkey]['name'][$key]) )
       {
         $data = null;
       }
@@ -671,7 +671,7 @@ class RequestSubHttp
     else
     {
       // asume this was just an empty file
-      if( !isset($this->files[$key]) || '' == trim($this->files[$key]['name']) )
+      if ( !isset($this->files[$key]) || '' == trim($this->files[$key]['name']) )
       {
         $data = null;
       }
@@ -682,14 +682,14 @@ class RequestSubHttp
       
     }
 
-    if( !$data )
+    if ( !$data )
       return null;
 
-    if( $type )
+    if ( $type )
     {
       $classname = 'LibUpload'.SParserString::subToCamelCase($type);
 
-      if(!Webfrap::classLoadable($classname))
+      if (!Webfrap::classLoadable($classname))
         throw new LibFlow_Exception('Requested nonexisting upload type: '.$classname );
 
       return new $classname($data,$key);
@@ -775,19 +775,19 @@ class RequestSubHttp
     $filter = $this->getValidator();
     $filter->clean();
 
-    if( $subkey )
+    if ( $subkey )
     {// check if we have a subkey
       foreach( $values as $key => $value )
       {
 
         $method = 'add'.ucfirst($value[0]) ;
 
-        if( Validator::FILE == ucfirst($value[0]) )
+        if ( Validator::FILE == ucfirst($value[0]) )
         {
-          if( isset($this->files[$subkey]) )
+          if ( isset($this->files[$subkey]) )
           {
             // asume this was just an empty file
-            if( '' == trim($this->files[$subkey]['name'][$key])  )
+            if ( '' == trim($this->files[$subkey]['name'][$key])  )
             {
               $data = null;
             }
@@ -809,7 +809,7 @@ class RequestSubHttp
         else
         {
 
-          if( isset($this->data[$subkey][$key]) )
+          if ( isset($this->data[$subkey][$key]) )
           {
             $data = $this->data[$subkey][$key];
           }
@@ -819,13 +819,13 @@ class RequestSubHttp
           }
         }
 
-        if( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
+        if ( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
         {
-          if( isset( $messages[$key][$error] ) )
+          if ( isset( $messages[$key][$error] ) )
           {
             $filter->addErrorMessage( $messages[$key][$error] );
           }
-          elseif( isset( $messages[$key]['default'] ) )
+          elseif ( isset( $messages[$key]['default'] ) )
           {
             $filter->addErrorMessage( $messages[$key]['default'] );
           }
@@ -847,9 +847,9 @@ class RequestSubHttp
 
         $method = 'add'.$value[0] ;
 
-        if( Validator::FILE == ucfirst($value[0]) )
+        if ( Validator::FILE == ucfirst($value[0]) )
         {
-          if( isset($this->files[$key]) )
+          if ( isset($this->files[$key]) )
           {
             $data = $this->files[$key];
           }
@@ -860,7 +860,7 @@ class RequestSubHttp
         }
         else
         {
-          if( isset($this->data[$key]) )
+          if ( isset($this->data[$key]) )
           {
             $data = $this->data[$key];
           }
@@ -870,13 +870,13 @@ class RequestSubHttp
           }
         }
 
-        if( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
+        if ( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
         {
-          if( isset( $messages[$key][$error] ) )
+          if ( isset( $messages[$key][$error] ) )
           {
             $filter->addErrorMessage( $messages[$key][$error] );
           }
-          elseif( isset( $messages[$key]['default'] ) )
+          elseif ( isset( $messages[$key]['default'] ) )
           {
             $filter->addErrorMessage( $messages[$key]['default'] );
           }
@@ -917,22 +917,22 @@ class RequestSubHttp
 
     $validator = null;
 
-    if( $subkey )
+    if ( $subkey )
     {// check if we have a subkey
 
       foreach( $values as $key => $value )
       {
         $method = 'add'.$value[0] ;
 
-        if( isset($this->data[$subkey][$key]) )
+        if ( isset($this->data[$subkey][$key]) )
           $data = $this->data[$subkey][$key];
         else
           $data = null;
 
-        if( is_array($data) )
+        if ( is_array($data) )
         {
 
-          if(!$validator)
+          if (!$validator)
             $validator = new LibValidatorBase();
 
           $checkMethod = 'check'.ucfirst($value[0]);
@@ -941,26 +941,26 @@ class RequestSubHttp
 
           foreach( $data as $dataValue )
           {
-            if( $validator->$checkMethod( $dataValue, false , $value[2] , $value[3] ) )
+            if ( $validator->$checkMethod( $dataValue, false , $value[2] , $value[3] ) )
             {
               $filtered[] = $validator->sanitized;
               $validator->clean();
             }
           }
 
-          if( $filtered )
+          if ( $filtered )
             $filter->appendCleanData( $key, $filtered );
 
         }
         else
         {
-          if( $error = $filter->$method( $key , $data, false , $value[2] , $value[3] ) )
+          if ( $error = $filter->$method( $key , $data, false , $value[2] , $value[3] ) )
           {
-            if( isset( $messages[$key][$error] ) )
+            if ( isset( $messages[$key][$error] ) )
             {
               $response->addError( $messages[$key][$error] );
             }
-            elseif( isset( $messages[$key]['default'] ) )
+            elseif ( isset( $messages[$key]['default'] ) )
             {
               $response->addError( $messages[$key]['default'] );
             }
@@ -982,19 +982,19 @@ class RequestSubHttp
 
         $method = 'add'.$value[0] ;
 
-        if( isset($this->data[$key]) )
+        if ( isset($this->data[$key]) )
           $data = $this->data[$key];
         else
           continue;
 
-        if( $error = $filter->$method( $key , $data, false , $value[2] , $value[3] ) )
+        if ( $error = $filter->$method( $key , $data, false , $value[2] , $value[3] ) )
         {
           
-          if( isset( $messages[$key][$error] ) )
+          if ( isset( $messages[$key][$error] ) )
           {
             $response->addError( $messages[$key][$error] );
           }
-          elseif( isset( $messages[$key]['default'] ) )
+          elseif ( isset( $messages[$key]['default'] ) )
           {
             $response->addError( $messages[$key]['default'] );
           }
@@ -1009,7 +1009,7 @@ class RequestSubHttp
 
     }
 
-    if( Log::$levelTrace )
+    if ( Log::$levelTrace )
       Debug::console( 'checkSearchInput filter data',$filter->data );
 
     return $filter;
@@ -1031,7 +1031,7 @@ class RequestSubHttp
   {
     
     // check if data exists, if not return an empty array
-    if( !isset($this->data[$subkey]) or !is_array($this->data[$subkey]) )
+    if ( !isset($this->data[$subkey]) or !is_array($this->data[$subkey]) )
     {
       Log::warn( 'invalid data for subkey: '.$subkey );
       return array();
@@ -1051,18 +1051,18 @@ class RequestSubHttp
       {
         $method = 'add'.$value[0] ;
 
-        if( !isset($row[$key]) )
+        if ( !isset($row[$key]) )
           continue;
 
         $data = $row[$key];
 
-        if( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
+        if ( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
         {
-          if( isset( $messages[$key][$error] ) )
+          if ( isset( $messages[$key][$error] ) )
           {
             $response->addError( $messages[$key][$error] );
           }
-          elseif( isset( $messages[$key]['default'] ) )
+          elseif ( isset( $messages[$key]['default'] ) )
           {
             $response->addError( $messages[$key]['default'] );
           }
@@ -1112,19 +1112,19 @@ class RequestSubHttp
 
         $method = 'add'.$value[0] ;
 
-        if( isset($row[$key]) )
+        if ( isset($row[$key]) )
           $data = $row[$key];
         else
           $data = null;
 
-        if( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
+        if ( $error = $filter->$method( $key , $data, $value[1] , $value[2] , $value[3] ) )
         {
           
-          if( isset( $messages[$key][$error] ) )
+          if ( isset( $messages[$key][$error] ) )
           {
             $response->addError( $messages[$key][$error] );
           }
-          elseif( isset( $messages[$key]['default'] ) )
+          elseif ( isset( $messages[$key]['default'] ) )
           {
             $response->addError( $messages[$key]['default'] );
           }
@@ -1146,14 +1146,14 @@ class RequestSubHttp
       foreach( $filtr as $key => $tmpVal )
       {
         //test if we have a non row oder lang id attribute thats not empty
-        if( $key != WBF_DB_KEY and $key != 'id_lang' && trim($tmpVal) != '' )
+        if ( $key != WBF_DB_KEY and $key != 'id_lang' && trim($tmpVal) != '' )
         {
           $isEmpty = false;
           break;
         }
       }
 
-      if( !$isEmpty )
+      if ( !$isEmpty )
       {
         $filtered[$id] = $filtr;
       }
@@ -1173,11 +1173,11 @@ class RequestSubHttp
 
     $ids    = array();
 
-    if($subkey)
+    if ($subkey)
     {
       foreach( $this->data[$key][$subkey] as $val )
       {
-        if( is_numeric($val) )
+        if ( is_numeric($val) )
           $ids[] = $val;
       }
     }
@@ -1185,7 +1185,7 @@ class RequestSubHttp
     {
       foreach( $this->data[$key] as $val )
       {
-        if( is_numeric($val) )
+        if ( is_numeric($val) )
           $ids[] = $val;
       }
     }
@@ -1206,7 +1206,7 @@ class RequestSubHttp
   public function validate( $entity, $keyName, $fields = array()  )
   {
 
-    if( DEBUG )
+    if ( DEBUG )
       Debug::console('validate fields for key: '.$keyName , $entity->getValidationData($fields) );
 
     $filter = $this->checkSearchInput
@@ -1216,12 +1216,12 @@ class RequestSubHttp
       $keyName
     );
 
-    if( DEBUG )
+    if ( DEBUG )
       Debug::console('got data: '.$keyName , $filter->getData() );
 
     $entity->addData( $filter->getData() );
 
-    if( $filter->hasErrors() )
+    if ( $filter->hasErrors() )
     {
       $response = $this->getResponse();
       
@@ -1252,7 +1252,7 @@ class RequestSubHttp
 
     $entity->addData( $filter->getData() );
 
-    if( $filter->hasErrors() )
+    if ( $filter->hasErrors() )
     {
       
       $response = $this->getResponse();
@@ -1284,7 +1284,7 @@ class RequestSubHttp
 
     $entity->addData($filter->getData());
 
-    if( $filter->hasErrors() )
+    if ( $filter->hasErrors() )
     {
       
       $response = $this->getResponse();
@@ -1323,7 +1323,7 @@ class RequestSubHttp
     {
       $tpObj = new $entityName();
       // unset rowids without merci, THIS... IS... INSERT... einseinself!!
-      if( array_key_exists( Db::PK, $data ) )
+      if ( array_key_exists( Db::PK, $data ) )
         unset($data[Db::PK]);
 
       $tpObj->addData($data);
@@ -1362,16 +1362,16 @@ class RequestSubHttp
       $tpObj = new $entityName();
 
       // ignore rowid
-      if( array_key_exists( Db::PK, $data ) )
+      if ( array_key_exists( Db::PK, $data ) )
       {
         // must convert to boolean true
-        if($data[Db::PK])
+        if ($data[Db::PK])
           $rowid = $data[Db::PK];
 
         unset($data[Db::PK]);
       }//end if
 
-      if( is_numeric( $rowid ) )
+      if ( is_numeric( $rowid ) )
       {
         $tpObj->setId((int)$rowid);
         $tpObj->addData($data);
@@ -1416,16 +1416,16 @@ class RequestSubHttp
       $tpObj = new $entityName();
 
       // ignore rowid
-      if( array_key_exists( Db::PK, $data ) )
+      if ( array_key_exists( Db::PK, $data ) )
       {
         unset($data[Db::PK]);
       }//end if
 
-      if( is_numeric( $rowid ) )
+      if ( is_numeric( $rowid ) )
       {
         $tpObj->setId((int)$rowid);
 
-        if(DEBUG)
+        if (DEBUG)
           Debug::console( 'the id '.$tpObj->id , $data);
 
       }//end if

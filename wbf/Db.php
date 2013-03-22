@@ -70,7 +70,7 @@ class Db
     
     $conKey = "{$host}-{$dbName}-{$user}-{$schema}";
     
-    if( isset( self::$connections[$conKey] ) )
+    if ( isset( self::$connections[$conKey] ) )
      return self::$connections[$conKey];
     
   }//end public static function getConnection */
@@ -91,7 +91,7 @@ class Db
     
     $conKey = "{$host}-{$dbName}-{$user}-{$dbSchema}";
     
-    if( isset( self::$connections[$conKey] ) )
+    if ( isset( self::$connections[$conKey] ) )
      return self::$connections[$conKey];
     
   }//end public static function getConnection */
@@ -124,11 +124,11 @@ class Db
     
     $dbKey = "{$type}-{$host}-{$port}-{$dbName}-{$dbSchema}-{$user}-{$pwd}";
     
-    if( !isset( self::$dbAdmins[$dbKey] ) )
+    if ( !isset( self::$dbAdmins[$dbKey] ) )
     {
       $className = 'DbAdmin'.ucfirst($type);
       
-      if( !Gaia::classLoadable($className) )
+      if ( !Gaia::classLoadable($className) )
       {
         throw new DbException("DB Type: {$type} is not yet supported.");
       }
@@ -144,7 +144,7 @@ class Db
         $dbSchema
       );
       
-      if( $protocol )
+      if ( $protocol )
         self::$dbAdmins[$dbKey]->setProtocol( $protocol );
       
     }
@@ -198,15 +198,15 @@ class Db
       Db::createSchema( $dbConf['name'], $dbConf['schema'], $dbConf['owner'] );
       
       // Wenn vorhanden allgemeine Scripts laden
-      if( isset($databases['pre_scripts']) )
+      if ( isset($databases['pre_scripts']) )
       {
         
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $databases['pre_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
             Db::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -220,14 +220,14 @@ class Db
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if( isset($dbConf['pre_scripts']) )
+      if ( isset($dbConf['pre_scripts']) )
       {
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $dbConf['pre_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/pre_'.$dbConf['name'].'.sql';
             Db::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -258,15 +258,15 @@ class Db
     {
 
       // Wenn vorhanden allgemeine Scripts laden
-      if( isset($databases['post_scripts']) )
+      if ( isset($databases['post_scripts']) )
       {
         
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
           
         foreach( $databases['post_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
             Db::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -280,14 +280,14 @@ class Db
       }
       
       // Wenn vorhanden Süezifische Scripts Scripts laden
-      if( isset($dbConf['post_scripts']) )
+      if ( isset($dbConf['post_scripts']) )
       {
-        if( !Fs::exists( $tmpFolder.'db_script/' ) )
+        if ( !Fs::exists( $tmpFolder.'db_script/' ) )
           Fs::mkdir( $tmpFolder.'db_script/' );
         
         foreach( $databases['post_scripts'] as $script )
         {
-          if( Fs::exists($script) )
+          if ( Fs::exists($script) )
           {
             $tmpScriptN = $tmpFolder.'db_script/post_'.$dbConf['name'].'.sql';
             Db::createImportFile( $script, $dbConf, $tmpScriptN );
@@ -312,7 +312,7 @@ class Db
     
     $val = Process::execute( 'psql postgres -h '.Db::$host.' -tAc "SELECT 1 FROM pg_roles WHERE rolname=\''.$user.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     
@@ -320,7 +320,7 @@ class Db
     
     Console::outl( $val );
     
-    if( 'CREATE ROLE' == trim($val) )
+    if ( 'CREATE ROLE' == trim($val) )
       return true;
     else
       return false;
@@ -335,7 +335,7 @@ class Db
     
     $val = Process::execute( 'psql postgres -h '.Db::$host.' -tAc "SELECT 1 FROM pg_database WHERE datname=\''.$dbName.'\'"' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute
@@ -347,7 +347,7 @@ class Db
     
     Console::outl( $val );
     
-    if( 'CREATE DATABASE' == trim($val) )
+    if ( 'CREATE DATABASE' == trim($val) )
       return true;
     else
       return false;
@@ -364,7 +364,7 @@ class Db
     
     $val = Process::execute( 'psql postgres -h '.Db::$host.' -tAc "SELECT 1 FROM schemata WHERE catalog_name=\''.$dbName.'\'" and schema_name=\''.$schema.'\'' );
     
-    if( '1' == trim($val) )
+    if ( '1' == trim($val) )
       return true;
     
     $val = Process::execute
@@ -375,7 +375,7 @@ class Db
     
     Console::outln( $val );
 
-    if( 'CREATE SCHEMA' == trim($val) )
+    if ( 'CREATE SCHEMA' == trim($val) )
       return true;
     else
       return false;
@@ -425,7 +425,7 @@ class Db
   public static function searchError( $msg )
   {
     
-    if( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
+    if ( false !== strpos($msg, 'FATAL:  Ident-Authentifizierung') )
       throw new DbException
       ( 
         'Die Datenbank hat den Login verweigert. Dafür kann es mehrer Möglichkeiten geben.
@@ -447,7 +447,7 @@ class Db
   public static function query( $query, $dbName, $user = null, $passwd = null )
   {
     
-    if( $user && $passwd )
+    if ( $user && $passwd )
       Db::setLoginEnv( $user, $passwd );
     
     return Process::execute( 'psql '.$dbName.' -h '.Db::$host.' -tAc "'.$query.'"' );
